@@ -3,3 +3,4 @@
 .archify/*/*.json
 !.archify/*/candidate.json
 .archify/cabang-index.json
+experiments/
