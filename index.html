@@ -197,6 +197,7 @@ pre.hasil{border-style:dashed;border-color:rgba(127,216,242,.35);white-space:pre
 .hero .hstage span{font:400 1.5rem/1.1 var(--f-display);color:var(--ink)}
 .hero .hstage small{font:italic 400 .98rem/1.4 var(--f-body);color:var(--muted)}
 @keyframes stIn{0%{opacity:0;transform:translate(-50%,8px)}12%,85%{opacity:1;transform:translate(-50%,0)}100%{opacity:0}}
+@media (max-width:430px){.brand{font-size:1.05rem!important}}
 @media (max-width:900px){.hero .hstage small{display:none}.hero .hstage span{font-size:1.2rem}}
 @media (prefers-reduced-motion:reduce){.hero .hstage.in{animation:none;opacity:1}}
 .hero .copy{position:relative;z-index:2;max-width:640px}
@@ -520,7 +521,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       if(key.length > 7) key = rumus[putaran % rumus.length];
       var pts = targets(key); idx++;
       if(cap){ var k = KET[key] || KET.rumus, wide = W > 900; cap.innerHTML = '<b>'+k[0]+'</b><span>'+k[1]+'</span><small>'+k[2]+'</small>';
-        cap.style.left = (wide ? W*.74 : W*.5)+'px'; cap.style.top = ((wide ? H*.5 : H*.24) + Math.min(wide ? W*.2 : W*.28, wide ? H*.3 : H*.12)*.95 + 30)+'px'; cap.classList.remove('in'); void cap.offsetWidth; cap.classList.add('in'); }
+        cap.style.left = (wide ? W*.74 : W*.5)+'px'; cap.style.top = ((wide ? H*.5 : H*.24) + Math.min(wide ? W*.2 : W*.28, wide ? H*.3 : H*.12)*.95 + 30)+'px'; cap.classList.remove('in'); void cap.offsetWidth; cap.classList.add('in');
+        var h1 = cv.parentNode.querySelector('h1'), hr = cv.parentNode.getBoundingClientRect(); cap.style.visibility = (h1 && cap.getBoundingClientRect().bottom > h1.getBoundingClientRect().top - 8) ? 'hidden' : ''; }
       for(var i=pts.length-1;i>0;i--){ var j = Math.random()*(i+1)|0, t = pts[i]; pts[i] = pts[j]; pts[j] = t; }
       while(P.length < pts.length) P.push({x:Math.random()*W, y:Math.random()*H, vx:0, vy:0, tx:0, ty:0, c:Math.random()<.22});
       P.forEach(function(p, i){
