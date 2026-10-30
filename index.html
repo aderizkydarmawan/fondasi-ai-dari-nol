@@ -447,13 +447,17 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     function targets(str){
       var wide = W > 900, cx0 = wide ? W*.74 : W*.5, cy0 = wide ? H*.5 : H*.3, R = Math.min(wide ? W*.2 : W*.4, H*.3), pts = [], i, j;
       if(str === 'pasir'){ // gundukan pasir: butir acak di bawah kurva bukit
-        for(i=0;i<1500;i++){ var u = Math.random()*2-1, top = Math.exp(-u*u*3)*R*.9; pts.push([cx0 + u*R*1.2, cy0 + R*.45 - Math.random()*top]); }
+        for(i=0;i<2600;i++){ var u = Math.random()*2-1, top = (Math.exp(-u*u*3.2)*.85 + .06*Math.sin(u*9))*R; pts.push([cx0 + u*R*1.25, cy0 + R*.45 - Math.pow(Math.random(), .6)*top]); }
+        for(i=0;i<500;i++){ var u2 = Math.random()*2-1; pts.push([cx0 + u2*R*1.25, cy0 + R*.45 - (Math.exp(-u2*u2*3.2)*.85 + .06*Math.sin(u2*9))*R + (Math.random()-.5)*2]); }
         return pts;
       }
       if(str === 'kristal'){ // kisi kristal: titik-titik tersusun heksagonal dalam bentuk heksagon
-        var a = R/7;
-        for(i=-9;i<=9;i++) for(j=-9;j<=9;j++){ var x = (i + j*.5)*a, y = j*a*.866;
-          if(Math.abs(y) <= R*.8 && Math.abs(x)*.866 + Math.abs(y)*.5 <= R*.8*.866) for(var k=0;k<5;k++) pts.push([cx0 + x + (Math.random()-.5)*2, cy0 + y + (Math.random()-.5)*2]); }
+        var a = R/6, node = [], inH = function(x, y){ return Math.abs(y) <= R*.82 && Math.abs(x)*.866 + Math.abs(y)*.5 <= R*.82*.866; };
+        for(i=-9;i<=9;i++) for(j=-9;j<=9;j++){ var x = (i + j*.5)*a, y = j*a*.866; if(inH(x, y)) node.push([x, y]); }
+        node.forEach(function(n){
+          for(var k=0;k<16;k++){ var r = Math.sqrt(Math.random())*a*.16, t = Math.random()*6.283; pts.push([cx0 + n[0] + r*Math.cos(t), cy0 + n[1] + r*Math.sin(t)]); }
+          [[a,0],[a*.5,a*.866],[-a*.5,a*.866]].forEach(function(d){ if(inH(n[0]+d[0], n[1]+d[1])) for(var q=1;q<8;q++) pts.push([cx0 + n[0] + d[0]*q/8, cy0 + n[1] + d[1]*q/8]); });
+        });
         return pts;
       }
       var o = document.createElement('canvas'), ow = Math.round(W), oh = Math.round(H); o.width = ow; o.height = oh;
@@ -462,7 +466,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       var px = wide ? W*.74 : W*.5, py = wide ? H*.5 : H*.3;
       var tw = c.measureText(str).width, maxw = wide ? W*.46 : W*.9; if(tw > maxw){ fs *= maxw/tw; c.font = 'italic '+fs+'px "Instrument Serif", serif'; }
       c.fillText(str, px, py);
-      var d = c.getImageData(0,0,ow,oh).data, pts = [], step = Math.max(3, Math.round(fs/40));
+      var d = c.getImageData(0,0,ow,oh).data, pts = [], step = Math.max(2, Math.round(fs/60));
       for(var y=0;y<oh;y+=step) for(var x=0;x<ow;x+=step) if(d[(y*ow+x)*4+3] > 128) pts.push([x,y]);
       return pts;
     }

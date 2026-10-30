@@ -11,27 +11,27 @@
   function shapes(){
     var S = [], a, i, j, x, y;
     // 0. garis bilangan: sumbu, garis tick, dan titik-titik yang berkumpul di bilangan bulat
-    a = []; for(i=0;i<700;i++){ x = -1.6 + i/700*3.2; a.push([x, 0, rnd(.02), 0]); }
-    for(j=-4;j<=4;j++){ for(i=0;i<40;i++) a.push([j*.38, -.12 + i/40*.24, rnd(.02), 1]); for(i=0;i<60;i++) a.push([j*.38 + rnd(.06), .32 + Math.abs(j)*.05 + rnd(.06), rnd(.06), 1]); }
+    a = []; for(i=0;i<1400;i++){ x = -1.6 + i/1400*3.2; a.push([x, 0, rnd(.02), 0]); }
+    for(j=-4;j<=4;j++){ for(i=0;i<70;i++) a.push([j*.38, -.12 + i/70*.24, rnd(.02), 1]); for(i=0;i<120;i++) a.push([j*.38 + rnd(.06), .32 + Math.abs(j)*.05 + rnd(.06), rnd(.06), 1]); }
     S.push({pts:a});
     // 1. garis regresi + titik data
-    a = []; for(i=0;i<900;i++){ x = rnd(2.4); a.push([x, .55*x + rnd(.5)*Math.abs(rnd(2)), rnd(.5), 0]); }
-    for(i=0;i<500;i++){ x = -1.3 + i/500*2.6; a.push([x, .55*x, rnd(.03), 1]); }
+    a = []; for(i=0;i<1800;i++){ x = rnd(2.4); a.push([x, .55*x + rnd(.5)*Math.abs(rnd(2)), rnd(.5), 0]); }
+    for(i=0;i<1100;i++){ x = -1.3 + i/1100*2.6; a.push([x, .55*x, rnd(.03), 1]); }
     S.push({pts:a});
     // 2. permukaan lonceng 2D
-    a = []; for(i=0;i<46;i++) for(j=0;j<46;j++){ x = -1.25 + i/45*2.5; var z = -1.25 + j/45*2.5; a.push([x, 1.3*Math.exp(-(x*x+z*z)/.5) - .5, z, (i%5===0||j%5===0)?1:0]); }
+    a = []; for(i=0;i<72;i++) for(j=0;j<72;j++){ x = -1.25 + i/71*2.5; var z = -1.25 + j/71*2.5; a.push([x, 1.3*Math.exp(-(x*x+z*z)/.5) - .5, z, (i%8===0||j%8===0)?1:0]); }
     S.push({pts:a});
     // 3. jaringan saraf: lapisan 4-7-7-3
     var L = [4,7,7,3], nodes = []; a = [];
-    L.forEach(function(n, li){ for(i=0;i<n;i++){ var nd = [-1.5 + li, (i-(n-1)/2)*.36, rnd(.3)]; nodes.push(nd.concat(li)); for(j=0;j<40;j++) a.push([nd[0]+rnd(.09), nd[1]+rnd(.09), nd[2]+rnd(.09), 1]); } });
+    L.forEach(function(n, li){ for(i=0;i<n;i++){ var nd = [-1.5 + li, (i-(n-1)/2)*.36, rnd(.3)]; nodes.push(nd.concat(li)); for(j=0;j<80;j++) a.push([nd[0]+rnd(.09), nd[1]+rnd(.09), nd[2]+rnd(.09), 1]); } });
     var edges = []; nodes.forEach(function(p){ nodes.forEach(function(q){ if(q[3] === p[3]+1) edges.push([p,q]); }); });
-    edges.forEach(function(e){ for(j=0;j<6;j++){ var t = Math.random(); a.push([e[0][0]+(e[1][0]-e[0][0])*t, e[0][1]+(e[1][1]-e[0][1])*t, e[0][2]+(e[1][2]-e[0][2])*t, 0]); } });
+    edges.forEach(function(e){ for(j=0;j<16;j++){ var t = Math.random(); a.push([e[0][0]+(e[1][0]-e[0][0])*t, e[0][1]+(e[1][1]-e[0][1])*t, e[0][2]+(e[1][2]-e[0][2])*t, 0]); } });
     S.push({pts:a, edges:edges});
     // 4. lembah galat + jejak bola
-    a = []; for(i=0;i<44;i++) for(j=0;j<44;j++){ x = -1.5 + i/43*3; var z2 = -1.5 + j/43*3; a.push([x, .5*(x*x + .6*z2*z2) + .08*Math.sin(4*x)*Math.cos(3*z2) - .8, z2, 0]); }
+    a = []; for(i=0;i<68;i++) for(j=0;j<68;j++){ x = -1.5 + i/67*3; var z2 = -1.5 + j/67*3; a.push([x, .5*(x*x + .6*z2*z2) + .08*Math.sin(4*x)*Math.cos(3*z2) - .8, z2, 0]); }
     var trail = []; x = 1.35; var zz = -1.2;
     for(i=0;i<40;i++){ trail.push([x, .5*(x*x + .6*zz*zz) + .08*Math.sin(4*x)*Math.cos(3*zz) - .74, zz]); x -= .12*x; zz -= .12*.6*zz; }
-    trail.forEach(function(t){ for(j=0;j<5;j++) a.push([t[0]+rnd(.03), t[1]+rnd(.03), t[2]+rnd(.03), 1]); });
+    trail.forEach(function(t){ for(j=0;j<10;j++) a.push([t[0]+rnd(.03), t[1]+rnd(.03), t[2]+rnd(.03), 1]); });
     S.push({pts:a, trail:trail});
     return S;
   }
@@ -70,7 +70,7 @@
       }
       sh.pts.forEach(function(p){
         var q = proj(p, rot, sc, wide); if(!q) return; push(q);
-        var sz = Math.max(.8, 5.4/q[2]) * (p[3] ? 1.25 : .85), c = p[3] ? c2 : c1;
+        var sz = Math.max(.9, 5/q[2]) * (p[3] ? 1.15 : .8), c = p[3] ? c2 : c1;
         cx.fillStyle = 'rgba('+c+','+(al*(p[3] ? .85 : .5))+')'; cx.fillRect(q[0], q[1], sz, sz);
       });
       if(sh.trail){
