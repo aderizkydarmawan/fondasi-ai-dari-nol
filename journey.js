@@ -1,6 +1,7 @@
 /* Perjalanan di beranda: empat bentuk partikel 3D yang muncul, diam, lalu meledak melewati kamera saat di-scroll. */
 (function(){
   var BAB = [
+    {lab:'Bab 0 · Akal sehat', h:'Semua berawal dari <em>angka</em>', p:'Garis bilangan, tambah-kurang, kali-bagi, pecahan, dan pangkat. AI hanya mengulang operasi ini miliaran kali.', href:'#p0-1', go:'Mulai di Lapis 0', col:[201,184,255], col2:[127,216,242]},
     {lab:'Bab 1 · Aljabar', h:'Titik-titik mencari <em>garis</em>', p:'Data berserakan, lalu satu garis y = mx + b merangkum polanya. Inilah regresi linear, model paling sederhana dalam AI.', href:'#p1-1', go:'Mulai di Lapis 1', col:[127,216,242]},
     {lab:'Bab 2 · Statistika', h:'Ketidakpastian punya <em>bentuk</em>', p:'Banyak hal acak menumpuk menjadi kurva lonceng. Distribusi normal adalah cara AI bicara soal “mungkin”.', href:'#peta', go:'Lihat di peta (Lapis 2)', col:[201,184,255]},
     {lab:'Bab 3 · Jaringan saraf', h:'Neuron kecil, <em>jaringan</em> besar', p:'Setiap neuron hanya menghitung σ(Wx + b). Disusun berlapis-lapis, mereka bisa mengenali wajah dan menulis kalimat.', href:'#peta', go:'Lihat di peta (Lapis 3)', col:[127,216,242], col2:[201,184,255]},
@@ -9,6 +10,10 @@
   function rnd(a){ return (Math.random()-.5)*a; }
   function shapes(){
     var S = [], a, i, j, x, y;
+    // 0. garis bilangan: sumbu, garis tick, dan titik-titik yang berkumpul di bilangan bulat
+    a = []; for(i=0;i<700;i++){ x = -1.6 + i/700*3.2; a.push([x, 0, rnd(.02), 0]); }
+    for(j=-4;j<=4;j++){ for(i=0;i<40;i++) a.push([j*.38, -.12 + i/40*.24, rnd(.02), 1]); for(i=0;i<60;i++) a.push([j*.38 + rnd(.06), .32 + Math.abs(j)*.05 + rnd(.06), rnd(.06), 1]); }
+    S.push({pts:a});
     // 1. garis regresi + titik data
     a = []; for(i=0;i<900;i++){ x = rnd(2.4); a.push([x, .55*x + rnd(.5)*Math.abs(rnd(2)), rnd(.5), 0]); }
     for(i=0;i<500;i++){ x = -1.3 + i/500*2.6; a.push([x, .55*x, rnd(.03), 1]); }
@@ -77,7 +82,7 @@
       if(!alive) return;
       if(vis){
         t = tm || 0;
-        var P = prog(), k = Math.floor(P), f = P - k, wide = W > 900, rot = t*.00012 + P*.9;
+        var P = prog(), k = Math.floor(P), f = P - k, wide = W > 900, rot = .35*Math.sin(t*.00025) + (f-.5)*.5;
         setPanel(k);
         var r = cv.getBoundingClientRect(); mouse.mx = mouse.x - r.left; mouse.my = mouse.y - r.top;
         cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,W,H); cx.globalCompositeOperation = 'lighter';
@@ -104,7 +109,7 @@
   };
 
   window.journeyHTML = function(){
-    return '<section class="journey" aria-label="Perjalanan singkat: dari garis sampai belajar"><div class="jstick"><canvas aria-hidden="true"></canvas>'+
+    return '<section class="journey" aria-label="Perjalanan singkat: dari angka sampai belajar"><div class="jstick"><canvas aria-hidden="true"></canvas>'+
       BAB.map(function(b, i){ return '<div class="jp'+(i===0?' on':'')+'" aria-hidden="'+(i===0?'false':'true')+'"><small>'+b.lab+'</small><h2>'+b.h+'</h2><p>'+b.p+'</p><a class="btn glow" href="'+b.href+'">'+b.go+' →</a></div>'; }).join('')+
       '<div class="jdots" aria-hidden="true">'+BAB.map(function(_, i){ return '<i'+(i===0?' class="on"':'')+'></i>'; }).join('')+'</div></div></section>';
   };
