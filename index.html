@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Belajar matematika, statistika, dan fisika di balik AI dari nol, dengan visualisasi interaktif, Python di browser, dan sumber yang bisa dicek.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%232747c7%22/%3E%3Ctext x=%2216%22 y=%2223%22 font-size=%2219%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22serif%22%3E%E2%88%91%3C/text%3E%3C/svg%3E">
+<title>Fondasi AI dari Nol</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: buku catatan berpetak — daftar isi kiri (laci di HP), satu pelajaran per layar */
+:root{
+  --paper:#f6f8fb; --sheet:#ffffff; --ink:#18212f; --muted:#5a6578; --line:#dbe2ec; --grid:#e9eef5;
+  --accent:#2747c7; --accent-soft:#e6ebfb; --s1:#2747c7; --s2:#c2410c; --warn-soft:#fdf3e4; --mark:#fff2a8; --ok:#1f7a4d; --warn:#9a5b00;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Literata", Georgia, "Times New Roman", serif;
+  --f-mono:"JetBrains Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0f141c; --sheet:#151c27; --ink:#e4e9f1; --muted:#9aa6b8; --line:#2a3546; --grid:#1b2431;
+  --accent:#8ea4ff; --accent-soft:#1f2a4a; --s1:#6f8cf5; --s2:#c47128; --warn-soft:#2c2414; --mark:#5a4d12; --ok:#5fd19a; --warn:#f0b35a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0f141c; --sheet:#151c27; --ink:#e4e9f1; --muted:#9aa6b8; --line:#2a3546; --grid:#1b2431;
+  --accent:#8ea4ff; --accent-soft:#1f2a4a; --s1:#6f8cf5; --s2:#c47128; --warn-soft:#2c2414; --mark:#5a4d12; --ok:#5fd19a; --warn:#f0b35a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:40px;padding-block:28px 80px}
+header.top{max-width:1180px;margin:0 auto;padding-block:24px 4px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-weight:700;font-size:1.35rem;letter-spacing:-.01em}
+.brand small{display:block;font-family:var(--f-body);font-weight:400;font-size:.85rem;color:var(--muted);letter-spacing:0}
+#menuBtn{display:none;font:600 .9rem var(--f-display);background:var(--accent-soft);color:var(--accent);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;max-height:calc(100vh - 32px);overflow:auto;font-family:var(--f-display);font-size:.92rem;padding-right:6px}
+.layer{margin-bottom:18px}
+.layer h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:0 0 6px;font-weight:700}
+.layer p{margin:0 0 8px;font-family:var(--f-body);font-size:.82rem;color:var(--muted);line-height:1.45}
+.toc a,.toc span.soon{display:flex;gap:10px;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--ink);line-height:1.35}
+.toc a:hover{background:var(--grid)}
+.toc a.on{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.toc .num{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);min-width:2.4em;padding-top:1px}
+.toc a.on .num{color:var(--accent)}
+.toc span.soon{color:var(--muted);opacity:.65}
+.toc span.soon::after{content:"segera";margin-left:auto;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase}
+main{min-width:0}
+article{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:clamp(22px,4vw,52px);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:100% 28px,28px 100%;background-position:0 -1px}
+article>*{max-width:68ch}
+.eyebrow{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);letter-spacing:.04em}
+article h1{font-family:var(--f-display);font-weight:700;font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.15;letter-spacing:-.02em;margin:.2em 0 .4em;text-wrap:balance}
+article h2{font-family:var(--f-display);font-weight:700;font-size:1.35rem;margin:2em 0 .5em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--f-display);font-size:.85rem;color:var(--muted);margin-bottom:1.6em}
+.why{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 18px;border-radius:0 10px 10px 0;margin:1.4em 0}
+.why b{font-family:var(--f-display)}
+.rule{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:12px 18px;margin:1.2em 0}
+.rule::before{content:"Aturan";display:block;font:700 .7rem var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.ex{background:var(--sheet);border:1px dashed var(--muted);border-radius:10px;padding:14px 18px;margin:1.3em 0}
+.ex .q{font-weight:600}
+.ex .q::before{content:"Contoh soal  ";font:700 .72rem var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--warn)}
+.ex .step{font-family:var(--f-mono);font-size:.92rem;white-space:pre-wrap;line-height:1.75;margin:.5em 0;overflow-x:auto}
+.ex .ans{font-family:var(--f-display);font-weight:700;color:var(--ok)}
+mark{background:var(--mark);color:inherit;padding:0 .15em;border-radius:3px}
+code{font-family:var(--f-mono);font-size:.9em;background:var(--grid);padding:.1em .35em;border-radius:4px}
+pre{font-family:var(--f-mono);font-size:.88rem;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;line-height:1.6;max-width:100%}
+pre code{background:none;padding:0}
+.tbl{overflow-x:auto;margin:1.2em 0}
+table{border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.95rem;background:var(--sheet)}
+th,td{border:1px solid var(--line);padding:6px 12px;text-align:center}
+th{font-family:var(--f-display);font-weight:700;background:var(--grid)}
+.viz{border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:14px 16px;margin:1.6em 0;max-width:none}
+.viz-h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-family:var(--f-display)}
+.viz-h b{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.viz-h span{font-size:.95rem;font-weight:600}
+.viz-c{display:flex;flex-wrap:wrap;gap:8px 20px;margin:10px 0;align-items:end}
+.viz-c label{display:grid;gap:2px;font:600 .82rem var(--f-display);min-width:150px;flex:1 1 150px}
+.viz-c output{font-family:var(--f-mono);color:var(--accent)}
+.viz-c input[type=range]{width:100%;accent-color:var(--accent);height:28px}
+.viz-c button,.runbtn{font:600 .82rem var(--f-display);background:var(--sheet);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;min-height:36px}
+.viz-c button[aria-pressed=true]{background:var(--ink);color:var(--sheet)}
+.viz svg{width:100%;height:auto;display:block;background:var(--sheet);border:1px solid var(--line);border-radius:8px;user-select:none}
+.viz-out{font-size:.95rem;margin-top:10px;line-height:1.6}
+.viz .grid line{stroke:var(--grid);stroke-width:1}
+.viz .axis line{stroke:var(--muted);stroke-width:1.2}
+.viz .tick text{font:500 12px var(--f-mono);fill:var(--muted)}
+.viz .lbl{font:500 12px var(--f-mono);fill:var(--ink)}
+.viz .line{fill:none;stroke-width:2.5;stroke-linecap:round}
+.viz .s1.line{stroke:var(--s1)} .viz .s2.line{stroke:var(--s2)} .viz .ink.line{stroke:var(--ink)}
+.viz .dash{stroke-dasharray:7 5} .viz .thick{stroke-width:5}
+.viz .faint.line{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:3 4}
+.viz .guide{stroke:var(--muted);stroke-width:1.2;stroke-dasharray:3 4}
+.viz .dot{stroke:var(--sheet);stroke-width:2}
+.viz .s1.dot,.viz .s1.fill{fill:var(--s1)} .viz .s2.dot,.viz .s2.fill{fill:var(--s2)} .viz .ink.dot,.viz .ink.fill{fill:var(--ink)}
+.viz .handle{cursor:grab}
+.viz .area{fill-opacity:.18;stroke-width:1.5} .viz .s1.area{fill:var(--s1);stroke:var(--s1)} .viz .s2.area{fill:var(--s2);stroke:var(--s2)}
+.viz .cell{fill:var(--grid);stroke:var(--line)}
+.viz .s1t{fill:var(--s1)} .viz .s2t{fill:var(--s2)} .viz .faintt{fill:var(--muted)}
+.dalam h2 small{font:600 .72rem var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block}
+.box{border-radius:10px;padding:12px 18px;margin:1.2em 0}
+.box.salah{background:var(--warn-soft);border:1px solid var(--line)}
+.box.salah::before{content:"Kesalahan yang sering terjadi";display:block;font:700 .72rem var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--warn);margin-bottom:4px}
+.box.ringkas{background:var(--accent-soft)}
+.box.ringkas::before{content:"Ringkasan";display:block;font:700 .72rem var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.box.uji{border:1px dashed var(--ok)}
+.box.uji::before{content:"Tes kertas kosong";display:block;font:700 .72rem var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--ok);margin-bottom:4px}
+.box ul{margin:.3em 0;padding-left:1.2em}
+.box p.note{font-size:.88rem;color:var(--muted);margin:.4em 0 0}
+.runbar{display:flex;gap:8px;align-items:center;margin:-.6em 0 1em;flex-wrap:wrap}
+.runbar small{color:var(--muted);font-family:var(--f-display);font-size:.8rem}
+pre.hasil{border-style:dashed;white-space:pre-wrap}
+.src{border-top:1px solid var(--line);margin-top:2.2em;padding-top:1em;font-size:.92rem}
+.src::before{content:"Sumber dan bacaan lanjut";display:block;font:700 .72rem var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.src li{margin:.35em 0}
+.big{font-family:var(--f-mono);font-size:1.15rem;text-align:center;padding:10px;margin:1em 0;overflow-x:auto}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:2.5em;flex-wrap:wrap;max-width:none}
+.pager a{font-family:var(--f-display);font-weight:700;text-decoration:none;color:var(--accent);border:1px solid var(--line);background:var(--sheet);border-radius:10px;padding:10px 16px;max-width:48%}
+.pager a small{display:block;font-weight:500;color:var(--muted);font-size:.78rem}
+.home h1{font-size:clamp(2rem,5vw,3rem)}
+.lay-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px;max-width:none;margin:1.5em 0}
+.lay-grid div{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.lay-grid b{font-family:var(--f-display);display:block}
+.lay-grid span{font-size:.9rem;color:var(--muted);line-height:1.5;display:block}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:860px){
+  .wrap{grid-template-columns:minmax(0,1fr);gap:16px}
+  #menuBtn{display:inline-block}
+  nav.toc{position:static;max-height:none;display:none;background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:14px}
+  nav.toc.open{display:block}
+  .pager a{max-width:100%;flex:1 1 100%}
+}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="brand">Fondasi AI dari Nol<small>Matematika, statistika, dan fisika untuk memahami cara kerja AI</small></div>
+  <button id="menuBtn" type="button" aria-expanded="false" aria-controls="toc">Daftar isi</button>
+</header>
+<div class="wrap">
+  <nav class="toc" id="toc" aria-label="Daftar pelajaran"></nav>
+  <main><article id="view"></article></main>
+</div>
+
+<script src="kurikulum.js"></script>
+<script src="lapis0.js"></script>
+<script src="lapis1.js"></script>
+<script src="dalam.js"></script>
+<script src="viz.js"></script>
+<script>
+(function(){
+  var L = window.LESSONS || {};
+  var toc = document.getElementById('toc'), view = document.getElementById('view');
+  var order = [];
+  window.KURIKULUM.forEach(function(lay){ lay.items.forEach(function(it){ if(L[it.id]) order.push(it.id); }); });
+
+  function slug(id){ return 'p' + id.replace(/\./g,'-'); }
+  function idFromHash(){ var h = location.hash.slice(1); if(!h || h==='beranda') return null; var id = h.replace(/^p/,'').replace(/-/g,'.'); return L[id] ? id : null; }
+
+  function buildToc(cur){
+    var html = '<div class="layer"><a href="#beranda" class="'+(cur?'':'on')+'"><span class="num">⌂</span>Beranda &amp; cara belajar</a></div>';
+    window.KURIKULUM.forEach(function(lay){
+      html += '<div class="layer"><h3>'+lay.name+'</h3><p>'+lay.desc+'</p>';
+      lay.items.forEach(function(it){
+        if(L[it.id]) html += '<a href="#'+slug(it.id)+'" class="'+(cur===it.id?'on':'')+'"><span class="num">'+it.id+'</span>'+it.t+'</a>';
+        else html += '<span class="soon"><span class="num">'+it.id+'</span>'+it.t+'</span>';
+      });
+      html += '</div>';
+    });
+    toc.innerHTML = html;
+  }
+
+  function home(){
+    var n = order.length, total = 0;
+    window.KURIKULUM.forEach(function(l){ total += l.items.length; });
+    var cards = window.KURIKULUM.map(function(l){ return '<div><b>'+l.name+'</b><span>'+l.desc+'</span></div>'; }).join('');
+    view.className = 'home';
+    view.innerHTML =
+      '<div class="eyebrow">Mulai dari sini</div><h1>Belajar matematika di balik AI, dari menghitung sampai difusi</h1>'+
+      '<p>Situs ini mengajarkan semua fondasi yang dipakai AI, mulai dari nol. Tidak ada yang dianggap sudah kamu tahu. Setiap pelajaran berisi penjelasan, contoh soal yang dibahas langkah demi langkah, dan potongan kode Python untuk memeriksa hasil.</p>'+
+      '<div class="why"><b>Satu ide yang mengikat semuanya.</b> Hampir setiap teknik AI meminjam dari ilmu lain: CNN dari pengolahan sinyal, Mamba dari teori kendali, model difusi dari fisika statistik, dan attention dari probabilitas. Kalau fondasinya kuat, arsitektur baru terasa seperti teman lama.</div>'+
+      '<h2>Enam lapis</h2><div class="lay-grid">'+cards+'</div>'+
+      '<h2>Cara belajar yang disarankan</h2>'+
+      '<p>1. Baca satu pelajaran per sesi, pelan-pelan.<br>2. Mainkan bagian <b>Coba sendiri</b>: geser, seret, dan lihat angkanya berubah.<br>3. Tutup jawaban contoh soal, kerjakan di kertas, lalu bandingkan.<br>4. Tekan <b>▶ Jalankan</b> untuk memeriksa dengan Python asli.<br>5. Kerjakan <b>Tes kertas kosong</b> tanpa melihat catatan. Latihan soal minta terpisah ke Claude.</p>'+'<p>Setiap pelajaran ditutup dengan daftar <b>sumber</b> (buku, bab, halaman) supaya semua yang ditulis bisa kamu periksa sendiri.</p>'+
+      '<p class="meta">'+n+' dari '+total+' pelajaran sudah tersedia. Sisanya ditambahkan bertahap ke alamat yang sama.</p>'+
+      (order[0] ? '<div class="pager"><span></span><a href="#'+slug(order[0])+'"><small>Mulai</small>'+order[0]+' · '+L[order[0]].title+'</a></div>' : '');
+  }
+
+  function dalam(id){
+    var d = (window.DALAM||{})[id]; if(!d) return '';
+    function li(a){ return '<ul>'+a.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>'; }
+    return '<section class="dalam">'+
+      (d.viz ? '<div class="viz" data-viz="'+d.viz+'"></div>' : '')+
+      '<h2><small>Pendalaman</small>Lebih dalam</h2>'+d.deep+
+      '<div class="box salah">'+li(d.salah)+'</div>'+
+      '<div class="box ringkas">'+li(d.ringkas)+'</div>'+
+      '<div class="box uji">'+li(d.uji)+'<p class="note">Tutup halaman ini, kerjakan di kertas, baru cek. Mengingat tanpa melihat membuat ingatan lebih awet daripada membaca ulang (Roediger &amp; Butler, 2011). Minta soal latihan tambahan ke Claude.</p></div>'+
+    '</section>';
+  }
+
+  /* Python di browser (Pyodide), dimuat hanya saat tombol pertama ditekan */
+  var pyReady = null;
+  function loadPy(){
+    if(pyReady) return pyReady;
+    pyReady = new Promise(function(res, rej){
+      var sc = document.createElement('script');
+      sc.src = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js';
+      sc.onload = function(){ loadPyodide().then(function(py){ return py.loadPackage('numpy').then(function(){ res(py); }); }).catch(rej); };
+      sc.onerror = function(){ pyReady = null; rej(new Error('Gagal memuat Python')); };
+      document.head.appendChild(sc);
+    });
+    return pyReady;
+  }
+  function addRunners(root){
+    [].forEach.call(root.querySelectorAll('pre > code'), function(code){
+      var src = code.textContent;
+      if(/^\s*>>>/m.test(src) || !/print\(/.test(src)) return;
+      var bar = document.createElement('div'); bar.className = 'runbar';
+      bar.innerHTML = '<button type="button" class="runbtn">▶ Jalankan</button><small>Python asli di browser. Pemuatan pertama sekitar 10 detik.</small>';
+      code.parentNode.after(bar);
+      var out = null;
+      bar.querySelector('button').addEventListener('click', function(){
+        var b = this; b.disabled = true; b.textContent = 'Memuat…';
+        loadPy().then(function(py){
+          var buf = [];
+          py.setStdout({batched:function(t){buf.push(t);}}); py.setStderr({batched:function(t){buf.push(t);}});
+          try { py.runPython(src); } catch(e){ buf.push(String(e.message||e).split('\n').slice(-3).join('\n')); }
+          if(!out){ out = document.createElement('pre'); out.className = 'hasil'; bar.after(out); }
+          out.textContent = buf.join('\n') || '(tidak ada output)';
+          b.disabled = false; b.textContent = '▶ Jalankan lagi';
+        }).catch(function(e){ b.disabled = false; b.textContent = '▶ Coba lagi'; bar.querySelector('small').textContent = e.message + '. Cek koneksi internet.'; });
+      });
+    });
+  }
+
+  function show(id){
+    var x = L[id], i = order.indexOf(id), prev = order[i-1], next = order[i+1];
+    view.className = '';
+    view.innerHTML =
+      '<div class="eyebrow">Pelajaran '+id+'</div><h1>'+x.title+'</h1>'+
+      '<div class="meta"><span>Prasyarat: '+x.pre+'</span></div>'+
+      '<div class="why"><b>Kenapa penting untuk AI?</b> '+x.why+'</div>'+ x.body +
+      dalam(id) +
+      (x.src ? '<div class="src"><ul>'+x.src.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>' : '')+
+      '<div class="pager">'+
+        (prev ? '<a href="#'+slug(prev)+'"><small>← Sebelumnya</small>'+prev+' · '+L[prev].title+'</a>' : '<a href="#beranda"><small>←</small>Beranda</a>')+
+        (next ? '<a href="#'+slug(next)+'" style="text-align:right"><small>Berikutnya →</small>'+next+' · '+L[next].title+'</a>' : '<span></span>')+
+      '</div>';
+    if(window.mountViz) window.mountViz(view);
+    addRunners(view);
+  }
+
+  function route(){
+    var id = idFromHash();
+    buildToc(id);
+    if(id) show(id); else home();
+    toc.classList.remove('open'); btn.setAttribute('aria-expanded','false');
+    window.scrollTo(0,0);
+    try{ if(id) localStorage.setItem('fondasi-terakhir', id); }catch(e){}
+  }
+  var btn = document.getElementById('menuBtn');
+  btn.addEventListener('click', function(){ var o = toc.classList.toggle('open'); btn.setAttribute('aria-expanded', o?'true':'false'); });
+  window.addEventListener('hashchange', route);
+  route();
+})();
+</script>
+</body>
+</html>
