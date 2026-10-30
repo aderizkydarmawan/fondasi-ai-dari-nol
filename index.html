@@ -442,9 +442,20 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
   /* Partikel membentuk rumus (beranda) */
   var heroStop = null;
   function heroParticles(cv){
-    var cx = cv.getContext('2d'), W, H, P = [], idx = 0, list = ['σ(Wx + b)','∇θ L','P(A | B)','Σ xᵢ yᵢ','eᶻ / Σ eᶻ','θ − η∇L'], alive = true, t0 = 0;
+    var cx = cv.getContext('2d'), W, H, P = [], idx = 0, list = ['pasir','kristal','σ(Wx + b)','pasir','kristal','θ − η∇L','pasir','kristal','P(A | B)'], alive = true, t0 = 0;
     function size(){ var r = cv.getBoundingClientRect(); W = r.width; H = r.height; cv.width = W*dpr; cv.height = H*dpr; }
     function targets(str){
+      var wide = W > 900, cx0 = wide ? W*.74 : W*.5, cy0 = wide ? H*.5 : H*.3, R = Math.min(wide ? W*.2 : W*.4, H*.3), pts = [], i, j;
+      if(str === 'pasir'){ // gundukan pasir: butir acak di bawah kurva bukit
+        for(i=0;i<1500;i++){ var u = Math.random()*2-1, top = Math.exp(-u*u*3)*R*.9; pts.push([cx0 + u*R*1.2, cy0 + R*.45 - Math.random()*top]); }
+        return pts;
+      }
+      if(str === 'kristal'){ // kisi kristal: titik-titik tersusun heksagonal dalam bentuk heksagon
+        var a = R/7;
+        for(i=-9;i<=9;i++) for(j=-9;j<=9;j++){ var x = (i + j*.5)*a, y = j*a*.866;
+          if(Math.abs(y) <= R*.8 && Math.abs(x)*.866 + Math.abs(y)*.5 <= R*.8*.866) for(var k=0;k<5;k++) pts.push([cx0 + x + (Math.random()-.5)*2, cy0 + y + (Math.random()-.5)*2]); }
+        return pts;
+      }
       var o = document.createElement('canvas'), ow = Math.round(W), oh = Math.round(H); o.width = ow; o.height = oh;
       var c = o.getContext('2d'), wide = W > 900, fs = Math.min(wide ? W*.11 : W*.2, 190);
       c.font = 'italic '+fs+'px "Instrument Serif", serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#fff';
@@ -503,7 +514,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     main.innerHTML =
       '<section class="hero"><canvas id="heroc" aria-hidden="true"></canvas><div class="copy enter">'+
         '<h1>Batu itu kini <em>bertanya balik</em></h1>'+
-        '<p class="lede">Dulu kita bertanya kepada bintang dan batu. Kini batu yang kita murnikan ikut menjawab. Jalan di antaranya panjang: dari <i>calculus</i>, kerikil penghitung, ke angka, ke rumus, sampai kristal yang bernalar. Di sini kita menapakinya kembali, satu batu demi satu batu, dari nol.</p>'+
+        '<p class="lede">Dahulu kita bertanya kepada bintang dan batu. Kini batu yang kita murnikan belajar menjawab. Di antara keduanya terbentang jalan panjang dari kerikil <i>calculus</i> di genggaman para penghitung hingga kristal yang bernalar. Mari menapakinya kembali dari butir pertama.</p>'+
         '<div class="cta">'+
           (last ? '<a class="btn primary glow" href="#'+slug(last)+'">Lanjutkan '+last+' · '+L[last].title+ico('arrow')+'</a>' : (first ? '<a class="btn primary glow" href="#'+slug(first)+'">Mulai dari '+first+ico('arrow')+'</a>' : ''))+
           '<a class="btn glow" href="#peta">'+ico('map')+'Lihat peta belajar</a>'+
