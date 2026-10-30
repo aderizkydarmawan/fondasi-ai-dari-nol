@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <style>
 /* Dunia: jurnal sains di malam hari. Ungu gelap, lavender untuk sinyal, cyan sebagai pendamping. Serif di mana-mana; mono hanya untuk kode. */
 :root{
@@ -126,6 +127,10 @@ pre code{background:none;padding:0}
 table{border-collapse:collapse;font-variant-numeric:tabular-nums lining-nums;font-size:.98rem}
 th,td{border-bottom:1px solid var(--line);padding:8px 16px;text-align:center}
 th{font:400 1.1rem var(--f-display);color:var(--ink)}
+.katex{font-size:1.06em;color:inherit}
+.katex-display{margin:0;overflow-x:auto;overflow-y:hidden}
+mark .katex{font-size:1em}
+.big .katex-display>.katex{font-size:1.25em}
 .big{font:italic 400 clamp(1.3rem,2.4vw,1.7rem)/1.4 var(--f-body);color:var(--ink);text-align:center;padding:.6em 0;margin:1.2em 0;overflow-x:auto}
 
 /* Widget: ilustrasi buku */
@@ -315,6 +320,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 <script src="viz.js"></script>
 <script src="peta.js"></script>
 <script src="cabang.js"></script>
+<script src="rumus.js"></script>
 <script>
 (function(){
   var I = {
@@ -690,6 +696,51 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     /* rumus latar diambil dari pelajaran ini, dicampur rumus AI */
     var own = [].map.call(view.querySelectorAll('.big, .rule mark, .ex .q'), function(e){ return e.textContent.trim(); }).filter(function(t){ return t.length > 2 && t.length < 26; });
     seedF(own.length ? own.concat(own, AI_F.slice(0,4)) : AI_F);
+    texify(view);
+  }
+
+  /* KaTeX: rumus Unicode diganti tipografi matematika. Peta teks -> LaTeX ada di rumus.js. */
+  var texRe = null;
+  function tex(s, disp){ return window.katex.renderToString(s, {displayMode:!!disp, throwOnError:false, strict:false}); }
+  function texify(root){
+    var R = window.RUMUS;
+    if(!R) return;
+    if(!window.katex){ loadKatex().then(function(){ texify(root); }); return; }
+    [].forEach.call(root.querySelectorAll('mark, .big'), function(el){
+      var k = el.innerHTML.replace(/<br\s*\/?>/g, '\n').replace(/<[^>]+>/g, '');
+      var t = document.createElement('textarea'); t.innerHTML = k; k = t.value;
+      var v = R.whole[k]; if(v) el.innerHTML = tex(v, el.classList.contains('big'));
+    });
+    [].forEach.call(root.querySelectorAll('code'), function(el){
+      if(el.closest('pre')) return; var v = R.code[el.textContent]; if(!v) return;
+      var sp = document.createElement('span'); sp.innerHTML = tex(v); el.replaceWith(sp);
+    });
+    if(!texRe){
+      var keys = Object.keys(R.inline).sort(function(a, b){ return b.length - a.length; });
+      texRe = new RegExp(keys.map(function(k){ return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|'), 'g');
+    }
+    var walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {acceptNode:function(n){
+      return n.parentElement.closest('pre, code, .katex, svg, script, mark, .viz, button, .chap') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; }}), nodes = [], n;
+    while((n = walk.nextNode())) if(texRe.test(n.nodeValue)) nodes.push(n), texRe.lastIndex = 0; else texRe.lastIndex = 0;
+    nodes.forEach(function(node){
+      var s = node.nodeValue, frag = document.createDocumentFragment(), last = 0;
+      s.replace(texRe, function(m, i){
+        if(i > last) frag.appendChild(document.createTextNode(s.slice(last, i)));
+        var sp = document.createElement('span'); sp.innerHTML = tex(R.inline[m]); frag.appendChild(sp);
+        last = i + m.length;
+      });
+      if(last < s.length) frag.appendChild(document.createTextNode(s.slice(last)));
+      node.replaceWith(frag);
+    });
+  }
+  var katexP = null;
+  function loadKatex(){
+    if(katexP) return katexP;
+    katexP = new Promise(function(res){
+      var sc = document.createElement('script'); sc.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js';
+      sc.onload = res; sc.onerror = function(){ katexP = null; res(); }; document.head.appendChild(sc);
+    });
+    return katexP;
   }
 
   function route(){
