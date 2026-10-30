@@ -272,6 +272,20 @@ details.mod .ai{border-left:1px solid var(--accent-line);padding:4px 14px;margin
 
 a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+.journey{position:relative;height:500vh;margin:0 calc(-1 * var(--gut))}
+.jstick{position:sticky;top:0;height:100svh;overflow:hidden;background:radial-gradient(ellipse at 66% 50%,rgba(120,90,220,.12),transparent 60%)}
+.jstick canvas{position:absolute;inset:0;width:100%;height:100%}
+.jp{position:absolute;left:var(--gut);top:50%;max-width:min(460px,38vw);transform:translateY(calc(-50% + 30px));opacity:0;visibility:hidden;transition:opacity .6s,transform .6s,visibility 0s .6s}
+.jp.on{opacity:1;visibility:visible;transform:translateY(-50%);transition:opacity .6s,transform .6s,visibility 0s}
+.jp small{font:italic 400 1.1rem var(--f-display);color:var(--cyan)}
+.jp h2{font:400 clamp(2.2rem,4.4vw,4rem)/1 var(--f-display);margin:.2em 0 .35em;color:var(--ink)}
+.jp h2 em{color:var(--accent)}
+.jp p{font-size:1.1rem;color:var(--text);margin:0 0 1.4em}
+.jdots{position:absolute;right:var(--gut);top:50%;transform:translateY(-50%);display:grid;gap:10px}
+.jdots i{display:block;width:2px;height:28px;background:var(--line)}
+.jdots i.on{background:var(--accent)}
+@media (max-width:900px){ .jp{top:auto;bottom:48px;max-width:none;right:var(--gut);transform:translateY(30px)} .jp.on{transform:none} .jp h2{font-size:2.2rem} .jp p{font-size:1rem} .jdots{top:24%} }
+@media (prefers-reduced-motion:reduce){ .jp{transition:none} }
 @media (max-width:1100px){ .page{grid-template-columns:minmax(0,1fr)} aside.otl{display:none} }
 @media (max-width:900px){
   #bar nav .navb:not(.cta):not(#menuBtn){display:none}
@@ -321,6 +335,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 <script src="peta.js"></script>
 <script src="cabang.js"></script>
 <script src="rumus.js"></script>
+<script src="journey.js"></script>
 <script>
 (function(){
   var I = {
@@ -493,14 +508,15 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
           (last ? '<a class="btn primary glow" href="#'+slug(last)+'">Lanjutkan '+last+' · '+L[last].title+ico('arrow')+'</a>' : (first ? '<a class="btn primary glow" href="#'+slug(first)+'">Mulai dari '+first+ico('arrow')+'</a>' : ''))+
           '<a class="btn glow" href="#peta">'+ico('map')+'Lihat peta belajar</a>'+
         '</div><p class="cap"><b>'+n+' dari '+total+'</b>pelajaran sudah terbit</p></div></section>'+
-      '<div class="home-body">'+
+      window.journeyHTML()+'<div class="home-body">'+
         '<section class="idea"><div><h2>Ide lama, wajah baru di <em>AI</em></h2><p>Hampir setiap teknik AI meminjam dari ilmu lain. Kalau fondasinya kuat, arsitektur baru terasa seperti teman lama.</p></div>'+
           '<ul><li><span>Pengolahan sinyal</span><span>menjadi</span><span>CNN</span></li><li><span>Teori kendali</span><span>menjadi</span><span>Mamba</span></li><li><span>Fisika statistik</span><span>menjadi</span><span>Model difusi</span></li><li><span>Probabilitas</span><span>menjadi</span><span>Attention</span></li></ul></section>'+
         '<section><h2>Enam <em>lapis</em>, dari akal sehat sampai riset</h2><ol class="layers">'+rows+'</ol></section>'+
         '<section class="howto"><h2>Cara belajar yang <em>disarankan</em></h2><ol>'+
           '<li>Baca satu pelajaran per sesi, pelan-pelan.</li><li>Mainkan bagian <b>Coba sendiri</b>: geser, seret, dan lihat angkanya berubah.</li><li>Tutup jawaban contoh soal, kerjakan di kertas, lalu bandingkan.</li><li>Tekan <b>Jalankan</b> untuk memeriksa dengan Python asli.</li><li>Kerjakan <b>Tes kertas kosong</b> tanpa melihat catatan, lalu tandai pelajarannya selesai. Latihan soal minta terpisah ke Claude.</li></ol></section>'+
       '</div>';
-    heroStop = heroParticles(document.getElementById('heroc'));
+    var hs = heroParticles(document.getElementById('heroc')), js = window.journey(main.querySelector('.journey'), mouse, dpr, RM);
+    heroStop = function(){ hs(); js(); };
     seedF(AI_F);
   }
 
