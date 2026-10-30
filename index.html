@@ -109,6 +109,22 @@ th{font-family:var(--f-display);font-weight:700;background:var(--grid)}
 .runbar{display:flex;gap:8px;align-items:center;margin:-.6em 0 1em;flex-wrap:wrap}
 .runbar small{color:var(--muted);font-family:var(--f-display);font-size:.8rem}
 pre.hasil{border-style:dashed;white-space:pre-wrap}
+.peta-frame{width:100%;height:min(80vh,860px);border:1px solid var(--line);border-radius:12px;background:var(--paper);display:block}
+.peta-actions{display:flex;gap:10px;flex-wrap:wrap;margin:.6em 0 1.4em}
+.peta-actions a{font:600 .88rem var(--f-display);color:var(--accent);border:1px solid var(--line);border-radius:8px;padding:8px 14px;text-decoration:none;background:var(--sheet)}
+.langkah{border-left:3px solid var(--line);padding:2px 0 6px 18px;margin:0 0 18px;position:relative}
+.langkah::before{content:attr(data-n);position:absolute;left:-15px;top:0;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--sheet);font:700 .8rem/26px var(--f-display);text-align:center}
+.langkah h3{font-family:var(--f-display);font-size:1.05rem;margin:0 0 6px}
+.langkah .cat{font-size:.88rem;color:var(--muted);margin:0 0 6px}
+.kol{display:grid;gap:4px;margin:4px 0}
+.kol>b{font:700 .7rem var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+details.mod{border:1px solid var(--line);border-left:4px solid var(--kc,var(--line));border-radius:8px;background:var(--sheet);max-width:none}
+details.mod summary{cursor:pointer;padding:8px 12px;font-family:var(--f-display);font-weight:600;list-style-position:inside}
+details.mod summary code{background:none;font-weight:700;color:var(--kc)}
+details.mod .mi{padding:0 14px 10px;font-size:.95rem}
+details.mod .mi ul{padding-left:1.2em;margin:.3em 0}
+details.mod .ai{background:var(--accent-soft);border-radius:6px;padding:6px 10px;margin:6px 0;font-size:.92rem}
+.k-M{--kc:#0f8a6a}.k-S{--kc:#7c4fd6}.k-F{--kc:#b7791f}.k-K{--kc:#c2410c}.k-B{--kc:#1d7fb8}.k-C{--kc:#64748b}
 .src{border-top:1px solid var(--line);margin-top:2.2em;padding-top:1em;font-size:.92rem}
 .src::before{content:"Sumber dan bacaan lanjut";display:block;font:700 .72rem var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .src li{margin:.35em 0}
@@ -147,6 +163,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 <script src="lapis1.js"></script>
 <script src="dalam.js"></script>
 <script src="viz.js"></script>
+<script src="peta.js"></script>
 <script>
 (function(){
   var L = window.LESSONS || {};
@@ -158,7 +175,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   function idFromHash(){ var h = location.hash.slice(1); if(!h || h==='beranda') return null; var id = h.replace(/^p/,'').replace(/-/g,'.'); return L[id] ? id : null; }
 
   function buildToc(cur){
-    var html = '<div class="layer"><a href="#beranda" class="'+(cur?'':'on')+'"><span class="num">⌂</span>Beranda &amp; cara belajar</a></div>';
+    var isPeta = location.hash === '#peta';
+    var html = '<div class="layer"><a href="#beranda" class="'+(cur||isPeta?'':'on')+'"><span class="num">⌂</span>Beranda &amp; cara belajar</a><a href="#peta" class="'+(isPeta?'on':'')+'"><span class="num">◇</span>Peta belajar lengkap</a></div>';
     window.KURIKULUM.forEach(function(lay){
       html += '<div class="layer"><h3>'+lay.name+'</h3><p>'+lay.desc+'</p>';
       lay.items.forEach(function(it){
@@ -179,7 +197,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       '<div class="eyebrow">Mulai dari sini</div><h1>Belajar matematika di balik AI, dari menghitung sampai difusi</h1>'+
       '<p>Situs ini mengajarkan semua fondasi yang dipakai AI, mulai dari nol. Tidak ada yang dianggap sudah kamu tahu. Setiap pelajaran berisi penjelasan, contoh soal yang dibahas langkah demi langkah, dan potongan kode Python untuk memeriksa hasil.</p>'+
       '<div class="why"><b>Satu ide yang mengikat semuanya.</b> Hampir setiap teknik AI meminjam dari ilmu lain: CNN dari pengolahan sinyal, Mamba dari teori kendali, model difusi dari fisika statistik, dan attention dari probabilitas. Kalau fondasinya kuat, arsitektur baru terasa seperti teman lama.</div>'+
-      '<h2>Enam lapis</h2><div class="lay-grid">'+cards+'</div>'+
+      '<div class="pager" style="margin:1.4em 0"><a href="#peta"><small>Lihat dulu gambaran besarnya</small>◇ Peta belajar lengkap: urutan dari matematika sampai AI</a><span></span></div>'+'<h2>Enam lapis</h2><div class="lay-grid">'+cards+'</div>'+
       '<h2>Cara belajar yang disarankan</h2>'+
       '<p>1. Baca satu pelajaran per sesi, pelan-pelan.<br>2. Mainkan bagian <b>Coba sendiri</b>: geser, seret, dan lihat angkanya berubah.<br>3. Tutup jawaban contoh soal, kerjakan di kertas, lalu bandingkan.<br>4. Tekan <b>▶ Jalankan</b> untuk memeriksa dengan Python asli.<br>5. Kerjakan <b>Tes kertas kosong</b> tanpa melihat catatan. Latihan soal minta terpisah ke Claude.</p>'+'<p>Setiap pelajaran ditutup dengan daftar <b>sumber</b> (buku, bab, halaman) supaya semua yang ditulis bisa kamu periksa sendiri.</p>'+
       '<p class="meta">'+n+' dari '+total+' pelajaran sudah tersedia. Sisanya ditambahkan bertahap ke alamat yang sama.</p>'+
@@ -233,6 +251,32 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     });
   }
 
+  function peta(){
+    var P = window.PETA; view.className = '';
+    function mod(id){
+      var m = P.modul[id]; if(!m) return '';
+      return '<details class="mod k-'+id[0]+'"><summary><code>'+id+'</code> '+m.judul+(m.catatan?' <small style="color:var(--muted);font-weight:500">'+m.catatan+'</small>':'')+'</summary><div class="mi">'+
+        (m.ai ? '<div class="ai"><b>Untuk AI:</b> '+m.ai+'</div>' : '')+m.isi+'</div></details>';
+    }
+    function kol(t, ids){ return ids.length ? '<div class="kol"><b>'+t+'</b>'+ids.map(mod).join('')+'</div>' : ''; }
+    var steps = P.langkah.map(function(l, i){
+      return '<div class="langkah" data-n="'+(i+1)+'"><h3>Langkah '+(i+1)+'</h3>'+(l.cat?'<p class="cat">'+l.cat+'</p>':'')+
+        kol('Pilar fondasi', l.p)+kol('Bangun sendiri', l.b)+kol('Dunia nyata', l.c)+'</div>';
+    }).join('');
+    view.innerHTML =
+      '<div class="eyebrow">Peta belajar</div><h1>Urutan lengkap: matematika, statistika, fisika sampai AI</h1>'+
+      '<p>Diagram di bawah adalah <b>ringkasan</b> dalam 6 tahap. Kolom adalah tahap (kiri ke kanan), dan baris adalah pilar. Klik atau arahkan kursor ke sebuah kotak untuk menyorotnya; tombol <b>Jalur</b> dan <b>Lensa</b> di pojok membantu menelusuri.</p>'+
+      '<iframe class="peta-frame" src="peta-urutan.html" title="Diagram peta urutan belajar" loading="lazy"></iframe>'+
+      '<div class="peta-actions"><a href="peta-urutan.html" target="_blank" rel="noopener">Buka diagram layar penuh ↗</a></div>'+
+      '<h2>Urutan rinci: 14 langkah</h2>'+
+      '<p>Inilah urutan sebenarnya, lebih rinci daripada diagram. Setiap langkah mengerjakan beberapa pilar sekaligus (berselang-seling), lalu membangun satu benda AI, lalu memakainya di data nyata. Klik nama modul untuk melihat isi, sumber, dan tes lulusnya.</p>'+
+      '<p style="font-size:.9rem;color:var(--muted)">Warna garis kiri: <span style="color:#0f8a6a">■</span> matematika, <span style="color:#7c4fd6">■</span> statistika, <span style="color:#b7791f">■</span> fisika, <span style="color:#c2410c">■</span> komputasi, <span style="color:#1d7fb8">■</span> bangun AI, <span style="color:#64748b">■</span> dunia nyata. Kode modul juga tertulis, jadi warna bukan satu-satunya penanda.</p>'+
+      steps+
+      '<h2>Kapan boleh bilang "selesai"</h2><ol>'+P.selesai.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ol>'+
+      '<div class="src"><ul><li>Urutan dan isi modul: PANDUAN-JALUR-INTI.md versi 2 (30 Okt 2026), hasil dua sesi council dan cek silang dengan silabus MIT 18.02, 18.05, 18.06, 8.333, dan Stanford CS229.</li><li>Diagram dibuat dengan Archify dan lolos validasi otomatis (validate, deliver, check, browser-check).</li></ul></div>'+
+      '<div class="pager"><a href="#beranda"><small>←</small>Beranda</a>'+(order[0]?'<a href="#'+slug(order[0])+'" style="text-align:right"><small>Mulai belajar →</small>'+order[0]+' · '+L[order[0]].title+'</a>':'')+'</div>';
+  }
+
   function show(id){
     var x = L[id], i = order.indexOf(id), prev = order[i-1], next = order[i+1];
     view.className = '';
@@ -253,7 +297,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   function route(){
     var id = idFromHash();
     buildToc(id);
-    if(id) show(id); else home();
+    if(id) show(id); else if(location.hash==='#peta') peta(); else home();
     toc.classList.remove('open'); btn.setAttribute('aria-expanded','false');
     window.scrollTo(0,0);
     try{ if(id) localStorage.setItem('fondasi-terakhir', id); }catch(e){}
