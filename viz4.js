@@ -65,14 +65,14 @@
 
   /* 4.5 proses Ornstein–Uhlenbeck */
   W.ou = function (h) {
-    var f = frame(h, "dX = −θX dt + σ dW, mulai X = 3. Ungu tipis = 20 lintasan, putus-putus = rata-rata ± 2 simpangan baku dari rumus", [{ id: "th", label: "tarikan θ", min: 0, max: 3, step: 0.1, v: 1, d: 1 }, { id: "s", label: "derau σ", min: 0, max: 2, step: 0.1, v: 1, d: 1 }]);
+    var f = frame(h, "dX = −κX dt + σ dW, mulai X = 3. Ungu tipis = 20 lintasan, putus-putus = rata-rata ± 2 simpangan baku dari rumus", [{ id: "th", label: "tarikan κ", min: 0, max: 3, step: 0.1, v: 1, d: 1 }, { id: "s", label: "derau σ", min: 0, max: 2, step: 0.1, v: 1, d: 1 }]);
     var p = mk(f.svg, { x0: 0, x1: 8, y0: -4, y1: 5, h: 320, sx: 1, sy: 1, lx: 2, ly: 2 }), seed = 5;
     h._draw = function () {
       var th = f.vals.th, s = f.vals.s, dt = 0.02, r = rng(seed), g, k, i; p.clear(); g = clip(p);
       var m = function (t) { return 3 * Math.exp(-th * t); }, v = function (t) { return th > 1e-9 ? s * s / (2 * th) * (1 - Math.exp(-2 * th * t)) : s * s * t; };
       for (k = 0; k < 20; k++) { var x = 3, a = [[0, 3]]; for (i = 1; i <= 400; i++) { x += -th * x * dt + s * Math.sqrt(dt) * gauss(r); a.push([i * dt, x]); } thin(path(p, a, "s1 line", g)); }
       p.curve(m, "ink line"); p.curve(function (t) { return m(t) + 2 * Math.sqrt(v(t)); }, "s2 line dash"); p.curve(function (t) { return m(t) - 2 * Math.sqrt(v(t)); }, "s2 line dash");
-      f.out.innerHTML = (th > 1e-9 ? "Varians stasioner σ²/(2θ) = <b>" + fmt(s * s / (2 * th), 3) + "</b>. Rata-rata meluruh seperti 3e<sup>−θt</sup>; setelah t ≈ " + fmt(2.3 / th, 1) + " titik awal praktis terlupakan." : "θ = 0: tidak ada tarikan, X murni gerak Brown dan variansnya σ²t terus membesar, tanpa distribusi stasioner.") + (s === 0 ? " σ = 0: tanpa derau, persis ODE peluruhan dari 3.7." : "");
+      f.out.innerHTML = (th > 1e-9 ? "Varians stasioner σ²/(2κ) = <b>" + fmt(s * s / (2 * th), 3) + "</b>. Rata-rata meluruh seperti 3e<sup>−κt</sup>; setelah t ≈ " + fmt(2.3 / th, 1) + " titik awal praktis terlupakan." : "κ = 0: tidak ada tarikan, X murni gerak Brown dan variansnya σ²t terus membesar, tanpa distribusi stasioner.") + (s === 0 ? " σ = 0: tanpa derau, persis ODE peluruhan dari 3.7." : "");
     };
     button(f, "Acak ulang", function () { seed++; h._draw(); });
     h._draw();
@@ -80,7 +80,7 @@
 
   /* 4.6 persamaan panas / Fokker–Planck */
   W.heat = function (h) {
-    var f = frame(h, "Kepadatan peluang yang dimulai sebagai paku. Tanpa drift = persamaan panas (D = 1); dengan drift = Fokker–Planck untuk OU (θ = 1, σ = 1)", [{ id: "t", label: "waktu t", min: 0.02, max: 4, step: 0.02, v: 0.5 }]);
+    var f = frame(h, "Kepadatan peluang yang dimulai sebagai paku. Tanpa drift = persamaan panas (D = 1); dengan drift = Fokker–Planck untuk OU (κ = 1, σ = 1)", [{ id: "t", label: "waktu t", min: 0.02, max: 4, step: 0.02, v: 0.5 }]);
     var p = mk(f.svg, { x0: -5, x1: 5, y0: 0, y1: 1.2, h: 300, sx: 1, sy: 0.2 }), drift = false, start = 0;
     function N(x, m, v) { return Math.exp(-(x - m) * (x - m) / (2 * v)) / Math.sqrt(2 * Math.PI * v); }
     h._draw = function () {

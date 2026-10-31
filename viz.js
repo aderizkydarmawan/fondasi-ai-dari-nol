@@ -368,7 +368,7 @@
   window.mountViz = function (root) {
     [].forEach.call(root.querySelectorAll("[data-viz]"), function (host) {
       var k = host.getAttribute("data-viz");
-      if (W[k]) { try { W[k](host); } catch (e) { host.textContent = "Gagal memuat visualisasi: " + e.message; } }
+      if (W[k]) { try { W[k](host); var tip = window.COBA && COBA[k], hd = host.querySelector(".viz-h"); if (tip && hd) { var p = document.createElement("p"); p.className = "coba"; p.innerHTML = "<b>Coba ini:</b> " + tip; hd.insertAdjacentElement("afterend", p); } } catch (e) { host.textContent = "Gagal memuat visualisasi: " + e.message; } }
     });
   };
 })();

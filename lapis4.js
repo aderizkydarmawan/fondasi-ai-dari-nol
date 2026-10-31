@@ -71,6 +71,7 @@ Bagi setiap faktor dengan Z</div>
 <h2>Softmax = Boltzmann dengan tanda dibalik</h2>
 <p>Classifier menghasilkan skor mentah z (disebut <b>logit</b>), dan skor tinggi berarti lebih mungkin. Ganti energi dengan minus skor, maka keluarlah softmax:</p>
 <div class="tx d">\text{softmax}(z)_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}</div>
+<p>Persisnya: ambil <span class="tx">E_i = -z_i</span>, lalu anggap konstanta Boltzmann k = 1 sehingga kT cukup ditulis T. Pada T = 1, softmax sama persis dengan distribusi Boltzmann.</p>
 <div class="ex"><div class="q">Logit z = [2; 1; 0,1]. Hitung softmax pada T = 1.</div>
 <div class="step">e² ≈ 7,389, e¹ ≈ 2,718, e⁰·¹ ≈ 1,105
 Jumlah ≈ 11,212</div>
@@ -125,7 +126,7 @@ Selalu terendah: ⟨E⟩ = 0, H = 0, F[q] = 0</div>
 
 <h2>Inferensi variasional: posterior sebagai sistem fisika</h2>
 <p>Posterior Bayes bisa ditulis seperti distribusi Boltzmann: <span class="tx">p(\theta\mid D) = e^{-E(\theta)}/Z</span> dengan "energi" <span class="tx">E(\theta) = -\log p(D\mid\theta) - \log p(\theta)</span> dan Z = p(D), peluang data. Z inilah yang mustahil dihitung untuk model besar.</p>
-<p>Jalan keluarnya: pilih keluarga distribusi yang mudah (misalnya normal dengan rata-rata dan varians yang bisa diatur), lalu cari anggota yang F[q]-nya terkecil. Kita tidak butuh Z, karena Z hanya konstanta. Di machine learning, minus F[q] disebut <b>ELBO</b> (evidence lower bound), karena ia batas bawah dari log p(D):</p>
+<p>Jalan keluarnya: pilih keluarga distribusi yang mudah (misalnya normal dengan rata-rata dan varians yang bisa diatur), lalu cari anggota yang F[q]-nya terkecil. Kita tidak butuh Z, karena Z hanya konstanta. Di machine learning, minus F[q] disebut <b>ELBO</b> (evidence lower bound), karena ia batas bawah dari log p(D): (Di sini kT = 1, jadi ELBO = −F[q]: memaksimalkan ELBO sama dengan meminimalkan F[q].)</p>
 <div class="tx d">\log p(D) \;\ge\; \underbrace{\mathbb{E}_q[\log p(D\mid\theta)]}_{\text{cocok dengan data}} - \underbrace{D_{\text{KL}}(q(\theta)\,\|\,p(\theta))}_{\text{jangan jauh dari prior}}</div>
 <p>Dua suku ini akan muncul lagi persis sebagai loss VAE (5.10): galat rekonstruksi ditambah KL.</p>
 
@@ -161,7 +162,7 @@ window.LESSONS["4.4"] = {
 <div class="step">Teori: √100 = 10, √25 = 5
 Simulasi (Python di bawah): 9,96 dan 5,02</div>
 <div class="ans">Jawaban: sekitar 10 dan 5. Waktu empat kali lipat, jarak hanya dua kali lipat.</div></div>
-<p>Menurut teorema limit pusat (2.10), posisi setelah banyak langkah berdistribusi hampir normal dengan varians n.</p>
+<p>Menurut teorema limit pusat (2.9), posisi setelah banyak langkah berdistribusi hampir normal dengan varians n.</p>
 
 <h2>Gerak Brown: jalan acak yang diperhalus</h2>
 <p>Tahun 1827 ahli botani Robert Brown melihat serbuk sari di air bergoyang tanpa henti. Einstein (1905) menjelaskannya: serbuk ditabrak molekul air dari segala arah, ribuan kali per detik, dan setiap tabrakan adalah satu langkah acak kecil. Buat langkahnya makin kecil dan makin sering, maka jalan acak menjadi <b>gerak Brown</b> W(t), dengan</p>
@@ -189,6 +190,7 @@ window.LESSONS["4.5"] = {
   pre: "3.7 ODE, 4.4", min: 0,
   why: "Model difusi modern ditulis sebagai persamaan diferensial stokastik (SDE): satu SDE merusak gambar menjadi derau, dan kebalikannya membangun gambar dari derau. Langevin dynamics, cara mengambil sampel dari distribusi dengan menuruni lembah sambil digoyang, juga sebuah SDE.",
   body: String.raw`
+<div class="box intuisi"><p>Pelajaran ini sengaja berhenti di tingkat intuisi. Kalkulus Itô, yang membuat dW benar-benar bermakna, tidak diturunkan di sini; cukup pegang gambarnya: drift menarik, derau menggoyang, dan rumus rata-rata serta varians OU yang bisa kamu cek sendiri dengan simulasi.</p></div>
 <h2>ODE ditambah derau</h2>
 <p>ODE (3.7) berkata: perubahan = arah × waktu. SDE menambahkan tendangan acak dari gerak Brown (4.4):</p>
 <div class="tx d">dX = \underbrace{f(X)\,dt}_{\text{drift}} + \underbrace{\sigma\,dW}_{\text{derau}}</div>
@@ -199,11 +201,11 @@ window.LESSONS["4.5"] = {
 <div class="tx d">X_{n+1} = X_n + f(X_n)\,\Delta t + \sigma\sqrt{\Delta t}\;\xi_n, \qquad \xi_n \sim \mathcal{N}(0, 1)</div>
 
 <h2>Contoh: proses Ornstein–Uhlenbeck</h2>
-<p>Ambil drift yang menarik ke nol: <span class="tx">dX = -\theta X\,dt + \sigma\,dW</span>. Tanpa derau, X meluruh ke 0 seperti di 3.7. Dengan derau, X tidak pernah diam, tapi bergoyang di sekitar 0 dengan sebaran tetap. Tarikan dan tendangan mencapai keseimbangan:</p>
-<div class="tx d">\text{varians stasioner} = \frac{\sigma^2}{2\theta}</div>
-<div class="ex"><div class="q">θ = 1, σ = 1, mulai dari X = 3. Berapa rata-rata dan varians X setelah waktu lama?</div>
-<div class="step">Rata-rata: 3·e^(−θt) → 0
-Varians: σ²/(2θ) = 1/2
+<p>Ambil drift yang menarik ke nol: <span class="tx">dX = -\kappa X\,dt + \sigma\,dW</span>. Tanpa derau, X meluruh ke 0 seperti di 3.7. Dengan derau, X tidak pernah diam, tapi bergoyang di sekitar 0 dengan sebaran tetap. Tarikan dan tendangan mencapai keseimbangan:</p>
+<div class="tx d">\text{varians stasioner} = \frac{\sigma^2}{2\kappa}</div>
+<div class="ex"><div class="q">κ = 1, σ = 1, mulai dari X = 3. Berapa rata-rata dan varians X setelah waktu lama?</div>
+<div class="step">Rata-rata: 3·e^(−κt) → 0
+Varians: σ²/(2κ) = 1/2
 Simulasi 5.000 lintasan sampai t = 10: rata-rata 0,015, varians 0,505</div>
 <div class="ans">Jawaban: rata-rata 0, varians 0,5. Titik awal sudah dilupakan; yang tersisa distribusi normal N(0; 0,5).</div></div>
 <p>Inilah pola penting: SDE dengan drift yang tepat <b>melupakan</b> titik awal dan menuju satu distribusi tujuan, mirip rantai Markov (3.8) yang menuju distribusi stasioner.</p>
@@ -237,6 +239,7 @@ window.LESSONS["4.6"] = {
   pre: "2.1, 3.7, 4.4, 4.5", min: 0,
   why: "Satu partikel bergoyang acak; jutaan partikel menyebar dengan mulus seperti tinta di air. Persamaan panas dan Fokker–Planck menggambarkan penyebaran itu sebagai satu kurva peluang yang bergerak. Ini cara pandang kedua atas model difusi: bukan satu lintasan, tapi seluruh distribusi data yang pelan-pelan melebur menjadi derau.",
   body: String.raw`
+<div class="box intuisi"><p>Pelajaran ini juga di tingkat intuisi. Persamaan diferensial parsial tidak diselesaikan secara formal; kita hanya membaca artinya (kelengkungan meratakan, drift menggeser) dan memeriksanya dengan simulasi kisi.</p></div>
 <h2>Dari partikel ke kepadatan</h2>
 <p>Lepaskan sejuta partikel di titik 0 dan biarkan masing-masing berjalan acak (4.4). Lihat histogramnya, bukan satu partikel. Histogram itu awalnya paku tajam, lalu melebar menjadi lonceng normal yang makin pendek dan makin lebar. Kurva kepadatan u(x, t) ini mengikuti <b>persamaan panas</b> (atau persamaan difusi):</p>
 <div class="tx d">\frac{\partial u}{\partial t} = D\,\frac{\partial^2 u}{\partial x^2}</div>
@@ -250,7 +253,7 @@ window.LESSONS["4.6"] = {
 <h2>Fokker–Planck: persamaan panas dengan arus</h2>
 <p>Kalau partikel juga ditarik drift f(x), seperti di SDE 4.5, kepadatan tidak hanya menyebar tapi juga mengalir:</p>
 <div class="tx d">\frac{\partial p}{\partial t} = -\frac{\partial}{\partial x}\big[f(x)\,p\big] + \frac{\sigma^2}{2}\,\frac{\partial^2 p}{\partial x^2}</div>
-<p>Suku pertama memindahkan kepadatan sepanjang arah drift; suku kedua meratakannya. Ketika keduanya seimbang, ∂p/∂t = 0 dan kita dapat distribusi stasioner. Untuk Ornstein–Uhlenbeck dengan θ = 1, σ = 1, keseimbangan itu adalah N(0; 0,5), angka yang sama dengan simulasi 4.5.</p>
+<p>Suku pertama memindahkan kepadatan sepanjang arah drift; suku kedua meratakannya. Ketika keduanya seimbang, ∂p/∂t = 0 dan kita dapat distribusi stasioner. Untuk Ornstein–Uhlenbeck dengan κ = 1, σ = 1, keseimbangan itu adalah N(0; 0,5), angka yang sama dengan simulasi 4.5.</p>
 <div class="rule">Satu SDE, dua cara pandang: <mark>SDE</mark> untuk satu lintasan acak, <mark>Fokker–Planck</mark> untuk seluruh kurva peluang yang bergerak secara pasti.</div>
 
 <h2>Menghitung dengan komputer, dan jebakannya</h2>

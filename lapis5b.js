@@ -51,11 +51,11 @@ print([round(lr(t), 6) for t in (50, 100, 550, 1000)])   # [0.0005, 0.001, 0.000
 /* ───────────────────────── 5.10 ───────────────────────── */
 window.LESSONS["5.10"] = {
   title: "Autoencoder dan VAE",
-  pre: "2.12 PCA, 3.4 KL, 4.3 ELBO, 5.4", min: 0,
+  pre: "2.8 PCA, 3.4 KL, 4.3 ELBO, 5.4", min: 0,
   why: "Autoencoder belajar meringkas data menjadi sedikit angka lalu membangunnya kembali. Variational autoencoder (VAE) mengubah ringkasan itu menjadi ruang yang bisa disampel, sehingga model bisa membuat data baru. Encoder VAE dipakai di Stable Diffusion untuk memampatkan gambar sebelum proses difusi (5.12).",
   body: String.raw`
 <h2>Autoencoder: peras lalu bangun ulang</h2>
-<p>Autoencoder punya dua bagian: <b>encoder</b> memampatkan masukan x (misalnya gambar 784 piksel) menjadi kode pendek z (misalnya 16 angka), dan <b>decoder</b> membangun ulang <span class="tx">\hat x</span> dari z. Loss-nya galat rekonstruksi, misalnya <span class="tx">\|x - \hat x\|^2</span>. Karena z lebih sempit dari x, jaringan dipaksa menyimpan hanya hal terpenting. Autoencoder linear dengan loss kuadrat mempelajari ruang yang sama dengan PCA (2.12); dengan lapis nonlinear, ia bisa menangkap struktur yang melengkung.</p>
+<p>Autoencoder punya dua bagian: <b>encoder</b> memampatkan masukan x (misalnya gambar 784 piksel) menjadi kode pendek z (misalnya 16 angka), dan <b>decoder</b> membangun ulang <span class="tx">\hat x</span> dari z. Loss-nya galat rekonstruksi, misalnya <span class="tx">\|x - \hat x\|^2</span>. Karena z lebih sempit dari x, jaringan dipaksa menyimpan hanya hal terpenting. Autoencoder linear dengan loss kuadrat mempelajari ruang yang sama dengan PCA (2.8); dengan lapis nonlinear, ia bisa menangkap struktur yang melengkung.</p>
 <p>Masalahnya: ruang z dari autoencoder biasa berlubang-lubang. Ambil titik z acak dan decode, hasilnya sering sampah, karena tidak ada yang memaksa ruang itu teratur.</p>
 
 <h2>VAE: kode yang berupa distribusi</h2>

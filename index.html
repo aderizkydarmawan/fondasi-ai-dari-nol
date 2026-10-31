@@ -111,6 +111,12 @@ article b,article strong{color:var(--ink);font-weight:600}
 .why b:first-child,.rule::before,.ex::before,.box::before,.src::before{position:absolute;left:0;top:14px;width:9.2rem;font:italic 400 1.18rem/1.25 var(--f-display);color:var(--accent)}
 .why{border-top-color:var(--accent-line)}
 .why b:first-child{font-weight:400}
+.ingat{position:relative;padding:14px 0 14px 10.5rem;margin:0 0 2em;border-top:1px solid var(--line)}
+.ingat b:first-child{position:absolute;left:0;top:14px;width:9.2rem;font:italic 400 1.18rem/1.25 var(--f-display);color:var(--accent)}
+.ingat ul{margin:0;padding-left:1.1em;color:var(--muted)}
+.ingat li{margin:.2em 0}
+.coba{margin:.4em 0 .8em;color:var(--muted);font-size:.95rem}
+.coba b{color:var(--ink);font-weight:600}
 .rule::before{content:"Aturan"}
 .rule{color:var(--ink)}
 .ex::before{content:"Contoh soal";color:var(--cyan)}
@@ -128,6 +134,8 @@ article b,article strong{color:var(--ink);font-weight:600}
 .skip:focus{top:12px}
 .box.salah::before{content:"Kesalahan yang sering terjadi";color:var(--warn)}
 .box.ringkas::before{content:"Ringkasan"}
+.box.intuisi::before{content:"Tingkat intuisi";color:var(--cyan)}
+.box.intuisi p{margin:0}
 .box.uji::before{content:"Tes kertas kosong";color:var(--cyan)}
 .box ul{margin:0;padding-left:1.1em}
 .box p.note{font-size:.92rem;color:var(--muted);margin:.6em 0 0}
@@ -327,8 +335,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
   .layers li{grid-template-columns:4.2rem minmax(0,1fr);gap:6px 18px}
   .layers .ln{font-size:2.6rem;grid-row:span 3}
   .home-body>section{margin-top:96px}
-  .why,.rule,.ex,.box,.src{padding-left:0}
-  .why b:first-child,.rule::before,.ex::before,.box::before,.src::before{position:static;display:block;width:auto;margin-bottom:4px}
+  .why,.ingat,.rule,.ex,.box,.src{padding-left:0}
+  .why b:first-child,.ingat b:first-child,.rule::before,.ex::before,.box::before,.src::before{position:static;display:block;width:auto;margin-bottom:4px}
   .pager{grid-template-columns:1fr}.pager a:last-child{text-align:left}.pager a:only-child{grid-column:1}
   body{font-size:17px}
   main{padding-top:92px}
@@ -368,6 +376,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 <script src="dalam4.js"></script>
 <script src="lapis5.js"></script>
 <script src="lapis5b.js"></script>
+<script src="ingat.js"></script>
+<script src="coba.js"></script>
 <script src="dalam5.js"></script>
 <script src="viz.js"></script>
 <script src="viz2.js"></script>
@@ -820,7 +830,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     frame(
       '<span class="chap" aria-hidden="true">'+id+'</span>'+
       '<p class="crumb">Pelajaran <b>'+id+'</b></p><h1>'+x.title+'</h1>'+
-      '<p class="meta">Prasyarat: '+String(x.pre).replace(/\b(\d+\.\d+)\b/g, function(m){ return L[m] ? '<a href="#'+slug(m)+'">'+m+(isDone(m) ? ' '+ico('check') : '')+'</a>' : m; })+'</p>'+
+      '<p class="meta">Prasyarat: '+String(x.pre).replace(/\b(\d+\.\d+)\b/g, function(m){ return L[m] ? '<a href="#'+slug(m)+'" title="'+L[m].title.replace(/"/g,'&quot;')+'">'+m+(isDone(m) ? ' '+ico('check') : '')+'</a>' : m; })+'</p>'+
+      (window.INGAT&&INGAT[id] ? '<div class="ingat"><b>Yang perlu kamu ingat</b><ul>'+INGAT[id].map(function(t){return '<li>'+t.replace(/\((\d+\.\d+(?:, \d+\.\d+)*)\)/g,function(a,g){return '('+g.split(', ').map(function(m){return L[m]?'<a href="#'+slug(m)+'">'+m+'</a>':m;}).join(', ')+')';})+'</li>';}).join('')+'</ul></div>' : '')+
       '<div class="why"><b>Kenapa penting untuk AI?</b>'+x.why+'</div>'+ x.body + (FIG[id] ? '<figure class="anat"><iframe src="'+FIG[id]+'" title="Gambar interaktif: neuron sebagai mesin" loading="lazy" scrolling="no" data-fig="neuron"></iframe></figure>' : '') +
       dalam(id) +
       (x.src ? '<div class="src"><ul>'+x.src.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>' : '')+

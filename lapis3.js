@@ -7,10 +7,17 @@ window.LESSONS["3.1"] = {
   pre: "2.3 gradien, 2.10 ekspektasi dan varians", min: 0,
   why: "Inilah mesin yang melatih hampir semua model AI, dari regresi sampai GPT. Model dimulai dengan bobot acak, lalu berjuta-juta kali menggeser bobotnya sedikit ke arah yang mengurangi kesalahan. Memahami learning rate, mini-batch, momentum, dan Adam berarti memahami tombol-tombol yang diputar setiap insinyur ML setiap hari.",
   body: String.raw`
-<h2>Masalahnya: cari bobot dengan kesalahan terkecil</h2>
-<p>Model punya bobot θ (theta) dan fungsi kesalahan <span class="tx">L(\theta)</span>, biasa disebut <b>loss</b>. Melatih model artinya mencari θ yang membuat L sekecil mungkin. Untuk model kecil kadang ada rumus langsung; untuk jaringan saraf tidak ada. Jadi kita menuruni lembah selangkah demi selangkah, seperti di 2.3:</p>
+<h2>Tiga kata dulu: model, bobot, loss</h2>
+<p>Sebuah <b>model</b> adalah rumus yang menebak sesuatu dari data, misalnya neuron dari 0.2: tebakan = w·x + b. Angka-angka yang bisa disetel di dalamnya (w dan b) disebut <b>bobot</b> atau parameter. Untuk mengukur seberapa buruk tebakannya, kita pakai satu angka yang disebut <b>loss</b>: makin kecil, makin bagus. Contohnya rata-rata kuadrat selisih tebakan dan jawaban sebenarnya. Melatih model artinya mencari bobot yang membuat loss sekecil mungkin.</p>
+<h2>Simbol yang dipakai</h2>
+<ul><li><b>θ</b> (theta): singkatan untuk "semua bobot model sekaligus". Kalau modelnya hanya punya satu bobot, kita sebut saja w, seperti di contoh di bawah. θ dan w di pelajaran ini adalah hal yang sama.</li>
+<li><b>L(θ)</b>: loss sebagai fungsi bobot. Bayangkan lanskap berbukit: posisi = bobot, ketinggian = loss.</li>
+<li><b>∇L</b> (dibaca "nabla L" atau "gradien L"): daftar turunan loss terhadap setiap bobot (2.3). Ia menunjuk arah naik paling curam, jadi kita melangkah ke arah sebaliknya.</li>
+<li><b>η</b> (eta): <b>learning rate</b>, angka kecil yang menentukan sebesar apa setiap langkah.</li></ul>
+<h2>Aturannya: turuni lembah selangkah demi selangkah</h2>
+<p>Untuk model kecil kadang ada rumus jawaban langsung; untuk jaringan saraf tidak ada. Jadi kita menuruni lembah selangkah demi selangkah, seperti di 2.3. Dibaca: bobot baru = bobot lama dikurangi learning rate kali gradien.</p>
 <div class="tx d">\theta_{\text{baru}} = \theta_{\text{lama}} - \eta\,\nabla L(\theta_{\text{lama}})</div>
-<div class="ex"><div class="q">L(w) = (w − 3)², mulai w = 0, η = 0,1. Lakukan tiga langkah.</div>
+<div class="ex"><div class="q">Model dengan satu bobot w dan loss L(w) = (w − 3)², yang paling kecil di w = 3. Mulai w = 0, η = 0,1. Lakukan tiga langkah.</div>
 <div class="step">Turunan: L'(w) = 2(w − 3)
 Langkah 1: w = 0 − 0,1 · 2(0 − 3) = 0,6
 Langkah 2: w = 0,6 − 0,1 · 2(0,6 − 3) = 1,08
@@ -90,7 +97,7 @@ window.LESSONS["3.2"] = {
 <ul><li><b>Data kontinu dengan derau normal.</b> Kalau <span class="tx">y = f_\theta(x) + \text{derau}</span> dan derau berdistribusi normal, NLL-nya sama dengan jumlah kuadrat selisih ditambah konstanta. Jadi <b>mean squared error</b> adalah MLE untuk derau normal. Untuk data [2, 4, 4, 4, 5, 5, 7, 9], MLE untuk μ adalah rata-ratanya (5) dan untuk σ² variansnya (4), angka yang sama dengan 1.7.</li>
 <li><b>Klasifikasi.</b> Kalau model mengeluarkan peluang untuk setiap kelas, NLL-nya adalah <span class="tx">-\log(\text{peluang kelas yang benar})</span>. Itulah cross-entropy (3.4).</li>
 <li><b>Model bahasa.</b> Loss pelatihan GPT adalah rata-rata −log peluang token berikutnya yang sebenarnya. MLE atas seluruh internet.</li></ul>
-<p>Fisher (1922) memperkenalkan nama "likelihood" dan sengaja membedakannya dari "probabilitas": likelihood bukan peluang bahwa parameter benar, dan tidak perlu berjumlah 1 atas semua p.</p>
+<p>Fisher (1921–1922) memperkenalkan nama "likelihood" dan sengaja membedakannya dari "probabilitas": likelihood bukan peluang bahwa parameter benar, dan tidak perlu berjumlah 1 atas semua p.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import numpy as np

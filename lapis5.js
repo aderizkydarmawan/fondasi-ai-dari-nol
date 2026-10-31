@@ -4,11 +4,11 @@ window.LESSONS = window.LESSONS || {};
 /* ───────────────────────── 5.1 ───────────────────────── */
 window.LESSONS["5.1"] = {
   title: "Regresi linear dan logistik",
-  pre: "2.5 kuadrat terkecil, 3.1, 3.2, 3.4", min: 0,
+  pre: "1.4 garis, 1.7 varians, 3.1, 3.2, 3.4", min: 0,
   why: "Dua model ini adalah titik awal semua machine learning. Regresi linear menebak angka; regresi logistik menebak peluang ya atau tidak. Satu neuron di jaringan saraf adalah regresi logistik, dan lapis terakhir GPT adalah regresi logistik dengan puluhan ribu kelas. Semua alat dari Lapis 2 dan 3 bertemu di sini.",
   body: String.raw`
 <h2>Regresi linear: menebak angka</h2>
-<p>Model: <span class="tx">\hat y = w x + b</span>, atau dengan banyak fitur <span class="tx">\hat y = \mathbf{w}\cdot\mathbf{x} + b</span>. Loss: rata-rata kuadrat selisih (MSE), yang menurut 3.2 adalah MLE kalau deraunya normal. Untuk model ini ada rumus jawaban langsung, kuadrat terkecil dari 2.5, tapi gradient descent (3.1) juga sampai ke jawaban yang sama.</p>
+<p>Model: <span class="tx">\hat y = w x + b</span>, atau dengan banyak fitur <span class="tx">\hat y = \mathbf{w}\cdot\mathbf{x} + b</span>. Loss: rata-rata kuadrat selisih (MSE), yang menurut 3.2 adalah MLE kalau deraunya normal. Untuk model ini ada rumus jawaban langsung, disebut <b>kuadrat terkecil</b> (contoh di bawah), tapi gradient descent (3.1) juga sampai ke jawaban yang sama.</p>
 <div class="ex"><div class="q">Data (1; 2), (2; 4), (3; 5), (4; 8). Cari garis kuadrat terkecil.</div>
 <div class="step">Rata-rata x = 2,5, rata-rata y = 4,75
 w = Σ(x − x̄)(y − ȳ) ÷ Σ(x − x̄)² = 9,5 ÷ 5 = 1,9
@@ -88,7 +88,7 @@ print(round(0.6 * gini(5, 1) + 0.4 * gini(1, 3), 3))                       # 0.3
 /* ───────────────────────── 5.3 ───────────────────────── */
 window.LESSONS["5.3"] = {
   title: "Klasterisasi dan PCA",
-  pre: "1.8 jarak, 2.12 PCA", min: 0,
+  pre: "1.8 vektor dan jarak, 2.8 PCA", min: 0,
   why: "Sering data tidak punya label: tidak ada yang memberi tahu mana pelanggan setia, mana jenis sel kanker. Pembelajaran tanpa pengawasan mencari struktur sendiri. K-means mengelompokkan; PCA merangkum banyak kolom menjadi sedikit arah. Keduanya dipakai untuk memahami data sebelum memodelkannya, dan untuk menampilkan embedding AI yang berdimensi ribuan.",
   body: String.raw`
 <h2>K-means: dua langkah yang diulang</h2>
@@ -107,7 +107,7 @@ Putaran 3: tidak ada yang pindah</div>
 <p>Jumlah kuadrat jarak selalu turun ketika k naik (k = banyak titik memberi nol), jadi tidak bisa dipakai langsung. Cara umum: plot terhadap k dan cari "siku" di mana penurunannya melambat, atau pakai skor <b>silhouette</b> yang membandingkan jarak ke kelompok sendiri dan ke kelompok tetangga. Keduanya petunjuk, bukan bukti; struktur kelompok yang dipilih harus masuk akal dalam konteks data.</p>
 
 <h2>PCA, diingat kembali</h2>
-<p>Di 2.12 kita melihat PCA mencari arah sebaran terbesar, yaitu vektor eigen matriks kovarians. Dalam praktik ML, PCA dipakai untuk: memampatkan fitur sebelum model lain, membuang derau di arah bervarians kecil, dan menggambar data berdimensi tinggi di bidang dua dimensi. Untuk gambar, metode nonlinear seperti t-SNE dan UMAP lebih sering dipakai, karena mempertahankan siapa bertetangga dengan siapa, bukan jarak jauh.</p>
+<p>Di 2.8 kita melihat PCA mencari arah sebaran terbesar, yaitu vektor eigen matriks kovarians. Dalam praktik ML, PCA dipakai untuk: memampatkan fitur sebelum model lain, membuang derau di arah bervarians kecil, dan menggambar data berdimensi tinggi di bidang dua dimensi. Untuk gambar, metode nonlinear seperti t-SNE dan UMAP lebih sering dipakai, karena mempertahankan siapa bertetangga dengan siapa, bukan jarak jauh.</p>
 <div class="rule">Klasterisasi selalu menghasilkan kelompok, <mark>bahkan pada data acak tanpa struktur</mark>. Kelompok yang ditemukan perlu dicek kestabilannya, bukan langsung dipercaya.</div>
 
 <h2>Periksa dengan Python</h2>
@@ -129,11 +129,11 @@ print(label, C.round(2).tolist())   # [0 0 1 1 1 1 1] [[1.25, 1.5], [3.9, 5.1]]<
 /* ───────────────────────── 5.4 ───────────────────────── */
 window.LESSONS["5.4"] = {
   title: "Jaringan saraf dan backpropagation",
-  pre: "1.10 neuron, 2.2 aturan rantai, 2.6 matriks, 3.1", min: 0,
+  pre: "0.2 neuron, 1.8 hasil kali titik, 2.2 aturan rantai, 2.6 matriks, 3.1", min: 0,
   why: "Inilah inti deep learning: tumpukan lapis yang masing-masing mengalikan matriks lalu membengkokkan hasilnya, dilatih dengan backpropagation, yaitu aturan rantai yang dihitung dengan cerdas. Setiap model besar, dari pengenal wajah sampai GPT, dilatih dengan algoritma yang sama.",
   body: String.raw`
 <h2>Lapis demi lapis</h2>
-<p>Neuron dari 1.10 menghitung <span class="tx">\mathbf{w}\cdot\mathbf{x} + b</span>. Satu lapis berisi banyak neuron sekaligus, jadi ditulis sebagai perkalian matriks (2.6), lalu setiap hasil dilewatkan <b>fungsi aktivasi</b> φ:</p>
+<p>Neuron dari 0.2 dan 1.8 menghitung <span class="tx">\mathbf{w}\cdot\mathbf{x} + b</span>. Satu lapis berisi banyak neuron sekaligus, jadi ditulis sebagai perkalian matriks (2.6), lalu setiap hasil dilewatkan <b>fungsi aktivasi</b> φ:</p>
 <div class="tx d">\mathbf{h} = \varphi(W\mathbf{x} + \mathbf{b})</div>
 <p>Fungsi aktivasi paling umum adalah <b>ReLU</b>: <span class="tx">\varphi(z) = \max(0, z)</span>. Nilai negatif dipotong jadi nol, nilai positif diteruskan apa adanya.</p>
 <p>Kenapa harus ada pembengkok? Tanpa φ, dua lapis berturut-turut hanya <span class="tx">W_2(W_1\mathbf{x}) = (W_2W_1)\mathbf{x}</span>, tetap satu matriks: setinggi apa pun tumpukannya, model hanya bisa menggambar garis lurus. Dengan φ, Cybenko (1989) dan Hornik dkk. (1989) membuktikan bahwa satu lapis tersembunyi yang cukup lebar bisa mendekati fungsi kontinu apa pun (teorema pendekatan universal).</p>
