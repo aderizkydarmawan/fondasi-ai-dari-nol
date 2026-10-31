@@ -194,11 +194,11 @@ Dibanding harga awal: 50/200 = 0,25</div>
 <pre><code>&gt;&gt;&gt; 1/2 + 1/3
 0.8333333333333333
 &gt;&gt;&gt; 5/6
-0.8333333333333333
+0.8333333333333334
 &gt;&gt;&gt; from fractions import Fraction
 &gt;&gt;&gt; Fraction(1, 2) + Fraction(1, 3)
 Fraction(5, 6)</code></pre>
-<p><code>Fraction</code> membuat Python menghitung pecahan secara persis, tanpa pembulatan desimal.</p>
+<p>Lihat digit terakhirnya: <code>1/2 + 1/3</code> berakhir di 3, sedangkan <code>5/6</code> berakhir di 4. Padahal secara matematika keduanya sama persis. Komputer menyimpan desimal dengan jumlah digit terbatas, jadi pembulatannya bisa berbeda di ujung. <code>Fraction</code> membuat Python menghitung pecahan secara persis, tanpa pembulatan desimal.</p>
 `,
   src: [
     "OpenStax, <i>Prealgebra 2e</i>, Bab 4 “Fractions”, Bab 5 “Decimals”, dan Bab 6 “Percents” (gratis online)."
