@@ -481,8 +481,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
   function heroParticles(cv){
     var cx = cv.getContext('2d'), W, H, P = [], idx = 0, list = ['batu','pasir','kristal','wafer','chip','σ(Wx + b)'], rumus = ['σ(Wx + b)','θ − η∇L','P(A | B)'], putaran = 0, alive = true, t0 = 0,
       cap = cv.parentNode.querySelector('.hstage'),
-      KET = {batu:['1','Batu kuarsa','Silikon yang terkunci bersama oksigen'], pasir:['2','Pasir','Batu dihancurkan menjadi butir'], kristal:['3','Kristal silikon','Dimurnikan hingga 99,9999999% lalu ditumbuhkan menjadi satu kristal utuh'],
-        wafer:['4','Wafer','Kristal diiris setipis kertas dan ratusan chip dicetak sekaligus'], chip:['5','Chip','Miliaran transistor kecil yang menyala dan padam'], rumus:['6','Rumus','Saklar-saklar itu kini menjalankan matematika']};
+      KET = {batu:['1','Batu kuarsa','Silikon yang terkunci bersama oksigen'], pasir:['2','Pasir','Dilebur bersama karbon pada ±1900°C hingga oksigennya lepas dan tersisa silikon 98%'], kristal:['3','Kristal silikon','Dimurnikan hingga 99,9999999% lalu ditumbuhkan menjadi satu kristal utuh'],
+        wafer:['4','Wafer','Kristal diiris setebal kurang dari satu milimeter lalu ratusan chip dicetak sekaligus'], chip:['5','Chip','Miliaran transistor kecil yang menyala dan padam'], rumus:['6','Rumus','Saklar-saklar itu kini menjalankan matematika']};
     var rc = null; addEventListener('scroll', function(){ rc = null; }, {passive:true});
     function size(){ rc = null; var r = cv.getBoundingClientRect(); W = r.width; H = r.height; cv.width = W*dpr; cv.height = H*dpr; }
     function targets(str){
