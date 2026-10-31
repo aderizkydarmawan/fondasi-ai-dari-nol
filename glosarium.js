@@ -39,7 +39,20 @@ window.GLOSARIUM = {
   'korelasi': 'Kovarians yang dibagi kedua simpangan baku, sehingga selalu di antara −1 dan 1.',
   'prior': 'Keyakinan sebelum melihat bukti.',
   'posterior': 'Keyakinan setelah memperhitungkan bukti, dihitung dengan teorema Bayes.',
-  'likelihood': 'Seberapa cocok data yang teramati kalau sebuah hipotesis atau parameter benar.'
+  'likelihood': 'Seberapa cocok data yang teramati kalau sebuah hipotesis atau parameter benar.',
+  'learning rate': 'Ukuran langkah gradient descent: berapa jauh bobot digeser setiap kali.',
+  'loss': 'Angka yang mengukur seberapa salah model. Pelatihan berusaha membuatnya sekecil mungkin.',
+  'mini-batch': 'Segenggam contoh data acak yang dipakai untuk menghitung satu langkah gradien.',
+  'entropi': 'Ketidakpastian rata-rata sebuah distribusi: makin rata peluangnya, makin besar entropinya.',
+  'overfitting': 'Model menghafal data latih termasuk deraunya, sehingga gagal pada data baru.',
+  'kernel': 'Pola angka kecil yang digeser di atas data dalam konvolusi.',
+  'fungsi partisi': 'Z, penjumlah faktor Boltzmann supaya semua peluang berjumlah 1.',
+  'logit': 'Skor mentah sebuah model sebelum diubah menjadi peluang oleh softmax atau sigmoid.',
+  'sigmoid': 'Fungsi 1/(1 + e^(−z)) yang memeras angka berapa pun ke antara 0 dan 1.',
+  'token': 'Potongan teks (kata, bagian kata, atau tanda baca) yang dibaca model bahasa.',
+  'attention': 'Cara setiap token menimbang token lain berdasarkan kecocokan query dan key.',
+  'imbalan': 'Angka yang diterima agen RL setelah bertindak; tanda baik atau buruknya aksi.',
+  'volatilitas': 'Seberapa liar harga bergoyang, diukur sebagai simpangan baku perubahan log harga per tahun.'
 };
 window.glosarium = function(root){
   var G = window.GLOSARIUM, keys = Object.keys(G).sort(function(a, b){ return b.length - a.length; });

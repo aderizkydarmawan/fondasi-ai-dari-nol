@@ -366,10 +366,14 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 <script src="dalam3.js"></script>
 <script src="lapis4.js"></script>
 <script src="dalam4.js"></script>
+<script src="lapis5.js"></script>
+<script src="lapis5b.js"></script>
+<script src="dalam5.js"></script>
 <script src="viz.js"></script>
 <script src="viz2.js"></script>
 <script src="viz3.js"></script>
 <script src="viz4.js"></script>
+<script src="viz5.js"></script>
 <script src="peta.js"></script>
 <script src="cabang.js"></script>
 <script src="rumus.js"></script>
@@ -683,7 +687,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
   }
 
   /* Daftar subjudul di kanan */
-  var FIG = {}; // fig/neuron.html disimpan untuk pelajaran fungsi aktivasi (Lapis 3)
+  var FIG = { "5.4": "fig/neuron.html" };
   addEventListener('message', function(e){ if(e.data && e.data.fig){ var f = document.querySelector('iframe[data-fig="'+e.data.fig+'"]'); if(f) f.style.height = e.data.h+'px'; } });
   function outline(){
     var hs = view.querySelectorAll('h2, .viz'), as = main.querySelector('aside.otl'); if(!as) return;
@@ -816,7 +820,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       '<span class="chap" aria-hidden="true">'+id+'</span>'+
       '<p class="crumb">Pelajaran <b>'+id+'</b></p><h1>'+x.title+'</h1>'+
       '<p class="meta">Prasyarat: '+String(x.pre).replace(/\b(\d+\.\d+)\b/g, function(m){ return L[m] ? '<a href="#'+slug(m)+'">'+m+(isDone(m) ? ' '+ico('check') : '')+'</a>' : m; })+'</p>'+
-      '<div class="why"><b>Kenapa penting untuk AI?</b>'+x.why+'</div>'+ x.body + (FIG[id] ? '<figure class="anat"><iframe src="'+FIG[id]+'" title="Gambar interaktif: neuron sebagai mesin" loading="lazy" data-fig="neuron"></iframe></figure>' : '') +
+      '<div class="why"><b>Kenapa penting untuk AI?</b>'+x.why+'</div>'+ x.body + (FIG[id] ? '<figure class="anat"><iframe src="'+FIG[id]+'" title="Gambar interaktif: neuron sebagai mesin" loading="lazy" scrolling="no" data-fig="neuron"></iframe></figure>' : '') +
       dalam(id) +
       (x.src ? '<div class="src"><ul>'+x.src.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>' : '')+
       '<div class="donebar"><button type="button" class="btn glow" id="doneBtn" aria-pressed="'+dn+'">'+ico('check')+'<span>'+(dn?'Sudah selesai':'Tandai selesai')+'</span></button><small>Tandai setelah lulus Tes kertas kosong. Tersimpan di browser ini.</small></div>'+
