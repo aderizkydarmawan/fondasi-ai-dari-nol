@@ -361,6 +361,9 @@
     }; h._draw();
   };
 
+  /* Alat bantu dibagikan ke viz2.js (widget Lapis 2 ke atas) */
+  window.VIZ = { W: W, Plane: Plane, frame: frame, button: button, el: el, fmt: fmt, heads: heads, draggable: draggable, clamp: clamp, snap: snap };
+
   /* Dipasang oleh index.html sesudah pelajaran ditampilkan */
   window.mountViz = function (root) {
     [].forEach.call(root.querySelectorAll("[data-viz]"), function (host) {

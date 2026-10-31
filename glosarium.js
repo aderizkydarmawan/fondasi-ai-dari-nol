@@ -24,13 +24,28 @@ window.GLOSARIUM = {
   'matriks': 'Tabel angka yang tersusun dalam baris dan kolom.',
   'perkalian titik': 'Kalikan pasangan angka yang seposisi di dua vektor, lalu jumlahkan semuanya.',
   'laju perubahan': 'Seberapa cepat satu besaran berubah ketika besaran lain berubah.',
-  'fungsi aktivasi': 'Fungsi yang diterapkan pada hasil neuron, misalnya ReLU: max(0, z).'
+  'fungsi aktivasi': 'Fungsi yang diterapkan pada hasil neuron, misalnya ReLU: max(0, z).',
+  'limit': 'Nilai yang didekati sebuah ekspresi ketika sesuatu dibuat makin kecil atau makin besar.',
+  'turunan': 'Laju perubahan sesaat: kemiringan garis singgung di satu titik.',
+  'turunan parsial': 'Turunan terhadap satu variabel, sementara variabel lain dianggap tetap.',
+  'gradien': 'Vektor berisi semua turunan parsial. Menunjuk arah naik paling curam.',
+  'integral': 'Jumlah dari potongan-potongan yang sangat kecil; misalnya luas di bawah kurva.',
+  'determinan': 'Angka yang menyatakan berapa kali sebuah matriks mengalikan luas (atau volume).',
+  'nilai eigen': 'Faktor regangan λ pada arah yang tidak dibelokkan matriks: Av = λv.',
+  'vektor eigen': 'Arah yang tidak dibelokkan oleh matriks, hanya diregangkan.',
+  'distribusi': 'Daftar semua nilai yang mungkin beserta peluangnya.',
+  'ekspektasi': 'Rata-rata berbobot peluang: pusat massa sebuah distribusi.',
+  'kovarians': 'Ukuran apakah dua variabel cenderung naik bersama (positif) atau berlawanan (negatif).',
+  'korelasi': 'Kovarians yang dibagi kedua simpangan baku, sehingga selalu di antara −1 dan 1.',
+  'prior': 'Keyakinan sebelum melihat bukti.',
+  'posterior': 'Keyakinan setelah memperhitungkan bukti, dihitung dengan teorema Bayes.',
+  'likelihood': 'Seberapa cocok data yang teramati kalau sebuah hipotesis atau parameter benar.'
 };
 window.glosarium = function(root){
   var G = window.GLOSARIUM, keys = Object.keys(G).sort(function(a, b){ return b.length - a.length; });
   var seen = {}, re = new RegExp('(^|[^\\p{L}])(' + keys.join('|') + ')(?![\\p{L}])', 'iu');
   var walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: function(n){
-    var p = n.parentElement; if(!p || p.closest('pre, code, h1, h2, h3, a, button, .gl, .viz, .ex .q, .src, .meta, figure, .why b')) return NodeFilter.FILTER_REJECT;
+    var p = n.parentElement; if(!p || p.closest('.tx, .katex, pre, code, h1, h2, h3, a, button, .gl, .viz, .ex .q, .src, .meta, figure, .why b')) return NodeFilter.FILTER_REJECT;
     return re.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP; } });
   var nodes = []; while(walk.nextNode()) nodes.push(walk.currentNode);
   nodes.forEach(function(n){

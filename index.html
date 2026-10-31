@@ -143,6 +143,8 @@ table{border-collapse:collapse;font-variant-numeric:tabular-nums lining-nums;fon
 th,td{border-bottom:1px solid var(--line);padding:8px 16px;text-align:center}
 th{font:400 1.1rem var(--f-display);color:var(--ink)}
 .katex{font-size:1.06em;color:inherit}
+.tx.d{display:block;margin:1.1em 0;overflow-x:auto;overflow-y:hidden;padding:.2em 0}
+.tx.d .katex{font-size:1.18em}
 .katex-display{margin:0;overflow-x:auto;overflow-y:hidden}
 mark .katex{font-size:1em}
 .big .katex-display>.katex{font-size:1.25em}
@@ -358,7 +360,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 <script src="lapis0.js"></script>
 <script src="lapis1.js"></script>
 <script src="dalam.js"></script>
+<script src="lapis2.js"></script>
+<script src="dalam2.js"></script>
 <script src="viz.js"></script>
+<script src="viz2.js"></script>
 <script src="peta.js"></script>
 <script src="cabang.js"></script>
 <script src="rumus.js"></script>
@@ -828,7 +833,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     if(window.glosarium) window.glosarium(view);
     outline();
     /* rumus latar diambil dari pelajaran ini, dicampur rumus AI */
-    var own = [].map.call(view.querySelectorAll('.big, .rule mark'), function(e){ return e.textContent.trim(); }).filter(function(t){ return t.length > 2 && t.length < 26 && !/^(Hitung|Cari|Tentukan|Berapa)/.test(t); });
+    var own = [].map.call(view.querySelectorAll('.big, .rule mark'), function(e){ return e.textContent.trim(); }).filter(function(t){ return t.length > 2 && t.length < 26 && t.indexOf('\\') < 0 &&!/^(Hitung|Cari|Tentukan|Berapa)/.test(t); });
     seedF(own.length ? own.concat(own, AI_F.slice(0,4)) : AI_F, lessonEdge());
     texify(view);
   }
@@ -838,8 +843,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
   function tex(s, disp){ return window.katex.renderToString(s, {displayMode:!!disp, throwOnError:false, strict:false}); }
   function texify(root){
     var R = window.RUMUS;
-    if(!R) return;
     if(!window.katex){ loadKatex().then(function(){ texify(root); }); return; }
+    [].forEach.call(root.querySelectorAll('.tx'), function(el){ if(el.dataset.tex) return; el.dataset.tex = el.textContent; el.innerHTML = tex(el.textContent, el.classList.contains('d')); });
+    if(!R) return;
     [].forEach.call(root.querySelectorAll('mark, .big'), function(el){
       var k = el.innerHTML.replace(/<br\s*\/?>/g, '\n').replace(/<[^>]+>/g, '');
       var t = document.createElement('textarea'); t.innerHTML = k; k = t.value;
