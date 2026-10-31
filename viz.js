@@ -93,7 +93,7 @@
     function tag() {
       [].forEach.call(svg.querySelectorAll(".handle"), function (c, i) {
         c.setAttribute("tabindex", "0"); c.setAttribute("role", "slider");
-        var q = getPts()[i]; if (q) c.setAttribute("aria-label", "Titik " + (i + 1) + " di (" + q[0] + ", " + q[1] + "), geser dengan panah");
+        var q = getPts()[i]; if (q) { c.setAttribute("aria-label", "Titik " + (i + 1) + ", geser dengan panah"); c.setAttribute("aria-valuenow", q[0]); c.setAttribute("aria-valuetext", "(" + q[0] + ", " + q[1] + ")"); }
         if (i === kf && document.activeElement !== c) c.focus();
       });
     }
