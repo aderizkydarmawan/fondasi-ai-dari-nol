@@ -16,8 +16,10 @@
       iy: function (py) { return o.y0 + (H - P - py) / (H - 2 * P) * (o.y1 - o.y0); },
       W: W, H: H, o: o
     };
+    var cid = "clip" + Math.random().toString(36).slice(2, 8);
     p.clear = function () {
       svg.innerHTML = "";
+      el("rect", { x: P, y: P, width: W - 2 * P, height: H - 2 * P }, el("clipPath", { id: cid }, el("defs", {}, svg)));
       var g = el("g", { "class": "grid" }, svg), sx = o.sx || 1, sy = o.sy || 1, x, y;
       for (x = Math.ceil(o.x0 / sx) * sx; x <= o.x1 + 1e-9; x += sx) el("line", { x1: p.X(x), x2: p.X(x), y1: p.Y(o.y0), y2: p.Y(o.y1) }, g);
       for (y = Math.ceil(o.y0 / sy) * sy; y <= o.y1 + 1e-9; y += sy) el("line", { y1: p.Y(y), y2: p.Y(y), x1: p.X(o.x0), x2: p.X(o.x1) }, g);
@@ -38,7 +40,7 @@
         if (!isFinite(y) || y < o.y0 - (o.y1 - o.y0) || y > o.y1 + (o.y1 - o.y0)) { pen = false; continue; }
         d += (pen ? "L" : "M") + p.X(x).toFixed(1) + " " + p.Y(y).toFixed(1); pen = true;
       }
-      return el("path", { d: d, "class": cls || "s1 line" }, svg);
+      return el("path", { d: d, "class": cls || "s1 line", "clip-path": "url(#" + cid + ")" }, svg);
     };
     p.seg = function (x1, y1, x2, y2, cls) { return el("line", { x1: p.X(x1), y1: p.Y(y1), x2: p.X(x2), y2: p.Y(y2), "class": cls || "s1 line" }, svg); };
     p.dot = function (x, y, cls, r) { return el("circle", { cx: p.X(x), cy: p.Y(y), r: r || 6, "class": cls || "s1 dot" }, svg); };
@@ -100,7 +102,7 @@
       var a = f.vals.a, b = f.vals.b; p.clear(); heads(f.svg);
       p.dot(a, 0, "ink dot", 5); p.text(a, 0.35, "mulai " + fmt(a, 0), "lbl", "middle");
       if (b !== 0) p.arrow(a, 0.75, a + b, 0.75, "s1");
-      p.dot(a + b, 0, "s1 dot"); p.text(a + b, -0.62, "hasil " + fmt(a + b, 0), "lbl s1t", "middle");
+      p.dot(a + b, 0, "s1 dot"); p.text(a + b, 1.08, "hasil " + fmt(a + b, 0), "lbl s1t", "middle");
       f.out.innerHTML = fmt(a, 0) + " + (" + fmt(b, 0) + ") = <b>" + fmt(a + b, 0) + "</b>. " + (b < 0 ? "Menambah bilangan negatif sama dengan berjalan ke kiri." : b > 0 ? "Menambah bilangan positif berarti berjalan ke kanan." : "Menambah nol: tidak bergerak.");
     }; h._draw();
   };

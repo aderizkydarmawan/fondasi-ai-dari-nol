@@ -5,7 +5,7 @@
     {lab:'Bab 1 · Aljabar', h:'Titik-titik mencari <em>garis</em>', p:'Data berserakan, lalu satu garis y = mx + b merangkum polanya. Inilah regresi linear, model paling sederhana dalam AI.', href:'#p1-1', go:'Mulai di Lapis 1', col:[127,216,242]},
     {lab:'Bab 2 · Statistika', h:'Ketidakpastian punya <em>bentuk</em>', p:'Banyak hal acak menumpuk menjadi kurva lonceng. Distribusi normal adalah cara AI bicara soal “mungkin”.', href:'#peta', go:'Lihat di peta (Lapis 2)', col:[201,184,255]},
     {lab:'Bab 3 · Jaringan saraf', h:'Neuron kecil, <em>jaringan</em> besar', p:'Setiap neuron hanya menghitung σ(Wx + b). Disusun berlapis-lapis, mereka bisa mengenali wajah dan menulis kalimat.', href:'#peta', go:'Lihat di peta (Lapis 3)', col:[127,216,242], col2:[201,184,255]},
-    {lab:'Bab 4 · Belajar', h:'Bola yang menggelinding ke <em>dasar</em>', p:'Model belajar dengan menuruni lembah galat, selangkah demi selangkah: θ − η∇L. Itulah gradient descent.', href:'#peta', go:'Lihat di peta (Lapis 3)', col:[201,184,255], col2:[255,210,140]}
+    {lab:'Bab 4 · Belajar', h:'Menggelinding ke <em>dasar</em>', p:'Model belajar dengan menuruni lembah galat, selangkah demi selangkah: θ − η∇L. Itulah gradient descent.', href:'#peta', go:'Lihat di peta (Lapis 3)', col:[201,184,255], col2:[255,210,140]}
   ];
   function rnd(a){ return (Math.random()-.5)*a; }
   function shapes(){
