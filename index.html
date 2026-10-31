@@ -672,7 +672,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
   }
 
   /* Daftar subjudul di kanan */
-  var FIG = {'0.2':'fig/neuron.html'};
+  var FIG = {}; // fig/neuron.html disimpan untuk pelajaran fungsi aktivasi (Lapis 3)
   addEventListener('message', function(e){ if(e.data && e.data.fig){ var f = document.querySelector('iframe[data-fig="'+e.data.fig+'"]'); if(f) f.style.height = e.data.h+'px'; } });
   function outline(){
     var hs = view.querySelectorAll('h2, .viz'), as = main.querySelector('aside.otl'); if(!as) return;

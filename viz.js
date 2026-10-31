@@ -133,7 +133,7 @@
       var w = f.vals.w, x = f.vals.x, b = f.vals.b, y = w * x + b; p.clear();
       p.curve(function (t) { return w * t + b; }, "s1 line");
       p.seg(x, 0, x, y, "guide"); p.dot(x, y, "s1 dot"); p.text(x, y, "  (" + fmt(x, 0) + ", " + fmt(y) + ")", "lbl");
-      f.out.innerHTML = "Langkah 1, kali: " + fmt(w) + " × " + fmt(x, 0) + " = " + fmt(w * x) + ". Langkah 2, tambah: " + fmt(w * x) + " + " + fmt(b, 0) + " = <b>" + fmt(y) + "</b>. Kalau urutannya dibalik, (w × (x + b)) = " + fmt(w * (x + b)) + ", hasilnya berbeda. Garis biru menunjukkan output neuron untuk semua x.";
+      f.out.innerHTML = "Langkah 1, kali: " + fmt(w) + " × " + fmt(x, 0) + " = " + fmt(w * x) + ". Langkah 2, tambah: " + fmt(w * x) + " + " + fmt(b, 0) + " = <b>" + fmt(y) + "</b>. Kalau urutannya dibalik, (w × (x + b)) = " + fmt(w * (x + b)) + ", hasilnya berbeda. Garis ungu menunjukkan output neuron untuk semua x.";
     }; h._draw();
   };
 
@@ -203,7 +203,7 @@
 
   /* 0.7 dan 2.1: garis potong menjadi garis singgung */
   W.secant = function (h) {
-    var f = frame(h, "Posisi bola s(t) = t². Kecilkan selang h dan lihat kemiringan garis oranye", [{ id: "h", label: "selang h", min: 0.01, max: 2, step: 0.01, v: 1 }]);
+    var f = frame(h, "Posisi bola s(t) = t². Kecilkan selang h dan lihat kemiringan garis biru muda", [{ id: "h", label: "selang h", min: 0.01, max: 2, step: 0.01, v: 1 }]);
     var p = Plane(f.svg, { x0: 0, x1: 4.5, y0: 0, y1: 18, sx: 0.5, sy: 2, lx: 1, ly: 4 });
     h._draw = function () {
       var hh = f.vals.h, t = 2, m = ((t + hh) * (t + hh) - t * t) / hh; p.clear();
@@ -225,7 +225,7 @@
       p.curve(function (t) { return 3 * t + 12; }, "s2 line dash");
       p.curve(function (t) { return 3 * t + 4; }, "faint line");
       p.dot(x, 3 * (x + 4), "s1 dot"); p.text(-4.8, 3 * -0.2 + 6, "salah: 3x + 4", "lbl faintt");
-      f.out.innerHTML = "3(x + 4) = " + fmt(3 * (x + 4)) + " dan 3x + 12 = " + fmt(3 * x + 12) + ": <b>selalu sama</b> (garis biru dan oranye putus-putus berimpit). Kesalahan umum 3x + 4 = " + fmt(3 * x + 4) + " memberi garis lain (abu-abu).";
+      f.out.innerHTML = "3(x + 4) = " + fmt(3 * (x + 4)) + " dan 3x + 12 = " + fmt(3 * x + 12) + ": <b>selalu sama</b> (garis ungu dan biru muda putus-putus berimpit). Kesalahan umum 3x + 4 = " + fmt(3 * x + 4) + " memberi garis lain (abu-abu).";
     }; h._draw();
   };
 
@@ -237,7 +237,7 @@
       var c1 = f.vals.c1, c2 = f.vals.c2, x = (c1 + c2) / 2, y = (c1 - c2) / 2; p.clear();
       p.curve(function (t) { return c1 - t; }, "s1 line"); p.curve(function (t) { return t - c2; }, "s2 line dash");
       p.dot(x, y, "ink dot", 7); p.text(x + 0.3, y + 0.6, "(" + fmt(x) + ", " + fmt(y) + ")", "lbl");
-      f.out.innerHTML = "Jumlahkan kedua persamaan: 2x = " + (c1 + c2) + ", jadi x = " + fmt(x) + ". Lalu y = " + c1 + " − " + fmt(x) + " = " + fmt(y) + ". Titik potongnya <b>(" + fmt(x) + ", " + fmt(y) + ")</b>. Setiap titik di garis biru memenuhi persamaan pertama; hanya titik potong yang memenuhi keduanya.";
+      f.out.innerHTML = "Jumlahkan kedua persamaan: 2x = " + (c1 + c2) + ", jadi x = " + fmt(x) + ". Lalu y = " + c1 + " − " + fmt(x) + " = " + fmt(y) + ". Titik potongnya <b>(" + fmt(x) + ", " + fmt(y) + ")</b>. Setiap titik di garis ungu memenuhi persamaan pertama; hanya titik potong yang memenuhi keduanya.";
     }; h._draw();
   };
 
@@ -299,7 +299,7 @@
       D.forEach(function (x, i) { p.dot(x, 0.5 + 0.28 * i, "s1 dot handle", 9); });
       el("path", { d: "M" + p.X(m) + " " + (p.Y(0) + 2) + " l-11 20 l22 0 z", "class": "ink fill" }, f.svg);
       p.text(m, -1.25, "x̄ = " + fmt(m), "lbl", "middle");
-      f.out.innerHTML = "Data: [" + D.map(function (v) { return fmt(v, 1); }).join("; ") + "]. Rata-rata = " + fmt(m) + ". Jumlah selisih (xᵢ − x̄) = <b>" + fmt(s, 6) + "</b>: biru (di kanan) dan oranye (di kiri) selalu saling menghapus.";
+      f.out.innerHTML = "Data: [" + D.map(function (v) { return fmt(v, 1); }).join("; ") + "]. Rata-rata = " + fmt(m) + ". Jumlah selisih (xᵢ − x̄) = <b>" + fmt(s, 6) + "</b>: ungu (di kanan) dan biru muda (di kiri) selalu saling menghapus.";
     };
     draggable(f.svg, p, function () { return D.map(function (x, i) { return [x, 0.5 + 0.28 * i]; }); }, function (i, v) { D[i] = clamp(snap(v[0], 0.5), 0, 12); h._draw(); });
     h._draw();
@@ -338,7 +338,7 @@
       p.arrow(0, 0, U[0], U[1], "s1"); p.arrow(0, 0, V[0], V[1], "ink");
       p.dot(U[0], U[1], "s1 dot handle", 9); p.dot(V[0], V[1], "ink dot handle", 9);
       p.text(U[0] + 0.25, U[1] - 0.2, "u", "lbl s1t"); p.text(V[0] + 0.25, V[1] + 0.2, "v", "lbl");
-      f.out.innerHTML = "u = [" + U.join(", ") + "], v = [" + V.join(", ") + "]. u · v = " + U[0] + "·" + V[0] + " + " + U[1] + "·" + V[1] + " = <b>" + d + "</b>. Sudut ≈ " + fmt(ang, 1) + "°, cos θ = " + fmt(c, 3) + ". " + (d > 0 ? "Positif: searah." : d < 0 ? "Negatif: berlawanan arah." : "Nol: tegak lurus.") + " Garis oranye tebal adalah bayangan v di arah u.";
+      f.out.innerHTML = "u = [" + U.join(", ") + "], v = [" + V.join(", ") + "]. u · v = " + U[0] + "·" + V[0] + " + " + U[1] + "·" + V[1] + " = <b>" + d + "</b>. Sudut ≈ " + fmt(ang, 1) + "°, cos θ = " + fmt(c, 3) + ". " + (d > 0 ? "Positif: searah." : d < 0 ? "Negatif: berlawanan arah." : "Nol: tegak lurus.") + " Garis biru muda tebal adalah bayangan v di arah u.";
     };
     draggable(f.svg, p, function () { return [U, V]; }, function (i, v) { var q = [clamp(snap(v[0], 1), -5, 5), clamp(snap(v[1], 1), -5, 5)]; if (i === 0) U = q; else V = q; h._draw(); });
     h._draw();
