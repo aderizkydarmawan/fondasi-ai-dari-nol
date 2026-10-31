@@ -139,12 +139,14 @@ Rentang 95% (dari tabel atau komputer): 0,39 sampai 0,89</div>
 <p>Mencari puncak posterior (disebut MAP) dengan prior normal di sekitar nol pada bobot sama dengan meminimalkan loss ditambah <span class="tx">\lambda\sum w^2</span>. Itulah <b>weight decay</b> atau regularisasi L2 yang dipakai hampir di semua pelatihan. Prior Laplace memberi regularisasi L1 (lasso), yang mendorong banyak bobot jadi tepat nol. Teknik praktis seperti dropout bahkan bisa ditafsirkan sebagai inferensi Bayes perkiraan (Gal &amp; Ghahramani, 2016).</p>
 
 <h2>Periksa dengan Python</h2>
-<pre><code>from scipy import stats
+<pre><code>import numpy as np
 a, b, h, t = 1, 1, 7, 3
-post = stats.beta(a + h, b + t)
-print(round(post.mean(), 3))              # 0.667
-print(post.ppf([0.025, 0.975]).round(2))  # [0.39 0.89]
-print(round((10 + h) / (20 + h + t), 3))  # 0.567</code></pre>
+p = np.linspace(0, 1, 100001)                       # kisi nilai p yang rapat
+post = p**(a + h - 1) * (1 - p)**(b + t - 1)        # prior × likelihood
+post /= post.sum()                                  # normalkan: jumlah 1
+print(round((p * post).sum(), 3))                   # 0.667
+print(p[np.searchsorted(post.cumsum(), [0.025, 0.975])].round(2))   # [0.39 0.89]
+print(round((10 + h) / (20 + h + t), 3))            # 0.567</code></pre>
 `,
   src: [
     "McElreath, <i>Statistical Rethinking</i>, Bab 2 (§2.1 “The garden of forking data”, §2.2 “Building a model”) dan Bab 3. Lokal; video kuliahnya di repo lokal <code>rmcelreath__stat_rethinking_2024</code>.",

@@ -674,8 +674,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       var out = null;
       rb.querySelector('button').addEventListener('click', function(){
         var b = this, t = b.querySelector('span'); b.disabled = true; t.textContent = 'Memuat Python…';
-        loadPy().then(function(py){
-          var buf = [];
+        var run = /\bnp\./.test(src) && !/import numpy/.test(src) ? 'import numpy as np\n' + src : src;
+        loadPy().then(function(py){ return py.loadPackagesFromImports(run).then(function(){ return py; }); }).then(function(py){
+          var buf = [], src = run;
           py.setStdout({batched:function(x){buf.push(x);}}); py.setStderr({batched:function(x){buf.push(x);}});
           try { py.runPython(src); } catch(e){ buf.push(String(e.message||e).split('\n').slice(-3).join('\n')); }
           if(!out){ out = document.createElement('pre'); out.className = 'hasil'; rb.after(out); }

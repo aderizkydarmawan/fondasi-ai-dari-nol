@@ -10,6 +10,14 @@ for f in sys.argv[1:]:
         if m.group(1): lid = m.group(1); n = 0; continue
         n += 1
         code = html.unescape(re.sub(r"<[^>]+>", "", m.group(2)))
+        if code.lstrip().startswith(">>>"):  # gaya REPL: dicek dengan doctest
+            import doctest
+            t = doctest.DocTestParser().get_doctest(code, {}, f"{lid}#{n}", f, 0)
+            r = doctest.DocTestRunner(optionflags=doctest.NORMALIZE_WHITESPACE)
+            out = io.StringIO(); r.run(t, out=out.write)
+            if r.failures: bad += 1; print(f"BEDA {f} {lid}#{n} (REPL)\n" + out.getvalue())
+            else: print(f"ok {lid}#{n} (REPL, {r.tries} perintah)")
+            continue
         want = []
         for line in code.split("\n"):
             st = line.strip()
