@@ -88,6 +88,24 @@
     svg.addEventListener("pointermove", function (e) { if (active < 0) return; onMove(active, loc(e)); });
     svg.addEventListener("pointerup", function () { active = -1; });
     svg.style.touchAction = "none";
+    /* keyboard: Tab ke titik, panah menggeser satu langkah */
+    var kf = -1;
+    function tag() {
+      [].forEach.call(svg.querySelectorAll(".handle"), function (c, i) {
+        c.setAttribute("tabindex", "0"); c.setAttribute("role", "slider");
+        var q = getPts()[i]; if (q) c.setAttribute("aria-label", "Titik " + (i + 1) + " di (" + q[0] + ", " + q[1] + "), geser dengan panah");
+        if (i === kf && document.activeElement !== c) c.focus();
+      });
+    }
+    new MutationObserver(tag).observe(svg, { childList: true }); tag();
+    svg.addEventListener("keydown", function (e) {
+      var hs = [].slice.call(svg.querySelectorAll(".handle")), i = hs.indexOf(e.target);
+      var d = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] }[e.key];
+      if (i < 0 || !d) return; e.preventDefault();
+      var q = getPts()[i], st = e.shiftKey ? 0.5 : 1;
+      kf = i; onMove(i, [q[0] + d[0] * st, q[1] + d[1] * st]);
+    });
+    svg.addEventListener("focusout", function () { setTimeout(function () { if (!svg.contains(document.activeElement)) kf = -1; }); });
   }
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
   function snap(v, s) { return Math.round(v / s) * s; }

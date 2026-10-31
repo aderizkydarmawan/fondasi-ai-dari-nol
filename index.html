@@ -117,6 +117,10 @@ article b,article strong{color:var(--ink);font-weight:600}
 .ex .q{font-weight:600;color:var(--ink)}
 .ex .step{font-family:var(--f-body);white-space:pre-wrap;line-height:1.8;margin:.5em 0;overflow-x:auto;color:var(--text);font-variant-numeric:tabular-nums lining-nums}
 .ex .ans{font-style:italic;color:var(--cyan)}
+.ex details.answ summary{cursor:pointer;color:var(--accent);font:italic 400 1rem var(--f-body);min-height:24px;display:inline-flex;align-items:center}
+.ex details.answ summary:focus-visible,.mi .cablink:focus-visible,.viz .handle:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.skip{position:absolute;left:12px;top:-60px;z-index:999;background:var(--accent);color:var(--bg);padding:8px 14px;text-decoration:none}
+.skip:focus{top:12px}
 .box.salah::before{content:"Kesalahan yang sering terjadi";color:var(--warn)}
 .box.ringkas::before{content:"Ringkasan"}
 .box.uji::before{content:"Tes kertas kosong";color:var(--cyan)}
@@ -282,7 +286,7 @@ details.mod .ai{border-left:1px solid var(--accent-line);padding:4px 14px;margin
 .k-M{--kc:#c9b8ff}.k-S{--kc:#7fd8f2}.k-F{--kc:#f2c48a}.k-K{--kc:#f29a8a}.k-B{--kc:#9fe0b5}.k-C{--kc:#a69cbd}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.95rem;color:var(--muted);margin:.6em 0 1.8em}
 .legend i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--kc);margin-right:7px}
-.mi .cablink{display:inline-flex;align-items:center;gap:6px;margin:8px 0 0;font:italic 400 1rem var(--f-body);color:var(--accent);cursor:pointer;background:none;border:0;padding:0}
+.mi .cablink{display:inline-flex;align-items:center;gap:6px;margin:8px 0 0;font:italic 400 1rem var(--f-body);color:var(--accent);cursor:pointer;background:none;border:0;padding:0;min-height:28px}
 .mi .cablink:hover{text-decoration:underline}
 
 a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
@@ -325,6 +329,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 </style>
 </head>
 <body>
+<a class="skip" href="#view">Lewati ke isi</a>
 <canvas id="bgf" aria-hidden="true"></canvas>
 <div id="glowbg" aria-hidden="true"></div>
 <div id="prog" aria-hidden="true"></div>
@@ -478,7 +483,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       cap = cv.parentNode.querySelector('.hstage'),
       KET = {batu:['1','Batu kuarsa','Silikon yang terkunci bersama oksigen'], pasir:['2','Pasir','Batu dihancurkan menjadi butir'], kristal:['3','Kristal silikon','Dimurnikan hingga 99,9999999% lalu ditumbuhkan menjadi satu kristal utuh'],
         wafer:['4','Wafer','Kristal diiris setipis kertas dan ratusan chip dicetak sekaligus'], chip:['5','Chip','Miliaran transistor kecil yang menyala dan padam'], rumus:['6','Rumus','Saklar-saklar itu kini menjalankan matematika']};
-    function size(){ var r = cv.getBoundingClientRect(); W = r.width; H = r.height; cv.width = W*dpr; cv.height = H*dpr; }
+    var rc = null; addEventListener('scroll', function(){ rc = null; }, {passive:true});
+    function size(){ rc = null; var r = cv.getBoundingClientRect(); W = r.width; H = r.height; cv.width = W*dpr; cv.height = H*dpr; }
     function targets(str){
       var wide = W > 900, cx0 = wide ? W*.74 : W*.5, cy0 = wide ? H*.5 : 72 + Math.min(W*.24, H*.09), R = (wide ? Math.min(W*.2, H*.3) : Math.min(W*.24, H*.09)), pts = [], i, j;
       var dots = function(x1, y1, x2, y2, gap){ var n = Math.max(1, Math.round(Math.hypot(x2-x1, y2-y1)/gap)); for(var q=0;q<=n;q++) pts.push([x1 + (x2-x1)*q/n, y1 + (y2-y1)*q/n]); };
@@ -558,7 +564,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       if(!alive) return;
       if(!t0 || tm - t0 > 5200){ t0 = tm; morph(); }
       cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,W,H);
-      var r = cv.getBoundingClientRect(), mx = mouse.x - r.left, my = mouse.y - r.top;
+      var r = rc || (rc = cv.getBoundingClientRect()), mx = mouse.x - r.left, my = mouse.y - r.top;
       P.forEach(function(p){
         var ax = (p.tx - p.x)*.035, ay = (p.ty - p.y)*.035;
         var dx = p.x - mx, dy = p.y - my, dd = dx*dx + dy*dy;
@@ -806,6 +812,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     });
     if(window.mountViz) window.mountViz(view);
     addRunners(view);
+    [].forEach.call(view.querySelectorAll('.ex .ans'), function(a){
+      var d = document.createElement('details'); d.className = 'answ';
+      d.innerHTML = '<summary>Lihat jawaban</summary>'; a.parentNode.insertBefore(d, a); d.appendChild(a);
+    });
     outline();
     /* rumus latar diambil dari pelajaran ini, dicampur rumus AI */
     var own = [].map.call(view.querySelectorAll('.big, .rule mark'), function(e){ return e.textContent.trim(); }).filter(function(t){ return t.length > 2 && t.length < 26 && !/^(Hitung|Cari|Tentukan|Berapa)/.test(t); });
