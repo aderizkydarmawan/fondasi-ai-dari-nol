@@ -219,7 +219,7 @@ print(m * 5 + b)     # 11.0  (tebakan y saat x = 5)</code></pre>
 window.LESSONS["1.5"] = {
   title: "Kuadrat, eksponen, dan logaritma",
   pre: "0.4 pangkat dan akar, 1.3", min: 0,
-  why: "Kuadrat muncul di fungsi kesalahan (selisih dikuadratkan). Eksponen e^x ada di softmax, yang mengubah skor jadi peluang di setiap chatbot. Logaritma ada di cross-entropy, fungsi kesalahan hampir semua classifier dan LLM. Tiga fungsi ini muncul di hampir setiap halaman paper AI.",
+  why: "Kuadrat muncul di fungsi kesalahan (selisih dikuadratkan). Eksponen e^x ada di softmax, yang mengubah skor jadi peluang di setiap chatbot. Logaritma ada di cross-entropy, fungsi kesalahan hampir semua classifier (model penebak kategori, misalnya kucing atau anjing) dan LLM (large language model seperti ChatGPT). Tiga fungsi ini muncul di hampir setiap halaman makalah riset AI.",
   body: `
 <h2>Kuadrat: hukuman yang makin berat</h2>
 <p>Fungsi x² kamu lihat di 1.3 berbentuk U. Sifat pentingnya: hasilnya <b>tidak pernah negatif</b>, dan tumbuh makin cepat. Salah 1 → hukuman 1. Salah 2 → hukuman 4. Salah 10 → hukuman 100.</p>
@@ -345,7 +345,7 @@ print(sum(w*v for w, v in zip(bobot, nilai)) / sum(bobot))  # 82.0</code></pre>
 window.LESSONS["1.7"] = {
   title: "Varians dan simpangan baku",
   pre: "1.6", min: 0,
-  why: "Rata-rata saja menyembunyikan banyak hal. Varians mengukur seberapa menyebar data. Di AI, data hampir selalu dinormalkan pakai rata-rata dan simpangan baku sebelum masuk model, dan BatchNorm serta LayerNorm melakukan hal yang sama di dalam jaringan. Ketidakpastian prediksi juga diukur dengan varians.",
+  why: "Rata-rata saja menyembunyikan banyak hal. Varians mengukur seberapa menyebar data. Di AI, data hampir selalu dinormalkan pakai rata-rata dan simpangan baku sebelum masuk model, dan lapisan penormal di dalam jaringan (namanya BatchNorm dan LayerNorm) melakukan hal yang sama. Ketidakpastian prediksi juga diukur dengan varians.",
   body: `
 <h2>Rata-rata sama, cerita berbeda</h2>
 <p>Dua kelas, masing-masing tiga siswa:</p>

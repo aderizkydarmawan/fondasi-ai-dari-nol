@@ -105,7 +105,7 @@
     h._draw = function () {
       var l = f.vals.l, fg = f.vals.fg; p.clear();
       p.curve(function (t) { return t * Math.log10(l); }, "s1 line"); p.curve(function (t) { return t * Math.log10(fg); }, "s2 line");
-      p.seg(0, -2, 100, -2, "guide"); p.text(99, -1.7, "1%", "lbl", "end");
+      p.seg(0, -2, 100, -2, "guide"); p.text(98, -2.7, "1%", "lbl", "end");
       var n1 = l < 1 ? Math.ceil(-2 / Math.log10(l)) : null, n2 = fg < 1 ? Math.ceil(-2 / Math.log10(fg)) : null;
       f.out.innerHTML = "RNN: setelah 50 langkah gradien dikali <b>" + (Math.pow(l, 50) < 1e-3 || Math.pow(l, 50) > 1e3 ? Math.pow(l, 50).toExponential(1).replace(".", ",") : fmt(Math.pow(l, 50), 3)) + "</b>" + (l > 1 ? ": <b>meledak</b>." : n1 ? "; turun di bawah 1% setelah " + n1 + " langkah." : ".") + " LSTM dengan f = " + fmt(fg, 2) + ": " + (n2 ? "di bawah 1% setelah " + n2 + " langkah." : "tidak melemah sama sekali.") + " Forget gate dipelajari, jadi jaringan bisa memilih f ≈ 1 untuk informasi yang perlu diingat lama.";
     }; h._draw();

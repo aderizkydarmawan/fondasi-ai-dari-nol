@@ -37,7 +37,7 @@
   }
   /* Rumus yang ditulis sebagai teks biasa (dalam <mark>): huruf tunggal, huruf Yunani, dan lambang. */
   var SUP = { "ᵢ": "i", "ⱼ": "j", "ₙ": "n", "ₖ": "k", "ₜ": "t", "ₓ": "x", "ⁿ": "n", "ᵐ": "m", "ˣ": "x", "ᵏ": "k", "ᵗ": "t", "ʸ": "y", "ᶻ": "z", "ᵃ": "a", "ᵇ": "b", "ᵀ": "ᵀ" };
-  var WORD = { log: 1, ln: 1, exp: 1, max: 1, min: 1, cos: 1, sin: 1, tanh: 1, lim: 1, det: 1, Var: 1, Cov: 1, KL: 1 };
+  var WORD = { log: 1, ln: 1, exp: 1, max: 1, min: 1, cos: 1, sin: 1, tanh: 1, lim: 1, det: 1, Var: 1, Cov: 1, KL: 1, TP: 1, FP: 1, FN: 1, TN: 1 };
   function tokensPlain(txt, formula) {
     var out = [], seen = {};
     function add(t) { if (!seen[t]) { seen[t] = 1; out.push(t); } }

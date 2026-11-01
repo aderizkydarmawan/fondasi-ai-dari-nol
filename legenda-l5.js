@@ -1,6 +1,7 @@
 /* Arti simbol rumus Lapis 5, per pelajaran. */
 Object.assign(window.LEGENDA, {
 "5.1": {
+ "TP": "true positive: ditebak ya, memang ya", "FP": "false positive: ditebak ya, ternyata tidak (alarm palsu)", "FN": "false negative: memang ya, tapi terlewat",
  "X": "tabel data: satu baris per contoh, satu kolom per fitur",
  "y": "nilai asli: angka bebas di regresi linear, 0 atau 1 di regresi logistik; ȳ = rata-ratanya, ŷ = tebakan model",
  "w": "bobot: seberapa penting tiap fitur input",
@@ -42,7 +43,7 @@ Object.assign(window.LEGENDA, {
  "b": "vektor bias",
  "c": "sel memori LSTM; c̃ = calon isi baru",
  "f": "forget gate: berapa banyak memori lama disimpan",
- "i": "gerbang input: berapa banyak isi baru dimasukkan"
+ "i": "input gate: berapa banyak isi baru dimasukkan"
 },
 "5.7": {
  "n": "panjang urutan: banyak token",

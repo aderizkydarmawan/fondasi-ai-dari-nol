@@ -32,6 +32,10 @@ Langkah 3: w = 1,08 − 0,1 · 2(1,08 − 3) = 1,464</div>
 <li>η = 1,1: jarak dikali −1,2. Makin jauh setiap langkah. Setelah 20 langkah w ≈ −112.</li></ul>
 <div class="rule">Learning rate terlalu kecil: pelatihan lambat. Terlalu besar: <mark>loss meledak</mark>. Batas amannya ditentukan oleh kelengkungan lembah yang paling tajam.</div>
 
+<h2>Lembah palsu dan titik pelana</h2>
+<p>Gradient descent hanya tahu arah turun di tempatnya berdiri. Kalau lanskap loss berbentuk satu mangkuk (cembung, 5.1), semua jalan turun berakhir di dasar yang sama. Lanskap jaringan saraf tidak begitu. Ada <b>minimum lokal</b>: lembah kecil yang bukan lembah terdalam, tempat gradien nol tapi loss belum serendah mungkin. Ada juga <b>titik pelana</b>: gradien nol, tapi ke satu arah tanahnya naik dan ke arah lain turun, seperti pelana kuda. Turunan kedua (2.1) membedakannya: positif ke semua arah berarti lembah, negatif ke semua arah berarti puncak, campuran berarti pelana.</p>
+<p>Contoh pelana: f(x, y) = x² − y². Di titik (0, 0) kedua turunan parsialnya (2.3) nol. Ke arah x, turunan keduanya +2 (naik seperti lembah); ke arah y, −2 (turun seperti bukit). Goodfellow dkk. (§8.2) mencatat bahwa di ruang berdimensi tinggi, minimum lokal justru jarang dan titik pelana jauh lebih sering.</p>
+
 <h2>SGD: gradien dari segenggam data</h2>
 <p>Loss sebenarnya adalah rata-rata atas seluruh training data, yang bisa berisi jutaan contoh. Menghitung gradien penuh untuk satu langkah terlalu mahal. <b>Stochastic gradient descent</b> (SGD) memakai gradien dari satu <b>mini-batch</b> acak, misalnya 64 contoh. Gradien itu bergoyang, tapi ekspektasinya sama dengan gradien penuh (2.10). Robbins &amp; Monro (1951) membuktikan cara seperti ini tetap sampai ke tujuan kalau langkahnya mengecil dengan tepat.</p>
 <p>Goyangan itu bahkan sering membantu: ia mendorong model keluar dari lekukan kecil dan dataran yang buruk.</p>
@@ -63,6 +67,7 @@ for lr in (0.1, 1.1):
 # 1.1 -112.01</code></pre>
 `,
   src: [
+    "Goodfellow, Bengio & Courville, <i>Deep Learning</i>, §8.2.2 “Local Minima” dan §8.2.3 “Plateaus, Saddle Points and Other Flat Regions”. Lokal.",
     "Goodfellow, Bengio & Courville, <i>Deep Learning</i>, §8.3 “Basic Algorithms” (SGD, momentum) dan §8.5 “Algorithms with Adaptive Learning Rates”. Lokal.",
     "Robbins & Monro (1951), “A stochastic approximation method”; Polyak (1964), metode heavy-ball (momentum). Lokal.",
     "Kingma & Ba (2015), “Adam: A Method for Stochastic Optimization”, <i>ICLR</i>; Loshchilov & Hutter (2019), “Decoupled Weight Decay Regularization” (AdamW), <i>ICLR</i>. Lokal.",
@@ -96,7 +101,7 @@ window.LESSONS["3.2"] = {
 <h2>MLE melahirkan loss yang kamu kenal</h2>
 <ul><li><b>Data kontinu dengan noise normal.</b> Kalau <span class="tx">y = f_\theta(x) + \text{noise}</span> dan noise berdistribusi normal, NLL-nya sama dengan jumlah kuadrat selisih ditambah konstanta. Jadi <b>mean squared error</b> adalah MLE untuk noise normal. Untuk data [2, 4, 4, 4, 5, 5, 7, 9], MLE untuk μ adalah rata-ratanya (5) dan untuk σ² variansnya (4), angka yang sama dengan 1.7.</li>
 <li><b>Klasifikasi.</b> Kalau model mengeluarkan peluang untuk setiap kelas, NLL-nya adalah <span class="tx">-\log(\text{peluang kelas yang benar})</span>. Itulah cross-entropy (3.4).</li>
-<li><b>Model bahasa.</b> Loss pelatihan GPT adalah rata-rata −log peluang token berikutnya yang sebenarnya. MLE atas seluruh internet.</li></ul>
+<li><b>Model bahasa.</b> Loss pelatihan GPT adalah rata-rata −log peluang token berikutnya yang sebenarnya. Ini MLE (3.2): cari bobot yang membuat teks seluruh internet paling mungkin terjadi.</li></ul>
 <p>Fisher (1921–1922) memperkenalkan nama "likelihood" dan sengaja membedakannya dari "probabilitas": likelihood bukan peluang bahwa parameter benar, dan tidak perlu berjumlah 1 atas semua p.</p>
 
 <h2>Periksa dengan Python</h2>
@@ -167,7 +172,7 @@ print(round((10 + h) / (20 + h + t), 3))            # 0.567</code></pre>
 window.LESSONS["3.4"] = {
   title: "Entropi, cross-entropy, divergensi KL",
   pre: "1.5 logaritma, 2.10 ekspektasi, 3.2", min: 0,
-  why: "Cross-entropy adalah loss yang dipakai untuk melatih hampir semua classifier dan seluruh large language model (LLM). Divergensi KL muncul di VAE, RLHF, distilasi model, dan model difusi. Ketiganya berasal dari satu pertanyaan Claude Shannon tahun 1948: seberapa banyak informasi dalam sebuah pesan?",
+  why: "Cross-entropy adalah loss yang dipakai untuk melatih hampir semua classifier dan seluruh large language model (LLM). Divergensi KL muncul di VAE (5.10), RLHF (melatih chatbot dengan penilaian manusia, 5.13), distilasi model (model kecil belajar meniru model besar), dan model difusi (5.12). Ketiganya berasal dari satu pertanyaan Claude Shannon tahun 1948: seberapa banyak informasi dalam sebuah pesan?",
   body: String.raw`
 <h2>Kejutan dan informasi</h2>
 <p>Kabar "besok matahari terbit" tidak memberi informasi; semua orang sudah tahu. Kabar "besok turun salju di Jakarta" sangat mengejutkan. Shannon mengukur kejutan sebuah kejadian dengan peluang p sebagai <span class="tx">-\log_2 p</span> bit. Peluang 1/2 memberi 1 bit, peluang 1/8 memberi 3 bit, peluang 1 memberi 0 bit.</p>

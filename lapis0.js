@@ -129,7 +129,7 @@ Kurung luar: 4 − (−2) = 4 + 2 = 6
 `,
   src: [
     "OpenStax, <i>Prealgebra 2e</i>, Bab 2 “Introduction to the Language of Algebra”, bagian urutan operasi (gratis online).",
-    "McCulloch & Pitts (1943), “A logical calculus of the ideas immanent in nervous activity”: neuron buatan pertama. Lokal. Bacaan sejarah, boleh dibuka kapan saja.",
+    "McCulloch & Pitts (1943), “A logical calculus of the ideas immanent in nervous activity”: neuron buatan pertama, masih tanpa bobot yang bisa dipelajari (input hanya 0/1 dengan ambang tetap); bobot yang dipelajari datang dari perceptron Rosenblatt (1958). Lokal. Bacaan sejarah, boleh dibuka kapan saja.",
     "Higham, <i>Accuracy and Stability of Numerical Algorithms</i> 2e, Bab 2 “Floating Point Arithmetic”: kenapa 0.1 + 0.2 tidak persis 0.3. Lokal. Baca nanti di modul K2."
   ]
 };
@@ -138,7 +138,7 @@ Kurung luar: 4 − (−2) = 4 + 2 = 6
 window.LESSONS["0.3"] = {
   title: "Pecahan, desimal, dan persen",
   pre: "0.1, 0.2", min: 30,
-  why: "Peluang adalah pecahan: ChatGPT memilih kata berikutnya dari daftar peluang seperti 0,62 atau 3/5. Learning rate model ditulis 0,001. Akurasi model ditulis dalam persen. Tiga cara menulis ini akan muncul di setiap pelajaran AI.",
+  why: "Peluang adalah pecahan: ChatGPT memilih kata berikutnya dari daftar peluang seperti 0,62 atau 3/5. Learning rate model (besar langkah model saat membetulkan dirinya) ditulis 0,001. Akurasi model ditulis dalam persen. Tiga cara menulis ini akan muncul di setiap pelajaran AI.",
   body: `
 <h2>Pecahan adalah bagian dari keseluruhan</h2>
 <p>Satu pizza dipotong 8 sama besar, kamu makan 3 potong. Kamu makan <b>3/8</b> pizza. Angka atas (3) disebut <b>pembilang</b>, artinya berapa bagian yang diambil. Angka bawah (8) disebut <b>penyebut</b>, artinya keseluruhan dibagi menjadi berapa bagian.</p>
@@ -209,7 +209,7 @@ Fraction(5, 6)</code></pre>
 window.LESSONS["0.4"] = {
   title: "Pangkat dan akar",
   pre: "0.1 – 0.3", min: 30,
-  why: "Rumus kesalahan model memakai kuadrat (pangkat dua). Model besar punya ratusan miliar parameter, ditulis dengan pangkat sepuluh. Learning rate kecil seperti 10⁻³ memakai pangkat negatif. Dan akar kuadrat muncul di jarak, simpangan baku, dan rumus attention di Transformer.",
+  why: "Rumus kesalahan model memakai kuadrat (pangkat dua). Model besar punya ratusan miliar parameter (angka-angka yang disetel model saat belajar), ditulis dengan pangkat sepuluh. Learning rate kecil seperti 10⁻³ memakai pangkat negatif. Dan akar kuadrat muncul di jarak, simpangan baku, dan rumus attention di Transformer (mesin di balik ChatGPT, dibahas di 5.7).",
   body: `
 <h2>Pangkat adalah perkalian berulang</h2>
 <p>2³ artinya 2 dikali dirinya sendiri sebanyak 3 kali: 2 × 2 × 2 = 8. Angka 2 disebut <b>basis</b>, angka 3 disebut <b>pangkat</b> atau eksponen.</p>
@@ -426,7 +426,7 @@ Selisih y: −1 − 3 = −4  → dikuadratkan jadi 16, tanda minus hilang
 window.LESSONS["0.7"] = {
   title: "Laju perubahan",
   pre: "0.1 – 0.4", min: 35,
-  why: "Mesin belajar dengan bertanya: \"kalau angka bobot ini kugeser sedikit, kesalahanku berubah seberapa cepat?\" Itu pertanyaan tentang laju perubahan. Pelajaran ini adalah pintu masuk ke turunan, gradien, dan backpropagation, yaitu cara semua jaringan saraf belajar.",
+  why: "Mesin belajar dengan bertanya: \"kalau angka bobot ini (angka pengatur di dalam model, mirip kenop volume) kugeser sedikit, kesalahanku berubah seberapa cepat?\" Itu pertanyaan tentang laju perubahan. Pelajaran ini adalah pintu masuk ke turunan, gradien, dan backpropagation, yaitu cara semua jaringan saraf belajar.",
   body: `
 <h2>Kecepatan rata-rata</h2>
 <p>Kamu menempuh 120 km dalam 2 jam. Kecepatan rata-ratamu 120 ÷ 2 = 60 km per jam. Kecepatan adalah <b>laju perubahan posisi</b>: berapa banyak posisi berubah untuk setiap satuan waktu.</p>

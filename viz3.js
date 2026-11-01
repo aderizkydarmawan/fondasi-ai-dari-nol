@@ -139,7 +139,7 @@
       var cg = el("g", { "clip-path": "url(#" + f.svg.querySelector("clipPath").id + ")" }, f.svg), sv = p.svg; p.svg = cg; path(p, pts, "s1 line"); pts.forEach(function (q) { if (Math.abs(q[1]) < 10) p.dot(q[0], q[1], "s1 dot", 3); }); p.svg = sv;
       var lp = pts[pts.length - 1], tt = dt <= 4 ? 0 : lp[0], at4 = dt <= 4 ? 10 : lp[1]; if (dt <= 4) while (tt + dt <= 4 + 1e-9) { at4 *= fac; tt += dt; }
       f.out.innerHTML = "Setiap langkah mengalikan y dengan (1 − 0,5·Δt) = <b>" + fmt(fac, 2) + "</b>. Euler di t = " + fmt(tt, 1) + ": " + fmt(at4, 3) + ", tepat: " + fmt(10 * Math.exp(-0.5 * tt), 3) + ". " +
-        (dt > 4 ? "Faktornya lebih dari 1 secara mutlak: Euler <b>meledak</b>, padahal jawaban sebenarnya meluruh. Ini sama dengan learning rate terlalu besar." : dt > 2 ? "Faktornya negatif: Euler berganti tanda bolak-balik sambil mengecil." : "Makin kecil Δt, makin dekat ke garis putus-putus.");
+        (Math.abs(dt - 4) < 1e-6 ? "Faktornya tepat −1: Euler berayun ±10 selamanya, tidak meluruh dan tidak meledak. Ini batas kestabilan, sama seperti learning rate di batas aman pada gradient descent (3.1)." : Math.abs(dt - 2) < 1e-6 ? "Faktornya tepat 0: satu langkah langsung jatuh ke nol, padahal jawaban sebenarnya meluruh pelan." : dt > 4 ? "Faktornya lebih dari 1 secara mutlak: Euler <b>meledak</b>, padahal jawaban sebenarnya meluruh. Ini sama dengan learning rate terlalu besar." : dt > 2 ? "Faktornya negatif: Euler berganti tanda bolak-balik sambil mengecil." : "Makin kecil Δt, makin dekat ke garis putus-putus.");
     }; h._draw();
   };
 

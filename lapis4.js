@@ -206,7 +206,7 @@ window.LESSONS["4.5"] = {
 <div class="ex"><div class="q">κ = 1, σ = 1, mulai dari X = 3. Berapa rata-rata dan varians X setelah waktu lama?</div>
 <div class="step">Rata-rata: 3·e^(−κt) → 0
 Varians: σ²/(2κ) = 1/2
-Simulasi 5.000 lintasan sampai t = 10: rata-rata 0,015, varians 0,505</div>
+Simulasi 5.000 lintasan sampai t = 10: rata-rata 0,015, varians 0,505 (hasil acak: tiap simulasi sedikit berbeda, tapi selalu dekat 0 dan 0,5)</div>
 <div class="ans">Jawaban: rata-rata 0, varians 0,5. Titik awal sudah dilupakan; yang tersisa distribusi normal N(0; 0,5).</div></div>
 <p>Inilah pola penting: SDE dengan drift yang tepat <b>melupakan</b> titik awal dan menuju satu distribusi tujuan, mirip rantai Markov (3.8) yang menuju distribusi stasioner.</p>
 

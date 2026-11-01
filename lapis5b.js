@@ -55,7 +55,7 @@ window.LESSONS["5.10"] = {
   why: "Autoencoder belajar meringkas data menjadi sedikit angka lalu membangunnya kembali. Variational autoencoder (VAE) mengubah ringkasan itu menjadi ruang yang bisa disampel, sehingga model bisa membuat data baru. Encoder VAE dipakai di Stable Diffusion untuk memampatkan gambar sebelum proses difusi (5.12).",
   body: String.raw`
 <h2>Autoencoder: peras lalu bangun ulang</h2>
-<p>Autoencoder punya dua bagian: <b>encoder</b> memampatkan masukan x (misalnya gambar 784 piksel) menjadi kode pendek z (misalnya 16 angka), dan <b>decoder</b> membangun ulang <span class="tx">\hat x</span> dari z. Loss-nya reconstruction error, misalnya <span class="tx">\|x - \hat x\|^2</span>. Karena z lebih sempit dari x, jaringan dipaksa menyimpan hanya hal terpenting. Autoencoder linear dengan loss kuadrat mempelajari ruang yang sama dengan PCA (2.8); dengan lapis nonlinear, ia bisa menangkap struktur yang melengkung.</p>
+<p>Autoencoder punya dua bagian: <b>encoder</b> memampatkan masukan x (misalnya gambar 784 piksel) menjadi kode pendek z (misalnya 16 angka), dan <b>decoder</b> membangun ulang <span class="tx">\hat x</span> dari z. Loss-nya adalah reconstruction error, yaitu seberapa beda hasil bangun ulang dari aslinya, misalnya <span class="tx">\|x - \hat x\|^2</span>. Karena z lebih sempit dari x, jaringan dipaksa menyimpan hanya hal terpenting. Autoencoder linear dengan loss kuadrat mempelajari ruang yang sama dengan PCA (2.8); dengan lapis nonlinear, ia bisa menangkap struktur yang melengkung.</p>
 <p>Masalahnya: ruang z dari autoencoder biasa berlubang-lubang. Ambil titik z acak dan decode, hasilnya sering sampah, karena tidak ada yang memaksa ruang itu teratur.</p>
 
 <h2>VAE: kode yang berupa distribusi</h2>
@@ -127,11 +127,11 @@ print(round(math.log(0.5) + math.log(1 - 0.5), 3), round(-math.log(4), 3))   # -
 /* ───────────────────────── 5.12 ───────────────────────── */
 window.LESSONS["5.12"] = {
   title: "Model difusi",
-  pre: "4.4, 4.5, 4.6, 5.5 CNN, 5.10 reparameterisasi", min: 0,
+  pre: "3.1, 4.4, 4.5, 4.6, 5.4, 5.5 CNN, 5.10 reparameterisasi", min: 0,
   why: "Model difusi adalah mesin di balik Stable Diffusion, DALL·E, Midjourney, Sora, dan banyak model musik. Gagasannya dari fisika: rusak data perlahan dengan noise sampai menjadi noise murni, lalu latih jaringan untuk membalik proses itu langkah demi langkah. Semua alat Lapis 4 bertemu di sini.",
   body: String.raw`
 <h2>Proses maju: rusak perlahan</h2>
-<p>Mulai dari gambar asli <span class="tx">x_0</span>. Di setiap langkah t = 1, …, T, kecilkan sedikit gambarnya dan tambah sedikit noise normal dengan varians kecil <span class="tx">\beta_t</span>. Ho dkk. (2020) memakai T = 1000 dan β naik linear dari 0,0001 sampai 0,02. Ini rantai Markov (3.8) dan, kalau langkahnya diperhalus, SDE Ornstein–Uhlenbeck (4.5).</p>
+<p>Mulai dari gambar asli <span class="tx">x_0</span>. Di setiap langkah t = 1, …, T, kecilkan sedikit gambarnya dan tambah sedikit noise normal dengan varians kecil <span class="tx">\beta_t</span>. Ho dkk. (2020) memakai T = 1000 dan β naik linear dari 0,0001 sampai 0,02. Ini rantai Markov (3.8) dan, kalau langkahnya diperhalus, SDE Ornstein–Uhlenbeck (gerak acak yang selalu ditarik kembali ke nol, 4.5).</p>
 <p>Untungnya, kita tidak perlu menjalankan t langkah satu per satu: langkah ke-t bisa dilompati langsung dengan trik reparameterisasi (5.10):</p>
 <div class="tx d">x_t = \sqrt{\bar\alpha_t}\;x_0 + \sqrt{1 - \bar\alpha_t}\;\varepsilon, \qquad \varepsilon \sim \mathcal{N}(0, I)</div>
 <p>dengan <span class="tx">\bar\alpha_t = \prod_{s \le t}(1 - \beta_s)</span>. Dua koefisien itu menyatakan berapa bagian sinyal yang tersisa dan berapa bagian noise:</p>
@@ -171,13 +171,14 @@ for t in (1, 100, 250, 500, 1000):
 /* ───────────────────────── 5.13 ───────────────────────── */
 window.LESSONS["5.13"] = {
   title: "Large language model (LLM)",
-  pre: "3.4 cross-entropy, 3.8, 4.2 suhu, 5.7", min: 0,
+  pre: "1.8 vektor, 2.6 matriks, 3.4 cross-entropy, 3.8, 4.2 suhu, 5.7", min: 0,
   why: "Inilah tujuan akhir yang kamu kejar: memahami ChatGPT, Claude, Gemini dari dalam. Ternyata intinya adalah tugas yang sangat sederhana, menebak potongan kata berikutnya, dijalankan dengan Transformer raksasa pada sebagian besar teks di internet, lalu diasah agar membantu dan aman.",
   body: String.raw`
 <h2>Satu tugas: tebak token berikutnya</h2>
 <p>Teks dipotong menjadi <b>token</b>: kata, bagian kata, atau tanda baca (biasanya puluhan ribu jenis, dibentuk dengan algoritma seperti byte-pair encoding atau BPE: mulai dari huruf, lalu berulang kali menggabungkan pasangan yang paling sering muncul berdampingan menjadi satu token baru). Model bahasa memberi peluang token berikutnya dari semua token sebelumnya. Peluang sebuah kalimat dipecah dengan aturan perkalian peluang (2.9):</p>
 <div class="tx d">p(w_1, \dots, w_n) = \prod_{t=1}^{n} p(w_t \mid w_1, \dots, w_{t-1})</div>
 <p>Simbol ∏ berarti "kalikan semuanya", seperti Σ berarti "jumlahkan semuanya" (1.6). Jadi peluang kalimat = peluang kata pertama × peluang kata kedua kalau kata pertama sudah diketahui × dan seterusnya.</p>
+<p><b>Dari token ke vektor.</b> Setiap token punya nomor urut di vocabulary. Nomor itu dipakai untuk mengambil satu baris dari matriks <b>embedding</b> (ukurannya banyak-token × d), yang isinya ikut dipelajari seperti bobot lain. Hasilnya sebuah vektor (1.8), dan vektor inilah yang masuk ke Transformer (5.7). Di ujung, vektor terakhir dikalikan sebuah matriks lagi sehingga keluar satu logit per token di vocabulary, lalu softmax (4.2) mengubahnya jadi peluang token berikutnya. Vaswani dkk. (2017) bahkan memakai matriks yang sama untuk kedua ujung ini.</p>
 
 <h2>Versi paling kecil: bigram</h2>
 <p>Model bigram hanya melihat satu token terakhir, persis rantai Markov (3.8). Peluangnya dihitung dari frekuensi.</p>
@@ -194,7 +195,7 @@ window.LESSONS["5.13"] = {
 <p>Model menghasilkan logit untuk semua token, softmax dengan suhu T (4.2) mengubahnya menjadi peluang, satu token diambil, ditempel ke konteks, dan diulang. Selain suhu, ada <b>top-k</b> (undi hanya dari k token paling mungkin) dan <b>top-p</b> (undi hanya dari token teratas yang peluangnya, kalau dijumlah, mencapai p, misalnya 0,9). Ketiganya mengatur keseimbangan antara aman dan beragam. GPT-3 (Brown dkk., 2020) menunjukkan bahwa model yang cukup besar bisa mengerjakan tugas baru hanya dari beberapa contoh di dalam perintah (few-shot), tanpa dilatih ulang.</p>
 
 <h2>Dari peramal teks ke asisten</h2>
-<p>Model hasil pretraining hanya melanjutkan teks; ia belum tentu menjawab pertanyaan dengan sopan dan jujur. Ouyang dkk. (2022, InstructGPT) menambahkan dua tahap: <b>fine-tuning</b> pada contoh percakapan yang ditulis manusia, lalu <b>RLHF</b>: manusia membandingkan pasangan jawaban, sebuah model reward dilatih dari pilihan itu, dan model bahasa dioptimalkan dengan reinforcement learning (5.14) untuk mengejar reward, dengan penalty KL (3.4) supaya tidak menyimpang jauh dari model awal.</p>
+<p>Model hasil pretraining hanya melanjutkan teks; ia belum tentu menjawab pertanyaan dengan sopan dan jujur. Ouyang dkk. (2022, InstructGPT) menambahkan dua tahap: <b>fine-tuning</b> pada contoh percakapan yang ditulis manusia, lalu <b>RLHF</b> (reinforcement learning from human feedback; reinforcement learning sendiri dibahas di 5.14, cukup pahami di sini: model diberi skor, lalu diubah supaya skornya naik): manusia membandingkan pasangan jawaban, sebuah model reward dilatih dari pilihan itu, dan model bahasa dioptimalkan dengan reinforcement learning (5.14) untuk mengejar reward, dengan penalty KL (3.4) supaya tidak menyimpang jauh dari model awal.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>from collections import Counter

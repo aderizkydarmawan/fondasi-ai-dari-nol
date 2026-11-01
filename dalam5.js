@@ -42,7 +42,7 @@ uji: ["Masukan 28 × 28 × 1, 32 kernel 5 × 5 tanpa padding. Berapa ukuran kelu
 deep: String.raw`<p>Mengapa nilai eigen? Gradien yang mengalir mundur t langkah dikali oleh <span class="tx">W^\top</span> (dan turunan tanh, paling besar 1) sebanyak t kali. Tulis gradien dalam basis vektor eigen W: komponen dengan |λ| &lt; 1 menyusut seperti |λ|ᵗ, yang |λ| &gt; 1 membesar seperti |λ|ᵗ. Ini analisis yang sama dengan distribusi stasioner rantai Markov (3.8) dan stabilitas Euler (3.7).</p>
 <p>Gradient clipping: kalau panjang vektor gradien melebihi batas, misalnya 1, skala ulang ke panjang itu. Arahnya tetap, ukurannya dibatasi. Trik sederhana ini juga dipakai dalam pelatihan Transformer besar untuk mencegah lonjakan loss sesekali.</p>`,
 salah: ["Mengira LSTM menghapus masalah jarak jauh sepenuhnya. LSTM memperpanjang ingatan hingga ratusan langkah, bukan tak terbatas.", "Mengira RNN tidak bisa paralel karena kurang dioptimalkan. Ketergantungan berurutan itu sifat dasarnya."],
-ringkas: ["h_t = tanh(W h_{t−1} + U x_t + b), bobot sama setiap langkah.", "Gradien jarak t ~ λᵗ: lenyap kalau |λ| < 1, meledak kalau > 1.", "LSTM: memory cell dengan forget gate, masuk, keluar; diperbarui dengan penjumlahan."],
+ringkas: ["h_t = tanh(W h_{t−1} + U x_t + b), bobot sama setiap langkah.", "Gradien jarak t ~ λᵗ: lenyap kalau |λ| < 1, meledak kalau > 1.", "LSTM: memory cell dengan forget gate, input gate, dan output gate; diperbarui dengan penjumlahan."],
 uji: ["Kalau faktor per langkah 0,95, setelah berapa langkah gradien tinggal di bawah 1%?", "Apa peran forget gate dalam LSTM?"] },
 
 "5.7": { viz: "attn",

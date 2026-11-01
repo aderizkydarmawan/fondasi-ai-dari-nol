@@ -485,7 +485,7 @@ for k in (1, 2, 3):                         # aturan 68-95-99,7
 window.LESSONS["2.10"] = {
   title: "Ekspektasi dan varians",
   pre: "2.9, 1.6, 1.7", min: 0,
-  why: "Fungsi kesalahan AI adalah ekspektasi: rata-rata kesalahan atas semua data yang mungkin. SGD menghampiri ekspektasi itu dengan rata-rata beberapa sampel, dan varians menjelaskan kenapa langkahnya bergoyang. Tanpa dua konsep ini kamu tidak bisa membaca satu pun rumus fungsi loss.",
+  why: "Fungsi kesalahan AI adalah ekspektasi: rata-rata kesalahan atas semua data yang mungkin. SGD (gradient descent yang tiap langkahnya cuma memakai segenggam data acak, 3.1) menghampiri ekspektasi itu dengan rata-rata beberapa sampel, dan varians menjelaskan kenapa langkahnya bergoyang. Tanpa dua konsep ini kamu tidak bisa membaca satu pun rumus fungsi loss (fungsi kesalahan model).",
   body: String.raw`
 <h2>Ekspektasi: rata-rata berbobot peluang</h2>
 <p>Di 1.6 kamu menghitung rata-rata berbobot. Ekspektasi adalah rata-rata berbobot dengan <b>peluang</b> sebagai bobotnya:</p>

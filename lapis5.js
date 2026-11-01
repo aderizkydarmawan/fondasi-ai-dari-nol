@@ -39,8 +39,20 @@ w = ((x - x.mean()) * (y - y.mean())).sum() / ((x - x.mean())**2).sum()
 print(round(w, 3), round(y.mean() - w * x.mean(), 3))   # 1.9 0.0
 p = 1 / (1 + np.exp(-3))
 print(round(p, 3), round(-np.log(p), 3), round(-np.log(1 - p), 3))   # 0.953 0.049 3.049</code></pre>
+
+<h2>Mengukur hasilnya dengan jujur</h2>
+<p>Model dinilai pada data yang tidak pernah dilihatnya saat belajar. Data dibagi tiga: <b>training set</b> untuk belajar, <b>validation set</b> untuk memilih pengaturan (misalnya learning rate atau seberapa kuat regularisasi, 3.5), dan <b>test set</b> yang hanya disentuh sekali di akhir. Kalau test set dipakai berulang untuk memilih model, angkanya jadi terlalu optimis.</p>
+<p>Ukuran paling sederhana adalah <b>akurasi</b>: persen tebakan yang benar. Tapi akurasi menipu kalau kelasnya timpang. Untuk tebakan "ya" (positif), hitung empat kotak: TP (benar ya), FP (salah ya), FN (terlewat), TN (benar tidak). Lalu</p>
+<div class="rule"><mark>precision = TP ÷ (TP + FP)</mark>: dari semua yang ditebak "ya", berapa yang benar. <mark>recall = TP ÷ (TP + FN)</mark>: dari semua yang memang "ya", berapa yang tertangkap.</div>
+<div class="ex"><div class="q">1000 orang, 10 di antaranya sakit. Model A selalu menjawab "sehat". Model B menandai 48 orang sakit, 8 di antaranya benar. Bandingkan.</div>
+<div class="step">Model A: akurasi 990 ÷ 1000 = 0,99, tapi recall 0 ÷ 10 = 0 (tidak satu pun yang sakit tertangkap)
+Model B: TP = 8, FP = 40, FN = 2, TN = 950
+         akurasi (8 + 950) ÷ 1000 = 0,958
+         precision 8 ÷ 48 ≈ 0,167, recall 8 ÷ 10 = 0,8</div>
+<div class="ans">Jawaban: akurasi A lebih tinggi, padahal A tidak berguna. B menangkap 80% yang sakit, dengan harga banyak alarm palsu.</div></div>
 `,
   src: [
+    "Goodfellow, Bengio & Courville, <i>Deep Learning</i>, §11.1 “Performance Metrics” (precision dan recall) dan §5.3 “Hyperparameters and Validation Sets”. Lokal.",
     "Hastie, Tibshirani & Friedman, <i>The Elements of Statistical Learning</i> (2e), Bab 3 (regresi linear) dan §4.4 “Logistic Regression”. Lokal.",
     "James dkk., <i>An Introduction to Statistical Learning</i>, §4.3 “Logistic Regression”. Lokal.",
     "Bishop, <i>Pattern Recognition and Machine Learning</i>, §3.1 dan §4.3.2 “Logistic regression”. Lokal."
@@ -132,7 +144,7 @@ print(label, C.round(2).tolist())   # [0 0 1 1 1 1 1] [[1.25, 1.5], [3.9, 5.1]]<
 window.LESSONS["5.4"] = {
   title: "Jaringan saraf dan backpropagation",
   pre: "0.2 neuron, 1.8 hasil kali titik, 2.2 aturan rantai, 2.6 matriks, 3.1", min: 0,
-  why: "Inilah inti deep learning: tumpukan lapis yang masing-masing mengalikan matriks lalu membengkokkan hasilnya, dilatih dengan backpropagation, yaitu aturan rantai yang dihitung dengan cerdas. Setiap model besar, dari pengenal wajah sampai GPT, dilatih dengan algoritma yang sama.",
+  why: "Inilah inti deep learning (jaringan saraf dengan banyak lapis): tumpukan lapis yang masing-masing mengalikan matriks lalu membengkokkan hasilnya, dilatih dengan backpropagation, yaitu aturan rantai yang dihitung dengan cerdas. Setiap model besar, dari pengenal wajah sampai GPT, dilatih dengan algoritma yang sama.",
   body: String.raw`
 <h2>Lapis demi lapis</h2>
 <p>Neuron dari 0.2 dan 1.8 menghitung <span class="tx">\mathbf{w}\cdot\mathbf{x} + b</span>. Satu lapis berisi banyak neuron sekaligus, jadi ditulis sebagai perkalian matriks (2.6), lalu setiap hasil dilewatkan <b>fungsi aktivasi</b> φ:</p>
@@ -157,7 +169,7 @@ L = ½(−2 − 1)² = 4,5</div>
 ∂L/∂z = ∂L/∂h × ReLU'(z) = [−3 × 0; 3 × 1] = [0; 3]
 ∂L/∂W₁ = ∂L/∂z · xᵀ = [[0; 0]; [3; 6]]</div>
 <div class="ans">Jawaban: ∂L/∂w₂ = [0; −6], ∂L/∂W₁ = [[0; 0]; [3; 6]]. Baris pertama W₁ mendapat gradien nol, karena neuronnya mati (z negatif, dipotong ReLU).</div></div>
-<p>Dua langkah di atas perlu dijelaskan. <b>ReLU'(z)</b>, turunan ReLU, bernilai 0 kalau z negatif (grafiknya datar di sana) dan 1 kalau z positif (grafiknya garis miring 45°). Tepat di z = 0 turunannya tidak terdefinisi; dalam praktik biasanya dipakai 0. Lalu <span class="tx">\partial L/\partial z \cdot \mathbf{x}^\top</span> adalah vektor kolom kali vektor baris, kebalikan dari aᵀb di 2.6. Hasilnya bukan satu angka, melainkan tabel: baris ke-i, kolom ke-j berisi (∂L/∂z)ᵢ × xⱼ. Di sini [0; 3] kali [1, 2] memberi [[0 × 1; 0 × 2]; [3 × 1; 3 × 2]] = [[0; 0]; [3; 6]]. Artinya masuk akal: bobot W₁ baris i, kolom j menghubungkan masukan j ke neuron i, jadi gradiennya = sinyal kesalahan neuron i × besar masukan j.</p>
+<p>Dua langkah di atas perlu dijelaskan. <b>ReLU'(z)</b>, turunan ReLU, bernilai 0 kalau z negatif (grafiknya datar di sana) dan 1 kalau z positif (grafiknya garis miring 45°). Tepat di z = 0 turunannya tidak terdefinisi; dalam praktik biasanya dipakai 0. Lalu <span class="tx">\partial L/\partial z \cdot \mathbf{x}^\top</span> adalah vektor kolom kali vektor baris, kebalikan dari aᵀb di 2.6. Hasilnya bukan satu angka, melainkan tabel: baris ke-i, kolom ke-j berisi (∂L/∂z)ᵢ × xⱼ. Di sini [0; 3] kali [1, 2] memberi [[0 × 1; 0 × 2]; [3 × 1; 3 × 2]] = [[0; 0]; [3; 6]]. Artinya masuk akal: bobot W₁ baris i, kolom j menghubungkan masukan j ke neuron i, jadi gradiennya = sinyal kesalahan neuron i × besar masukan j. Secara umum, turunan vektor terhadap vektor adalah sebuah matriks yang disebut <b>Jacobian</b>, dan backpropagation adalah aturan rantai (2.2) yang berubah menjadi perkalian matriks-matriks ini.</p>
 <p>Inilah <b>backpropagation</b> (Rumelhart, Hinton &amp; Williams, 1986): satu lintasan maju menyimpan semua nilai antara, satu lintasan mundur menghitung semua gradien sekaligus, dengan biaya kira-kira dua kali lintasan maju. Tanpa trik ini, model bermiliar bobot mustahil dilatih. Pustaka seperti PyTorch melakukannya otomatis (autodiff).</p>
 
 <h2>Periksa dengan Python</h2>
@@ -233,10 +245,10 @@ window.LESSONS["5.6"] = {
 <div class="tx d">0{,}9^{50} \approx 0{,}005, \qquad 1{,}1^{50} \approx 117</div>
 <p>Faktor sedikit di bawah 1: vanishing gradient, dan model tidak bisa belajar hubungan jarak jauh ("kucing yang ... sedang tidur" butuh mengingat subjek). Faktor sedikit di atas 1: exploding gradient. Untuk matriks, yang menentukan adalah nilai eigen (2.7) W. Bengio dkk. (1994) dan Pascanu dkk. (2013) menganalisisnya; ledakan biasa diatasi dengan memotong panjang gradien (gradient clipping), tapi lenyapnya lebih sulit.</p>
 
-<h2>LSTM: jalur ingatan dengan gerbang</h2>
+<h2>LSTM: jalur ingatan dengan gate</h2>
 <p>Hochreiter &amp; Schmidhuber (1997) menambahkan <b>memory cell</b> <span class="tx">\mathbf{c}_t</span> yang diperbarui dengan penjumlahan, bukan perkalian berulang. Versi aslinya hanya punya input gate dan output gate; forget gate (f di bawah) baru ditambahkan Gers, Schmidhuber &amp; Cummins (2000). Bentuk yang dipakai sekarang:</p>
 <div class="tx d">\mathbf{c}_t = \mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t \odot \tilde{\mathbf{c}}_t</div>
-<p>f (forget gate) dan i (input gate) adalah angka antara 0 dan 1 dari sigmoid, dipelajari dari data, dan ⊙ berarti kali per elemen. Kalau f ≈ 1, ingatan dibawa utuh dan gradien mengalir tanpa melemah, seperti jalan pintas ResNet (5.5). Gate ketiga (output gate) memilih bagian ingatan yang ditampilkan sebagai <span class="tx">\mathbf{h}_t</span>. GRU (Cho dkk., 2014) adalah versi yang lebih sederhana dengan dua gerbang.</p>
+<p>c̃ₜ adalah calon isi baru, dihitung seperti h pada RNN biasa (tanh dari input dan h sebelumnya). f (forget gate) dan i (input gate) adalah angka antara 0 dan 1 dari sigmoid, dipelajari dari data, dan ⊙ berarti kali per elemen. Kalau f ≈ 1, ingatan dibawa utuh dan gradien mengalir tanpa melemah, seperti jalan pintas ResNet (5.5). Gate ketiga (output gate) memilih bagian ingatan yang ditampilkan sebagai <span class="tx">\mathbf{h}_t</span>. GRU (Cho dkk., 2014) adalah versi yang lebih sederhana dengan dua gate (update gate dan reset gate).</p>
 
 <h2>Batas RNN</h2>
 <p>LSTM menguasai terjemahan mesin dan pengenalan suara sekitar 2014–2017. Tapi ia tetap membaca satu langkah demi satu, sehingga tidak bisa memanfaatkan GPU yang suka mengerjakan banyak hal sekaligus, dan ingatan jarak jauhnya tetap terbatas. Attention (5.7) menyelesaikan keduanya dengan membiarkan setiap posisi melihat langsung ke semua posisi lain.</p>
@@ -254,7 +266,7 @@ window.LESSONS["5.6"] = {
 /* ───────────────────────── 5.7 ───────────────────────── */
 window.LESSONS["5.7"] = {
   title: "Attention dan Transformer",
-  pre: "1.8 perkalian titik, 2.6, 4.2 softmax, 5.4", min: 0,
+  pre: "1.8 perkalian titik, 2.6, 4.2 softmax, 5.4, 5.5 residual connection", min: 0,
   why: "Transformer adalah arsitektur di balik GPT, Claude, Gemini, BERT, dan model gambar modern. Inti barunya hanya satu rumus: attention, cara setiap kata memutuskan kata lain mana yang perlu diperhatikan. Rumus itu dibangun sepenuhnya dari alat yang sudah kamu pelajari: perkalian titik, matriks, dan softmax.",
   body: String.raw`
 <h2>Gagasannya: mencari di kamus yang lentur</h2>
@@ -270,7 +282,7 @@ Keluaran: 0,401·[10; 0] + 0,198·[0; 10] + 0,401·[5; 5]</div>
 
 <h2>Self-attention</h2>
 <p>Dalam Transformer, setiap kata (token) menghasilkan query, key, dan value miliknya sendiri lewat tiga matriks yang dipelajari: <span class="tx">Q = XW_Q,\ K = XW_K,\ V = XW_V</span>. Lalu setiap token memperhatikan semua token lain. Kata "dia" dalam "Ani memberi Budi buku karena dia baik" bisa memberi bobot besar pada "Ani". Semua posisi dihitung bersamaan sebagai satu perkalian matriks, sempurna untuk GPU.</p>
-<p><b>Multi-head</b>: beberapa attention dijalankan berdampingan dengan matriks berbeda, sehingga satu kepala bisa melacak tata bahasa, kepala lain melacak siapa merujuk siapa. Karena attention tidak peduli urutan, posisi setiap token disuntikkan sebagai vektor tambahan (positional encoding).</p>
+<p><b>Multi-head</b>: beberapa attention dijalankan berdampingan dengan matriks berbeda, sehingga satu kepala bisa melacak tata bahasa, kepala lain melacak siapa merujuk siapa. Karena attention tidak peduli urutan, posisi setiap token disuntikkan sebagai vektor tambahan (positional encoding): setiap posisi i mendapat vektor berisi sin dan cos (0.6) dengan frekuensi berbeda-beda (Vaswani dkk., 2017), yang ditambahkan ke vektor tokennya. Tanpa itu, "Ani memukul Budi" dan "Budi memukul Ani" terlihat sama bagi attention.</p>
 
 <h2>Satu blok Transformer</h2>
 <p>Vaswani dkk. (2017) menyusun satu blok: self-attention, lalu jaringan dua lapis per token (MLP), masing-masing dibungkus residual connection (5.5) dan layer normalization (menjaga angka tetap di kisaran wajar; dibahas di 5.9). Model besar menumpuk puluhan blok ini. Untuk model bahasa, attention diberi topeng supaya setiap token hanya melihat token sebelumnya (causal), karena tugasnya menebak token berikutnya (5.13).</p>
