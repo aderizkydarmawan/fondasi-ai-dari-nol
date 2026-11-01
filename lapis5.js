@@ -27,7 +27,7 @@ b = ȳ − w x̄ = 4,75 − 1,9 × 2,5 = 0</div>
 <div class="step">p̂ = σ(3) ≈ 0,953
 Spam (y = 1): L = −log 0,953 ≈ 0,049
 Bukan spam (y = 0): L = −log(1 − 0,953) ≈ 3,05</div>
-<div class="ans">Jawaban: 0,953; loss 0,049 kalau benar, 3,05 kalau salah. Yakin tapi salah dihukum 60 kali lebih berat.</div></div>
+<div class="ans">Jawaban: 0,953; loss 0,049 kalau benar, 3,05 kalau salah. Yakin tapi salah dihukum sekitar 60 kali lebih berat.</div></div>
 <p>Gradiennya sangat sederhana: <span class="tx">\partial L/\partial z = \hat p - y</span>, selisih tebakan dan kenyataan. Berbeda dengan regresi linear, tidak ada rumus jawaban langsung, jadi bobotnya dicari dengan gradient descent. Untungnya loss ini cembung (satu lembah saja), jadi GD pasti sampai ke dasar.</p>
 
 <h2>Periksa dengan Python</h2>

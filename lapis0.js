@@ -52,7 +52,7 @@ Mulai di −2, jalan 8 ke kanan.</div>
 <div class="ans">Jawaban: −5 dan 6</div></div>
 
 <h2>Periksa dengan Python</h2>
-<p>Buka terminal, ketik <code>python</code>, lalu ketik baris di bawah tanda <code>&gt;&gt;&gt;</code>. Di Python, kali ditulis <code>*</code> dan bagi ditulis <code>/</code>.</p>
+<p>Belum punya Python? Tidak apa-apa: setiap kotak kode di situs ini punya tombol <b>Jalankan</b>. Kalau ingin mencoba di laptop sendiri (cara memasangnya ada di 1.9), buka terminal, ketik <code>python</code>, lalu ketik baris di bawah tanda <code>&gt;&gt;&gt;</code>. Di Python, kali ditulis <code>*</code> dan bagi ditulis <code>/</code>.</p>
 <pre><code>&gt;&gt;&gt; 2 - 5
 -3
 &gt;&gt;&gt; 3 - (-2)
@@ -477,7 +477,13 @@ perubahan waktu: 0,01
 
 for h in [1, 0.1, 0.01, 0.001, 0.0001]:
     laju = (posisi(2 + h) - posisi(2)) / h
-    print(h, laju)</code></pre>
+    print(h, laju)
+# 1 5.0
+# 0.1 4.100000000000001
+# 0.01 4.009999999999891
+# 0.001 4.000999999999699
+# 0.0001 4.0001000000078335</code></pre>
+<p>Ekor angka seperti 4,00999999999989 bukan salah hitung. Komputer menyimpan desimal dalam bentuk biner, jadi ada sisa pembulatan yang sangat kecil. Yang penting polanya: 5 → 4,1 → 4,01 → 4,001, menuju 4.</p>
 <p>Hasilnya bergerak dari 5 ke 4,1, lalu 4,01, dan seterusnya mendekati 4. Kalau <code>h</code> dibuat terlalu kecil, misalnya 1e-15, hasilnya justru kacau. Itu efek angka komputer yang tidak persis, seperti 0,1 + 0,2 di pelajaran 0.2.</p>
 `,
   src: [

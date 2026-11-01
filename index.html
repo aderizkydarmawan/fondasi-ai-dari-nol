@@ -117,6 +117,17 @@ article b,article strong{color:var(--ink);font-weight:600}
 .ingat li{margin:.2em 0}
 .coba{margin:.4em 0 .8em;color:var(--muted);font-size:.95rem}
 .coba b{color:var(--ink);font-weight:600}
+.lg{margin:-.4em 0 1.4em;font-size:.86rem;line-height:1.45;color:var(--muted);display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:.25em 1.4em;padding:.6em 0 0;border-top:1px dashed var(--line)}
+.lg b{font-weight:600;color:var(--ink);grid-column:1/-1}
+.lg span{white-space:normal}
+.lg i{font-style:normal;font-weight:700;color:var(--accent);margin-right:.25em}
+.rule .lg{margin:.7em 0 0}
+.lgbox{margin:0 0 2em;border-top:1px solid var(--line);padding-top:10px}
+.lgbox summary{cursor:pointer;color:var(--accent);font:italic 400 1.08rem var(--f-display)}
+.lgbox dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:.3em 1.4em;margin:.8em 0 0;font-size:.9rem}
+.lgbox dl div{display:flex;gap:.6em}
+.lgbox dt{min-width:2.2em;font-weight:700;color:var(--accent)}
+.lgbox dd{margin:0;color:var(--muted)}
 .rule::before{content:"Aturan"}
 .rule{color:var(--ink)}
 .ex::before{content:"Contoh soal";color:var(--cyan)}
@@ -378,6 +389,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 <script src="lapis5b.js"></script>
 <script src="ingat.js"></script>
 <script src="coba.js"></script>
+<script src="legenda.js"></script>
+<script src="legenda-l01.js"></script>
+<script src="legenda-l2.js"></script>
+<script src="legenda-l3.js"></script>
+<script src="legenda-l4.js"></script>
+<script src="legenda-l5.js"></script>
 <script src="dalam5.js"></script>
 <script src="viz.js"></script>
 <script src="viz2.js"></script>
@@ -846,6 +863,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       setDone(a); this.setAttribute('aria-pressed', on); this.querySelector('span').textContent = on ? 'Sudah selesai' : 'Tandai selesai';
       buildToc(id);
     });
+    if(window.legendify) window.legendify(view, id);
     if(window.mountViz) window.mountViz(view);
     addRunners(view);
     [].forEach.call(view.querySelectorAll('.ex .ans'), function(a){
@@ -882,7 +900,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       texRe = new RegExp(keys.map(function(k){ return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|'), 'g');
     }
     var walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {acceptNode:function(n){
-      return n.parentElement.closest('pre, code, .katex, svg, script, mark, .viz, button, .chap') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; }}), nodes = [], n;
+      return n.parentElement.closest('pre, code, .katex, svg, script, mark, .viz, button, .chap, .lg, .lgbox') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; }}), nodes = [], n;
     while((n = walk.nextNode())) if(texRe.test(n.nodeValue)) nodes.push(n), texRe.lastIndex = 0; else texRe.lastIndex = 0;
     nodes.forEach(function(node){
       var s = node.nodeValue, frag = document.createDocumentFragment(), last = 0;

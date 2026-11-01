@@ -65,7 +65,7 @@ deep: String.raw`<p>Kenapa varians bobot 1/n? Satu keluaran adalah jumlah n hasi
 <p>Kenapa batch normalization membantu masih diperdebatkan. Penjelasan awal ("mengurangi pergeseran kovariat internal") belakangan dipertanyakan; penjelasan lain menyebut BN membuat permukaan loss lebih mulus sehingga learning rate besar aman. Ini contoh jujur bahwa banyak trik deep learning lebih dulu terbukti bekerja daripada terbukti mengapa.</p>
 <p>Presisi campuran: menghitung dengan angka 16-bit menghemat memori dan dua kali lebih cepat, tapi gradien kecil bisa menjadi nol. Loss dikalikan faktor besar sebelum backprop (loss scaling), lalu gradien dibagi kembali.</p>`,
 salah: ["Lupa mematikan dropout saat menguji. Di PyTorch: model.eval().", "Memakai batch normalization dengan batch berukuran 1 atau 2. Rata-rata dan simpangan bakunya tidak bermakna."],
-ringkas: ["Inisialisasi: Var(w) ≈ 1/n (Glorot) atau 2/n (He, ReLU).", "Normalisasi: kurangi rata-rata, bagi simpangan baku, lalu γ, β.", "Warmup + cosine; dropout, weight decay, AdamW."],
+ringkas: ["Inisialisasi: Var(w) ≈ 2/(n_masuk + n_keluar) (Glorot) atau 2/n (He, ReLU).", "Normalisasi: kurangi rata-rata, bagi simpangan baku, lalu γ, β.", "Warmup + cosine; dropout, weight decay, AdamW."],
 uji: ["Hitung learning rate di langkah 25 dan 775 untuk jadwal contoh.", "Kenapa dropout harus menskala keluaran yang tersisa?"] },
 
 "5.10": { viz: "vae",

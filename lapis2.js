@@ -34,6 +34,15 @@ Polanya menuju 6</div>
 7    →  0</div>
 <div class="ans">Jawaban: f'(x) = 12x² − 2</div></div>
 
+<h2>Dua turunan lagi: eˣ dan ln x</h2>
+<p>AI memakai dua fungsi dari 1.5 terus-menerus, jadi turunannya perlu dihafal. Bilangan e ≈ 2,718 istimewa karena kemiringan grafik eˣ di setiap titik sama dengan tingginya sendiri. Logaritma natural ln x, kebalikan eˣ, punya kemiringan 1/x.</p>
+<div class="rule"><mark><span class="tx">\frac{d}{dx} e^x = e^x \qquad \frac{d}{dx} \ln x = \frac{1}{x}</span></mark></div>
+<div class="ex"><div class="q">Cek dengan selisih kecil h = 0,001: kemiringan eˣ di x = 1 dan ln x di x = 2.</div>
+<div class="step">eˣ:   (e^1,001 − e¹) ÷ 0,001 ≈ 2,7196, dekat e ≈ 2,7183
+ln x: (ln 2,001 − ln 2) ÷ 0,001 ≈ 0,49988, dekat 1/2</div>
+<div class="ans">Jawaban: cocok dengan aturan: turunan eˣ di 1 adalah e, turunan ln x di 2 adalah 1/2.</div></div>
+<p>Turunan ln x inilah yang dipakai saat melatih model dengan log-likelihood (3.2) dan cross-entropy (3.4).</p>
+
 <h2>Membaca turunan</h2>
 <ul><li><b>f' &gt; 0</b>: fungsi sedang naik. Geser x ke kanan, f bertambah.</li>
 <li><b>f' &lt; 0</b>: fungsi sedang turun.</li>
@@ -81,6 +90,8 @@ Rantai: dy/dx = 6 · 2</div>
 <h2>Contoh yang dipakai AI: sigmoid</h2>
 <p>Fungsi sigmoid <span class="tx">\sigma(z) = \frac{1}{1 + e^{-z}}</span> memeras angka berapa pun menjadi antara 0 dan 1. Turunannya punya bentuk cantik:</p>
 <div class="tx d">\sigma'(z) = \sigma(z)\,\bigl(1 - \sigma(z)\bigr)</div>
+<p>Dari mana? Tulis σ = u⁻¹ dengan u = 1 + e⁻ᶻ. Luar: turunan u⁻¹ adalah −u⁻² (aturan pangkat dengan n = −1). Dalam: turunan 1 + e⁻ᶻ adalah −e⁻ᶻ (turunan eˣ dari 2.1, ditambah rantai: turunan −z adalah −1). Kalikan:</p>
+<div class="tx d">\sigma'(z) = -\frac{1}{(1+e^{-z})^2}\cdot\bigl(-e^{-z}\bigr) = \underbrace{\frac{1}{1+e^{-z}}}_{\sigma(z)}\cdot\underbrace{\frac{e^{-z}}{1+e^{-z}}}_{1-\sigma(z)}</div>
 <p>Di z = 0, σ = 0,5 dan turunannya 0,5 × 0,5 = 0,25. Di z = 2, σ ≈ 0,881 dan turunannya hanya ≈ 0,105. Makin jauh dari nol, makin datar sigmoid, makin kecil turunannya.</p>
 
 <h2>Rantai panjang dan masalahnya</h2>
@@ -286,6 +297,11 @@ A⁻¹ = [[1, −1], [−1, 2]]
 x = A⁻¹ · (5, 3) = (5 − 3, −5 + 6)</div>
 <div class="ans">Jawaban: x = 2, y = 1</div></div>
 <p>Dalam praktik, komputer tidak menghitung invers secara eksplisit karena lebih lambat dan kurang akurat. Ia memakai eliminasi (fungsi <code>solve</code>). Tapi gagasannya sama: membatalkan A.</p>
+
+<h2>Transpos: menukar baris dan kolom</h2>
+<p><b>Transpos</b> sebuah matriks A, ditulis <span class="tx">A^\top</span> (dibaca "A transpos"), adalah A yang dibalik di sepanjang diagonal: baris pertama menjadi kolom pertama, baris kedua menjadi kolom kedua, dan seterusnya. Matriks 2 × 3 menjadi 3 × 2.</p>
+<div class="tx d">A = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix} \quad\Rightarrow\quad A^\top = \begin{pmatrix} 1 & 4 \\ 2 & 5 \\ 3 & 6 \end{pmatrix}</div>
+<p>Kegunaan pertamanya: perkalian titik dari 1.8 bisa ditulis sebagai perkalian matriks. Kalau a dan b vektor kolom, <span class="tx">a^\top b</span> berarti baris kali kolom, hasilnya satu angka: untuk a = (1, 2) dan b = (3, 4), hasilnya 1·3 + 2·4 = 11. Notasi ini muncul lagi di SVD (2.8), regresi (5.1), dan attention <span class="tx">QK^\top</span> (5.7). Di NumPy, transpos ditulis <code>A.T</code>.</p>
 
 <h2>Di AI</h2>
 <p>Tanpa fungsi aktivasi, dua lapis <span class="tx">W_2(W_1 x)</span> sama saja dengan satu lapis <span class="tx">(W_2W_1)x</span>. Sedalam apa pun, jaringan linear hanya satu transformasi linear. Fungsi aktivasi di antara lapis itulah yang membuat kedalaman bermanfaat.</p>

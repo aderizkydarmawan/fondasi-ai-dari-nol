@@ -126,7 +126,7 @@ Selalu terendah: ⟨E⟩ = 0, H = 0, F[q] = 0</div>
 
 <h2>Inferensi variasional: posterior sebagai sistem fisika</h2>
 <p>Posterior Bayes bisa ditulis seperti distribusi Boltzmann: <span class="tx">p(\theta\mid D) = e^{-E(\theta)}/Z</span> dengan "energi" <span class="tx">E(\theta) = -\log p(D\mid\theta) - \log p(\theta)</span> dan Z = p(D), peluang data. Z inilah yang mustahil dihitung untuk model besar.</p>
-<p>Jalan keluarnya: pilih keluarga distribusi yang mudah (misalnya normal dengan rata-rata dan varians yang bisa diatur), lalu cari anggota yang F[q]-nya terkecil. Kita tidak butuh Z, karena Z hanya konstanta. Di machine learning, minus F[q] disebut <b>ELBO</b> (evidence lower bound), karena ia batas bawah dari log p(D): (Di sini kT = 1, jadi ELBO = −F[q]: memaksimalkan ELBO sama dengan meminimalkan F[q].)</p>
+<p>Jalan keluarnya: pilih keluarga distribusi yang mudah (misalnya normal dengan rata-rata dan varians yang bisa diatur), lalu cari anggota yang F[q]-nya terkecil. Kita tidak butuh Z, karena Z hanya konstanta. Di machine learning, minus F[q] disebut <b>ELBO</b> (evidence lower bound), karena ia batas bawah dari log p(D). Di sini kT = 1, jadi ELBO = −F[q]: memaksimalkan ELBO sama dengan meminimalkan F[q]. Ditulis lengkap:</p>
 <div class="tx d">\log p(D) \;\ge\; \underbrace{\mathbb{E}_q[\log p(D\mid\theta)]}_{\text{cocok dengan data}} - \underbrace{D_{\text{KL}}(q(\theta)\,\|\,p(\theta))}_{\text{jangan jauh dari prior}}</div>
 <p>Dua suku ini akan muncul lagi persis sebagai loss VAE (5.10): galat rekonstruksi ditambah KL.</p>
 

@@ -141,7 +141,7 @@
       p.seg(-3.5 * v[0], -3.5 * v[1], 3.5 * v[0], 3.5 * v[1], "guide");
       p.arrow(0, 0, Av[0], Av[1], "s1"); p.arrow(0, 0, v[0], v[1], "s2");
       var ang = Math.abs(Math.atan2(cross, lam)) * 180 / Math.PI;
-      f.out.innerHTML = "A = [[" + M[0].join(", ") + "], [" + M[1].join(", ") + "]]. Sudut antara v dan Av: <b>" + fmt(Math.min(ang, 180 - ang), 1) + "°</b>. " + (ok ? "Searah! v adalah vektor eigen dengan λ ≈ <b>" + fmt(lam) + "</b>." : "Belum searah. Terus putar v.") + (M[0][0] === 0 && M[0][1] === -1 ? " (Putaran 90° tidak punya arah eigen real: semua arah dibelokkan.)" : "");
+      f.out.innerHTML = "A = [[" + M[0].join(", ") + "], [" + M[1].join(", ") + "]]. Sudut antara v dan Av: <b>" + fmt(Math.min(ang, 180 - ang), 1) + "°</b>. " + (ok ? "Searah! v adalah vektor eigen dengan λ ≈ <b>" + fmt(lam) + "</b>." : "Belum searah. Terus putar v.") + (M[0][0] === 0 && M[0][1] === -1 ? " (Putaran 90° tidak punya arah eigen real: semua arah dibelokkan.)" : "") + (M[0][0] === 1 && M[0][1] === 1 && M[1][0] === 0 ? " (Geseran hanya punya satu arah eigen: sumbu x, di sudut 0° atau 180°, dengan λ = 1.)" : "");
     }; h._draw();
   };
 

@@ -43,6 +43,7 @@
     var f = frame(h, "Atur banyak lemparan n dan banyak gambar k. Kurva = likelihood setiap p, puncaknya MLE", [{ id: "n", label: "lemparan n", min: 1, max: 100, step: 1, v: 10, d: 0 }, { id: "k", label: "gambar k", min: 0, max: 100, step: 1, v: 7, d: 0 }]);
     var p = mk(f.svg, { x0: 0, x1: 1, y0: 0, y1: 1.1, h: 280, sx: 0.1, sy: 0.25 });
     h._draw = function () {
+      var kin = f.ctl.querySelectorAll("input")[1]; kin.max = f.vals.n; if (f.vals.k > f.vals.n) { kin.value = f.vals.n; f.vals.k = f.vals.n; kin.parentNode.querySelector("output").textContent = f.vals.n; }
       var n = f.vals.n, k = Math.min(f.vals.k, n), ph = k / n, ll = function (q) { return (k ? k * Math.log(q) : 0) + (n - k ? (n - k) * Math.log(1 - q) : 0); }, top = ll(Math.min(Math.max(ph, 1e-9), 1 - 1e-9));
       p.clear(); p.curve(function (q) { return q <= 0 || q >= 1 ? NaN : Math.exp(ll(q) - top); }, "s1 line");
       p.seg(ph, 0, ph, 1, "guide"); p.dot(ph, 1, "s1 dot"); p.text(ph, 1.05, "p̂ = " + fmt(ph, 2), "lbl", "middle");

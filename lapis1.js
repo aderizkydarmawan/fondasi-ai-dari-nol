@@ -258,15 +258,20 @@ Kanan: log₁₀ 100 + log₁₀ 1000 = 2 + 3 = 5  ✓</div>
 <p>Satu fakta lagi: ln dari bilangan antara 0 dan 1 selalu negatif. ln 0,9 ≈ −0,105, sedangkan ln 0,1 ≈ −2,303. Makin kecil peluangnya, makin besar negatifnya. Cross-entropy memakai −ln(peluang jawaban benar) sebagai hukuman: yakin dan benar → hukuman kecil, yakin tapi salah → hukuman besar.</p>
 
 <h2>Sekilas softmax</h2>
-<p>Model memberi skor mentah, misalnya [2, 1, 0] untuk tiga kata. Softmax mengubahnya jadi peluang: hitung e pangkat tiap skor, lalu bagi dengan jumlahnya. Hasilnya kira-kira [0,665; 0,245; 0,090], dan totalnya 1. Detailnya nanti; sekarang cukup lihat bahwa eˣ selalu positif, jadi cocok untuk membuat peluang.</p>
+<p>Model memberi skor mentah, misalnya [2, 1, 0] untuk tiga kata. Softmax mengubahnya jadi peluang: hitung e pangkat tiap skor, lalu bagi dengan jumlahnya. Hasilnya kira-kira [0,665; 0,245; 0,090], dan totalnya 1. (Catatan penulisan: karena koma dipakai untuk desimal, angka berdesimal di dalam kurung siku dipisah titik koma. Jadi [0,665; 0,245; 0,090] berisi tiga angka. Matriks ditulis sebagai daftar baris: [[1; 2]; [3; 4]] berarti baris pertama 1 dan 2, baris kedua 3 dan 4.) Detailnya nanti; sekarang cukup lihat bahwa eˣ selalu positif, jadi cocok untuk membuat peluang.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import math
 for n in [1, 2, 12, 365, 1_000_000]:
     print(n, (1 + 1/n) ** n)
+# 1 2.0
+# 2 2.25
+# 12 2.613035290224676
+# 365 2.7145674820219727
+# 1000000 2.7182804690957534
 print(math.e)                    # 2.718281828459045
 print(math.log2(1024))           # 10.0
-print(math.log(0.9), math.log(0.1))
+print(math.log(0.9), math.log(0.1)) # -0.10536051565782628 -2.3025850929940455
 
 skor = [2, 1, 0]
 ex = [math.exp(s) for s in skor]

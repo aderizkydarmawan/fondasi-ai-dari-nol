@@ -8,7 +8,7 @@ window.LESSONS["5.9"] = {
   why: "Arsitektur yang benar belum cukup. Jaringan dalam sering gagal dilatih karena hal-hal \"kecil\": bobot awal yang salah skala, learning rate tanpa jadwal, aktivasi yang melebar tak terkendali, atau overfitting. Trik di pelajaran ini membedakan model yang belajar dari model yang macet, dan semuanya dipakai di setiap pelatihan LLM.",
   body: String.raw`
 <h2>1. Inisialisasi: skala bobot awal</h2>
-<p>Kalau bobot awal terlalu besar, sinyal membesar di setiap lapis dan meledak; terlalu kecil, sinyal lenyap (masalah yang sama dengan RNN di 5.6, kali ini menembus kedalaman). Solusinya: pilih varians bobot supaya varians sinyal tetap sama dari lapis ke lapis. Untuk lapis dengan n masukan, Glorot &amp; Bengio (2010) memakai varians sekitar 1/n untuk aktivasi tanh, dan He dkk. (2015) memakai 2/n untuk ReLU, karena ReLU membuang separuh sinyal.</p>
+<p>Kalau bobot awal terlalu besar, sinyal membesar di setiap lapis dan meledak; terlalu kecil, sinyal lenyap (masalah yang sama dengan RNN di 5.6, kali ini menembus kedalaman). Solusinya: pilih varians bobot supaya varians sinyal tetap sama dari lapis ke lapis. Untuk lapis dengan n masukan, sinyal maju tetap stabil kalau varians bobot sekitar 1/n. Glorot &amp; Bengio (2010) ingin gradien mundur juga stabil, jadi mereka memakai jalan tengah 2/(n<sub>masuk</sub> + n<sub>keluar</sub>), yang sama dengan 1/n kalau keduanya sama besar. He dkk. (2015) memakai 2/n untuk ReLU, karena ReLU membuang separuh sinyal.</p>
 
 <h2>2. Normalisasi: jaga aktivasi tetap di kisaran wajar</h2>
 <p><b>Batch normalization</b> (Ioffe &amp; Szegedy, 2015) menormalkan setiap fitur dalam satu mini-batch: kurangi rata-rata, bagi simpangan baku (1.7), lalu biarkan jaringan menskala dan menggeser ulang dengan dua parameter γ, β yang dipelajari.</p>
@@ -131,7 +131,7 @@ window.LESSONS["5.12"] = {
   body: String.raw`
 <h2>Proses maju: rusak perlahan</h2>
 <p>Mulai dari gambar asli <span class="tx">x_0</span>. Di setiap langkah t = 1, …, T, kecilkan sedikit gambarnya dan tambah sedikit derau normal dengan varians kecil <span class="tx">\beta_t</span>. Ho dkk. (2020) memakai T = 1000 dan β naik linear dari 0,0001 sampai 0,02. Ini rantai Markov (3.8) dan, kalau langkahnya diperhalus, SDE Ornstein–Uhlenbeck (4.5).</p>
-<p>Keajaibannya, langkah ke-t bisa dilompati langsung dengan trik reparameterisasi (5.10):</p>
+<p>Untungnya, kita tidak perlu menjalankan t langkah satu per satu: langkah ke-t bisa dilompati langsung dengan trik reparameterisasi (5.10):</p>
 <div class="tx d">x_t = \sqrt{\bar\alpha_t}\;x_0 + \sqrt{1 - \bar\alpha_t}\;\varepsilon, \qquad \varepsilon \sim \mathcal{N}(0, I)</div>
 <p>dengan <span class="tx">\bar\alpha_t = \prod_{s \le t}(1 - \beta_s)</span>. Dua koefisien itu menyatakan berapa bagian sinyal yang tersisa dan berapa bagian derau:</p>
 <div class="tbl"><table><tr><th>langkah t</th><td>1</td><td>100</td><td>250</td><td>500</td><td>1000</td></tr>
@@ -257,7 +257,7 @@ window.LESSONS["5.15"] = {
   body: String.raw`
 <p>Catatan: pelajaran ini menjelaskan matematika sebuah model, bukan nasihat investasi.</p>
 <h2>Opsi: hak, bukan kewajiban</h2>
-<p><b>Opsi beli</b> (call) memberi hak untuk membeli saham pada harga tertentu K (harga pelaksanaan) di waktu T mendatang. Kalau saat itu harga saham S<sub>T</sub> di atas K, kamu membeli murah dan untung S<sub>T</sub> − K; kalau di bawah, kamu tidak memakai haknya dan untung 0. Pembayarannya: <span class="tx">\max(S_T - K,\ 0)</span>. Pertanyaannya: berapa harga wajar hak ini hari ini?</p>
+<p><b>Opsi beli</b> (call) memberi hak untuk membeli saham pada harga tertentu K (harga pelaksanaan) di waktu T mendatang. Kalau saat itu harga saham S<sub>T</sub> di atas K, kamu membeli murah dan menerima selisih S<sub>T</sub> − K; kalau di bawah, kamu tidak memakai haknya dan menerima 0. Ini <b>pembayaran</b>, belum keuntungan: harga opsi yang dibayar di awal belum dikurangi. Pembayarannya: <span class="tx">\max(S_T - K,\ 0)</span>. Pertanyaannya: berapa harga wajar hak ini hari ini?</p>
 
 <h2>Model harga saham: gerak Brown geometris</h2>
 <p>Black, Scholes, dan Merton memodelkan harga saham dengan SDE (4.5) yang perubahannya sebanding dengan harga itu sendiri:</p>
