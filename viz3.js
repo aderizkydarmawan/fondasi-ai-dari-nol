@@ -3,7 +3,7 @@
   var V = window.VIZ, W = V.W, Plane = V.Plane, frame = V.frame, button = V.button, el = V.el, fmt = V.fmt, heads = V.heads;
   function rng(seed) { var a = seed >>> 0; return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   function gauss(r) { var u = 1 - r(), v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
-  function path(p, pts, cls) { return el("path", { d: pts.map(function (q, i) { return (i ? "L" : "M") + p.X(q[0]).toFixed(1) + " " + p.Y(q[1]).toFixed(1); }).join(""), "class": cls }, p.svg); }
+  function path(p, pts, cls) { if (p.o && p.o.fit === "y" && p.catat) pts.forEach(function (q) { p.catat(q[0], q[1]); }); return el("path", { d: pts.map(function (q, i) { return (i ? "L" : "M") + p.X(q[0]).toFixed(1) + " " + p.Y(q[1]).toFixed(1); }).join(""), "class": cls }, p.svg); }
   function bar(p, x0, x1, y, cls) { return el("rect", { x: p.X(x0), y: p.Y(Math.max(y, 0)), width: p.X(x1) - p.X(x0), height: Math.abs(p.Y(y) - p.Y(0)), "class": cls }, p.svg); }
   function mk(svg, o) { var p = Plane(svg, o); p.svg = svg; return p; }
 
@@ -26,8 +26,11 @@
       p.clear(); var r = run();
       [0.25, 1, 2.5, 5, 9].forEach(function (c) { var g = function (s) { return function (x) { var v = (c - x * x) / 25; return v >= 0 ? s * Math.sqrt(v) : NaN; }; }; p.curve(g(1), "faint line"); p.curve(g(-1), "faint line"); });
       var cg = el("g", { "clip-path": "url(#" + f.svg.querySelector("clipPath").id + ")" }, f.svg), save = p.svg; p.svg = cg;
-      path(p, r.tr, "s1 line"); r.tr.slice(0, 60).forEach(function (q) { if (Math.abs(q[0]) < 3.6 && Math.abs(q[1]) < 1.3) p.dot(q[0], q[1], "s1 dot", 2.2); }); p.svg = save;
+      var tr = r.tr, ke = -1; for (var i = 0; i < tr.length; i++) if (Math.abs(tr[i][0]) > 3.5 || Math.abs(tr[i][1]) > 1.25) { ke = i; break; }
+      if (ke > 0) tr = tr.slice(0, ke + 1);
+      path(p, tr, "s1 line"); tr.slice(0, 60).forEach(function (q) { if (Math.abs(q[0]) < 3.6 && Math.abs(q[1]) < 1.3) p.dot(q[0], q[1], "s1 dot", 2.2); }); p.svg = save;
       p.dot(0, 0, "ink dot", 4); p.dot(3, 1, "s2 dot", 5);
+      if (ke > 0) { var qk = tr[ke - 1]; p.text(Math.max(-3.3, Math.min(2.2, qk[0])), qk[1] > 0 ? 1.05 : -1.15, "keluar layar → meledak", "lbl", "middle"); }
       var nm = mode === "adam" ? "Adam (η = 0,1)" : f.vals.b > 0 ? "momentum β = " + fmt(f.vals.b) : "GD biasa";
       f.out.innerHTML = nm + ": " + (r.ok ? "sampai dekat dasar (f &lt; 0,001) dalam <b>" + r.n + " langkah</b>." : r.n >= 300 ? "belum sampai setelah 300 langkah." : "<b>meledak</b> setelah " + r.n + " langkah.") +
         (mode === "gd" && f.vals.lr > 0.04 ? " Arah y dikali (1 − 50η) tiap langkah; di atas η = 0,04 nilainya lebih dari 1 secara mutlak." : "") +

@@ -5,7 +5,7 @@
   function gauss(r) { var u = 1 - r(), v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
   function mk(svg, o) { var p = Plane(svg, o); p.svg = svg; return p; }
   function clip(p) { return el("g", { "clip-path": "url(#" + p.svg.querySelector("clipPath").id + ")" }, p.svg); }
-  function path(p, pts, cls, g) { return el("path", { d: pts.map(function (q, i) { return (i ? "L" : "M") + p.X(q[0]).toFixed(1) + " " + p.Y(q[1]).toFixed(1); }).join(""), "class": cls }, g || p.svg); }
+  function path(p, pts, cls, g) { if (p.o && p.o.fit === "y" && p.catat) pts.forEach(function (q) { p.catat(q[0], q[1]); }); return el("path", { d: pts.map(function (q, i) { return (i ? "L" : "M") + p.X(q[0]).toFixed(1) + " " + p.Y(q[1]).toFixed(1); }).join(""), "class": cls }, g || p.svg); }
   function bar(p, x0, x1, y, cls, y0) { y0 = y0 || 0; return el("rect", { x: p.X(x0), y: p.Y(Math.max(y, y0)), width: p.X(x1) - p.X(x0), height: Math.abs(p.Y(y) - p.Y(y0)), "class": cls }, p.svg); }
   function cell(p, x0, y0, x1, y1, op, cls) { return el("rect", { x: p.X(x0), y: p.Y(y1), width: p.X(x1) - p.X(x0), height: p.Y(y0) - p.Y(y1), "class": cls || "s1 fill", style: "fill-opacity:" + op.toFixed(3) + ";stroke:var(--line2);stroke-width:.6" }, p.svg); }
   function sig(z) { return 1 / (1 + Math.exp(-z)); }
@@ -101,7 +101,7 @@
   /* 5.6 vanishing gradient / meledak */
   W.vanish = function (h) {
     var f = frame(h, "Gradien setelah t backward pass ≈ λᵗ. Sumbu tegak memakai skala log (10ᵏ). Garis biru muda: LSTM dengan forget gate f", [{ id: "l", label: "faktor RNN λ", min: 0.5, max: 1.3, step: 0.01, v: 0.9 }, { id: "fg", label: "forget gate f", min: 0.5, max: 1, step: 0.01, v: 0.99 }]);
-    var p = mk(f.svg, { x0: 0, x1: 100, y0: -8, y1: 4, h: 300, sx: 10, sy: 1, lx: 20, ly: 2 });
+    var p = mk(f.svg, { fit: "y", x0: 0, x1: 100, y0: -8, y1: 4, h: 300, sx: 10, sy: 1, lx: 20, ly: 2 });
     h._draw = function () {
       var l = f.vals.l, fg = f.vals.fg; p.clear();
       p.curve(function (t) { return t * Math.log10(l); }, "s1 line"); p.curve(function (t) { return t * Math.log10(fg); }, "s2 line");
@@ -145,7 +145,7 @@
   /* 5.9 jadwal learning rate */
   W.sched = function (h) {
     var f = frame(h, "Learning rate selama pelatihan: naik linear (warmup), lalu turun mengikuti kosinus. Garis biru muda = tanpa jadwal", [{ id: "w", label: "warmup (% langkah)", min: 0, max: 40, step: 1, v: 10, d: 0 }, { id: "m", label: "batas bawah (% puncak)", min: 0, max: 50, step: 1, v: 0, d: 0 }]);
-    var p = mk(f.svg, { x0: 0, x1: 1000, y0: 0, y1: 1.15, h: 280, sx: 100, sy: 0.25, lx: 200 });
+    var p = mk(f.svg, { fit: "y", x0: 0, x1: 1000, y0: 0, y1: 1.15, h: 280, sx: 100, sy: 0.25, lx: 200 });
     h._draw = function () {
       var w = f.vals.w * 10, mn = f.vals.m / 100; p.clear();
       var lr = function (t) { return t < w ? t / w : mn + (1 - mn) * 0.5 * (1 + Math.cos(Math.PI * (t - w) / (1000 - w))); };
@@ -170,7 +170,7 @@
   /* 5.11 GAN: discriminator terbaik */
   W.gan = function (h) {
     var f = frame(h, "Data asli p (ungu, dua puncak) dan generator q (biru muda, normal). Garis tebal = discriminator terbaik D* = p/(p + q)", [{ id: "m", label: "rata-rata q", min: -3, max: 3, step: 0.1, v: 1.5, d: 1 }, { id: "s", label: "simpangan baku q", min: 0.2, max: 3, step: 0.05, v: 0.6 }]);
-    var p = mk(f.svg, { x0: -5, x1: 5, y0: 0, y1: 1.05, h: 300, sx: 1, sy: 0.25 });
+    var p = mk(f.svg, { fit: "y", x0: -5, x1: 5, y0: 0, y1: 1.05, h: 300, sx: 1, sy: 0.25 });
     var P = function (x) { return 0.5 * Npdf(x, -1.5, 0.6) + 0.5 * Npdf(x, 1.5, 0.6); };
     h._draw = function () {
       var m = f.vals.m, s = f.vals.s, Q = function (x) { return Npdf(x, m, s); }, js = 0, dx = 0.01; p.clear();
@@ -241,7 +241,7 @@
   /* 5.15 Black–Scholes */
   W.bs = function (h) {
     var f = frame(h, "Harga opsi beli (ungu) terhadap harga saham hari ini. Putus-putus = pembayaran saat jatuh tempo max(S − K, 0). K = 100, r = 5%", [{ id: "s", label: "volatilitas σ", min: 0.05, max: 0.8, step: 0.01, v: 0.2 }, { id: "T", label: "waktu T (tahun)", min: 0.05, max: 3, step: 0.05, v: 1 }, { id: "S", label: "harga saham S", min: 60, max: 140, step: 1, v: 100, d: 0 }]);
-    var K = 100, r = 0.05, p = mk(f.svg, { x0: 60, x1: 140, y0: 0, y1: 50, h: 300, sx: 10, sy: 10, lx: 20 });
+    var K = 100, r = 0.05, p = mk(f.svg, { fit: "y", x0: 60, x1: 140, y0: 0, y1: 50, h: 300, sx: 10, sy: 10, lx: 20 });
     function C(S, s, T) { var d1 = (Math.log(S / K) + (r + s * s / 2) * T) / (s * Math.sqrt(T)), d2 = d1 - s * Math.sqrt(T); return { c: S * Ncdf(d1) - K * Math.exp(-r * T) * Ncdf(d2), d: Ncdf(d1) }; }
     h._draw = function () {
       var s = f.vals.s, T = f.vals.T, S = f.vals.S, v = C(S, s, T); p.clear();

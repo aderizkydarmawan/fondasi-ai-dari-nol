@@ -6,7 +6,7 @@
   function mk(svg, o) { var p = Plane(svg, o); p.svg = svg; return p; }
   function clip(p) { return el("g", { "clip-path": "url(#" + p.svg.querySelector("clipPath").id + ")" }, p.svg); }
   function thin(e) { e.setAttribute("style", "stroke-width:1.3;opacity:.45"); return e; }
-  function path(p, pts, cls, g) { return el("path", { d: pts.map(function (q, i) { return (i ? "L" : "M") + p.X(q[0]).toFixed(1) + " " + p.Y(q[1]).toFixed(1); }).join(""), "class": cls }, g || p.svg); }
+  function path(p, pts, cls, g) { if (p.o && p.o.fit === "y" && p.catat) pts.forEach(function (q) { p.catat(q[0], q[1]); }); return el("path", { d: pts.map(function (q, i) { return (i ? "L" : "M") + p.X(q[0]).toFixed(1) + " " + p.Y(q[1]).toFixed(1); }).join(""), "class": cls }, g || p.svg); }
   function bar(p, x0, x1, y, cls) { return el("rect", { x: p.X(x0), y: p.Y(Math.max(y, 0)), width: p.X(x1) - p.X(x0), height: Math.abs(p.Y(y) - p.Y(0)), "class": cls }, p.svg); }
   function boltz(E, T) { var w = E.map(function (e) { return Math.exp(-e / T); }), z = w.reduce(function (s, x) { return s + x; }, 0); return { p: w.map(function (x) { return x / z; }), Z: z }; }
 
@@ -66,7 +66,7 @@
   /* 4.5 proses Ornstein–Uhlenbeck */
   W.ou = function (h) {
     var f = frame(h, "dX = −κX dt + σ dW, mulai X = 3. Ungu tipis = 20 lintasan, putus-putus = rata-rata ± 2 simpangan baku dari rumus", [{ id: "th", label: "tarikan κ", min: 0, max: 3, step: 0.1, v: 1, d: 1 }, { id: "s", label: "noise σ", min: 0, max: 2, step: 0.1, v: 1, d: 1 }]);
-    var p = mk(f.svg, { x0: 0, x1: 8, y0: -4, y1: 5, h: 320, sx: 1, sy: 1, lx: 2, ly: 2 }), seed = 5;
+    var p = mk(f.svg, { fit: "y", x0: 0, x1: 8, y0: -4, y1: 5, h: 320, sx: 1, sy: 1, lx: 2, ly: 2 }), seed = 5;
     h._draw = function () {
       var th = f.vals.th, s = f.vals.s, dt = 0.02, r = rng(seed), g, k, i; p.clear(); g = clip(p);
       var m = function (t) { return 3 * Math.exp(-th * t); }, v = function (t) { return th > 1e-9 ? s * s / (2 * th) * (1 - Math.exp(-2 * th * t)) : s * s * t; };
@@ -81,7 +81,7 @@
   /* 4.6 persamaan panas / Fokker–Planck */
   W.heat = function (h) {
     var f = frame(h, "Kepadatan peluang yang dimulai sebagai paku. Tanpa drift = persamaan panas (D = 1); dengan drift = Fokker–Planck untuk OU (κ = 1, σ = 1)", [{ id: "t", label: "waktu t", min: 0.02, max: 4, step: 0.02, v: 0.5 }]);
-    var p = mk(f.svg, { x0: -5, x1: 5, y0: 0, y1: 1.2, h: 300, sx: 1, sy: 0.2 }), drift = false, start = 0;
+    var p = mk(f.svg, { fit: "y", x0: -5, x1: 5, y0: 0, y1: 1.2, h: 300, sx: 1, sy: 0.2 }), drift = false, start = 0;
     function N(x, m, v) { return Math.exp(-(x - m) * (x - m) / (2 * v)) / Math.sqrt(2 * Math.PI * v); }
     h._draw = function () {
       var t = f.vals.t, m, v; p.clear();

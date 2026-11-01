@@ -16,9 +16,42 @@
       iy: function (py) { return o.y0 + (H - P - py) / (H - 2 * P) * (o.y1 - o.y0); },
       W: W, H: H, o: o
     };
+    /* Sumbu menyesuaikan diri: titik, panah, dan segmen penting yang jatuh di luar rentang dicatat saat menggambar,
+       lalu refit() melebarkan rentang (paling jauh 6 kali semula) dan widget digambar ulang. Rentang tidak pernah
+       lebih sempit dari aslinya, jadi tampilan awal tetap sama. o.fit = "y" juga ikut memperhitungkan kurva. */
+    var o0 = { x0: o.x0, x1: o.x1, y0: o.y0, y1: o.y1, sx: o.sx || 1, sy: o.sy || 1, lx: o.lx, ly: o.ly }, need = null;
+    function catat(x, y) {
+      if (!isFinite(x) || !isFinite(y) || Math.abs(x) > 1e7 || Math.abs(y) > 1e7) return;
+      if (!need) need = { x0: x, x1: x, y0: y, y1: y };
+      else { need.x0 = Math.min(need.x0, x); need.x1 = Math.max(need.x1, x); need.y0 = Math.min(need.y0, y); need.y1 = Math.max(need.y1, y); }
+    }
+    function rapi(v) { var e = Math.pow(10, Math.floor(Math.log10(v))), m = v / e; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 2.5 ? 2.5 : m <= 5 ? 5 : 10) * e; }
+    p.refit = function () {
+      var t = { x0: o0.x0, x1: o0.x1, y0: o0.y0, y1: o0.y1 };
+      if (need) {
+        var mx = (o0.x1 - o0.x0) * 0.06, my = (o0.y1 - o0.y0) * 0.06;
+        if (o.fit !== "y") { if (need.x0 < o0.x0) t.x0 = need.x0 - mx; if (need.x1 > o0.x1) t.x1 = need.x1 + mx; }
+        if (need.y0 < o0.y0) t.y0 = need.y0 - my; if (need.y1 > o0.y1) t.y1 = need.y1 + my;
+        var cx = 6 * (o0.x1 - o0.x0), cy = 6 * (o0.y1 - o0.y0);
+        if (t.x1 - t.x0 > cx) { if (need.x0 < o0.x0) t.x0 = Math.max(t.x0, o0.x1 - cx); if (t.x1 - t.x0 > cx) t.x1 = t.x0 + cx; }
+        if (t.y1 - t.y0 > cy) { if (need.y0 < o0.y0) t.y0 = Math.max(t.y0, o0.y1 - cy); if (t.y1 - t.y0 > cy) t.y1 = t.y0 + cy; }
+      }
+      var rx = (t.x1 - t.x0) / (o0.x1 - o0.x0), ry = (t.y1 - t.y0) / (o0.y1 - o0.y0);
+      var sx = rx > 1.01 ? rapi(o0.sx * rx) : o0.sx, sy = ry > 1.01 ? rapi(o0.sy * ry) : o0.sy;
+      if (rx > 1.01) { t.x0 = t.x0 < o0.x0 ? Math.floor(t.x0 / sx) * sx : t.x0; t.x1 = t.x1 > o0.x1 ? Math.ceil(t.x1 / sx) * sx : t.x1; }
+      if (ry > 1.01) { t.y0 = t.y0 < o0.y0 ? Math.floor(t.y0 / sy) * sy : t.y0; t.y1 = t.y1 > o0.y1 ? Math.ceil(t.y1 / sy) * sy : t.y1; }
+      var beda = Math.abs(t.x0 - o.x0) + Math.abs(t.x1 - o.x1) + Math.abs(t.y0 - o.y0) + Math.abs(t.y1 - o.y1) > 1e-9;
+      if (!beda) return false;
+      o.x0 = t.x0; o.x1 = t.x1; o.y0 = t.y0; o.y1 = t.y1;
+      o.sx = sx; o.sy = sy;
+      o.lx = rx > 1.01 ? Math.max(sx, o0.lx || 0) : o0.lx; o.ly = ry > 1.01 ? Math.max(sy, o0.ly || 0) : o0.ly;
+      return true;
+    };
+    p.catat = catat;
+    svg._plane = p;
     var cid = "clip" + Math.random().toString(36).slice(2, 8);
     p.clear = function () {
-      svg.innerHTML = "";
+      svg.innerHTML = ""; need = null;
       el("rect", { x: P, y: P, width: W - 2 * P, height: H - 2 * P }, el("clipPath", { id: cid }, el("defs", {}, svg)));
       var g = el("g", { "class": "grid" }, svg), sx = o.sx || 1, sy = o.sy || 1, x, y;
       for (x = Math.ceil(o.x0 / sx) * sx; x <= o.x1 + 1e-9; x += sx) el("line", { x1: p.X(x), x2: p.X(x), y1: p.Y(o.y0), y2: p.Y(o.y1) }, g);
@@ -37,15 +70,17 @@
       var d = "", n = 240, i, x, y, pen = false;
       for (i = 0; i <= n; i++) {
         x = a + (b - a) * i / n; y = f(x);
+        if (o.fit === "y" && isFinite(y) && x >= o0.x0 && x <= o0.x1) catat(x, y);
         if (!isFinite(y) || y < o.y0 - (o.y1 - o.y0) || y > o.y1 + (o.y1 - o.y0)) { pen = false; continue; }
         d += (pen ? "L" : "M") + p.X(x).toFixed(1) + " " + p.Y(y).toFixed(1); pen = true;
       }
       return el("path", { d: d, "class": cls || "s1 line", "clip-path": "url(#" + cid + ")" }, svg);
     };
-    p.seg = function (x1, y1, x2, y2, cls) { return el("line", { x1: p.X(x1), y1: p.Y(y1), x2: p.X(x2), y2: p.Y(y2), "class": cls || "s1 line" }, svg); };
-    p.dot = function (x, y, cls, r) { return el("circle", { cx: p.X(x), cy: p.Y(y), r: r || 6, "class": cls || "s1 dot" }, svg); };
+    p.seg = function (x1, y1, x2, y2, cls) { if (/arrow|vec/.test(cls || "")) { catat(x1, y1); catat(x2, y2); } return el("line", { x1: p.X(x1), y1: p.Y(y1), x2: p.X(x2), y2: p.Y(y2), "class": cls || "s1 line" }, svg); };
+    p.dot = function (x, y, cls, r) { catat(x, y); return el("circle", { cx: p.X(x), cy: p.Y(y), r: r || 6, "class": cls || "s1 dot" }, svg); };
     p.text = function (x, y, s, cls, anchor) { return txt(p.X(x), p.Y(y), s, svg, anchor || "start", cls); };
     p.arrow = function (x1, y1, x2, y2, cls) {
+      catat(x1, y1); catat(x2, y2);
       var l = p.seg(x1, y1, x2, y2, (cls || "s1") + " line"); l.setAttribute("marker-end", "url(#" + (cls || "s1") + "-head)"); return l;
     };
     function txt(x, y, s, parent, anchor, cls) { var e = el("text", { x: x, y: y, "text-anchor": anchor, "class": cls || "" }, parent); e.textContent = s; return e; }
@@ -204,7 +239,7 @@
   /* 0.7 dan 2.1: garis potong menjadi garis singgung */
   W.secant = function (h) {
     var f = frame(h, "Posisi bola s(t) = t². Kecilkan selang h dan lihat kemiringan garis biru muda", [{ id: "h", label: "selang h", min: 0.01, max: 2, step: 0.01, v: 1 }]);
-    var p = Plane(f.svg, { x0: 0, x1: 4.5, y0: 0, y1: 18, sx: 0.5, sy: 2, lx: 1, ly: 4 });
+    var p = Plane(f.svg, { fit: "y", x0: 0, x1: 4.5, y0: 0, y1: 18, sx: 0.5, sy: 2, lx: 1, ly: 4 });
     h._draw = function () {
       var hh = f.vals.h, t = 2, m = ((t + hh) * (t + hh) - t * t) / hh; p.clear();
       p.curve(function (x) { return x * x; }, "s1 line");
@@ -365,10 +400,24 @@
   window.VIZ = { W: W, Plane: Plane, frame: frame, button: button, el: el, fmt: fmt, heads: heads, draggable: draggable, clamp: clamp, snap: snap };
 
   /* Dipasang oleh index.html sesudah pelajaran ditampilkan */
+  function pasFit(host) {
+    var d = host._draw; if (!d) return;
+    var planes = [].map.call(host.querySelectorAll("svg"), function (s) { return s._plane; }).filter(Boolean);
+    if (!planes.length) return;
+    host._draw = function () {
+      d.apply(this, arguments);
+      for (var i = 0; i < 2; i++) {
+        var ubah = false;
+        [].map.call(host.querySelectorAll("svg"), function (s) { return s._plane; }).filter(Boolean).forEach(function (p) { if (p.refit()) ubah = true; });
+        if (!ubah) break; d.apply(this, arguments);
+      }
+    };
+    host._draw();
+  }
   window.mountViz = function (root) {
     [].forEach.call(root.querySelectorAll("[data-viz]"), function (host) {
       var k = host.getAttribute("data-viz");
-      if (W[k]) { try { W[k](host); var TUTUP = { bayes: 1, walk: 1, vanish: 1 }; var tip = window.COBA && COBA[k], tb = window.TEBAK && TEBAK[k], hd = host.querySelector(".viz-h"); if (tip && hd) { var p = document.createElement(tb ? "details" : "p"); p.className = "coba"; p.innerHTML = tb ? "<summary><b>Cek tebakanmu</b>: petunjuk dan jawabannya</summary>" + tip : "<b>Coba ini:</b> " + tip; hd.insertAdjacentElement("afterend", p); if (tb) { var q = document.createElement("p"); q.className = "coba tebak"; q.innerHTML = "<b>Tebak dulu:</b> " + tb; hd.insertAdjacentElement("afterend", q); } } if (TUTUP[k]) { var vo = host.querySelector(".viz-out"); if (vo) { vo.hidden = true; var bt = document.createElement("button"); bt.type = "button"; bt.className = "tool buka"; bt.textContent = "Tampilkan angka (setelah menebak)"; vo.insertAdjacentElement("beforebegin", bt); var buka = function () { vo.hidden = false; bt.remove(); }; bt.addEventListener("click", buka); var dt = host.querySelector("details.coba"); if (dt) dt.addEventListener("toggle", function () { if (dt.open && bt.parentNode) buka(); }); } } } catch (e) { host.textContent = "Gagal memuat visualisasi: " + e.message; } }
+      if (W[k]) { try { W[k](host); pasFit(host); var TUTUP = { bayes: 1, walk: 1, vanish: 1 }; var tip = window.COBA && COBA[k], tb = window.TEBAK && TEBAK[k], hd = host.querySelector(".viz-h"); if (tip && hd) { var p = document.createElement(tb ? "details" : "p"); p.className = "coba"; p.innerHTML = tb ? "<summary><b>Cek tebakanmu</b>: petunjuk dan jawabannya</summary>" + tip : "<b>Coba ini:</b> " + tip; hd.insertAdjacentElement("afterend", p); if (tb) { var q = document.createElement("p"); q.className = "coba tebak"; q.innerHTML = "<b>Tebak dulu:</b> " + tb; hd.insertAdjacentElement("afterend", q); } } if (TUTUP[k]) { var vo = host.querySelector(".viz-out"); if (vo) { vo.hidden = true; var bt = document.createElement("button"); bt.type = "button"; bt.className = "tool buka"; bt.textContent = "Tampilkan angka (setelah menebak)"; vo.insertAdjacentElement("beforebegin", bt); var buka = function () { vo.hidden = false; bt.remove(); }; bt.addEventListener("click", buka); var dt = host.querySelector("details.coba"); if (dt) dt.addEventListener("toggle", function () { if (dt.open && bt.parentNode) buka(); }); } } } catch (e) { host.textContent = "Gagal memuat visualisasi: " + e.message; } }
     });
   };
 })();
