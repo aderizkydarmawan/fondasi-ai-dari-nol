@@ -215,6 +215,26 @@ html[data-theme="light"] .k-M{--kc:#5a3dc2}html[data-theme="light"] .k-S{--kc:#0
 .box.intuisi::before{content:"Tingkat intuisi";color:var(--cyan)}
 .box.intuisi p{margin:0}
 .box.uji::before{content:"Tes kertas kosong";color:var(--cyan)}
+.box.gagal::before{content:"Di mana ini gagal";color:var(--warn)}
+.box.gagal p{margin:0}
+#cari{position:fixed;inset:0;z-index:45;background:rgba(14,10,23,.98);overflow:auto;padding:max(5vh,20px) var(--gut) 40px;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s}
+html[data-theme="light"] #cari{background:rgba(246,242,234,.98)}
+#cari.open{opacity:1;visibility:visible}
+#cari .cari-in{max-width:720px;margin:0 auto}
+#cari .cari-h{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+#cari label{font:400 clamp(1.4rem,3vw,2rem)/1.1 var(--f-display);color:var(--ink)}
+#cari .x{font:400 1rem var(--f-body);color:var(--ink);background:var(--raise);border:1px solid var(--line2);padding:8px 14px;cursor:pointer;flex:none}
+#cari .x kbd{font:italic .85rem var(--f-body);color:var(--muted)}
+#cari input{width:100%;box-sizing:border-box;font:400 1.15rem var(--f-body);padding:14px 16px;background:var(--raise);color:var(--ink);border:1px solid var(--line2);outline:none}
+#cari input:focus-visible{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+#cari .cari-n{color:var(--muted);font-size:.95rem;min-height:1.4em;margin:.7em 0}
+#cari .cari-r{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+#cari .cari-r a,#cari .cari-r div{display:grid;gap:2px;padding:10px 14px;border:1px solid var(--line2);background:var(--raise);color:var(--text);text-decoration:none}
+#cari .cari-r a:hover,#cari .cari-r a:focus-visible{border-color:var(--accent);outline:none}
+#cari .cari-r b{color:var(--ink);font-weight:500;overflow-wrap:anywhere}
+#cari .ck{font:italic .82rem var(--f-body);color:var(--accent)}
+#cari .cd{font-size:.92rem;color:var(--muted);overflow-wrap:anywhere}
+@media (max-width:540px){ #cariBtn .cl{display:none} #cariBtn{padding:8px 8px} }
 .box ul{margin:0;padding-left:1.1em}
 .box p.note{font-size:.92rem;color:var(--muted);margin:.6em 0 0}
 .src{font-size:.92rem;margin-top:3em}
@@ -403,7 +423,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 @media (prefers-reduced-motion:reduce){ .jp{transition:none} }
 @media (max-width:1100px){ .page{grid-template-columns:minmax(0,1fr)} aside.otl{display:none} }
 @media (max-width:900px){
-  #bar nav .navb:not(.cta):not(#menuBtn):not(.themeb){display:none}
+  #bar nav .navb:not(.cta):not(#menuBtn):not(.themeb):not(#cariBtn){display:none}
   .hero{grid-template-columns:minmax(0,1fr);align-items:end;padding-bottom:90px}
   .hero .cap{position:static;text-align:left;margin:22px 0 0}
   .hero{display:flex;flex-direction:column;justify-content:flex-end}
@@ -431,6 +451,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
   <a class="brand" href="#beranda">Batu yang <i>Memahat</i> Dirinya</a>
   <span class="sp"></span>
   <nav aria-label="Utama">
+    <button class="navb" id="cariBtn" type="button" aria-expanded="false" aria-controls="cari" aria-label="Cari" title="Cari (tekan /)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg><span class="cl">Cari</span></button>
     <button class="navb" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Daftar pelajaran"><svg class="ico" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Pelajaran</button>
     <button class="navb themeb" id="themeBtn" type="button" aria-label="Ganti ke tema terang" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg></button>
     <a class="navb" href="#peta" id="navPeta">Peta belajar</a>
@@ -456,7 +477,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 <script src="dalam4.js"></script>
 <script src="lapis5.js"></script>
 <script src="lapis5b.js"></script>
+<script src="lapis6.js"></script>
 <script src="ingat.js"></script>
+<script src="gagal.js"></script>
 <script src="coba.js"></script>
 <script src="legenda.js"></script>
 <script src="legenda-l01.js"></script>
@@ -464,6 +487,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 <script src="legenda-l3.js"></script>
 <script src="legenda-l4.js"></script>
 <script src="legenda-l5.js"></script>
+<script src="legenda-l6.js"></script>
 <script src="dalam5.js"></script>
 <script src="viz.js"></script>
 <script src="viz2.js"></script>
@@ -475,6 +499,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 <script src="rumus.js"></script>
 <script src="journey.js"></script>
 <script src="glosarium.js"></script>
+<script src="cari.js"></script>
 <script>
 (function(){
   var I = {
@@ -766,7 +791,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       window.journeyHTML()+'<div class="home-body">'+bgList()+
         '<section class="idea"><div><h2>Ide lama, wajah baru di <em>AI</em></h2><p>Hampir setiap teknik AI meminjam dari ilmu lain. Kalau fondasinya kuat, arsitektur baru terasa seperti teman lama.</p></div>'+
           '<ul><li><span>Pengolahan sinyal</span><span>menjadi</span><span>CNN</span></li><li><span>Teori kendali</span><span>menjadi</span><span>Mamba</span></li><li><span>Fisika statistik</span><span>menjadi</span><span>Model difusi</span></li><li><span>Probabilitas</span><span>menjadi</span><span>Attention</span></li></ul></section>'+
-        '<section><h2>Enam <em>lapis</em>, dari akal sehat sampai riset</h2><ol class="layers">'+rows+'</ol></section>'+
+        '<section><h2>Tujuh <em>lapis</em>, dari akal sehat sampai paper asli</h2><ol class="layers">'+rows+'</ol></section>'+
         '<section class="howto"><h2>Cara belajar yang <em>disarankan</em></h2><ol>'+
           '<li>Baca satu pelajaran per sesi, pelan-pelan.</li><li>Mainkan bagian <b>Coba sendiri</b>: geser, seret, dan lihat angkanya berubah.</li><li>Tutup jawaban contoh soal, kerjakan di kertas, lalu bandingkan.</li><li>Tekan <b>Jalankan</b> untuk memeriksa dengan Python asli.</li><li>Kerjakan <b>Tes kertas kosong</b> tanpa melihat catatan, lalu tandai pelajarannya selesai. Latihan soal dan tes kertas kosong minta terpisah ke Claude.</li></ol></section>'+
         '<section class="coda"><p>Batu itu butuh berabad-abad untuk belajar berhitung. Kamu cukup mulai dari satu pelajaran.</p>'+
@@ -975,6 +1000,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       (window.INGAT&&INGAT[id] ? '<div class="ingat"><b>Yang perlu kamu ingat</b><ul>'+INGAT[id].map(function(t){return '<li>'+t.replace(/\((\d+\.\d+(?:, \d+\.\d+)*)\)/g,function(a,g){return '('+g.split(', ').map(function(m){return L[m]?'<a href="#'+slug(m)+'">'+m+'</a>':m;}).join(', ')+')';})+'</li>';}).join('')+'</ul></div>' : '')+
       '<div class="why"><b>Kenapa penting untuk AI?</b>'+x.why+'</div>'+ x.body + (FIG[id] ? '<figure class="anat"><iframe src="'+FIG[id]+'" title="Gambar interaktif: neuron sebagai mesin" loading="lazy" scrolling="no" data-fig="neuron"></iframe></figure>' : '') +
       dalam(id) +
+      (window.GAGAL&&GAGAL[id] ? '<div class="box gagal"><p>'+GAGAL[id][0].replace(/\((\d\.\d+)\)/g,function(a,m){return L[m]?'(<a href="#'+slug(m)+'">'+m+'</a>)':a;})+'</p><p class="note">Sumber: '+GAGAL[id][1]+'</p></div>' : '')+
       (x.src ? '<div class="src"><ul>'+x.src.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul></div>' : '')+
       '<div class="donebar"><button type="button" class="btn glow" id="doneBtn" aria-pressed="'+dn+'">'+ico('check')+'<span>'+(dn?'Sudah selesai':'Tandai selesai')+'</span></button><small>Tandai setelah lulus Tes kertas kosong. Tersimpan di browser ini.</small></div>'+
       '<div class="pager">'+
@@ -1023,15 +1049,71 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
   /* KaTeX: rumus Unicode diganti tipografi matematika. Peta teks -> LaTeX ada di rumus.js. */
   var texRe = null;
   function tex(s, disp){ return window.katex.renderToString(s, {displayMode:!!disp, throwOnError:false, strict:false}); }
+
+  /* Rumus display yang lebih lebar dari layar (biasanya di HP): pecah jadi beberapa baris di titik aman
+     (\qquad, \quad, lalu = + − di tingkat teratas), baru kecilkan sedikit; kalau masih lebar, tetap bisa digeser. */
+  function lebar(el){ var k = el.querySelector('.katex'); return k ? k.scrollWidth : 0; }
+  function muat(el){ return lebar(el) <= el.clientWidth + 1; }
+  function pecahTop(src, re){
+    var out = [], d = 0, lr = 0, last = 0, i = 0;
+    while(i < src.length){
+      var c = src[i];
+      if(c === '\\' && src.substr(i, 5) === '\\left'){ lr++; i += 5; continue; }
+      if(c === '\\' && src.substr(i, 6) === '\\right'){ lr--; i += 6; continue; }
+      if(c === '{') d++; else if(c === '}') d--; else if(c === '(' || c === '[') lr++; else if(c === ')' || c === ']') lr--;
+      if(d === 0 && lr === 0){
+        re.lastIndex = i; var m = re.exec(src);
+        if(m && m.index === i){ out.push([last, i, m[0]]); last = i + m[0].length; i = last; continue; }
+      }
+      i += (c === '\\') ? 2 : 1;
+    }
+    out.push([last, src.length, '']);
+    return out.map(function(p){ return { t: src.slice(p[0], p[1]).trim(), sep: p[2] }; });
+  }
+  function fitTex(el, src){
+    el.style.fontSize = ''; if(!el.clientWidth || muat(el)) return;
+    var disp = function(t){ el.innerHTML = tex(t, true); };
+    /* 1. pemisah antar-rumus */
+    var a = pecahTop(src, /,?\s*\\qquad|,\s*\\quad\b/y).filter(function(p){ return p.t; });
+    if(a.length > 1){ disp('\\begin{gathered}' + a.map(function(p){ return p.t.replace(/,$/, ''); }).join('\\\\[4pt]') + '\\end{gathered}'); if(muat(el)) return; }
+    else {
+      /* 2. putus di = + − tingkat teratas, isi baris serakus mungkin */
+      var b = pecahTop(src, /\s*(=|\+|(?<![=(\[,^_{])\s-(?=\s))\s*/y);
+      if(b.length > 2){
+        var lines = [], cur = '', w = el.clientWidth, uji = document.createElement('span');
+        uji.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap'; el.appendChild(uji);
+        b.forEach(function(p, i){
+          var bit = p.t + (p.sep ? ' ' + p.sep.trim() : '');
+          var coba = cur ? cur + ' ' + bit : bit;
+          uji.innerHTML = tex(coba, true);
+          if(cur && lebar(uji) > w * 0.96){ lines.push(cur); cur = (lines.length ? '\\quad ' : '') + bit; } else cur = coba;
+        });
+        lines.push(cur); uji.remove();
+        if(lines.length > 1){ disp('\\begin{aligned}&' + lines.map(function(l){ return l.replace(/\s*(=|\+|-)$/, ' $1'); }).join('\\\\&') + '\\end{aligned}'); if(muat(el)) return; }
+      }
+    }
+    /* 3. kecilkan, paling kecil 80% */
+    var r = el.clientWidth / lebar(el);
+    if(r < 1) el.style.fontSize = Math.max(0.8, r * 0.98) + 'em';
+  }
+  function fitAll(root){
+    [].forEach.call(root.querySelectorAll('.tx.d, .big'), function(el){
+      var src = el.dataset.tex2 || el.dataset.tex; if(!src) return;
+      if(el.dataset.fit){ el.innerHTML = tex(src, true); }
+      el.dataset.fit = 1; fitTex(el, src);
+    });
+  }
+  var fitT = null;
+  window.addEventListener('resize', function(){ clearTimeout(fitT); fitT = setTimeout(function(){ if(view && window.katex) fitAll(view); }, 200); });
   function texify(root){
     var R = window.RUMUS;
     if(!window.katex){ loadKatex().then(function(){ texify(root); }); return; }
     [].forEach.call(root.querySelectorAll('.tx'), function(el){ if(el.dataset.tex) return; el.dataset.tex = el.textContent; el.innerHTML = tex(el.textContent, el.classList.contains('d')); });
-    if(!R) return;
+    if(!R){ fitAll(root); return; }
     [].forEach.call(root.querySelectorAll('mark, .big'), function(el){
       var k = el.innerHTML.replace(/<br\s*\/?>/g, '\n').replace(/<[^>]+>/g, '');
       var t = document.createElement('textarea'); t.innerHTML = k; k = t.value;
-      var v = R.whole[k]; if(v) el.innerHTML = tex(v, el.classList.contains('big'));
+      var v = R.whole[k]; if(v){ if(el.classList.contains('big')) el.dataset.tex2 = v; el.innerHTML = tex(v, el.classList.contains('big')); }
     });
     [].forEach.call(root.querySelectorAll('code'), function(el){
       if(el.closest('pre')) return; var v = R.code[el.textContent]; if(!v) return;
@@ -1054,6 +1136,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       if(last < s.length) frag.appendChild(document.createTextNode(s.slice(last)));
       node.replaceWith(frag);
     });
+    fitAll(root);
   }
   var katexP = null;
   function loadKatex(){

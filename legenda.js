@@ -104,7 +104,7 @@
     };
     function arti(id, t) { var L = root.LEGENDA[id] || {}; return L[t] || SIMBOL[t] || null; }
     /* nomor pelajaran "(2.3)" di teks legenda jadi link ke pelajaran tempat simbol itu diajarkan */
-    function tautkan(h) { return h.replace(/\(([0-5])\.(\d{1,2})\)/g, function (m, a, b) { var k = a + "." + b; return root.LESSONS && root.LESSONS[k] ? '(<a href="#p' + a + "-" + b + '">' + k + "</a>)" : m; }); }
+    function tautkan(h) { return h.replace(/\(([0-6])\.(\d{1,2})\)/g, function (m, a, b) { var k = a + "." + b; return root.LESSONS && root.LESSONS[k] ? '(<a href="#p' + a + "-" + b + '">' + k + "</a>)" : m; }); }
     root.legendify = function (view, id) {
       var all = [], seen = {}, groups = [];
       [].forEach.call(view.querySelectorAll(".tx, mark"), function (el) {
