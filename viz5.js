@@ -22,7 +22,7 @@
       p.curve(function (x) { return sig(w * x + b); }, "ink line");
       if (Math.abs(w) > 1e-6) { var xb = -b / w; if (xb > 0 && xb < 6) { p.seg(xb, -0.1, xb, 1.1, "guide"); p.text(xb, 1.04, "batas", "lbl", "middle"); } }
       D.forEach(function (d) { var q = sig(w * d[0] + b); L -= d[1] ? Math.log(Math.max(q, 1e-12)) : Math.log(Math.max(1 - q, 1e-12)); if ((q > 0.5) === !!d[1]) ok++; p.dot(d[0], d[1], d[1] ? "s1 dot" : "s2 dot", 5); });
-      f.out.innerHTML = "Cross-entropy rata-rata = <b>" + fmt(L / D.length, 3) + "</b>, benar " + ok + " dari " + D.length + ". Batas keputusan di x = −b/w = " + (Math.abs(w) > 1e-6 ? fmt(-b / w, 2) : "tidak ada") + ". Coba buat kurva lebih curam (w besar): loss turun kalau batasnya tepat, tapi titik yang salah sisi dihukum makin berat.";
+      f.out.innerHTML = "Cross-entropy rata-rata = <b>" + fmt(L / D.length, 3) + "</b>, benar " + ok + " dari " + D.length + ". Decision boundary di x = −b/w = " + (Math.abs(w) > 1e-6 ? fmt(-b / w, 2) : "tidak ada") + ". Coba buat kurva lebih curam (w besar): loss turun kalau batasnya tepat, tapi titik yang salah sisi dihukum makin berat.";
     }; h._draw();
   };
 
@@ -100,14 +100,14 @@
 
   /* 5.6 gradien lenyap / meledak */
   W.vanish = function (h) {
-    var f = frame(h, "Gradien setelah t langkah mundur ≈ λᵗ. Sumbu tegak memakai skala log (10ᵏ). Garis biru muda: LSTM dengan gerbang lupa f", [{ id: "l", label: "faktor RNN λ", min: 0.5, max: 1.3, step: 0.01, v: 0.9 }, { id: "fg", label: "gerbang lupa f", min: 0.5, max: 1, step: 0.01, v: 0.99 }]);
+    var f = frame(h, "Gradien setelah t backward pass ≈ λᵗ. Sumbu tegak memakai skala log (10ᵏ). Garis biru muda: LSTM dengan forget gate f", [{ id: "l", label: "faktor RNN λ", min: 0.5, max: 1.3, step: 0.01, v: 0.9 }, { id: "fg", label: "forget gate f", min: 0.5, max: 1, step: 0.01, v: 0.99 }]);
     var p = mk(f.svg, { x0: 0, x1: 100, y0: -8, y1: 4, h: 300, sx: 10, sy: 1, lx: 20, ly: 2 });
     h._draw = function () {
       var l = f.vals.l, fg = f.vals.fg; p.clear();
       p.curve(function (t) { return t * Math.log10(l); }, "s1 line"); p.curve(function (t) { return t * Math.log10(fg); }, "s2 line");
       p.seg(0, -2, 100, -2, "guide"); p.text(99, -1.7, "1%", "lbl", "end");
       var n1 = l < 1 ? Math.ceil(-2 / Math.log10(l)) : null, n2 = fg < 1 ? Math.ceil(-2 / Math.log10(fg)) : null;
-      f.out.innerHTML = "RNN: setelah 50 langkah gradien dikali <b>" + (Math.pow(l, 50) < 1e-3 || Math.pow(l, 50) > 1e3 ? Math.pow(l, 50).toExponential(1).replace(".", ",") : fmt(Math.pow(l, 50), 3)) + "</b>" + (l > 1 ? ": <b>meledak</b>." : n1 ? "; turun di bawah 1% setelah " + n1 + " langkah." : ".") + " LSTM dengan f = " + fmt(fg, 2) + ": " + (n2 ? "di bawah 1% setelah " + n2 + " langkah." : "tidak melemah sama sekali.") + " Gerbang lupa dipelajari, jadi jaringan bisa memilih f ≈ 1 untuk informasi yang perlu diingat lama.";
+      f.out.innerHTML = "RNN: setelah 50 langkah gradien dikali <b>" + (Math.pow(l, 50) < 1e-3 || Math.pow(l, 50) > 1e3 ? Math.pow(l, 50).toExponential(1).replace(".", ",") : fmt(Math.pow(l, 50), 3)) + "</b>" + (l > 1 ? ": <b>meledak</b>." : n1 ? "; turun di bawah 1% setelah " + n1 + " langkah." : ".") + " LSTM dengan f = " + fmt(fg, 2) + ": " + (n2 ? "di bawah 1% setelah " + n2 + " langkah." : "tidak melemah sama sekali.") + " Forget gate dipelajari, jadi jaringan bisa memilih f ≈ 1 untuk informasi yang perlu diingat lama.";
     }; h._draw();
   };
 
@@ -230,7 +230,7 @@
         var v = Vv[x][y]; cell(p, x, y, x + 1, y + 1, Math.max(0, v) * 0.6, "s1 fill"); p.text(x + 0.5, y + 0.6, fmt(v, 2), "lbl", "middle");
         if (it) { var bd = null, bv = -9; D.forEach(function (d) { var q = nxt(x, y, d), w = rew(q) + (term(q[0], q[1]) ? 0 : f.vals.g * Vv[q[0]][q[1]]); if (w > bv + 1e-9) { bv = w; bd = d; } }); if (bd && bv > 0) p.arrow(x + 0.5 - bd[0] * 0.15, y + 0.28 - bd[1] * 0.08, x + 0.5 + bd[0] * 0.25, y + 0.28 + bd[1] * 0.14, "ink"); }
       }
-      f.out.innerHTML = "Iterasi ke-" + it + ". Setiap iterasi menerapkan Bellman: V(s) = max atas 4 arah [imbalan + γ·V(berikutnya)]. Nilai menyebar satu kotak per iterasi, dan panah = arah terbaik. γ kecil membuat agen \"tidak sabar\": nilai kotak jauh hampir nol.";
+      f.out.innerHTML = "Iterasi ke-" + it + ". Setiap iterasi menerapkan Bellman: V(s) = max atas 4 arah [reward + γ·V(berikutnya)]. Nilai menyebar satu kotak per iterasi, dan panah = arah terbaik. γ kecil membuat agen \"tidak sabar\": nilai kotak jauh hampir nol.";
     };
     button(f, "Iterasi", function () { step(); h._draw(); });
     button(f, "10×", function () { for (var k = 0; k < 10; k++) step(); h._draw(); });

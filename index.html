@@ -122,6 +122,7 @@ article b,article strong{color:var(--ink);font-weight:600}
 .lg span{white-space:normal}
 .lg i{font-style:normal;font-weight:700;color:var(--accent);margin-right:.25em}
 .rule .lg{margin:.7em 0 0}
+.viz .lg-viz{margin:.3em 0 .8em;padding-top:.5em}
 .lg .lg-lama{grid-column:1/-1;font-size:.82rem;opacity:.85}
 .lg .lg-lama i{margin:0 .1em}
 .lgbox{margin:0 0 2em;border-top:1px solid var(--line);padding-top:10px}
@@ -867,6 +868,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     });
     if(window.legendify) window.legendify(view, id);
     if(window.mountViz) window.mountViz(view);
+    if(window.legendifyViz) window.legendifyViz(view, id);
     addRunners(view);
     [].forEach.call(view.querySelectorAll('.ex .ans'), function(a){
       var d = document.createElement('details'); d.className = 'answ';

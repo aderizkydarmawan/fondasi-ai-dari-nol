@@ -117,5 +117,20 @@
         all.map(function (t) { return "<div><dt>" + esc(nama(t)) + "</dt><dd>" + esc(arti(id, t)) + "</dd></div>"; }).join("") + "</dl>";
       var why = view.querySelector(".why"); if (why) why.insertAdjacentElement("afterend", box);
     };
+    /* Legenda untuk simbol di label slider widget (dipanggil setelah widget terpasang) */
+    root.legendifyViz = function (view, id) {
+      [].forEach.call(view.querySelectorAll(".viz .viz-c"), function (c) {
+        if (c.parentNode.querySelector(".lg-viz")) return;
+        var tk = [];
+        [].forEach.call(c.querySelectorAll("label > span"), function (s) {
+          var txt = s.textContent.split("=")[0];
+          tokensPlain(txt, true).forEach(function (t) { if (arti(id, t) && tk.indexOf(t) < 0) tk.push(t); });
+        });
+        if (!tk.length) return;
+        var d = document.createElement("div"); d.className = "lg lg-viz";
+        d.innerHTML = "<b>Legenda</b> " + tk.map(function (t) { return '<span><i>' + esc(nama(t)) + "</i> " + esc(arti(id, t)) + "</span>"; }).join("");
+        c.insertAdjacentElement("afterend", d);
+      });
+    };
   }
 })(typeof window !== "undefined" ? window : null);

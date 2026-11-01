@@ -128,7 +128,7 @@ Selalu terendah: ⟨E⟩ = 0, H = 0, F[q] = 0</div>
 <p>Posterior Bayes bisa ditulis seperti distribusi Boltzmann: <span class="tx">p(\theta\mid D) = e^{-E(\theta)}/Z</span> dengan "energi" <span class="tx">E(\theta) = -\log p(D\mid\theta) - \log p(\theta)</span> dan Z = p(D), peluang data. Z inilah yang mustahil dihitung untuk model besar.</p>
 <p>Jalan keluarnya: pilih keluarga distribusi yang mudah (misalnya normal dengan rata-rata dan varians yang bisa diatur), lalu cari anggota yang F[q]-nya terkecil. Kita tidak butuh Z, karena Z hanya konstanta. Di machine learning, minus F[q] disebut <b>ELBO</b> (evidence lower bound), karena ia batas bawah dari log p(D). Kenapa batas bawah? Rumus di atas berkata F[q] − F = KL ≥ 0. Di sini kT = 1, jadi F = −ln Z = −log p(D). Akibatnya −F[q] = log p(D) − KL, yang tidak pernah melebihi log p(D). Dan ELBO = −F[q]: memaksimalkan ELBO sama dengan meminimalkan F[q]. Ditulis lengkap:</p>
 <div class="tx d">\log p(D) \;\ge\; \underbrace{\mathbb{E}_q[\log p(D\mid\theta)]}_{\text{cocok dengan data}} - \underbrace{D_{\text{KL}}(q(\theta)\,\|\,p(\theta))}_{\text{jangan jauh dari prior}}</div>
-<p>Dua suku ini akan muncul lagi persis sebagai loss VAE (5.10): galat rekonstruksi ditambah KL.</p>
+<p>Dua suku ini akan muncul lagi persis sebagai loss VAE (5.10): reconstruction error ditambah KL.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import numpy as np
@@ -253,16 +253,17 @@ window.LESSONS["4.6"] = {
 <h2>Fokker–Planck: persamaan panas dengan arus</h2>
 <p>Kalau partikel juga ditarik drift f(x), seperti di SDE 4.5, kepadatan tidak hanya menyebar tapi juga mengalir:</p>
 <div class="tx d">\frac{\partial p}{\partial t} = -\frac{\partial}{\partial x}\big[f(x)\,p\big] + \frac{\sigma^2}{2}\,\frac{\partial^2 p}{\partial x^2}</div>
-<p>Suku pertama memindahkan kepadatan sepanjang arah drift; suku kedua meratakannya. Ketika keduanya seimbang, ∂p/∂t = 0 dan kita dapat distribusi stasioner. Untuk Ornstein–Uhlenbeck dengan κ = 1, σ = 1, keseimbangan itu adalah N(0; 0,5), angka yang sama dengan simulasi 4.5.</p>
+<p>Suku pertama memindahkan kepadatan sepanjang arah drift; suku kedua meratakannya. Ketika keduanya seimbang, ∂p/∂t = 0 dan kita dapat distribusi stasioner. Untuk Ornstein–Uhlenbeck dengan κ = 1, σ = 1, keseimbangan itu adalah N(0; 0,5), yaitu normal dengan rata-rata 0 dan <b>varians</b> 0,5 (bukan simpangan baku), angka yang sama dengan simulasi 4.5.</p>
 <div class="rule">Satu SDE, dua cara pandang: <mark>SDE</mark> untuk satu lintasan acak, <mark>Fokker–Planck</mark> untuk seluruh kurva peluang yang bergerak secara pasti.</div>
 
 <h2>Menghitung dengan komputer, dan jebakannya</h2>
-<p>Bagi x menjadi kisi dengan jarak Δx, dan waktu menjadi langkah Δt. Turunan kedua didekati dengan <span class="tx">(u_{i+1} - 2u_i + u_{i-1})/\Delta x^2</span>, lalu maju dengan Euler. Skema ini stabil hanya kalau <span class="tx">D\,\Delta t/\Delta x^2 \le \tfrac12</span>. Kisi dihaluskan dua kali, langkah waktu harus diperkecil empat kali. Lagi-lagi pelajaran yang sama dengan learning rate (3.1) dan Euler (3.7).</p>
+<p>Bagi x menjadi kisi dengan jarak Δx, dan waktu menjadi langkah Δt. Turunan kedua didekati dengan <span class="tx">(u_{i+1} - 2u_i + u_{i-1})/\Delta x^2</span>, lalu maju dengan Euler. Skema ini <b>stabil</b> (galatnya tidak membesar dari langkah ke langkah sampai meledak) hanya kalau <span class="tx">D\,\Delta t/\Delta x^2 \le \tfrac12</span>. Kisi dihaluskan dua kali, langkah waktu harus diperkecil empat kali. Lagi-lagi pelajaran yang sama dengan learning rate (3.1) dan Euler (3.7).</p>
 
 <h2>Di AI</h2>
 <p>Sohl-Dickstein dkk. (2015), makalah yang memulai model difusi, terinspirasi langsung oleh termodinamika tak seimbang: perlahan hancurkan struktur data dengan proses difusi, lalu pelajari kebalikannya. Persamaan Fokker–Planck menjamin bahwa proses maju membawa distribusi data apa pun ke derau normal.</p>
 
 <h2>Periksa dengan Python</h2>
+<p>Kode di bawah memakai <b>slicing</b> NumPy (1.9) untuk menggeser array: <code>u[1:-1]</code> adalah semua titik kecuali dua ujung (titik i), <code>u[2:]</code> adalah tetangga kanannya (i + 1), dan <code>u[:-2]</code> tetangga kirinya (i − 1). Jadi satu baris menghitung u<sub>i+1</sub> − 2u<sub>i</sub> + u<sub>i−1</sub> untuk semua titik sekaligus, tanpa perulangan.</p>
 <pre><code>import numpy as np
 D, dx, dt = 1.0, 0.05, 0.001                  # D*dt/dx^2 = 0.4, stabil
 x = np.arange(-6, 6 + dx / 2, dx); u = np.zeros_like(x); u[len(x) // 2] = 1 / dx

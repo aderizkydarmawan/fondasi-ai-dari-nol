@@ -34,14 +34,14 @@ Object.assign(window.LEGENDA, {
  "F": "perubahan yang dipelajari lapisan-lapisan di dalam blok"
 },
 "5.6": {
- "h": "keadaan tersembunyi: ingatan jaringan di langkah t",
+ "h": "hidden state: ingatan jaringan di langkah t",
  "t": "nomor langkah waktu (kata ke-t dalam urutan)",
  "W": "matriks bobot dari ingatan lama ke ingatan baru",
  "U": "matriks bobot dari input ke ingatan",
  "x": "input pada langkah t, misalnya vektor kata",
  "b": "vektor bias",
  "c": "sel memori LSTM; c̃ = calon isi baru",
- "f": "gerbang lupa: berapa banyak memori lama disimpan",
+ "f": "forget gate: berapa banyak memori lama disimpan",
  "i": "gerbang input: berapa banyak isi baru dimasukkan"
 },
 "5.7": {
@@ -55,7 +55,7 @@ Object.assign(window.LEGENDA, {
 },
 "5.8": {
  "d": "lambang turunan: d/dt = laju perubahan terhadap waktu",
- "h": "keadaan tersembunyi: ringkasan masa lalu",
+ "h": "hidden state: ringkasan masa lalu",
  "t": "waktu atau nomor langkah",
  "A": "matriks yang mengatur cara ingatan berubah/meluruh; Ā versi diskret",
  "B": "matriks yang memasukkan input ke keadaan; B̄ versi diskret",
@@ -108,15 +108,15 @@ Object.assign(window.LEGENDA, {
  "D": "banyaknya token data latih"
 },
 "5.14": {
- "γ": "faktor diskon: imbalan nanti dihargai lebih kecil",
- "G": "return: total imbalan terdiskon mulai waktu t",
+ "γ": "discount factor: reward nanti dihargai lebih kecil",
+ "G": "return: total reward terdiskon mulai waktu t",
  "t": "langkah waktu",
- "r": "imbalan (reward) yang diterima",
- "V": "nilai keadaan: total imbalan terbaik dari s",
+ "r": "reward (reward) yang diterima",
+ "V": "nilai keadaan: total reward terbaik dari s",
  "s": "keadaan (state); s' = keadaan berikutnya",
  "a": "aksi yang dipilih agen; a' = aksi berikutnya",
  "P": "peluang pindah ke s' setelah aksi a",
- "α": "laju belajar: seberapa besar Q diperbarui",
+ "α": "learning rate: seberapa besar Q diperbarui",
  "Q": "nilai aksi a di keadaan s"
 },
 "5.15": {

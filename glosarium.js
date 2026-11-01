@@ -51,7 +51,7 @@ window.GLOSARIUM = {
   'sigmoid': 'Fungsi 1/(1 + e^(−z)) yang memeras angka berapa pun ke antara 0 dan 1.',
   'token': 'Potongan teks (kata, bagian kata, atau tanda baca) yang dibaca model bahasa.',
   'attention': 'Cara setiap token menimbang token lain berdasarkan kecocokan query dan key.',
-  'imbalan': 'Angka yang diterima agen RL setelah bertindak; tanda baik atau buruknya aksi.',
+  'reward': 'Angka yang diterima agen RL setelah bertindak; tanda baik atau buruknya aksi.',
   'volatilitas': 'Seberapa liar harga bergoyang, diukur sebagai simpangan baku perubahan log harga per tahun.'
 };
 window.glosarium = function(root){

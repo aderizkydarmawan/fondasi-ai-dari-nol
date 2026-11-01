@@ -29,7 +29,7 @@ Langkah 1.000: 0,001 × ½(1 + cos π) = 0</div>
 
 <h2>4. Regularisasi: lawan overfitting</h2>
 <ul><li><b>Dropout</b> (Srivastava dkk., 2014): saat melatih, matikan setiap neuron secara acak dengan peluang p. Jaringan dipaksa tidak bergantung pada satu neuron mana pun, seperti melatih banyak sub-jaringan sekaligus. Supaya rata-rata sinyal tetap, keluaran yang tersisa dikali 1/(1 − p) saat melatih; makalah aslinya mengecilkan bobot saat menguji, hasilnya setara.</li>
-<li><b>Weight decay</b>: denda untuk bobot besar, setara prior normal (3.3). AdamW (Loshchilov &amp; Hutter, 2019) memisahkan denda ini dari langkah Adam. Di lapangan, AdamW kini jadi pilihan umum untuk melatih Transformer (ini praktik, bukan klaim makalahnya).</li>
+<li><b>Weight decay</b>: penalty untuk bobot besar, setara prior normal (3.3). AdamW (Loshchilov &amp; Hutter, 2019) memisahkan penalty ini dari langkah Adam. Di lapangan, AdamW kini jadi pilihan umum untuk melatih Transformer (ini praktik, bukan klaim makalahnya).</li>
 <li><b>Berhenti lebih awal</b> dan <b>augmentasi data</b> (membalik, memotong, memutar gambar) untuk memperbanyak variasi data latih.</li></ul>
 
 <h2>Periksa dengan Python</h2>
@@ -55,13 +55,14 @@ window.LESSONS["5.10"] = {
   why: "Autoencoder belajar meringkas data menjadi sedikit angka lalu membangunnya kembali. Variational autoencoder (VAE) mengubah ringkasan itu menjadi ruang yang bisa disampel, sehingga model bisa membuat data baru. Encoder VAE dipakai di Stable Diffusion untuk memampatkan gambar sebelum proses difusi (5.12).",
   body: String.raw`
 <h2>Autoencoder: peras lalu bangun ulang</h2>
-<p>Autoencoder punya dua bagian: <b>encoder</b> memampatkan masukan x (misalnya gambar 784 piksel) menjadi kode pendek z (misalnya 16 angka), dan <b>decoder</b> membangun ulang <span class="tx">\hat x</span> dari z. Loss-nya galat rekonstruksi, misalnya <span class="tx">\|x - \hat x\|^2</span>. Karena z lebih sempit dari x, jaringan dipaksa menyimpan hanya hal terpenting. Autoencoder linear dengan loss kuadrat mempelajari ruang yang sama dengan PCA (2.8); dengan lapis nonlinear, ia bisa menangkap struktur yang melengkung.</p>
+<p>Autoencoder punya dua bagian: <b>encoder</b> memampatkan masukan x (misalnya gambar 784 piksel) menjadi kode pendek z (misalnya 16 angka), dan <b>decoder</b> membangun ulang <span class="tx">\hat x</span> dari z. Loss-nya reconstruction error, misalnya <span class="tx">\|x - \hat x\|^2</span>. Karena z lebih sempit dari x, jaringan dipaksa menyimpan hanya hal terpenting. Autoencoder linear dengan loss kuadrat mempelajari ruang yang sama dengan PCA (2.8); dengan lapis nonlinear, ia bisa menangkap struktur yang melengkung.</p>
 <p>Masalahnya: ruang z dari autoencoder biasa berlubang-lubang. Ambil titik z acak dan decode, hasilnya sering sampah, karena tidak ada yang memaksa ruang itu teratur.</p>
 
 <h2>VAE: kode yang berupa distribusi</h2>
 <p>Kingma &amp; Welling (2014) membuat encoder mengeluarkan distribusi, bukan satu titik: rata-rata μ(x) dan simpangan baku σ(x) dari sebuah normal. Lalu mereka melatih dengan ELBO dari 4.3:</p>
 <div class="tx d">\mathcal{L} = \underbrace{\mathbb{E}_{q(z\mid x)}\big[\log p(x\mid z)\big]}_{\text{rekonstruksi}} - \underbrace{D_{\text{KL}}\big(\mathcal{N}(\mu, \sigma^2)\,\|\,\mathcal{N}(0, 1)\big)}_{\text{tetap dekat prior}}</div>
-<p>Suku KL menarik setiap distribusi kode ke normal standar, sehingga ruang z menjadi padat dan mulus. Setelah dilatih, ambil z dari N(0, 1), decode, dan keluarlah data baru yang masuk akal. Untuk satu dimensi, KL itu punya rumus tertutup:</p>
+<p>Subskrip di bawah 𝔼 menyebut dari mana nilai acaknya diambil: 𝔼<sub>q(z|x)</sub> berarti rata-rata (2.10) ketika z diambil dari q(z|x), distribusi kode yang dihasilkan encoder. <b>Prior</b> (3.3) di sini adalah N(0, 1), distribusi yang kita inginkan untuk kode sebelum melihat data.</p>
+<p>Suku KL menarik setiap distribusi kode ke normal standar, sehingga ruang z menjadi padat dan mulus. Setelah dilatih, ambil z dari N(0, 1), <i>decode</i> (jalankan lewat decoder), dan keluarlah data baru yang masuk akal. Untuk satu dimensi, KL itu punya <b>closed form</b>, yaitu rumus jadi yang bisa langsung dihitung tanpa simulasi:</p>
 <div class="tx d">D_{\text{KL}} = \tfrac12\left(\mu^2 + \sigma^2 - 1 - \ln\sigma^2\right)</div>
 <div class="ex"><div class="q">Encoder memberi μ = 1, σ = 0,5. Berapa suku KL-nya? Berapa kalau μ = 0, σ = 1?</div>
 <div class="step">½(1 + 0,25 − 1 − ln 0,25) = ½(0,25 + 1,386) ≈ 0,818
@@ -185,15 +186,15 @@ window.LESSONS["5.13"] = {
 <div class="ans">Jawaban: p(kopi | suka) = 2/3, p(teh | suka) = 1/3</div></div>
 <p>Shannon (1948) sudah membangkitkan teks Inggris dengan cara ini. Masalahnya: konteks satu kata terlalu pendek, dan kombinasi yang tidak pernah muncul di korpus diberi peluang nol. LLM menggantikan tabel frekuensi dengan Transformer (5.7) yang melihat ribuan token ke belakang dan memberi peluang yang masuk akal untuk kalimat yang belum pernah ada.</p>
 
-<h2>Pelatihan awal (pretraining)</h2>
+<h2>Pretraining</h2>
 <p>Loss-nya cross-entropy (3.4) untuk setiap token berikutnya, yang sama dengan MLE (3.2). Ukuran yang sering dilaporkan adalah <b>perplexity</b>, <span class="tx">e^{\text{loss}}</span>: model dengan loss 2 nat per token (nat adalah satuan informasi kalau logaritmanya ln; kalau log₂, satuannya bit, lihat 3.4) sama bingungnya dengan memilih acak dari sekitar 7,4 kemungkinan.</p>
-<p><b>Hukum skala</b>: Kaplan dkk. (2020) menemukan loss turun mulus mengikuti pangkat dari banyaknya parameter N, data D, dan komputasi. Biaya latih sekitar <span class="tx">6ND</span> operasi: kira-kira 2 operasi per parameter per token untuk langkah maju dan 4 untuk langkah mundur (backpropagation). Hoffmann dkk. (2022, Chinchilla) menunjukkan bahwa untuk anggaran komputasi tertentu, parameter dan token harus diperbesar bersama-sama: model 70 miliar parameter mereka dilatih pada 1,4 triliun token, kira-kira 20 token per parameter, sekitar <span class="tx">6 \times 70 \times 10^9 \times 1{,}4 \times 10^{12} \approx 5{,}9 \times 10^{23}</span> operasi.</p>
+<p><b>Scaling law</b>: Kaplan dkk. (2020) menemukan loss turun mulus mengikuti pangkat dari banyaknya parameter N, data D, dan komputasi. Biaya latih sekitar <span class="tx">6ND</span> operasi: kira-kira 2 operasi per parameter per token untuk forward pass dan 4 untuk backward pass (backpropagation). Hoffmann dkk. (2022, Chinchilla) menunjukkan bahwa untuk anggaran komputasi tertentu, parameter dan token harus diperbesar bersama-sama: model 70 miliar parameter mereka dilatih pada 1,4 triliun token, kira-kira 20 token per parameter, sekitar <span class="tx">6 \times 70 \times 10^9 \times 1{,}4 \times 10^{12} \approx 5{,}9 \times 10^{23}</span> operasi.</p>
 
 <h2>Membangkitkan teks</h2>
 <p>Model menghasilkan logit untuk semua token, softmax dengan suhu T (4.2) mengubahnya menjadi peluang, satu token diambil, ditempel ke konteks, dan diulang. Selain suhu, ada <b>top-k</b> (undi hanya dari k token paling mungkin) dan <b>top-p</b> (undi hanya dari token teratas yang peluangnya, kalau dijumlah, mencapai p, misalnya 0,9). Ketiganya mengatur keseimbangan antara aman dan beragam. GPT-3 (Brown dkk., 2020) menunjukkan bahwa model yang cukup besar bisa mengerjakan tugas baru hanya dari beberapa contoh di dalam perintah (few-shot), tanpa dilatih ulang.</p>
 
 <h2>Dari peramal teks ke asisten</h2>
-<p>Model hasil pretraining hanya melanjutkan teks; ia belum tentu menjawab pertanyaan dengan sopan dan jujur. Ouyang dkk. (2022, InstructGPT) menambahkan dua tahap: <b>fine-tuning</b> pada contoh percakapan yang ditulis manusia, lalu <b>RLHF</b>: manusia membandingkan pasangan jawaban, sebuah model reward dilatih dari pilihan itu, dan model bahasa dioptimalkan dengan reinforcement learning (5.14) untuk mengejar reward, dengan denda KL (3.4) supaya tidak menyimpang jauh dari model awal.</p>
+<p>Model hasil pretraining hanya melanjutkan teks; ia belum tentu menjawab pertanyaan dengan sopan dan jujur. Ouyang dkk. (2022, InstructGPT) menambahkan dua tahap: <b>fine-tuning</b> pada contoh percakapan yang ditulis manusia, lalu <b>RLHF</b>: manusia membandingkan pasangan jawaban, sebuah model reward dilatih dari pilihan itu, dan model bahasa dioptimalkan dengan reinforcement learning (5.14) untuk mengejar reward, dengan penalty KL (3.4) supaya tidak menyimpang jauh dari model awal.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>from collections import Counter
@@ -215,18 +216,18 @@ print(round(math.exp(2.0), 2), 6 * 70e9 * 1.4e12)                # 7.39 5.88e+23
 window.LESSONS["5.14"] = {
   title: "Reinforcement learning",
   pre: "3.8 rantai Markov, 2.10 ekspektasi, 5.4", min: 0,
-  why: "Reinforcement learning (RL) mengajari agen bertindak lewat coba-coba dan imbalan, tanpa contoh jawaban benar. RL membuat AlphaGo mengalahkan juara dunia Go, menyetel robot, dan menjadi tahap RLHF yang mengubah model bahasa menjadi asisten. Model penalaran terbaru juga dilatih dengan RL.",
+  why: "Reinforcement learning (RL) mengajari agen bertindak lewat coba-coba dan reward, tanpa contoh jawaban benar. RL membuat AlphaGo mengalahkan juara dunia Go, menyetel robot, dan menjadi tahap RLHF yang mengubah model bahasa menjadi asisten. Model penalaran terbaru juga dilatih dengan RL.",
   body: String.raw`
-<h2>Agen, keadaan, aksi, imbalan</h2>
-<p>Di setiap langkah, agen melihat <b>keadaan</b> s, memilih <b>aksi</b> a, menerima <b>imbalan</b> r, dan berpindah ke keadaan baru. Perpindahannya bisa acak, dan bergantung hanya pada keadaan dan aksi sekarang: rantai Markov (3.8) dengan pilihan, disebut <b>proses keputusan Markov</b> (MDP). Tujuan agen: memaksimalkan jumlah imbalan masa depan yang didiskon,</p>
+<h2>Agen, keadaan, aksi, reward</h2>
+<p>Di setiap langkah, agen melihat <b>keadaan</b> s, memilih <b>aksi</b> a, menerima <b>reward</b> r, dan berpindah ke keadaan baru. Perpindahannya bisa acak, dan bergantung hanya pada keadaan dan aksi sekarang: rantai Markov (3.8) dengan pilihan, disebut <b>proses keputusan Markov</b> (MDP). Tujuan agen: memaksimalkan jumlah reward masa depan yang didiskon,</p>
 <div class="tx d">G_t = r_{t+1} + \gamma\,r_{t+2} + \gamma^2 r_{t+3} + \cdots</div>
-<p>dengan faktor diskon γ antara 0 dan 1. Imbalan yang jauh di masa depan dihitung lebih kecil; γ = 0,9 berarti imbalan 10 langkah lagi bernilai 0,9¹⁰ ≈ 0,35 dari imbalan sekarang.</p>
+<p>dengan discount factor γ antara 0 dan 1. Reward yang jauh di masa depan dihitung lebih kecil; γ = 0,9 berarti reward 10 langkah lagi bernilai 0,9¹⁰ ≈ 0,35 dari reward sekarang.</p>
 
 <h2>Fungsi nilai dan persamaan Bellman</h2>
-<p>Nilai sebuah keadaan, V(s), adalah ekspektasi (2.10) imbalan total kalau mulai dari s dan bertindak sebaik mungkin. Bellman (1957) memperhatikan bahwa nilai bisa ditulis secara berulang: nilai sekarang = imbalan langkah ini + γ × nilai keadaan berikutnya, dengan aksi terbaik.</p>
+<p>Nilai sebuah keadaan, V(s), adalah ekspektasi (2.10) reward total kalau mulai dari s dan bertindak sebaik mungkin. Bellman (1957) memperhatikan bahwa nilai bisa ditulis secara berulang: nilai sekarang = reward langkah ini + γ × nilai keadaan berikutnya, dengan aksi terbaik.</p>
 <div class="tx d">V(s) = \max_a \Big[\, r(s, a) + \gamma \sum_{s'} P(s' \mid s, a)\,V(s') \Big]</div>
-<p>Dibaca dengan kata-kata: nilai keadaan s = coba setiap aksi a, dan untuk tiap aksi jumlahkan imbalan langsung r ditambah γ kali nilai keadaan berikutnya. Karena keadaan berikutnya s′ bisa acak, nilainya dirata-rata dengan bobot peluangnya (itulah Σ atas s′). Lalu <b>max</b> atas a: ambil aksi yang hasilnya paling besar.</p>
-<div class="ex"><div class="q">Lorong lima kotak; kotak paling kanan adalah tujuan. Melangkah ke tujuan memberi imbalan 1, langkah lain 0. γ = 0,9. Berapa nilai setiap kotak?</div>
+<p>Dibaca dengan kata-kata: nilai keadaan s = coba setiap aksi a, dan untuk tiap aksi jumlahkan reward langsung r ditambah γ kali nilai keadaan berikutnya. Karena keadaan berikutnya s′ bisa acak, nilainya dirata-rata dengan bobot peluangnya (itulah Σ atas s′). Lalu <b>max</b> atas a: ambil aksi yang hasilnya paling besar.</p>
+<div class="ex"><div class="q">Lorong lima kotak; kotak paling kanan adalah tujuan. Melangkah ke tujuan memberi reward 1, langkah lain 0. γ = 0,9. Berapa nilai setiap kotak?</div>
 <div class="step">Satu langkah dari tujuan: 1
 Dua langkah: 0 + 0,9 × 1 = 0,9
 Tiga langkah: 0,9 × 0,9 = 0,81, lalu 0,729, lalu 0,656</div>
@@ -234,8 +235,8 @@ Tiga langkah: 0,9 × 0,9 = 0,81, lalu 0,729, lalu 0,656</div>
 <p>Algoritma <b>value iteration</b> menerapkan persamaan Bellman berulang-ulang sampai nilainya berhenti berubah. Untuk game dengan keadaan sebanyak bintang di langit, tabel nilai diganti jaringan saraf: DQN (Mnih dkk., 2015) belajar memainkan puluhan game Atari langsung dari piksel.</p>
 
 <h2>Belajar tanpa tahu aturan dunia</h2>
-<p>Biasanya agen tidak tahu P dan r; ia hanya mencoba. <b>Temporal difference</b> (Sutton, 1988) memperbarui tebakan nilai dengan selisih antara tebakan lama dan "imbalan nyata + γ × tebakan berikutnya". Ini gradient descent (3.1) ke arah persamaan Bellman.</p>
-<p>Alternatifnya, latih <b>kebijakan</b> langsung: jaringan yang mengeluarkan peluang setiap aksi (softmax, 4.2). Gradien kebijakan menaikkan peluang aksi yang ternyata menghasilkan imbalan di atas rata-rata. PPO (Schulman dkk., 2017) membatasi seberapa jauh kebijakan boleh berubah per pembaruan supaya pelatihan stabil, dan dipakai di RLHF (5.13).</p>
+<p>Biasanya agen tidak tahu P dan r; ia hanya mencoba. <b>Temporal difference</b> (Sutton, 1988) memperbarui tebakan nilai dengan selisih antara tebakan lama dan "reward nyata + γ × tebakan berikutnya". Ini gradient descent (3.1) ke arah persamaan Bellman.</p>
+<p>Alternatifnya, latih <b>policy</b> langsung: jaringan yang mengeluarkan peluang setiap aksi (softmax, 4.2). Policy gradient menaikkan peluang aksi yang ternyata menghasilkan reward di atas rata-rata. PPO (Schulman dkk., 2017) membatasi seberapa jauh policy boleh berubah per pembaruan supaya pelatihan stabil, dan dipakai di RLHF (5.13).</p>
 <div class="rule">Dilema abadi RL: <mark>eksplorasi vs eksploitasi</mark>. Agen yang selalu memilih aksi terbaik menurut pengetahuannya tidak pernah menemukan yang lebih baik; agen yang terus mencoba hal baru tidak pernah memanen.</div>
 
 <h2>Periksa dengan Python</h2>
@@ -255,7 +256,7 @@ print([round(v, 3) for v in V])  # [0.656, 0.729, 0.81, 0.9, 1.0]</code></pre>
 window.LESSONS["5.15"] = {
   title: "Bonus: Black-Scholes",
   pre: "4.4, 4.5, 4.6, 2.9 distribusi normal", min: 0,
-  why: "Pelajaran bonus yang menunjukkan bahwa matematika yang sama menggerakkan dunia keuangan. Rumus Black–Scholes (1973) untuk harga opsi saham dibangun dari gerak Brown, kalkulus Itô, dan persamaan panas, persis alat Lapis 4. Ini juga contoh bagus kapan rumus tertutup bisa dicek dengan simulasi Monte Carlo.",
+  why: "Pelajaran bonus yang menunjukkan bahwa matematika yang sama menggerakkan dunia keuangan. Rumus Black–Scholes (1973) untuk harga opsi saham dibangun dari gerak Brown, kalkulus Itô, dan persamaan panas, persis alat Lapis 4. Ini juga contoh bagus kapan closed form (rumus jadi) bisa dicek dengan simulasi Monte Carlo.",
   body: String.raw`
 <p>Catatan: pelajaran ini menjelaskan matematika sebuah model, bukan nasihat investasi.</p>
 <h2>Opsi: hak, bukan kewajiban</h2>
@@ -292,7 +293,7 @@ C = 100 × 0,6368 − 100 × e⁻⁰·⁰⁵ × 0,5596</div>
 <div class="ans">Jawaban: C ≈ 10,45</div></div>
 
 <h2>Cek dengan Monte Carlo</h2>
-<p>Harga yang sama bisa didapat tanpa rumus: simulasikan sejuta harga akhir dengan drift r (bukan μ, karena lindung nilai tadi), hitung pembayaran setiap simulasi, ambil rata-rata, lalu diskon dengan <span class="tx">e^{-rT}</span>. Hasilnya 10,47 ± 0,015, cocok dengan rumus. Untuk opsi yang rumit, yang tidak punya rumus tertutup, Monte Carlo seperti inilah yang dipakai.</p>
+<p>Harga yang sama bisa didapat tanpa rumus: simulasikan sejuta harga akhir dengan drift r (bukan μ, karena lindung nilai tadi), hitung pembayaran setiap simulasi, ambil rata-rata, lalu diskon dengan <span class="tx">e^{-rT}</span>. Hasilnya 10,47 ± 0,015, cocok dengan rumus. Untuk opsi yang rumit, yang tidak punya closed form (rumus jadi), Monte Carlo seperti inilah yang dipakai.</p>
 <div class="rule">Model ini bersandar pada asumsi yang tidak sepenuhnya benar: volatilitas tetap, harga bergerak tanpa lompatan, perdagangan tanpa biaya. Krisis keuangan menunjukkan <mark>ekor distribusi nyata lebih tebal</mark> daripada normal. Model berguna, tapi tetap model.</div>
 
 <h2>Periksa dengan Python</h2>

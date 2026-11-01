@@ -242,7 +242,7 @@ window.LESSONS["3.5"] = {
 
 <h2>Penangkal overfitting</h2>
 <ul><li><b>Lebih banyak data</b>: varians turun, karena sulit menghafal derau yang lebih banyak.</li>
-<li><b>Regularisasi</b>: denda untuk bobot besar (weight decay, 3.3), dropout, atau berhenti lebih awal saat galat validasi mulai naik.</li>
+<li><b>Regularisasi</b>: penalty untuk bobot besar (weight decay, 3.3), dropout, atau berhenti lebih awal saat galat validasi mulai naik.</li>
 <li><b>Validasi silang</b>: pilih derajat atau ukuran model dengan mengukur galat pada data yang disisihkan, bukan galat latih.</li></ul>
 
 <h2>Kejutan modern: double descent</h2>

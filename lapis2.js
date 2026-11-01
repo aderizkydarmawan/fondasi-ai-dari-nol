@@ -208,7 +208,7 @@ Luas ≈ (1 + 4 + 9 + 16)/16 × 1/4 = 30/64</div>
 <h2>Di AI: peluang adalah luas</h2>
 <p>Untuk data kontinu, peluang satu nilai persis (tinggi tepat 170,000… cm) adalah nol. Yang bermakna adalah peluang sebuah <b>rentang</b>, dan itu luas di bawah kurva kepadatan p(x):</p>
 <div class="tx d">P(a \le X \le b) = \int_a^b p(x)\,dx, \qquad \int_{-\infty}^{\infty} p(x)\,dx = 1</div>
-<p>Luas totalnya harus 1: pasti terjadi sesuatu. Ini akan kamu pakai di 2.9 dan seterusnya.</p>
+<p>Simbol ∞ berarti tak hingga: batas −∞ sampai ∞ artinya "jumlahkan luas di seluruh garis bilangan, sejauh apa pun ke kiri dan ke kanan". Secara resmi itu limit (2.1): hitung luas dari −M sampai M, lalu biarkan M terus membesar. Luas totalnya harus 1: pasti terjadi sesuatu. Ini akan kamu pakai di 2.9 dan seterusnya.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import numpy as np
@@ -358,7 +358,7 @@ A·(1, −1) = (2−1, 1−2) = (1, −1) = 1 · (1, −1)</div>
 <p>Mulai dari (1, 0), arahnya merayap ke (0,71; 0,71), yaitu (1, 1) yang dinormalkan. Trik ini disebut <b>iterasi pangkat</b>, dan gagasan yang sama dipakai untuk menghitung PageRank.</p>
 
 <h2>Di AI: meledak atau menghilang</h2>
-<p>RNN mengalikan keadaan tersembunyinya dengan matriks bobot yang sama di setiap langkah waktu. Setelah 100 langkah, arah dengan |λ| = 1,1 diperbesar <span class="tx">1{,}1^{100} \approx 13.781</span> kali, sedangkan |λ| = 0,9 diperkecil menjadi <span class="tx">0{,}9^{100} \approx 0{,}00003</span>. Itulah exploding dan vanishing gradient dari sudut pandang eigen.</p>
+<p>RNN mengalikan hidden statenya dengan matriks bobot yang sama di setiap langkah waktu. Setelah 100 langkah, arah dengan |λ| = 1,1 diperbesar <span class="tx">1{,}1^{100} \approx 13.781</span> kali, sedangkan |λ| = 0,9 diperkecil menjadi <span class="tx">0{,}9^{100} \approx 0{,}00003</span>. Itulah exploding dan vanishing gradient dari sudut pandang eigen.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import numpy as np
@@ -446,7 +446,9 @@ window.LESSONS["2.9"] = {
 <tr><th>peluang</th><td>1/8</td><td>3/8</td><td>3/8</td><td>1/8</td></tr></table></div>
 <p>Ini distribusi <b>binomial</b>: n percobaan, masing-masing berhasil dengan peluang p. Rumus umumnya:</p>
 <div class="tx d">P(X = k) = \binom{n}{k}\,p^k\,(1-p)^{n-k}</div>
-<p><span class="tx">\binom{n}{k}</span> dibaca "n pilih k": banyaknya cara memilih k percobaan yang berhasil dari n.</p>
+<p><span class="tx">\binom{n}{k}</span> dibaca "n pilih k": banyaknya cara memilih k percobaan yang berhasil dari n. Rumusnya memakai <b>faktorial</b>: n! (dibaca "n faktorial") = 1 × 2 × 3 × … × n, misalnya 5! = 120. Lalu</p>
+<div class="tx d">\binom{n}{k} = \frac{n!}{k!\,(n-k)!}</div>
+<p>Contoh: (10 pilih 5) = 10! ÷ (5! × 5!) = 3.628.800 ÷ (120 × 120) = 252. Di Python: <code>math.comb(10, 5)</code>.</p>
 <div class="ex"><div class="q">Lempar koin 10 kali. Peluang tepat 5 gambar?</div>
 <div class="step">(10 pilih 5) = 252
 252 × 0,5⁵ × 0,5⁵ = 252 ÷ 1024</div>

@@ -138,7 +138,7 @@ Kurung luar: 4 − (−2) = 4 + 2 = 6
 window.LESSONS["0.3"] = {
   title: "Pecahan, desimal, dan persen",
   pre: "0.1, 0.2", min: 30,
-  why: "Peluang adalah pecahan: ChatGPT memilih kata berikutnya dari daftar peluang seperti 0,62 atau 3/5. Laju belajar model ditulis 0,001. Akurasi model ditulis dalam persen. Tiga cara menulis ini akan muncul di setiap pelajaran AI.",
+  why: "Peluang adalah pecahan: ChatGPT memilih kata berikutnya dari daftar peluang seperti 0,62 atau 3/5. Learning rate model ditulis 0,001. Akurasi model ditulis dalam persen. Tiga cara menulis ini akan muncul di setiap pelajaran AI.",
   body: `
 <h2>Pecahan adalah bagian dari keseluruhan</h2>
 <p>Satu pizza dipotong 8 sama besar, kamu makan 3 potong. Kamu makan <b>3/8</b> pizza. Angka atas (3) disebut <b>pembilang</b>, artinya berapa bagian yang diambil. Angka bawah (8) disebut <b>penyebut</b>, artinya keseluruhan dibagi menjadi berapa bagian.</p>
@@ -209,7 +209,7 @@ Fraction(5, 6)</code></pre>
 window.LESSONS["0.4"] = {
   title: "Pangkat dan akar",
   pre: "0.1 – 0.3", min: 30,
-  why: "Rumus kesalahan model memakai kuadrat (pangkat dua). Model besar punya ratusan miliar parameter, ditulis dengan pangkat sepuluh. Laju belajar kecil seperti 10⁻³ memakai pangkat negatif. Dan akar kuadrat muncul di jarak, simpangan baku, dan rumus attention di Transformer.",
+  why: "Rumus kesalahan model memakai kuadrat (pangkat dua). Model besar punya ratusan miliar parameter, ditulis dengan pangkat sepuluh. Learning rate kecil seperti 10⁻³ memakai pangkat negatif. Dan akar kuadrat muncul di jarak, simpangan baku, dan rumus attention di Transformer.",
   body: `
 <h2>Pangkat adalah perkalian berulang</h2>
 <p>2³ artinya 2 dikali dirinya sendiri sebanyak 3 kali: 2 × 2 × 2 = 8. Angka 2 disebut <b>basis</b>, angka 3 disebut <b>pangkat</b> atau eksponen.</p>
@@ -244,7 +244,7 @@ sisa 2×2×2 = 2³ = 8</div>
 <tr><td>8</td><td>4</td><td>2</td><td><mark>1</mark></td><td><mark>1/2</mark></td><td><mark>1/4</mark></td></tr></table></div>
 <p>Agar pola tetap jalan, 2⁰ harus 2 ÷ 2 = 1. Lanjut ke bawah nol, 2⁻¹ = 1/2 dan 2⁻² = 1/4.</p>
 <div class="rule">a⁰ = 1 (untuk a bukan nol) · a⁻ⁿ = 1/aⁿ</div>
-<p>Pangkat negatif artinya "satu dibagi". 10⁻³ = 1/10³ = 1/1000 = 0,001. Laju belajar AI sering ditulis 1e-3 di kode, artinya 1 × 10⁻³.</p>
+<p>Pangkat negatif artinya "satu dibagi". 10⁻³ = 1/10³ = 1/1000 = 0,001. Learning rate AI sering ditulis 1e-3 di kode, artinya 1 × 10⁻³.</p>
 
 <h2>Notasi ilmiah</h2>
 <p>Angka sangat besar atau sangat kecil ditulis sebagai angka biasa dikali pangkat sepuluh. Model bahasa GPT-3 punya sekitar 175.000.000.000 parameter, ditulis 1,75 × 10¹¹. Di Python ditulis <code>1.75e11</code>.</p>
@@ -414,7 +414,7 @@ Selisih y: −1 − 3 = −4  → dikuadratkan jadi 16, tanda minus hilang
 13.0</code></pre>
 <p>Contoh terakhir tiga arah: selisihnya 3, 4, dan 12, jadi √(9 + 16 + 144) = √169 = 13.</p>
 
-<div class="box intuisi"><b>Bonus untuk nanti: sinus dan kosinus.</b> Berdiri di alun-alun, menghadap timur, lalu berputar ke kiri sebesar sudut θ dan jalan tepat 1 blok. Posisimu sekarang ditulis <b>(cos θ, sin θ)</b>: cos θ adalah berapa jauh kamu ke timur, sin θ berapa jauh ke utara. Contoh: θ = 0° memberi (1, 0); θ = 90° memberi (0, 1); θ = 30° memberi (0,866; 0,5). Karena jarakmu dari alun-alun selalu 1, Pythagoras di atas berlaku: cos²θ + sin²θ = 1 (cek: 0,866² + 0,5² = 0,75 + 0,25 = 1). Dua fungsi ini muncul lagi saat memutar vektor (2.6, 2.7) dan di penanda posisi Transformer (5.7).</div>
+<div class="box intuisi"><b>Bonus untuk nanti: sinus dan kosinus.</b> Berdiri di alun-alun, menghadap timur, lalu berputar ke kiri sebesar sudut θ dan jalan tepat 1 blok. Posisimu sekarang ditulis <b>(cos θ, sin θ)</b>: cos θ adalah berapa jauh kamu ke timur, sin θ berapa jauh ke utara. Contoh: θ = 0° memberi (1, 0); θ = 90° memberi (0, 1); θ = 30° memberi (0,866; 0,5). Karena jarakmu dari alun-alun selalu 1, Pythagoras di atas berlaku: cos²θ + sin²θ = 1 (cek: 0,866² + 0,5² = 0,75 + 0,25 = 1). Dua fungsi ini muncul lagi saat memutar vektor (2.6, 2.7) dan di positional encoding Transformer (5.7).</div>
 `,
   src: [
     "OpenStax, <i>Prealgebra 2e</i>, Bab 9 “Math Models and Geometry”, bagian teorema Pythagoras (gratis online).",

@@ -6,7 +6,7 @@ Object.assign(window.DALAM, {
 deep: String.raw`<p>Kenapa tidak memakai MSE untuk regresi logistik? Dengan sigmoid di dalamnya, MSE tidak lagi cembung, dan ketika tebakan sangat salah, sigmoid mendatar sehingga gradiennya hampir nol: model yang yakin salah malah belajar paling lambat. Cross-entropy membatalkan eksponen sigmoid lewat logaritma, dan gradiennya tetap p̂ − y, besar ketika salah besar.</p>
 <p>Kalau data bisa dipisahkan sempurna oleh sebuah garis, MLE regresi logistik tidak ada: bobot terus membesar ke tak hingga supaya peluangnya mendekati 0 dan 1 tepat. Regularisasi L2 (3.3) menghentikannya. Untuk lebih dari dua kelas, sigmoid diganti softmax (4.2): regresi logistik multinomial, yang juga merupakan lapis terakhir setiap classifier jaringan saraf.</p>`,
 salah: ["Membaca keluaran regresi logistik sebagai kelas, bukan peluang. 0,51 dan 0,99 sama-sama \"ya\", tapi keyakinannya sangat berbeda.", "Mengira regresi linear cukup untuk ya/tidak. Garisnya bisa memberi angka di bawah 0 atau di atas 1."],
-ringkas: ["Linear: ŷ = w·x + b, loss MSE, ada rumus langsung.", "Logistik: p̂ = σ(w·x + b), loss cross-entropy biner, gradien p̂ − y.", "Batas keputusan: w·x + b = 0."],
+ringkas: ["Linear: ŷ = w·x + b, loss MSE, ada rumus langsung.", "Logistik: p̂ = σ(w·x + b), loss cross-entropy biner, gradien p̂ − y.", "Decision boundary: w·x + b = 0."],
 uji: ["Kenapa yakin-tapi-salah dihukum jauh lebih berat oleh cross-entropy?", "Tuliskan gradien loss logistik terhadap w untuk satu contoh."] },
 
 "5.2": { viz: "stump",
@@ -42,8 +42,8 @@ uji: ["Masukan 28 × 28 × 1, 32 kernel 5 × 5 tanpa padding. Berapa ukuran kelu
 deep: String.raw`<p>Mengapa nilai eigen? Gradien yang mengalir mundur t langkah dikali oleh <span class="tx">W^\top</span> (dan turunan tanh, paling besar 1) sebanyak t kali. Tulis gradien dalam basis vektor eigen W: komponen dengan |λ| &lt; 1 menyusut seperti |λ|ᵗ, yang |λ| &gt; 1 membesar seperti |λ|ᵗ. Ini analisis yang sama dengan distribusi stasioner rantai Markov (3.8) dan stabilitas Euler (3.7).</p>
 <p>Gradient clipping: kalau panjang vektor gradien melebihi batas, misalnya 1, skala ulang ke panjang itu. Arahnya tetap, ukurannya dibatasi. Trik sederhana ini juga dipakai dalam pelatihan Transformer besar untuk mencegah lonjakan loss sesekali.</p>`,
 salah: ["Mengira LSTM menghapus masalah jarak jauh sepenuhnya. LSTM memperpanjang ingatan hingga ratusan langkah, bukan tak terbatas.", "Mengira RNN tidak bisa paralel karena kurang dioptimalkan. Ketergantungan berurutan itu sifat dasarnya."],
-ringkas: ["h_t = tanh(W h_{t−1} + U x_t + b), bobot sama setiap langkah.", "Gradien jarak t ~ λᵗ: lenyap kalau |λ| < 1, meledak kalau > 1.", "LSTM: sel ingatan dengan gerbang lupa, masuk, keluar; diperbarui dengan penjumlahan."],
-uji: ["Kalau faktor per langkah 0,95, setelah berapa langkah gradien tinggal di bawah 1%?", "Apa peran gerbang lupa dalam LSTM?"] },
+ringkas: ["h_t = tanh(W h_{t−1} + U x_t + b), bobot sama setiap langkah.", "Gradien jarak t ~ λᵗ: lenyap kalau |λ| < 1, meledak kalau > 1.", "LSTM: memory cell dengan forget gate, masuk, keluar; diperbarui dengan penjumlahan."],
+uji: ["Kalau faktor per langkah 0,95, setelah berapa langkah gradien tinggal di bawah 1%?", "Apa peran forget gate dalam LSTM?"] },
 
 "5.7": { viz: "attn",
 deep: String.raw`<p>Kenapa √d? Kalau komponen q dan k acak dengan rata-rata 0 dan varians 1, perkalian titiknya adalah jumlah d suku bervarians 1, sehingga variansnya d (2.10). Membagi dengan √d mengembalikan varians skor ke 1, apa pun ukuran d. Ini persis seperti menormalkan suhu softmax.</p>
@@ -93,14 +93,14 @@ uji: ["Dari tabel, kira-kira di langkah berapa sinyal dan derau seimbang?", "Jel
 deep: String.raw`<p>Kenapa token, bukan huruf atau kata? Huruf membuat urutan sangat panjang; kata membuat kosakata tak terbatas dan kata baru tidak bisa dibaca. Byte-pair encoding mulai dari huruf (atau byte) dan berulang kali menggabungkan pasangan yang paling sering muncul, sampai kosakata mencapai ukuran yang diinginkan. Kata umum menjadi satu token; kata langka dipecah menjadi beberapa potong.</p>
 <p>Model bahasa besar bisa <b>berhalusinasi</b>: menghasilkan kalimat lancar yang salah. Ini akibat wajar dari tujuannya, menebak teks yang masuk akal, bukan memeriksa kebenaran. Teknik seperti retrieval (memberi model dokumen sumber), rantai penalaran (Wei dkk., chain-of-thought), dan pelatihan RL pada tugas yang bisa dicek mengurangi masalah ini, tapi tidak menghapusnya. Itulah alasan situs ini memeriksa setiap angka dengan Python.</p>`,
 salah: ["Mengira LLM mencari jawaban di basis data. Ia menghasilkan token demi token dari peluang yang dipelajari.", "Mengira suhu 0 membuat jawaban benar. Suhu 0 membuat jawaban konsisten, bukan benar."],
-ringkas: ["LLM = Transformer causal yang menebak token berikutnya, dilatih dengan cross-entropy.", "Perplexity = e^loss; hukum skala: loss turun mulus dengan N, D, komputasi (≈ 6ND).", "Pretraining → fine-tuning instruksi → RLHF."],
+ringkas: ["LLM = Transformer causal yang menebak token berikutnya, dilatih dengan cross-entropy.", "Perplexity = e^loss; scaling law: loss turun mulus dengan N, D, komputasi (≈ 6ND).", "Pretraining → fine-tuning instruksi → RLHF."],
 uji: ["Dari korpus contoh, berapa p(suka | aku)?", "Kenapa model 70 miliar parameter dilatih pada sekitar 1,4 triliun token menurut Chinchilla?"] },
 
 "5.14": { viz: "grid",
 deep: String.raw`<p>Kenapa value iteration pasti konvergen? Operator Bellman adalah <b>kontraksi</b>: menerapkannya pada dua tebakan nilai yang berbeda membuat selisih terbesarnya mengecil paling sedikit dengan faktor γ. Seperti peta yang dilipat berulang, semua tebakan menyusut menuju satu titik tetap. Dengan γ = 0,9, galat terbagi sekitar sepuluh setiap 22 putaran.</p>
-<p>Q-learning menyimpan nilai per pasangan (keadaan, aksi), Q(s, a), dan memperbaruinya dengan <span class="tx">Q \leftarrow Q + \alpha\,[\,r + \gamma\max_{a'}Q(s', a') - Q\,]</span>. Ia belajar kebijakan terbaik bahkan ketika agen bertindak secara eksploratif. AlphaGo menggabungkan jaringan kebijakan, jaringan nilai, dan pencarian pohon Monte Carlo; AlphaGo Zero belajar dari nol hanya dengan bermain melawan dirinya sendiri.</p>`,
-salah: ["Mengira imbalan sama dengan nilai. Imbalan didapat sekarang; nilai adalah perkiraan semua imbalan masa depan.", "Mengira RL butuh data berlabel. RL hanya butuh sinyal imbalan, yang bisa jarang dan tertunda."],
-ringkas: ["MDP: keadaan, aksi, peluang pindah, imbalan, diskon γ.", "Bellman: V(s) = max_a [r + γ Σ P V(s')]; value iteration mengulangnya.", "TD, Q-learning, gradien kebijakan, PPO; eksplorasi vs eksploitasi."],
+<p>Q-learning menyimpan nilai per pasangan (keadaan, aksi), Q(s, a), dan memperbaruinya dengan <span class="tx">Q \leftarrow Q + \alpha\,[\,r + \gamma\max_{a'}Q(s', a') - Q\,]</span>. Ia belajar policy terbaik bahkan ketika agen bertindak secara eksploratif. AlphaGo menggabungkan policy network, value network, dan pencarian pohon Monte Carlo; AlphaGo Zero belajar dari nol hanya dengan bermain melawan dirinya sendiri.</p>`,
+salah: ["Mengira reward sama dengan nilai. Reward didapat sekarang; nilai adalah perkiraan semua reward masa depan.", "Mengira RL butuh data berlabel. RL hanya butuh sinyal reward, yang bisa jarang dan tertunda."],
+ringkas: ["MDP: keadaan, aksi, peluang pindah, reward, diskon γ.", "Bellman: V(s) = max_a [r + γ Σ P V(s')]; value iteration mengulangnya.", "TD, Q-learning, policy gradient, PPO; eksplorasi vs eksploitasi."],
 uji: ["Dengan γ = 0,5, berapa nilai kotak paling jauh di lorong lima kotak?", "Jelaskan kenapa γ < 1 penting untuk tugas yang tidak pernah berakhir."] },
 
 "5.15": { viz: "bs",

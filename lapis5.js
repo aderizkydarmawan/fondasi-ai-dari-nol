@@ -19,7 +19,7 @@ b = ȳ − w x̄ = 4,75 − 1,9 × 2,5 = 0</div>
 <h2>Regresi logistik: menebak peluang</h2>
 <p>Untuk pertanyaan ya/tidak (email ini spam? tumor ini ganas?), keluaran harus di antara 0 dan 1. Ambil skor linear <span class="tx">z = \mathbf{w}\cdot\mathbf{x} + b</span>, lalu peras dengan fungsi <b>sigmoid</b>:</p>
 <div class="tx d">\sigma(z) = \frac{1}{1 + e^{-z}}</div>
-<p>σ(0) = 0,5; σ(2) ≈ 0,88; σ(−2) ≈ 0,12. Sigmoid adalah softmax (4.2) untuk dua kelas. Garis z = 0 disebut <b>batas keputusan</b>: di satu sisi model berkata "ya", di sisi lain "tidak", dan makin jauh dari garis, makin yakin.</p>
+<p>σ(0) = 0,5; σ(2) ≈ 0,88; σ(−2) ≈ 0,12. Sigmoid adalah softmax (4.2) untuk dua kelas. Garis z = 0 disebut <b>decision boundary</b>: di satu sisi model berkata "ya", di sisi lain "tidak", dan makin jauh dari garis, makin yakin.</p>
 
 <h2>Loss: cross-entropy biner</h2>
 <p>Dari 3.2 dan 3.4, loss untuk satu contoh dengan label y ∈ {0, 1}:</p>
@@ -138,7 +138,7 @@ window.LESSONS["5.4"] = {
 <p>Neuron dari 0.2 dan 1.8 menghitung <span class="tx">\mathbf{w}\cdot\mathbf{x} + b</span>. Satu lapis berisi banyak neuron sekaligus, jadi ditulis sebagai perkalian matriks (2.6), lalu setiap hasil dilewatkan <b>fungsi aktivasi</b> φ:</p>
 <div class="tx d">\mathbf{h} = \varphi(W\mathbf{x} + \mathbf{b})</div>
 <p>Fungsi aktivasi paling umum adalah <b>ReLU</b>: <span class="tx">\varphi(z) = \max(0, z)</span>. Nilai negatif dipotong jadi nol, nilai positif diteruskan apa adanya.</p>
-<p>Kenapa harus ada pembengkok? Tanpa φ, dua lapis berturut-turut hanya <span class="tx">W_2(W_1\mathbf{x}) = (W_2W_1)\mathbf{x}</span>, tetap satu matriks: setinggi apa pun tumpukannya, model hanya bisa menggambar garis lurus. Dengan φ, Cybenko (1989) dan Hornik dkk. (1989) membuktikan bahwa satu lapis tersembunyi yang cukup lebar bisa mendekati fungsi kontinu apa pun (teorema pendekatan universal).</p>
+<p>Kenapa harus ada pembengkok? Tanpa φ, dua lapis berturut-turut hanya <span class="tx">W_2(W_1\mathbf{x}) = (W_2W_1)\mathbf{x}</span>, tetap satu matriks: setinggi apa pun tumpukannya, model hanya bisa menggambar garis lurus. Dengan φ, Cybenko (1989) dan Hornik dkk. (1989) membuktikan bahwa satu hidden layer yang cukup lebar bisa mendekati fungsi kontinu apa pun (teorema pendekatan universal).</p>
 
 <h2>Contoh kecil: maju</h2>
 <div class="ex"><div class="q">x = [1; 2]. Lapis 1: W₁ = [[0,5; −1]; [1; 0,5]], tanpa bias, ReLU. Lapis 2: w₂ = [1; −1]. Target t = 1, loss ½(ŷ − t)². Hitung maju.</div>
@@ -223,7 +223,7 @@ window.LESSONS["5.6"] = {
   why: "Teks, suara, dan deret waktu datang berurutan. Recurrent neural network membaca satu langkah demi satu sambil membawa ingatan. Masalah gradien yang lenyap pada RNN, dan solusi gerbang di LSTM, adalah pelajaran penting yang menjelaskan kenapa Transformer dan Mamba dirancang seperti sekarang.",
   body: String.raw`
 <h2>Satu sel, dipakai berulang</h2>
-<p>RNN menyimpan <b>keadaan tersembunyi</b> <span class="tx">\mathbf{h}_t</span>, ringkasan semua yang sudah dibaca. Di setiap langkah, keadaan baru dihitung dari keadaan lama dan masukan baru, dengan bobot yang sama setiap langkah:</p>
+<p>RNN menyimpan <b>hidden state</b> <span class="tx">\mathbf{h}_t</span>, ringkasan semua yang sudah dibaca. Di setiap langkah, keadaan baru dihitung dari keadaan lama dan masukan baru, dengan bobot yang sama setiap langkah:</p>
 <div class="tx d">\mathbf{h}_t = \tanh(W\mathbf{h}_{t-1} + U\mathbf{x}_t + \mathbf{b})</div>
 <p><b>tanh</b> (tangen hiperbolik) adalah fungsi aktivasi berbentuk S seperti sigmoid (2.2), tapi keluarannya dari −1 sampai 1, bukan 0 sampai 1. Rumusnya tanh(z) = (eᶻ − e⁻ᶻ)/(eᶻ + e⁻ᶻ), dan ternyata tanh(z) = 2σ(2z) − 1. Contoh: tanh(0) = 0, tanh(1) ≈ 0,762.</p>
 <p>Dilatih dengan backpropagation yang dibentangkan sepanjang waktu (backpropagation through time): jaringan dianggap sebagai tumpukan lapis sebanyak panjang urutan, semuanya berbagi bobot.</p>
@@ -234,9 +234,9 @@ window.LESSONS["5.6"] = {
 <p>Faktor sedikit di bawah 1: gradien lenyap, dan model tidak bisa belajar hubungan jarak jauh ("kucing yang ... sedang tidur" butuh mengingat subjek). Faktor sedikit di atas 1: gradien meledak. Untuk matriks, yang menentukan adalah nilai eigen (2.7) W. Bengio dkk. (1994) dan Pascanu dkk. (2013) menganalisisnya; ledakan biasa diatasi dengan memotong panjang gradien (gradient clipping), tapi lenyapnya lebih sulit.</p>
 
 <h2>LSTM: jalur ingatan dengan gerbang</h2>
-<p>Hochreiter &amp; Schmidhuber (1997) menambahkan <b>sel ingatan</b> <span class="tx">\mathbf{c}_t</span> yang diperbarui dengan penjumlahan, bukan perkalian berulang. Versi aslinya hanya punya gerbang masuk dan gerbang keluaran; gerbang lupa (f di bawah) baru ditambahkan Gers, Schmidhuber &amp; Cummins (2000). Bentuk yang dipakai sekarang:</p>
+<p>Hochreiter &amp; Schmidhuber (1997) menambahkan <b>memory cell</b> <span class="tx">\mathbf{c}_t</span> yang diperbarui dengan penjumlahan, bukan perkalian berulang. Versi aslinya hanya punya input gate dan output gate; forget gate (f di bawah) baru ditambahkan Gers, Schmidhuber &amp; Cummins (2000). Bentuk yang dipakai sekarang:</p>
 <div class="tx d">\mathbf{c}_t = \mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t \odot \tilde{\mathbf{c}}_t</div>
-<p>f (gerbang lupa) dan i (gerbang masuk) adalah angka antara 0 dan 1 dari sigmoid, dipelajari dari data, dan ⊙ berarti kali per elemen. Kalau f ≈ 1, ingatan dibawa utuh dan gradien mengalir tanpa melemah, seperti jalan pintas ResNet (5.5). Gerbang ketiga (keluaran) memilih bagian ingatan yang ditampilkan sebagai <span class="tx">\mathbf{h}_t</span>. GRU (Cho dkk., 2014) adalah versi yang lebih sederhana dengan dua gerbang.</p>
+<p>f (forget gate) dan i (input gate) adalah angka antara 0 dan 1 dari sigmoid, dipelajari dari data, dan ⊙ berarti kali per elemen. Kalau f ≈ 1, ingatan dibawa utuh dan gradien mengalir tanpa melemah, seperti jalan pintas ResNet (5.5). Gerbang ketiga (keluaran) memilih bagian ingatan yang ditampilkan sebagai <span class="tx">\mathbf{h}_t</span>. GRU (Cho dkk., 2014) adalah versi yang lebih sederhana dengan dua gerbang.</p>
 
 <h2>Batas RNN</h2>
 <p>LSTM menguasai terjemahan mesin dan pengenalan suara sekitar 2014–2017. Tapi ia tetap membaca satu langkah demi satu, sehingga tidak bisa memanfaatkan GPU yang suka mengerjakan banyak hal sekaligus, dan ingatan jarak jauhnya tetap terbatas. Attention (5.7) menyelesaikan keduanya dengan membiarkan setiap posisi melihat langsung ke semua posisi lain.</p>
@@ -273,7 +273,7 @@ Keluaran: 0,401·[10; 0] + 0,198·[0; 10] + 0,401·[5; 5]</div>
 <p><b>Multi-head</b>: beberapa attention dijalankan berdampingan dengan matriks berbeda, sehingga satu kepala bisa melacak tata bahasa, kepala lain melacak siapa merujuk siapa. Karena attention tidak peduli urutan, posisi setiap token disuntikkan sebagai vektor tambahan (positional encoding).</p>
 
 <h2>Satu blok Transformer</h2>
-<p>Vaswani dkk. (2017) menyusun satu blok: self-attention, lalu jaringan dua lapis per token (MLP), masing-masing dibungkus sambungan residual (5.5) dan normalisasi lapis (menjaga angka tetap di kisaran wajar; dibahas di 5.9). Model besar menumpuk puluhan blok ini. Untuk model bahasa, attention diberi topeng supaya setiap token hanya melihat token sebelumnya (causal), karena tugasnya menebak token berikutnya (5.13).</p>
+<p>Vaswani dkk. (2017) menyusun satu blok: self-attention, lalu jaringan dua lapis per token (MLP), masing-masing dibungkus sambungan residual (5.5) dan layer normalization (menjaga angka tetap di kisaran wajar; dibahas di 5.9). Model besar menumpuk puluhan blok ini. Untuk model bahasa, attention diberi topeng supaya setiap token hanya melihat token sebelumnya (causal), karena tugasnya menebak token berikutnya (5.13).</p>
 <div class="rule">Kelebihan: setiap token melihat langsung ke semua token, tanpa ingatan yang memudar seperti RNN. Harga: biaya attention tumbuh seperti <mark>n²</mark> untuk n token. Konteks dua kali lebih panjang, empat kali lebih mahal.</div>
 
 <h2>Periksa dengan Python</h2>
@@ -296,7 +296,7 @@ window.LESSONS["5.8"] = {
   why: "Attention mahal untuk teks yang sangat panjang (biayanya n²). State space model (SSM) seperti S4 dan Mamba membaca urutan dengan biaya sebanding n, seperti RNN, tapi bisa dilatih secepat CNN. Mereka menghubungkan ODE dari Lapis 3 dengan model bahasa modern, dan kini dipakai dalam model hibrida bersama attention.",
   body: String.raw`
 <h2>Kembali ke ODE linear</h2>
-<p>SSM berangkat dari sistem kontrol klasik: keadaan tersembunyi h(t) berubah menurut ODE linear (3.7) yang digerakkan masukan x(t), lalu keluaran y dibaca dari keadaan:</p>
+<p>SSM berangkat dari sistem kontrol klasik: hidden state h(t) berubah menurut ODE linear (3.7) yang digerakkan masukan x(t), lalu keluaran y dibaca dari keadaan:</p>
 <div class="tx d">\frac{d\mathbf{h}}{dt} = A\mathbf{h} + B x, \qquad y = C\mathbf{h}</div>
 <p>Untuk data berlangkah diskret (token), ODE ini diubah menjadi aturan langkah, misalnya dengan ukuran langkah Δ:</p>
 <div class="tx d">\mathbf{h}_t = \bar A\,\mathbf{h}_{t-1} + \bar B\,x_t, \qquad y_t = C\,\mathbf{h}_t</div>
