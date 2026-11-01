@@ -35,9 +35,9 @@ uji: ["Hampiri ∫₀² x dx dengan 4 persegi panjang ujung kanan, lalu bandingk
 "2.5": { viz: "matrix",
 deep: String.raw`<p>Kenapa kolom matriks sudah cukup untuk menentukan seluruh gerakan? Karena linearitas: setiap vektor (x, y) adalah x·e₁ + y·e₂, jadi A(x, y) = x·Ae₁ + y·Ae₂. Begitu kamu tahu ke mana dua sumbu pergi, semua titik lain ikut. Untuk ruang n dimensi, n kolom menentukan segalanya.</p>
 <p>Determinan negatif berarti orientasi terbalik: urutan "e₁ lalu e₂ berlawanan jarum jam" menjadi searah jarum jam, seperti melihat bayangan di cermin. Di tiga dimensi, determinan adalah faktor volume. Dalam model generatif normalizing flow, determinan dipakai untuk menghitung bagaimana kepadatan peluang berubah saat ruang diregangkan: kalau luas berlipat dua, kepadatan harus setengahnya.</p>`,
-salah: ["Mengira matriks diterapkan per baris pada gambar. Lebih mudah dibaca per kolom: kolom = tujuan sumbu.", "Mengira det = 0 berarti matriksnya nol. Matriks [[1,2],[0,0]] tidak nol, tapi memipihkan bidang ke satu garis."],
+salah: ["Mengira matriks diterapkan per baris pada gambar. Lebih mudah dibaca per kolom: kolom = tujuan sumbu.", "Mengira det = 0 berarti matriksnya nol. Matriks [[1; 2]; [0; 0]] tidak nol, tapi memipihkan bidang ke satu garis."],
 ringkas: ["Matriks = transformasi linear: garis tetap garis, titik asal tetap.", "Kolom ke-j adalah ke mana sumbu ke-j dikirim.", "det = faktor luas; det = 0 memipihkan, det < 0 mencerminkan."],
-uji: ["Tulis matriks yang mencerminkan bidang terhadap sumbu y, lalu hitung determinannya.", "Ke mana persegi satuan dikirim oleh [[1,0],[2,1]]? Gambar, lalu cek luasnya dengan determinan."] },
+uji: ["Tulis matriks yang mencerminkan bidang terhadap sumbu y, lalu hitung determinannya.", "Ke mana persegi satuan dikirim oleh [[1; 0]; [2; 1]]? Gambar, lalu cek luasnya dengan determinan."] },
 
 "2.6": { viz: "matmul",
 deep: String.raw`<p>Rumus "baris kali kolom" bukan aturan sembarangan. Kolom ke-j dari BA adalah ke mana BA mengirim eⱼ: A mengirimnya ke kolom ke-j dari A, lalu B mengirim vektor itu ke B × (kolom ke-j dari A). Setiap entri hasilnya otomatis menjadi perkalian titik baris B dengan kolom A.</p>
@@ -45,15 +45,15 @@ deep: String.raw`<p>Rumus "baris kali kolom" bukan aturan sembarangan. Kolom ke-
 <p>Matriks yang hampir singular (det mendekati 0) membuat jawaban sangat peka terhadap gangguan kecil pada b. Ukurannya disebut bilangan kondisi. Di regresi, kolom data yang hampir sama (multikolinearitas) menghasilkan matriks seperti ini, dan koefisien yang ditemukan menjadi tidak stabil.</p>`,
 salah: ["Mengira AB = BA seperti perkalian bilangan biasa.", "Menulis (AB)⁻¹ = A⁻¹B⁻¹. Yang benar B⁻¹A⁻¹: untuk membatalkan 'pakai baju lalu jaket', lepas jaket dulu."],
 ringkas: ["BA = lakukan A dulu, lalu B; dibaca dari kanan ke kiri.", "Perkalian matriks umumnya tidak komutatif.", "A⁻¹ ada hanya jika det A ≠ 0; dalam praktik pakai solve, bukan inv."],
-uji: ["Hitung [[1,2],[3,4]] × [[0,1],[1,0]] dan sebaliknya. Apa yang dilakukan matriks kedua pada kolom atau baris?", "Selesaikan 3x + y = 7, x + 2y = 4 dengan rumus invers 2 × 2."] },
+uji: ["Hitung [[1; 2]; [3; 4]] × [[0; 1]; [1; 0]] dan sebaliknya. Apa yang dilakukan matriks kedua pada kolom atau baris?", "Selesaikan 3x + y = 7, x + 2y = 4 dengan rumus invers 2 × 2."] },
 
 "2.7": { viz: "eigen",
-deep: String.raw`<p>Cara mencari nilai eigen dengan tangan: Av = λv berarti (A − λI)v = 0. Supaya ada v yang bukan nol, matriks A − λI harus memipihkan ruang, jadi det(A − λI) = 0. Untuk A = [[2,1],[1,2]]: (2 − λ)² − 1 = 0, sehingga λ = 1 atau λ = 3. Persamaan ini disebut persamaan karakteristik.</p>
+deep: String.raw`<p>Cara mencari nilai eigen dengan tangan: Av = λv berarti (A − λI)v = 0. Supaya ada v yang bukan nol, matriks A − λI harus memipihkan ruang, jadi det(A − λI) = 0. Untuk A = [[2; 1]; [1; 2]]: (2 − λ)² − 1 = 0, sehingga λ = 1 atau λ = 3. Persamaan ini disebut persamaan karakteristik.</p>
 <p>Kalau A punya n vektor eigen yang bebas, A bisa ditulis A = SΛS⁻¹ (diagonalisasi), dengan Λ diagonal berisi nilai eigen. Akibatnya Aᵏ = SΛᵏS⁻¹: memangkatkan matriks jadi memangkatkan angka-angka di diagonal. Itulah alasan nilai eigen menentukan apakah sebuah sistem berulang (populasi, RNN, rantai Markov di Lapis 3) tumbuh, meluruh, atau stabil.</p>
 <p>Putaran 90° tidak punya arah eigen real, tapi punya nilai eigen kompleks ±i. Bilangan kompleks muncul justru di sistem yang berputar atau berosilasi. Model SSM seperti S4 (Lapis 5) memakai nilai eigen kompleks untuk mengingat pola berulang dalam deret panjang.</p>`,
 salah: ["Mengira setiap vektor yang diregangkan adalah vektor eigen. Syaratnya arahnya tidak berubah sama sekali (atau tepat berbalik, kalau λ negatif).", "Mengira nilai eigen selalu positif atau selalu real."],
 ringkas: ["Av = λv: v tidak dibelokkan, hanya diregangkan λ kali.", "Hasil kali nilai eigen = det, jumlahnya = trace.", "Matriks simetris: nilai eigen real, vektor eigen saling tegak lurus."],
-uji: ["Cari nilai eigen [[4,1],[2,3]] dari persamaan karakteristik, lalu cek dengan trace dan determinan.", "Jelaskan kenapa matriks dengan nilai eigen 1,2 membuat sistem berulang meledak."] },
+uji: ["Cari nilai eigen [[4; 1]; [2; 3]] dari persamaan karakteristik, lalu cek dengan trace dan determinan.", "Jelaskan kenapa matriks dengan nilai eigen 1,2 membuat sistem berulang meledak."] },
 
 "2.8": { viz: "pca",
 deep: String.raw`<p>Hubungan SVD dan eigen: AᵀA adalah matriks simetris, dan vektor eigennya adalah kolom V, dengan nilai eigen σ². Jadi SVD selalu ada dan selalu memberi arah yang saling tegak lurus, bahkan untuk matriks persegi panjang. Untuk data yang sudah dipusatkan X (n baris), matriks kovariansnya XᵀX/n, sehingga komponen utama = V, dan varians tiap komponen = σ²/n.</p>

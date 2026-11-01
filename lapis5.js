@@ -4,7 +4,7 @@ window.LESSONS = window.LESSONS || {};
 /* ───────────────────────── 5.1 ───────────────────────── */
 window.LESSONS["5.1"] = {
   title: "Regresi linear dan logistik",
-  pre: "1.4 garis, 1.7 varians, 3.1, 3.2, 3.4", min: 0,
+  pre: "1.4 garis, 1.7 varians, 2.1 turunan, 2.2 aturan rantai, 2.3 gradien, 2.6 matriks, 3.1, 3.2, 3.4, 4.2 softmax", min: 0,
   why: "Dua model ini adalah titik awal semua machine learning. Regresi linear menebak angka; regresi logistik menebak peluang ya atau tidak. Satu neuron di jaringan saraf adalah regresi logistik, dan lapis terakhir GPT adalah regresi logistik dengan puluhan ribu kelas. Semua alat dari Lapis 2 dan 3 bertemu di sini.",
   body: String.raw`
 <h2>Regresi linear: menebak angka</h2>
@@ -14,6 +14,7 @@ window.LESSONS["5.1"] = {
 w = Σ(x − x̄)(y − ȳ) ÷ Σ(x − x̄)² = 9,5 ÷ 5 = 1,9
 b = ȳ − w x̄ = 4,75 − 1,9 × 2,5 = 0</div>
 <div class="ans">Jawaban: ŷ = 1,9x</div></div>
+<p>Dari mana rumus w dan b itu? Loss-nya <span class="tx">L(w, b) = \sum (y - wx - b)^2</span>. Di dasar lembah, kedua turunan parsial (2.3) bernilai nol. Turunan terhadap b: <span class="tx">-2\sum (y - wx - b) = 0</span>, jadi <span class="tx">b = \bar y - w\bar x</span>. Masukkan b ini ke turunan terhadap w, <span class="tx">-2\sum x\,(y - wx - b) = 0</span>, lalu rapikan: keluarlah rumus w di atas. Dengan banyak fitur, cara yang sama memberi <span class="tx">\mathbf{w} = (X^\top X)^{-1} X^\top \mathbf{y}</span>, memakai transpos dan invers dari 2.6.</p>
 
 <h2>Regresi logistik: menebak peluang</h2>
 <p>Untuk pertanyaan ya/tidak (email ini spam? tumor ini ganas?), keluaran harus di antara 0 dan 1. Ambil skor linear <span class="tx">z = \mathbf{w}\cdot\mathbf{x} + b</span>, lalu peras dengan fungsi <b>sigmoid</b>:</p>
@@ -28,7 +29,8 @@ b = ȳ − w x̄ = 4,75 − 1,9 × 2,5 = 0</div>
 Spam (y = 1): L = −log 0,953 ≈ 0,049
 Bukan spam (y = 0): L = −log(1 − 0,953) ≈ 3,05</div>
 <div class="ans">Jawaban: 0,953; loss 0,049 kalau benar, 3,05 kalau salah. Yakin tapi salah dihukum sekitar 60 kali lebih berat.</div></div>
-<p>Gradiennya sangat sederhana: <span class="tx">\partial L/\partial z = \hat p - y</span>, selisih tebakan dan kenyataan. Berbeda dengan regresi linear, tidak ada rumus jawaban langsung, jadi bobotnya dicari dengan gradient descent. Untungnya loss ini cembung (satu lembah saja), jadi GD pasti sampai ke dasar.</p>
+<p>Gradiennya sangat sederhana: <span class="tx">\partial L/\partial z = \hat p - y</span>, selisih tebakan dan kenyataan. Asalnya dari aturan rantai (2.2): turunan L terhadap p̂ adalah <span class="tx">-y/\hat p + (1-y)/(1-\hat p)</span> (turunan ln dari 2.1), turunan p̂ = σ(z) terhadap z adalah <span class="tx">\hat p(1-\hat p)</span> (2.2). Kalikan keduanya, banyak suku saling coret, dan sisanya p̂ − y. Di z = 3 dengan y = 1: 0,953 − 1 = −0,047.</p>
+<p>Berbeda dengan regresi linear, tidak ada rumus jawaban langsung, jadi bobotnya dicari dengan gradient descent. Untungnya loss ini <b>cembung</b>. Artinya: tali yang direntangkan di antara dua titik mana pun pada grafiknya selalu berada di atas grafik, sehingga grafiknya hanya punya satu lembah dan tidak ada lembah palsu tempat GD bisa terjebak. Untuk satu variabel, cembung berarti turunan keduanya tidak pernah negatif (x² cembung; x⁴ − x² tidak, karena punya dua lembah). Jadi GD sampai ke dasar, asal learning rate cukup kecil (3.1). Satu pengecualian: kalau kedua kelas bisa dipisahkan sempurna oleh garis, dasarnya ada di tak hingga dan bobot terus membesar; regularisasi (3.5) mencegah hal itu.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import numpy as np
@@ -155,6 +157,7 @@ L = ½(−2 − 1)² = 4,5</div>
 ∂L/∂z = ∂L/∂h × ReLU'(z) = [−3 × 0; 3 × 1] = [0; 3]
 ∂L/∂W₁ = ∂L/∂z · xᵀ = [[0; 0]; [3; 6]]</div>
 <div class="ans">Jawaban: ∂L/∂w₂ = [0; −6], ∂L/∂W₁ = [[0; 0]; [3; 6]]. Baris pertama W₁ mendapat gradien nol, karena neuronnya mati (z negatif, dipotong ReLU).</div></div>
+<p>Dua langkah di atas perlu dijelaskan. <b>ReLU'(z)</b>, turunan ReLU, bernilai 0 kalau z negatif (grafiknya datar di sana) dan 1 kalau z positif (grafiknya garis miring 45°). Lalu <span class="tx">\partial L/\partial z \cdot \mathbf{x}^\top</span> adalah vektor kolom kali vektor baris, kebalikan dari aᵀb di 2.6. Hasilnya bukan satu angka, melainkan tabel: baris ke-i, kolom ke-j berisi (∂L/∂z)ᵢ × xⱼ. Di sini [0; 3] kali [1, 2] memberi [[0 × 1; 0 × 2]; [3 × 1; 3 × 2]] = [[0; 0]; [3; 6]]. Artinya masuk akal: bobot W₁ baris i, kolom j menghubungkan masukan j ke neuron i, jadi gradiennya = sinyal kesalahan neuron i × besar masukan j.</p>
 <p>Inilah <b>backpropagation</b> (Rumelhart, Hinton &amp; Williams, 1986): satu lintasan maju menyimpan semua nilai antara, satu lintasan mundur menghitung semua gradien sekaligus, dengan biaya kira-kira dua kali lintasan maju. Tanpa trik ini, model bermiliar bobot mustahil dilatih. Pustaka seperti PyTorch melakukannya otomatis (autodiff).</p>
 
 <h2>Periksa dengan Python</h2>
@@ -257,7 +260,7 @@ window.LESSONS["5.7"] = {
 <p>Bayangkan kamus: kamu punya pertanyaan (<b>query</b>), setiap entri punya <b>key</b> (kata kunci) dan <b>value</b> (isi). Kamus biasa mengembalikan isi dari kunci yang persis cocok. Attention mengembalikan <b>campuran</b> semua isi, dengan bobot sesuai seberapa cocok setiap kunci dengan pertanyaan.</p>
 <p>Kecocokan diukur dengan perkalian titik (1.8): vektor yang searah memberi skor tinggi. Skor diubah menjadi bobot dengan softmax (4.2):</p>
 <div class="tx d">\text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d}}\right) V</div>
-<p>Pembagian dengan <span class="tx">\sqrt{d}</span> (d = panjang vektor) menjaga skor tidak terlalu besar ketika d besar. Ia bekerja seperti suhu: tanpa itu, softmax terlalu tajam dan gradiennya nyaris nol.</p>
+<p>Pembagian dengan <span class="tx">\sqrt{d}</span> (d = panjang vektor) menjaga skor tidak terlalu besar ketika d besar. Ia bekerja seperti suhu (4.2): tanpa itu, softmax terlalu tajam, hampir semua bobot jatuh ke satu kunci. Peluang yang sudah hampir 1 atau hampir 0 hampir tidak berubah walau skornya digeser (turunannya p(1 − p), mirip sigmoid di 2.2), jadi gradiennya nyaris nol dan model berhenti belajar.</p>
 <div class="ex"><div class="q">Query q = [1; 0]. Tiga kunci: k₁ = [1; 0], k₂ = [0; 1], k₃ = [1; 1]. Value: v₁ = [10; 0], v₂ = [0; 10], v₃ = [5; 5]. Hitung keluaran attention.</div>
 <div class="step">Skor q·k ÷ √2: [1; 0; 1] ÷ 1,414 = [0,707; 0; 0,707]
 Softmax: [0,401; 0,198; 0,401]
@@ -269,7 +272,7 @@ Keluaran: 0,401·[10; 0] + 0,198·[0; 10] + 0,401·[5; 5]</div>
 <p><b>Multi-head</b>: beberapa attention dijalankan berdampingan dengan matriks berbeda, sehingga satu kepala bisa melacak tata bahasa, kepala lain melacak siapa merujuk siapa. Karena attention tidak peduli urutan, posisi setiap token disuntikkan sebagai vektor tambahan (positional encoding).</p>
 
 <h2>Satu blok Transformer</h2>
-<p>Vaswani dkk. (2017) menyusun satu blok: self-attention, lalu jaringan dua lapis per token (MLP), masing-masing dibungkus sambungan residual (5.5) dan normalisasi lapis (5.9). Model besar menumpuk puluhan blok ini. Untuk model bahasa, attention diberi topeng supaya setiap token hanya melihat token sebelumnya (causal), karena tugasnya menebak token berikutnya (5.13).</p>
+<p>Vaswani dkk. (2017) menyusun satu blok: self-attention, lalu jaringan dua lapis per token (MLP), masing-masing dibungkus sambungan residual (5.5) dan normalisasi lapis (menjaga angka tetap di kisaran wajar; dibahas di 5.9). Model besar menumpuk puluhan blok ini. Untuk model bahasa, attention diberi topeng supaya setiap token hanya melihat token sebelumnya (causal), karena tugasnya menebak token berikutnya (5.13).</p>
 <div class="rule">Kelebihan: setiap token melihat langsung ke semua token, tanpa ingatan yang memudar seperti RNN. Harga: biaya attention tumbuh seperti <mark>n²</mark> untuk n token. Konteks dua kali lebih panjang, empat kali lebih mahal.</div>
 
 <h2>Periksa dengan Python</h2>

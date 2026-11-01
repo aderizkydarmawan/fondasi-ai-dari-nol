@@ -140,13 +140,13 @@ window.LESSONS["5.12"] = {
 <p>Di t = 1000, gambar asli tinggal 0,6%: praktis derau normal murni, apa pun gambar awalnya. Ini jaminan Fokker–Planck dari 4.6.</p>
 
 <h2>Proses balik: latih penebak derau</h2>
-<p>Untuk membuat gambar, kita perlu berjalan mundur dari derau. Jaringan <span class="tx">\varepsilon_\theta(x_t, t)</span> (biasanya U-Net atau Transformer) dilatih dengan tugas sederhana: diberi gambar bederau <span class="tx">x_t</span> dan waktunya t, tebak derau ε yang ditambahkan. Loss-nya hanya MSE:</p>
+<p>Untuk membuat gambar, kita perlu berjalan mundur dari derau. Jaringan <span class="tx">\varepsilon_\theta(x_t, t)</span> (biasanya U-Net, jaringan konvolusi berbentuk U yang mengecilkan gambar lalu membesarkannya lagi, atau Transformer) dilatih dengan tugas sederhana: diberi gambar bederau <span class="tx">x_t</span> dan waktunya t, tebak derau ε yang ditambahkan. Loss-nya hanya MSE:</p>
 <div class="tx d">L = \mathbb{E}_{x_0,\, t,\, \varepsilon}\;\big\|\,\varepsilon - \varepsilon_\theta(x_t, t)\,\big\|^2</div>
 <p>Resep pelatihan: ambil gambar, ambil t acak, ambil derau acak, buat <span class="tx">x_t</span> dengan rumus di atas, minta jaringan menebak deraunya. Tidak ada permainan dua pemain seperti GAN; hanya regresi, jadi pelatihannya stabil.</p>
 
 <h2>Membuat gambar</h2>
 <p>Mulai dari derau murni <span class="tx">x_T</span>. Di setiap langkah, kurangi sebagian derau yang ditebak jaringan, tambahkan sedikit derau baru, dan mundur satu langkah. Setelah ratusan langkah, keluar gambar baru. Song dkk. (2021) menunjukkan bahwa penebak derau sebenarnya menaksir <b>skor</b> <span class="tx">\nabla_x \log p(x_t)</span>, arah naik peluang data, dan proses balik adalah SDE (4.5) yang drift-nya memuat skor itu. Cara deterministik (DDIM, ODE probability flow) memangkasnya menjadi puluhan langkah saja.</p>
-<p><b>Mengendalikan dengan teks</b>: jaringan juga diberi embedding teks perintah. Classifier-free guidance (Ho &amp; Salimans) menghitung tebakan dengan dan tanpa teks, lalu memperbesar selisihnya, sehingga gambar lebih patuh pada perintah. Stable Diffusion menjalankan semua ini di ruang kode VAE (5.10) yang lebih kecil, bukan di piksel.</p>
+<p><b>Mengendalikan dengan teks</b>: jaringan juga diberi <b>embedding</b> teks perintah, yaitu daftar angka yang mewakili makna kalimat itu. Classifier-free guidance (Ho &amp; Salimans) menghitung tebakan dengan dan tanpa teks, lalu memperbesar selisihnya, sehingga gambar lebih patuh pada perintah. Stable Diffusion menjalankan semua ini di ruang kode VAE (5.10) yang lebih kecil, bukan di piksel.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import numpy as np
@@ -262,7 +262,19 @@ window.LESSONS["5.15"] = {
 <h2>Model harga saham: gerak Brown geometris</h2>
 <p>Black, Scholes, dan Merton memodelkan harga saham dengan SDE (4.5) yang perubahannya sebanding dengan harga itu sendiri:</p>
 <div class="tx d">dS = \mu S\,dt + \sigma S\,dW</div>
-<p>σ adalah <b>volatilitas</b>, seberapa liar harga bergoyang. Dengan lemma Itô, log S menjadi gerak Brown dengan drift, sehingga S<sub>T</sub> berdistribusi log-normal.</p>
+<p>σ adalah <b>volatilitas</b>, seberapa liar harga bergoyang. Dengan <b>lemma Itô</b>, log S menjadi gerak Brown dengan drift, sehingga S<sub>T</sub> berdistribusi log-normal.</p>
+<div class="box intuisi"><p>Lemma Itô tidak dibuktikan di kursus ini (lihat 4.5), tapi intinya bisa dilihat. Di kalkulus biasa, perubahan ln S kira-kira dS/S, dan suku kuadrat (dS)² dibuang karena sangat kecil. Di gerak Brown, dW berukuran sekitar √dt (4.4), jadi (dW)² berukuran dt, sama besar dengan suku lain, dan tidak boleh dibuang. Ekspansi orde dua <span class="tx">d\ln S \approx \frac{dS}{S} - \frac{1}{2}\frac{(dS)^2}{S^2}</span> dengan <span class="tx">(dS)^2 \approx \sigma^2 S^2\,dt</span> memberi</p>
+<div class="tx d">d\ln S = \left(\mu - \tfrac{1}{2}\sigma^2\right)dt + \sigma\,dW</div>
+<p>Suku −σ²/2 itulah "ongkos" goyangan. Cek dengan simulasi: μ = 0,1 dan σ = 0,2, jadi rata-rata kenaikan ln S dalam setahun seharusnya 0,1 − 0,02 = 0,08, bukan 0,1.</p>
+<pre><code>import numpy as np
+rng = np.random.default_rng(0)
+n, langkah, mu, sig, T = 20000, 250, 0.1, 0.2, 1.0
+dt = T / langkah
+S = np.full(n, 100.0)
+for _ in range(langkah):
+    S = S + mu * S * dt + sig * S * np.sqrt(dt) * rng.standard_normal(n)
+print(round(np.log(S).mean() - np.log(100), 3))   # 0.08
+print(round(mu - sig**2 / 2, 3))                  # 0.08</code></pre></div>
 
 <h2>Gagasan besar: lindung nilai menghapus risiko</h2>
 <p>Dengan memegang opsi dan menjual saham dalam jumlah yang tepat (dan menyesuaikannya terus), goyangan dW dari keduanya saling meniadakan. Portofolio tanpa risiko harus tumbuh dengan bunga bebas risiko r, kalau tidak ada keuntungan gratis. Syarat ini menghasilkan persamaan diferensial parsial yang, setelah ganti variabel, berubah menjadi persamaan panas (4.6). Akibat mengejutkan: μ, perkiraan arah saham, <b>hilang</b> dari rumus. Harga opsi hanya bergantung pada σ, r, S, K, dan T.</p>

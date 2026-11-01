@@ -1,6 +1,7 @@
 /* Arti simbol rumus Lapis 5, per pelajaran. */
 Object.assign(window.LEGENDA, {
 "5.1": {
+ "X": "tabel data: satu baris per contoh, satu kolom per fitur",
  "y": "label asli (0 atau 1); ŷ = tebakan model",
  "w": "bobot: seberapa penting tiap fitur input",
  "x": "input/fitur data, bisa satu angka atau vektor",
@@ -73,7 +74,7 @@ Object.assign(window.LEGENDA, {
  "q": "encoder: sebaran kode z bila diberi x",
  "z": "kode laten: ringkasan acak dari data",
  "p": "decoder: peluang menghasilkan x dari kode z",
- "D": "D_KL: jarak sebaran kode dari N(0,1)",
+ "D": "D_KL: divergensi KL, ukuran beda sebaran kode dari N(0, 1)",
  "ε": "derau acak dari normal baku N(0,1)",
  "E": "nilai harapan (rata-rata) z²"
 },

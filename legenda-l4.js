@@ -22,14 +22,14 @@ Object.assign(window.LEGENDA, {
 },
 "4.3": {
   "F": "energi bebas: energi rata-rata dikurangi suhu kali entropi",
-  "E": "energi; di Bayes: energi parameter, kebalikan log-peluang",
+  "E": "energi; di Bayes: energi parameter = minus log-peluang (E = −log p, sampai konstanta)",
   "T": "suhu",
   "S": "entropi sistem",
   "k": "konstanta Boltzmann",
   "Z": "fungsi partisi, penormal agar peluang total 1",
   "q": "distribusi tebakan (pendekatan) untuk distribusi asli",
   "H": "entropi distribusi q, ukuran keacakannya",
-  "D": "data pengamatan; juga D_KL, jarak antar distribusi",
+  "D": "data pengamatan; juga D_KL, divergensi KL: ukuran beda dua distribusi (tidak simetris)",
   "p": "distribusi peluang asli (Boltzmann atau posterior)",
   "θ": "parameter atau bobot model"
 },

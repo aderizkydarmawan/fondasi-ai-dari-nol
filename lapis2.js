@@ -92,7 +92,7 @@ Rantai: dy/dx = 6 · 2</div>
 <div class="tx d">\sigma'(z) = \sigma(z)\,\bigl(1 - \sigma(z)\bigr)</div>
 <p>Dari mana? Tulis σ = u⁻¹ dengan u = 1 + e⁻ᶻ. Luar: turunan u⁻¹ adalah −u⁻² (aturan pangkat dengan n = −1). Dalam: turunan 1 + e⁻ᶻ adalah −e⁻ᶻ (turunan eˣ dari 2.1, ditambah rantai: turunan −z adalah −1). Kalikan:</p>
 <div class="tx d">\sigma'(z) = -\frac{1}{(1+e^{-z})^2}\cdot\bigl(-e^{-z}\bigr) = \underbrace{\frac{1}{1+e^{-z}}}_{\sigma(z)}\cdot\underbrace{\frac{e^{-z}}{1+e^{-z}}}_{1-\sigma(z)}</div>
-<p>Di z = 0, σ = 0,5 dan turunannya 0,5 × 0,5 = 0,25. Di z = 2, σ ≈ 0,881 dan turunannya hanya ≈ 0,105. Makin jauh dari nol, makin datar sigmoid, makin kecil turunannya.</p>
+<p>(Faktor kedua memang 1 − σ: tulis 1 − σ = 1 − 1/(1 + e⁻ᶻ), samakan penyebutnya, hasilnya e⁻ᶻ/(1 + e⁻ᶻ).) Di z = 0, σ = 0,5 dan turunannya 0,5 × 0,5 = 0,25. Ini nilai terbesarnya: hasil kali dua angka yang jumlahnya 1, yaitu σ dan 1 − σ, paling besar saat keduanya 0,5. Di z = 2, σ ≈ 0,881 dan turunannya hanya ≈ 0,105. Makin jauh dari nol, makin datar sigmoid, makin kecil turunannya.</p>
 
 <h2>Rantai panjang dan masalahnya</h2>
 <p>Sekarang bayangkan 10 lapis sigmoid bersusun. Aturan rantai mengalikan 10 turunan. Kalau masing-masing paling besar 0,25, hasilnya paling besar <span class="tx">0{,}25^{10} \approx 0{,}00000095</span>. Sinyal belajar untuk lapis pertama hampir hilang. Inilah <b>vanishing gradient</b>, masalah yang dipelajari Bengio dkk. (1994) dan salah satu alasan dunia beralih ke fungsi ReLU dan arsitektur seperti LSTM dan ResNet.</p>
@@ -229,7 +229,7 @@ window.LESSONS["2.5"] = {
 <h2>Kolom matriks = tujuan sumbu</h2>
 <p>Trik paling berguna: lihat ke mana A mengirim dua vektor dasar, <span class="tx">e_1 = (1, 0)</span> dan <span class="tx">e_2 = (0, 1)</span>.</p>
 <div class="rule"><mark>Kolom pertama A adalah tujuan e₁, kolom kedua adalah tujuan e₂.</mark> Vektor lain ikut, karena (x, y) = x·e₁ + y·e₂.</div>
-<div class="ex"><div class="q">Matriks R = [[0, −1], [1, 0]]. Ke mana (1, 0) dan (2, 1) pergi?</div>
+<div class="ex"><div class="q">Matriks R = [[0; −1]; [1; 0]]. Ke mana (1, 0) dan (2, 1) pergi?</div>
 <div class="step">Kolom 1 = (0, 1): sumbu x diputar ke atas
 Kolom 2 = (−1, 0): sumbu y diputar ke kiri
 (2, 1) = 2·(0, 1) + 1·(−1, 0) = (−1, 2)</div>
@@ -245,7 +245,7 @@ Kolom 2 = (−1, 0): sumbu y diputar ke kiri
 <h2>Determinan: faktor luas</h2>
 <p>Persegi satuan (luas 1) dikirim A menjadi jajar genjang. Luasnya adalah <b>determinan</b>:</p>
 <div class="tx d">\det \begin{bmatrix} a & b \\ c & d \end{bmatrix} = ad - bc</div>
-<p>Regangan [[2,0],[0,1]] punya det 2 (luas berlipat dua). Putaran punya det 1 (luas tetap). Geser juga det 1. Kalau det = 0, bidang dipipihkan menjadi garis: informasi hilang dan gerakannya tidak bisa dibalik (2.6). Kalau det negatif, bidang dicerminkan.</p>
+<p>Regangan [[2; 0]; [0; 1]] punya det 2 (luas berlipat dua). Putaran punya det 1 (luas tetap). Geser juga det 1. Kalau det = 0, bidang dipipihkan menjadi garis: informasi hilang dan gerakannya tidak bisa dibalik (2.6). Kalau det negatif, bidang dicerminkan.</p>
 
 <h2>Di AI</h2>
 <p>Satu lapis jaringan saraf menghitung <span class="tx">\sigma(Wx + b)</span>. Bagian <span class="tx">Wx</span> adalah transformasi linear seperti di atas, b menggeser, lalu σ membengkokkan. Lapis demi lapis, data yang kusut (misalnya dua kelas yang saling melilit) diregangkan dan dibengkokkan sampai bisa dipisah dengan garis lurus.</p>
@@ -278,9 +278,9 @@ window.LESSONS["2.6"] = {
 <p>Cara menghitungnya: entri baris i, kolom j dari BA adalah perkalian titik baris i dari B dengan kolom j dari A. Ukuran harus cocok: (m × n) dikali (n × p) menghasilkan (m × p).</p>
 
 <h2>Urutan itu penting</h2>
-<div class="ex"><div class="q">A = regangan [[2,0],[0,1]], R = putaran 90° [[0,−1],[1,0]]. Bandingkan RA dan AR.</div>
-<div class="step">RA (regang dulu, lalu putar) = [[0, −1], [2, 0]]
-AR (putar dulu, lalu regang) = [[0, −2], [1, 0]]</div>
+<div class="ex"><div class="q">A = regangan [[2; 0]; [0; 1]], R = putaran 90° [[0; −1]; [1; 0]]. Bandingkan RA dan AR.</div>
+<div class="step">RA (regang dulu, lalu putar) = [[0; −1]; [2; 0]]
+AR (putar dulu, lalu regang) = [[0; −2]; [1; 0]]</div>
 <div class="ans">Berbeda. Perkalian matriks umumnya tidak bisa ditukar: AB ≠ BA.</div></div>
 <p>Coba dengan tangan: memakai baju lalu jaket tidak sama dengan memakai jaket lalu baju.</p>
 
@@ -292,8 +292,8 @@ AR (putar dulu, lalu regang) = [[0, −2], [1, 0]]</div>
 <h2>Menyelesaikan sistem persamaan</h2>
 <p>Sistem di 1.2 bisa ditulis sebagai <span class="tx">Ax = b</span>. Kalau A punya invers, jawabannya <span class="tx">x = A^{-1}b</span>.</p>
 <div class="ex"><div class="q">Selesaikan 2x + y = 5 dan x + y = 3 dengan invers.</div>
-<div class="step">A = [[2, 1], [1, 1]], det = 2·1 − 1·1 = 1
-A⁻¹ = [[1, −1], [−1, 2]]
+<div class="step">A = [[2; 1]; [1; 1]], det = 2·1 − 1·1 = 1
+A⁻¹ = [[1; −1]; [−1; 2]]
 x = A⁻¹ · (5, 3) = (5 − 3, −5 + 6)</div>
 <div class="ans">Jawaban: x = 2, y = 1</div></div>
 <p>Dalam praktik, komputer tidak menghitung invers secara eksplisit karena lebih lambat dan kurang akurat. Ia memakai eliminasi (fungsi <code>solve</code>). Tapi gagasannya sama: membatalkan A.</p>
@@ -330,7 +330,7 @@ window.LESSONS["2.7"] = {
 <p>Sebagian besar vektor dibelokkan oleh matriks. Ambil <span class="tx">A = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}</span>. Vektor (1, 0) dikirim ke (2, 1): arahnya berubah. Tapi (1, 1) dikirim ke (3, 3): arahnya <b>sama</b>, hanya tiga kali lebih panjang.</p>
 <div class="rule">Vektor v (bukan nol) adalah <mark>vektor eigen</mark> A kalau <span class="tx">Av = \lambda v</span>. Angka λ (lambda) adalah <mark>nilai eigen</mark>: faktor regangannya.</div>
 <p>Kata "eigen" dari bahasa Jerman, artinya "milik sendiri": arah yang menjadi milik matriks itu sendiri.</p>
-<div class="ex"><div class="q">Cek apakah (1, 1) dan (1, −1) vektor eigen A = [[2, 1], [1, 2]].</div>
+<div class="ex"><div class="q">Cek apakah (1, 1) dan (1, −1) vektor eigen A = [[2; 1]; [1; 2]].</div>
 <div class="step">A·(1, 1)  = (2+1, 1+2) = (3, 3)  = 3 · (1, 1)
 A·(1, −1) = (2−1, 1−2) = (1, −1) = 1 · (1, −1)</div>
 <div class="ans">Ya. Nilai eigennya 3 dan 1.</div></div>
@@ -381,7 +381,7 @@ window.LESSONS["2.8"] = {
 <p>Dibaca dari kanan: <span class="tx">V^{\top}</span> memutar, Σ meregangkan sepanjang sumbu (angka-angka di diagonalnya disebut <b>nilai singular</b> σ₁ ≥ σ₂ ≥ … ≥ 0), lalu U memutar lagi. Gerakan linear yang paling rumit pun hanya tiga gerakan sederhana.</p>
 
 <h2>Nilai singular = seberapa penting tiap arah</h2>
-<div class="ex"><div class="q">A = [[3, 0], [4, 5]] punya nilai singular √45 ≈ 6,71 dan √5 ≈ 2,24. Berapa persen "energi" A ada di arah pertama?</div>
+<div class="ex"><div class="q">A = [[3; 0]; [4; 5]] punya nilai singular √45 ≈ 6,71 dan √5 ≈ 2,24. Berapa persen "energi" A ada di arah pertama?</div>
 <div class="step">Energi diukur dengan kuadrat nilai singular
 σ₁² = 45, σ₂² = 5, total 50
 45 ÷ 50</div>

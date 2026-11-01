@@ -7,7 +7,7 @@ Object.assign(window.LEGENDA, {
  "x": "koordinat pertama di contoh lembah x² + 25y²",
  "y": "koordinat kedua, arah lembah yang curam",
  "β": "faktor ingatan momentum, seberapa banyak kecepatan lama disimpan",
- "v": "momentum: kecepatan terkumpul; di Adam: rata-rata gradien kuadrat",
+ "v": "di momentum: kecepatan yang terkumpul. Di Adam: rata-rata berjalan gradien kuadrat (v̂ = versi yang dikoreksi)",
  "ε": "angka sangat kecil agar tidak membagi dengan nol",
  "m": "rata-rata gradien yang berjalan di Adam (topi = dikoreksi)"
 },
@@ -35,7 +35,7 @@ Object.assign(window.LEGENDA, {
  "H": "entropi: rata-rata kejutan; H(p,q) = cross-entropy",
  "i": "nomor kejadian/kelas yang dijumlahkan",
  "q": "distribusi tebakan model",
- "D": "D_KL: jarak (divergensi) dari p ke q"
+ "D": "D_KL: divergensi KL, ukuran beda p dari q (bukan jarak sejati: KL(p‖q) ≠ KL(q‖p))"
 },
 "3.5": {
  "f": "fungsi benar; f̂ tebakan model, f̄ rata-rata tebakan"

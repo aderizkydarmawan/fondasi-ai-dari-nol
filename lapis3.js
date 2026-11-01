@@ -37,12 +37,12 @@ Langkah 3: w = 1,08 − 0,1 · 2(1,08 − 3) = 1,464</div>
 <p>Goyangan itu bahkan sering membantu: ia mendorong model keluar dari lekukan kecil dan dataran yang buruk.</p>
 
 <h2>Momentum: bola yang menggelinding</h2>
-<p>Di lembah sempit (misalnya <span class="tx">x^2 + 25y^2</span>), GD terjepit dua arah. Arah y yang curam memaksa learning rate kecil (di atas η = 0,04 arah y meledak, dan sedikit di bawahnya ia berzig-zag antardinding). Dengan η yang aman, misalnya 0,02, arah x yang landai hanya menyusut 4% per langkah (dikali 1 − 2η = 0,96), sehingga GD maju pelan sepanjang dasar. Momentum (Polyak, 1964) mengumpulkan gradien lama seperti bola yang membawa kecepatan:</p>
+<p>Di lembah sempit (misalnya <span class="tx">x^2 + 25y^2</span>), GD terjepit dua arah. Arah y yang curam memaksa learning rate kecil (gradien arah y adalah 50y, jadi satu langkah mengalikan y dengan 1 − 50η; di atas η = 0,04 faktor itu lebih kecil dari −1 sehingga y meledak, dan sedikit di bawahnya faktornya negatif sehingga y berzig-zag antardinding). Dengan η yang aman, misalnya 0,02, arah x yang landai hanya menyusut 4% per langkah (dikali 1 − 2η = 0,96), sehingga GD maju pelan sepanjang dasar. Momentum (Polyak, 1964) mengumpulkan gradien lama seperti bola yang membawa kecepatan:</p>
 <div class="tx d">v \leftarrow \beta v + \nabla L, \qquad \theta \leftarrow \theta - \eta v</div>
 <p>Arah yang terus sama (sepanjang dasar) menumpuk kecepatan, sedangkan arah yang bolak-balik saling meniadakan. Untuk lembah itu, mulai dari (3, 1) dengan η = 0,02, GD biasa butuh 112 langkah untuk sampai dekat dasar (di sini: nilai f di bawah 0,001); dengan momentum β = 0,7 hanya 29 langkah. Tapi β = 0,9 di η yang sama butuh 71 langkah, karena bolanya melaju terlalu kencang dan berayun melewati dasar. Momentum harus disetel, bukan sihir.</p>
 
 <h2>Adam: langkah yang disesuaikan per bobot</h2>
-<p>Adam (Kingma &amp; Ba, 2015) menyimpan dua rata-rata bergerak untuk setiap bobot: rata-rata gradien m (seperti momentum) dan rata-rata kuadrat gradien v. Langkahnya dibagi <span class="tx">\sqrt{v}</span>:</p>
+<p>Adam (Kingma &amp; Ba, 2015) menyimpan dua <b>rata-rata bergerak</b> untuk setiap bobot (rata-rata yang terus diperbarui: setiap langkah, nilai lama dikali misalnya 0,9 lalu ditambah 0,1 × nilai baru, sehingga gradien lama perlahan terlupakan): rata-rata gradien m (seperti momentum) dan rata-rata kuadrat gradien v. Langkahnya dibagi <span class="tx">\sqrt{v}</span>:</p>
 <div class="tx d">\theta \leftarrow \theta - \eta\,\frac{\hat m}{\sqrt{\hat v} + \epsilon}</div>
 <p>Bobot yang gradiennya selalu besar mendapat langkah lebih kecil, bobot yang gradiennya kecil mendapat langkah lebih besar. Hasilnya, satu learning rate cocok untuk jutaan bobot dengan skala berbeda. Topi pada m dan v adalah koreksi karena keduanya dimulai dari nol. Adam dan variannya, AdamW, adalah pengoptimal bawaan untuk melatih transformer.</p>
 

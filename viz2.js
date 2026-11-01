@@ -123,7 +123,7 @@
       var img = Fs.map(function (q) { return app(M, q); });
       if (mode === "inv") { var det = RA[0][0] * RA[1][1] - RA[0][1] * RA[1][0], Inv = [[RA[1][1] / det, -RA[0][1] / det], [-RA[1][0] / det, RA[0][0] / det]]; poly({ X: p.X, Y: p.Y, svg: f.svg }, Fs.map(function (q) { return app(RA, q); }), "s2 area"); img = Fs.map(function (q) { return app(Inv, app(RA, q)); }); }
       poly({ X: p.X, Y: p.Y, svg: f.svg }, img, "s1 area");
-      var show = function (M) { return "[[" + fmt(M[0][0]) + ", " + fmt(M[0][1]) + "], [" + fmt(M[1][0]) + ", " + fmt(M[1][1]) + "]]"; };
+      var show = function (M) { return "[[" + fmt(M[0][0]) + "; " + fmt(M[0][1]) + "]; [" + fmt(M[1][0]) + "; " + fmt(M[1][1]) + "]]"; };
       f.out.innerHTML = mode === "inv" ? "Biru muda: hasil RA. Ungu: hasil RA lalu dikenai (RA)⁻¹. Huruf F kembali tepat ke tempat asal (abu-abu): invers membatalkan gerakan." :
         "RA = " + show(RA) + ", AR = " + show(AR) + ". " + (Math.abs(RA[0][1] - AR[0][1]) + Math.abs(RA[1][0] - AR[1][0]) < 1e-6 ? "Kali ini sama (putaran 0° atau 180°, atau regangan 1): kasus khusus." : "Berbeda: urutan gerakan mengubah hasil.");
     }; h._draw();
@@ -133,15 +133,16 @@
   W.eigen = function (h) {
     var f = frame(h, "Putar v (biru muda). Kalau Av (ungu) searah dengan v, kamu menemukan vektor eigen", [{ id: "t", label: "sudut v (derajat)", min: 0, max: 180, step: 1, v: 20, d: 0 }]);
     var p = Plane(f.svg, { x0: -3.5, x1: 3.5, y0: -3, y1: 3, h: 340, w: 560, sx: 1, sy: 1 }), M = [[2, 1], [1, 2]], name = "simetris";
-    preset(f, [["[[2,1],[1,2]]", [[2, 1], [1, 2]]], ["Regang [[2,0],[0,1]]", [[2, 0], [0, 1]]], ["Geser [[1,1],[0,1]]", [[1, 1], [0, 1]]], ["Putar 90°", [[0, -1], [1, 0]]]], function (m) { M = m; h._draw(); });
+    preset(f, [["[[2; 1]; [1; 2]]", [[2, 1], [1, 2]]], ["Regang [[2; 0]; [0; 1]]", [[2, 0], [0, 1]]], ["Geser [[1; 1]; [0; 1]]", [[1, 1], [0, 1]]], ["Putar 90°", [[0, -1], [1, 0]]]], function (m) { M = m; h._draw(); });
     h._draw = function () {
       var th = f.vals.t * Math.PI / 180, v = [Math.cos(th), Math.sin(th)], Av = [M[0][0] * v[0] + M[0][1] * v[1], M[1][0] * v[0] + M[1][1] * v[1]];
-      var cross = v[0] * Av[1] - v[1] * Av[0], lam = v[0] * Av[0] + v[1] * Av[1], ok = Math.abs(cross) < 0.03; p.clear(); heads(f.svg);
+      /* Searah kalau sudut antara v dan Av di bawah 0,5° (slider bergerak per 1°); λ = panjang Av, bertanda minus kalau berlawanan arah */
+      var cross = v[0] * Av[1] - v[1] * Av[0], dot = v[0] * Av[0] + v[1] * Av[1], nAv = Math.hypot(Av[0], Av[1]);
+      var ang = Math.atan2(Math.abs(cross), Math.abs(dot)) * 180 / Math.PI, lam = (dot < 0 ? -1 : 1) * nAv, ok = nAv > 1e-9 && ang < 0.5; p.clear(); heads(f.svg);
       p.curve(function (x) { return Math.sqrt(Math.max(0, 1 - x * x)); }, "faint line", -1, 1); p.curve(function (x) { return -Math.sqrt(Math.max(0, 1 - x * x)); }, "faint line", -1, 1);
       p.seg(-3.5 * v[0], -3.5 * v[1], 3.5 * v[0], 3.5 * v[1], "guide");
       p.arrow(0, 0, Av[0], Av[1], "s1"); p.arrow(0, 0, v[0], v[1], "s2");
-      var ang = Math.abs(Math.atan2(cross, lam)) * 180 / Math.PI;
-      f.out.innerHTML = "A = [[" + M[0].join(", ") + "], [" + M[1].join(", ") + "]]. Sudut antara v dan Av: <b>" + fmt(Math.min(ang, 180 - ang), 1) + "°</b>. " + (ok ? "Searah! v adalah vektor eigen dengan λ ≈ <b>" + fmt(lam) + "</b>." : "Belum searah. Terus putar v.") + (M[0][0] === 0 && M[0][1] === -1 ? " (Putaran 90° tidak punya arah eigen real: semua arah dibelokkan.)" : "") + (M[0][0] === 1 && M[0][1] === 1 && M[1][0] === 0 ? " (Geseran hanya punya satu arah eigen: sumbu x, di sudut 0° atau 180°, dengan λ = 1.)" : "");
+      f.out.innerHTML = "A = [[" + M[0].join("; ") + "]; [" + M[1].join("; ") + "]]. Sudut antara v dan Av: <b>" + fmt(Math.min(ang, 180 - ang), 1) + "°</b>. " + (ok ? "Searah! v adalah vektor eigen dengan λ ≈ <b>" + fmt(lam) + "</b>." : "Belum searah. Terus putar v.") + (M[0][0] === 0 && M[0][1] === -1 ? " (Putaran 90° tidak punya arah eigen real: semua arah dibelokkan.)" : "") + (M[0][0] === 1 && M[0][1] === 1 && M[1][0] === 0 ? " (Geseran hanya punya satu arah eigen: sumbu x, di sudut 0° atau 180°, dengan λ = 1.)" : "");
     }; h._draw();
   };
 
