@@ -112,6 +112,7 @@ window.LESSONS["4.3"] = {
 <h2>Tarik-menarik energi dan entropi</h2>
 <p>Pada suhu T, alam tidak sekadar meminimalkan energi, juga tidak sekadar memaksimalkan entropi. Yang diminimalkan adalah kompromi keduanya, <b>energi bebas</b>:</p>
 <div class="tx d">F = \langle E \rangle - T\,S</div>
+<p>Tanda kurung sudut <span class="tx">\langle E \rangle</span> adalah cara fisikawan menulis ekspektasi, sama dengan <span class="tx">\mathbb{E}[E]</span> dari 2.10: energi rata-rata, ditimbang peluang tiap keadaan. S adalah entropi Boltzmann dari 4.1.</p>
 <p>Suhu menentukan siapa yang menang. Dingin: suku energi menang, sistem mengendap di keadaan terendah (es). Panas: suku entropi menang, sistem menyebar ke banyak keadaan (uap). Untuk distribusi Boltzmann, nilai minimumnya bisa dihitung dari fungsi partisi: <span class="tx">F = -kT \ln Z</span>.</p>
 
 <h2>Energi bebas untuk tebakan apa pun</h2>

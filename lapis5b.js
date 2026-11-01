@@ -134,7 +134,7 @@ window.LESSONS["5.12"] = {
 <p>Mulai dari gambar asli <span class="tx">x_0</span>. Di setiap langkah t = 1, …, T, kecilkan sedikit gambarnya dan tambah sedikit noise normal dengan varians kecil <span class="tx">\beta_t</span>. Ho dkk. (2020) memakai T = 1000 dan β naik linear dari 0,0001 sampai 0,02. Ini rantai Markov (3.8) dan, kalau langkahnya diperhalus, SDE Ornstein–Uhlenbeck (gerak acak yang selalu ditarik kembali ke nol, 4.5).</p>
 <p>Untungnya, kita tidak perlu menjalankan t langkah satu per satu: langkah ke-t bisa dilompati langsung dengan trik reparameterisasi (5.10):</p>
 <div class="tx d">x_t = \sqrt{\bar\alpha_t}\;x_0 + \sqrt{1 - \bar\alpha_t}\;\varepsilon, \qquad \varepsilon \sim \mathcal{N}(0, I)</div>
-<p>dengan <span class="tx">\bar\alpha_t = \prod_{s \le t}(1 - \beta_s)</span>. Dua koefisien itu menyatakan berapa bagian sinyal yang tersisa dan berapa bagian noise:</p>
+<p>dengan <span class="tx">\bar\alpha_t = \prod_{s \le t}(1 - \beta_s)</span>. Simbol ∏ berarti "kalikan semuanya", seperti Σ berarti "jumlahkan semuanya" (1.6); jadi <span class="tx">\bar\alpha_t</span> adalah hasil kali semua faktor (1 − β) dari langkah 1 sampai t. Dua koefisien itu menyatakan berapa bagian sinyal yang tersisa dan berapa bagian noise:</p>
 <div class="tbl"><table><tr><th>langkah t</th><td>1</td><td>100</td><td>250</td><td>500</td><td>1000</td></tr>
 <tr><th>bagian sinyal √ᾱ</th><td>0,9999</td><td>0,947</td><td>0,724</td><td>0,280</td><td>0,006</td></tr>
 <tr><th>bagian noise √(1 − ᾱ)</th><td>0,010</td><td>0,321</td><td>0,690</td><td>0,960</td><td>1,000</td></tr></table></div>
@@ -266,7 +266,7 @@ window.LESSONS["5.15"] = {
 <h2>Model harga saham: gerak Brown geometris</h2>
 <p>Black, Scholes, dan Merton memodelkan harga saham dengan SDE (4.5) yang perubahannya sebanding dengan harga itu sendiri:</p>
 <div class="tx d">dS = \mu S\,dt + \sigma S\,dW</div>
-<p>σ adalah <b>volatilitas</b>, seberapa liar harga bergoyang. Dengan <b>lemma Itô</b>, log S menjadi gerak Brown dengan drift, sehingga S<sub>T</sub> berdistribusi log-normal.</p>
+<p>σ adalah <b>volatilitas</b>, seberapa liar harga bergoyang. Dengan <b>lemma Itô</b> (aturan rantai 2.2 versi kalkulus Itô; karena dW bergoyang sebesar √dt, muncul suku tambahan −σ²/2 di drift), log S menjadi gerak Brown dengan drift, seperti rumus kedua di atas. Akibatnya log S<sub>T</sub> berdistribusi normal, dan S<sub>T</sub> sendiri disebut berdistribusi <b>log-normal</b>. Lemma itu tidak diturunkan di sini.</p>
 <div class="box intuisi"><p>Lemma Itô tidak dibuktikan di kursus ini (lihat 4.5), tapi intinya bisa dilihat. Di kalkulus biasa, perubahan ln S kira-kira dS/S, dan suku kuadrat (dS)² dibuang karena sangat kecil. Di gerak Brown, dW berukuran sekitar √dt (4.4), jadi (dW)² berukuran dt, sama besar dengan suku lain, dan tidak boleh dibuang. Ekspansi orde dua <span class="tx">d\ln S \approx \frac{dS}{S} - \frac{1}{2}\frac{(dS)^2}{S^2}</span> dengan <span class="tx">(dS)^2 \approx \sigma^2 S^2\,dt</span> memberi</p>
 <div class="tx d">d\ln S = \left(\mu - \tfrac{1}{2}\sigma^2\right)dt + \sigma\,dW</div>
 <p>Suku −σ²/2 itulah "ongkos" goyangan. Cek dengan simulasi: μ = 0,1 dan σ = 0,2, jadi rata-rata kenaikan ln S dalam setahun seharusnya 0,1 − 0,02 = 0,08, bukan 0,1.</p>
@@ -285,7 +285,7 @@ print(round(mu - sig**2 / 2, 3))                  # 0.08</code></pre></div>
 
 <h2>Rumusnya</h2>
 <div class="tx d">C = S\,N(d_1) - K e^{-rT} N(d_2), \qquad d_{1,2} = \frac{\ln(S/K) + (r \pm \sigma^2/2)\,T}{\sigma\sqrt{T}}</div>
-<p>N adalah fungsi peluang kumulatif normal standar (2.9).</p>
+<p>N(d) adalah <b>fungsi distribusi kumulatif</b> normal standar: peluang bahwa Z ~ N(0, 1) (2.9) bernilai ≤ d, yaitu luas di bawah lonceng di sebelah kiri d. Contoh: N(0) = 0,5 (separuh lonceng), N(1) ≈ 0,841, N(−1) ≈ 0,159, N(1,96) ≈ 0,975. Di Python: <code>scipy.stats.norm.cdf(d)</code>.</p>
 <div class="ex"><div class="q">S = 100, K = 100, r = 5% per tahun, σ = 20%, T = 1 tahun. Hitung harga opsi beli.</div>
 <div class="step">d₁ = (0 + (0,05 + 0,02) × 1) ÷ 0,2 = 0,35
 d₂ = 0,35 − 0,2 = 0,15
