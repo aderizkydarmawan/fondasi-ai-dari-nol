@@ -50,7 +50,7 @@
       "<b>Ditulis sebagai rumus.</b> A v = λ v artinya: menarik panah v dengan A (kiri) hasilnya sama dengan sekadar memanjangkan v sebanyak λ kali (kanan). Untuk v = (1, 1): A v = (3, 3) = 3 · (1, 1).",
       "<b>Giliranmu.</b> Di bawah ada widget yang bisa kamu atur sendiri. Cari arah panah yang tidak berbelok untuk matriks lain."
     ];
-    var Wd = 520, Hd = 400, cx = Wd / 2, cy = Hd / 2, k = 52;
+    var Wd = 520, Hd = 400, cx = Wd / 2, cy = Hd / 2, k = 64;
     function X(x) { return cx + x * k; } function Y(y) { return cy - y * k; }
     function M(s, v) { return [v[0] + s * (v[0] + v[1]), v[1] + s * (v[0] + v[1])]; } /* (I + s(A−I))v, A−I = [[1,1],[1,1]] */
     function panah(g, a, b, warna, lebar, op) {
@@ -64,7 +64,7 @@
       var s = seg(t, 0.25, 1), terang = seg(t, 1.25, 2), rumus = seg(t, 2.3, 3), akhir = seg(t, 3.3, 4);
       var dfs = el("defs", {}, svg), cp = el("clipPath", { id: "stclip" }, dfs); el("rect", { x: 0, y: 0, width: Wd, height: Hd }, cp);
       var rg = el("radialGradient", { id: "stfade", cx: "50%", cy: "50%", r: "50%" }, dfs);
-      el("stop", { offset: "55%", "stop-color": "#fff" }, rg); el("stop", { offset: "100%", "stop-color": "#000" }, rg);
+      el("stop", { offset: "72%", "stop-color": "#fff" }, rg); el("stop", { offset: "100%", "stop-color": "#000" }, rg);
       var mk = el("mask", { id: "stmask" }, dfs); el("rect", { x: 0, y: 0, width: Wd, height: Hd, fill: "url(#stfade)" }, mk);
       var g0 = el("g", { "clip-path": "url(#stclip)" }, svg), g = el("g", { mask: "url(#stmask)" }, g0), gTop = g0;
             /* lembar karet: persegi [-2,2]² dan garis gridnya ikut ditransformasi */
