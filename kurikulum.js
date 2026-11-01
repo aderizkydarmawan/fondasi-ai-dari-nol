@@ -69,12 +69,16 @@ window.KURIKULUM = [
     { id: "5.14", t: "Reinforcement learning" },
     { id: "5.15", t: "Bonus: Black-Scholes" }
   ]},
-  { name: "Lapis 6 · Benang merah dan paper asli", desc: "Menyambung ide lintas lapis, lalu membaca paper Transformer, DDPM, dan VAE sendiri.", items: [
+  { name: "Lapis 6 · Benang merah dan paper asli", desc: "Menyambung ide lintas lapis, lalu membaca paper asli sendiri, dengan peta paper untuk bacaan berikutnya.", items: [
     { id: "6.1", t: "Benang merah: energi, softmax, dan temperature" },
     { id: "6.2", t: "Benang merah: noise, dari varians sampai difusi" },
     { id: "6.3", t: "Benang merah: informasi, dari entropi sampai perplexity" },
     { id: "6.4", t: "Membaca paper: Attention Is All You Need" },
     { id: "6.5", t: "Membaca paper: DDPM" },
-    { id: "6.6", t: "Membaca paper: VAE" }
+    { id: "6.6", t: "Membaca paper: VAE" },
+    { id: "6.7", t: "Membaca paper: Adam" },
+    { id: "6.8", t: "Membaca paper: GAN" },
+    { id: "6.9", t: "Membaca paper: Shannon" },
+    { id: "6.10", t: "Peta paper: apa lagi yang bisa dibaca" }
   ]}
 ];

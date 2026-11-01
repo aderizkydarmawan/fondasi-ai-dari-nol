@@ -28,5 +28,20 @@ Object.assign(window.LEGENDA, {
  "θ": "parameter decoder", "φ": "parameter encoder", "p": "distribusi model: p_θ(x|z) decoder, p_θ(z) prior N(0, I), p_θ(z|x) posterior asli",
  "x": "data, misalnya gambar", "z": "kode laten tersembunyi", "q": "q_φ(z|x): encoder, tebakan kode dari data", "D": "D_KL = divergensi KL (3.4)",
  "μ": "rata-rata kode yang dikeluarkan encoder", "σ": "simpangan baku kode yang dikeluarkan encoder", "ε": "noise normal standar", "I": "matriks identitas", "j": "nomor dimensi laten yang dijumlahkan"
+},
+"6.7": {
+ "β": "β₁, β₂ = laju lupa rata-rata bergerak (0,9 dan 0,999)", "m": "rata-rata bergerak gradien (momentum); m̂ = setelah koreksi bias", "t": "nomor langkah",
+ "g": "gradien di langkah t", "v": "rata-rata bergerak kuadrat gradien; v̂ = setelah koreksi bias", "θ": "bobot yang dilatih",
+ "α": "ukuran langkah (learning rate), bawaan 0,001", "ε": "angka sangat kecil (10⁻⁸) agar tidak membagi nol"
+},
+"6.8": {
+ "G": "generator: mengubah noise z jadi gambar palsu", "D": "diskriminator: peluang bahwa input adalah data asli; D* = diskriminator terbaik",
+ "V": "nilai permainan yang diperebutkan D dan G", "x": "contoh data (gambar)", "p": "distribusi: p_data = data asli, p_g = keluaran generator, p_z = noise",
+ "z": "noise acak yang dimasukkan ke generator", "g": "penanda 'generator' pada p_g", "a": "koefisien (peluang data asli) dalam bukti Proposisi 1",
+ "y": "nilai D yang dicari dalam bukti Proposisi 1", "b": "koefisien (peluang data palsu) dalam bukti Proposisi 1", "C": "C(G) = nilai permainan ketika D sudah terbaik"
+},
+"6.9": {
+ "H": "entropi: ketidakpastian rata-rata, dalam bit kalau log₂", "K": "konstanta positif yang hanya memilih satuan", "i": "nomor kemungkinan",
+ "n": "banyaknya kemungkinan", "p": "peluang tiap kemungkinan"
 }
 });

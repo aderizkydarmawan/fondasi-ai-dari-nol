@@ -217,6 +217,10 @@ html[data-theme="light"] .k-M{--kc:#5a3dc2}html[data-theme="light"] .k-S{--kc:#0
 .box.uji::before{content:"Tes kertas kosong";color:var(--cyan)}
 .box.gagal::before{content:"Di mana ini gagal";color:var(--warn)}
 .box.gagal p{margin:0}
+.ppr{list-style:none;margin:1em 0 1.6em;padding:0;display:grid;gap:8px}
+.ppr li{display:grid;gap:3px;padding:12px 14px;border:1px solid var(--line2);background:var(--raise)}
+.ppr b{color:var(--ink);font-weight:500}
+.ppr .pm{font-size:.9rem;color:var(--muted)}
 :not(pre)>code,.src li,.box p,#view p{overflow-wrap:anywhere}
 #cari{position:fixed;inset:0;z-index:45;background:rgba(14,10,23,.98);overflow:auto;padding:max(5vh,20px) var(--gut) 40px;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s}
 html[data-theme="light"] #cari{background:rgba(246,242,234,.98)}
@@ -482,6 +486,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 <script src="lapis5.js"></script>
 <script src="lapis5b.js"></script>
 <script src="lapis6.js"></script>
+<script src="lapis6b.js"></script>
 <script src="ingat.js"></script>
 <script src="gagal.js"></script>
 <script src="coba.js"></script>
