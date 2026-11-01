@@ -13,10 +13,10 @@
   /* 4.1 tangga energi dan suhu */
   W.boltz = function (h) {
     var f = frame(h, "Enam keadaan berenergi 0 sampai 5. Atur suhu kT dan lihat peluang setiap keadaan", [{ id: "T", label: "suhu kT", min: 0.1, max: 10, step: 0.1, v: 1, d: 1 }]);
-    var E = [0, 1, 2, 3, 4, 5], p = mk(f.svg, { x0: -0.5, x1: 5.5, y0: 0, y1: 1, h: 280, sx: 1, sy: 0.25 });
+    var E = [0, 1, 2, 3, 4, 5], p = mk(f.svg, { x0: 0, x1: 6.2, y0: 0, y1: 1, h: 280, sx: 9, sy: 0.25 });
     h._draw = function () {
       var T = f.vals.T, b = boltz(E, T), mE = 0; p.clear();
-      b.p.forEach(function (q, i) { bar(p, i - 0.35, i + 0.35, q, i === 0 ? "s1 area" : "s2 area"); p.text(i, q + 0.03, fmt(q, 3), "lbl", "middle"); mE += q * E[i]; });
+      b.p.forEach(function (q, i) { var c = i + 0.7; bar(p, c - 0.35, c + 0.35, q, i === 0 ? "s1 area" : "s2 area"); p.text(c, q + 0.03, fmt(q, 3), "lbl", "middle"); mE += q * E[i]; });
       f.out.innerHTML = "Rasio peluang dua keadaan bertetangga = e<sup>−1/kT</sup> = <b>" + fmt(Math.exp(-1 / T), 3) + "</b>. Peluang keadaan terendah " + fmt(b.p[0], 3) + ", energi rata-rata <b>" + fmt(mE, 2) + "</b>. " +
         (T < 0.4 ? "Dingin: hampir pasti di dasar." : T > 5 ? "Panas: semua keadaan hampir sama sering, energi rata-rata mendekati 2,5 (tengah-tengah)." : "Di antara: keadaan rendah lebih sering, tapi atas tetap dikunjungi.");
     }; h._draw();
@@ -25,10 +25,10 @@
   /* 4.2 softmax dengan suhu */
   W.softmax = function (h) {
     var f = frame(h, "Atur tiga logit (skor mentah) dan suhu T. Batang = peluang softmax", [{ id: "a", label: "logit z₁", min: -3, max: 5, step: 0.1, v: 2, d: 1 }, { id: "b", label: "logit z₂", min: -3, max: 5, step: 0.1, v: 1, d: 1 }, { id: "c", label: "logit z₃", min: -3, max: 5, step: 0.1, v: 0.1, d: 1 }, { id: "T", label: "suhu T", min: 0.1, max: 5, step: 0.1, v: 1, d: 1 }]);
-    var p = mk(f.svg, { x0: -0.5, x1: 2.5, y0: 0, y1: 1, h: 260, sx: 1, sy: 0.25 });
+    var p = mk(f.svg, { x0: 0, x1: 3.2, y0: 0, y1: 1, h: 260, sx: 9, sy: 0.25 });
     h._draw = function () {
       var z = [f.vals.a, f.vals.b, f.vals.c], T = f.vals.T, b = boltz(z.map(function (v) { return -v; }), T), H = 0; p.clear();
-      b.p.forEach(function (q, i) { bar(p, i - 0.3, i + 0.3, q, "s1 area"); p.text(i, q + 0.03, fmt(q, 3), "lbl", "middle"); p.text(i, -0.07, "pilihan " + (i + 1), "lbl", "middle"); H -= q * Math.log2(q); });
+      b.p.forEach(function (q, i) { var c = i + 0.8; bar(p, c - 0.3, c + 0.3, q, "s1 area"); p.text(c, q + 0.03, fmt(q, 3), "lbl", "middle"); p.text(c, -0.07, "pilihan " + (i + 1), "lbl", "middle"); H -= q * Math.log2(q); });
       f.out.innerHTML = "softmax(z/T) = [" + b.p.map(function (q) { return fmt(q, 3); }).join("; ") + "]. Entropi = <b>" + fmt(H, 2) + "</b> bit (maksimum log₂3 ≈ 1,58). " +
         (T < 0.4 ? "Suhu rendah: hampir argmax, model nyaris selalu memilih yang teratas." : T > 2.5 ? "Suhu tinggi: peluang mendekati rata, teks jadi beragam tapi bisa ngawur." : "Urutan pilihan tidak pernah berubah oleh suhu; hanya ketajamannya.");
     }; h._draw();
@@ -37,11 +37,11 @@
   /* 4.3 energi bebas sebuah tebakan q */
   W.freeen = function (h) {
     var f = frame(h, "Energi 0, 1, 2. Atur bobot tebakan q (ungu). Biru muda = distribusi Boltzmann p. Buat F[q] sekecil mungkin", [{ id: "a", label: "bobot q₁", min: 0, max: 20, step: 1, v: 1, d: 0 }, { id: "b", label: "bobot q₂", min: 0, max: 20, step: 1, v: 1, d: 0 }, { id: "c", label: "bobot q₃", min: 0, max: 20, step: 1, v: 1, d: 0 }, { id: "T", label: "suhu kT", min: 0.2, max: 5, step: 0.1, v: 1, d: 1 }]);
-    var E = [0, 1, 2], p = mk(f.svg, { x0: -0.5, x1: 2.5, y0: 0, y1: 1, h: 260, sx: 1, sy: 0.25 });
+    var E = [0, 1, 2], p = mk(f.svg, { x0: 0, x1: 3.2, y0: 0, y1: 1, h: 260, sx: 9, sy: 0.25 });
     h._draw = function () {
       var w = [f.vals.a, f.vals.b, f.vals.c], s = w[0] + w[1] + w[2] || 1, q = w.map(function (x) { return x / s; }), T = f.vals.T, B = boltz(E, T), mE = 0, Hq = 0, kl = 0; p.clear();
       if (!(w[0] + w[1] + w[2])) q = [1 / 3, 1 / 3, 1 / 3];
-      q.forEach(function (v, i) { bar(p, i - 0.38, i - 0.02, v, "s1 area"); bar(p, i + 0.02, i + 0.38, B.p[i], "s2 area"); p.text(i, -0.07, "E = " + E[i], "lbl", "middle"); mE += v * E[i]; if (v > 0) { Hq -= v * Math.log(v); kl += v * Math.log(v / B.p[i]); } });
+      q.forEach(function (v, i) { var c = i + 0.8; bar(p, c - 0.38, c - 0.02, v, "s1 area"); bar(p, c + 0.02, c + 0.38, B.p[i], "s2 area"); p.text(c, -0.07, "E = " + E[i], "lbl", "middle"); mE += v * E[i]; if (v > 0) { Hq -= v * Math.log(v); kl += v * Math.log(v / B.p[i]); } });
       var Fq = mE - T * Hq, F = -T * Math.log(B.Z);
       f.out.innerHTML = "⟨E⟩<sub>q</sub> = " + fmt(mE, 3) + ", H(q) = " + fmt(Hq, 3) + ", F[q] = ⟨E⟩ − kT·H = <b>" + fmt(Fq, 3) + "</b>. Minimum F = −kT ln Z = <b>" + fmt(F, 3) + "</b>. Selisih " + fmt(Fq - F, 3) + " = kT·KL(q‖p) = " + fmt(T * kl, 3) + "." + (Fq - F < 0.002 ? " q sudah sama dengan Boltzmann." : "");
     }; h._draw();

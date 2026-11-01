@@ -200,11 +200,11 @@
     var f = frame(h, "Model bigram dari korpus kecil. Pilih kata, lihat peluang kata berikutnya pada suhu T, lalu bangkitkan kalimat", [{ id: "T", label: "suhu T", min: 0.1, max: 3, step: 0.1, v: 1, d: 1 }]);
     var korpus = "aku suka kopi . aku suka teh manis . kamu suka kopi pahit . aku minum teh . kamu minum kopi manis . dia suka teh . dia minum kopi . aku suka kamu .".split(" ");
     var C = {}; for (var i = 0; i + 1 < korpus.length; i++) { var a = korpus[i]; C[a] = C[a] || {}; C[a][korpus[i + 1]] = (C[a][korpus[i + 1]] || 0) + 1; }
-    var cur = "suka", seed = 1, kal = "", p = mk(f.svg, { x0: -0.5, x1: 5.5, y0: 0, y1: 1, h: 260, sx: 1, sy: 0.25 });
+    var cur = "suka", seed = 1, kal = "", p = mk(f.svg, { x0: 0, x1: 6.2, y0: 0, y1: 1, h: 260, sx: 9, sy: 0.25 });
     function dist(wd, T) { var c = C[wd] || { ".": 1 }, ks = Object.keys(c), lg = ks.map(function (k) { return Math.log(c[k]) / T; }), m = Math.max.apply(null, lg), e = lg.map(function (v) { return Math.exp(v - m); }), Z = e.reduce(function (x, y) { return x + y; }, 0); return ks.map(function (k, j) { return [k, e[j] / Z, c[k]]; }).sort(function (x, y) { return y[1] - x[1]; }); }
     h._draw = function () {
       var d = dist(cur, f.vals.T); p.clear();
-      d.slice(0, 6).forEach(function (q, j) { bar(p, j - 0.3, j + 0.3, q[1], "s1 area"); p.text(j, -0.07, q[0], "lbl", "middle"); p.text(j, q[1] + 0.03, fmt(q[1], 2), "lbl", "middle"); });
+      d.slice(0, 6).forEach(function (q, j) { var c = j + 0.7; bar(p, c - 0.3, c + 0.3, q[1], "s1 area"); p.text(c, -0.07, q[0], "lbl", "middle"); p.text(c, q[1] + 0.03, fmt(q[1], 2), "lbl", "middle"); });
       f.out.innerHTML = "Setelah \"<b>" + cur + "</b>\": hitungan di korpus " + d.map(function (q) { return q[0] + " " + q[2] + "×"; }).join(", ") + ". Peluang = softmax(log hitungan ÷ T); T = 1 memberi frekuensi asli." + (kal ? "<br>Kalimat dibangkitkan: <b>" + kal + "</b>" : "");
     };
     ["aku", "suka", "minum", "teh"].forEach(function (wd) { button(f, wd, function () { cur = wd; h._draw(); }); });
