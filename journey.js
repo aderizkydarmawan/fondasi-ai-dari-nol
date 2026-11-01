@@ -1,12 +1,16 @@
-/* Perjalanan di beranda: empat bentuk partikel 3D yang muncul, diam, lalu meledak melewati kamera saat di-scroll. */
+/* Perjalanan di beranda: enam bentuk partikel 3D (satu per lapis) yang muncul, diam, lalu meledak melewati kamera saat di-scroll. */
 (function(){
   var BAB = [
-    {lab:'Bab 0 · Akal sehat', h:'Semua berawal dari <em>angka</em>', p:'Garis bilangan, tambah-kurang, kali-bagi, pecahan, dan pangkat. AI hanya mengulang operasi ini miliaran kali.', href:'#p0-1', go:'Mulai di Lapis 0', col:[201,184,255], col2:[127,216,242]},
-    {lab:'Bab 1 · Aljabar', h:'Titik-titik mencari <em>garis</em>', p:'Data berserakan, lalu satu garis y = mx + b merangkum polanya. Inilah regresi linear, model paling sederhana dalam AI.', href:'#p1-1', go:'Mulai di Lapis 1', col:[127,216,242]},
-    {lab:'Bab 2 · Statistika', h:'Ketidakpastian punya <em>bentuk</em>', p:'Banyak hal acak menumpuk menjadi kurva lonceng. Distribusi normal adalah cara AI bicara soal “mungkin”.', href:'#peta', go:'Lihat di peta (Lapis 2)', col:[201,184,255]},
-    {lab:'Bab 3 · Jaringan saraf', h:'Neuron kecil, <em>jaringan</em> besar', p:'Setiap neuron hanya menghitung σ(Wx + b). Disusun berlapis-lapis, mereka bisa mengenali wajah dan menulis kalimat.', href:'#peta', go:'Lihat di peta (Lapis 3)', col:[127,216,242], col2:[201,184,255]},
-    {lab:'Bab 4 · Belajar', h:'Menggelinding ke <em>dasar</em>', p:'Model belajar dengan menuruni lembah galat, selangkah demi selangkah: θ − η∇L. Itulah gradient descent.', href:'#peta', go:'Lihat di peta (Lapis 3)', col:[201,184,255], col2:[255,210,140]}
+    {lab:'Lapis 0 · Akal sehat', h:'Semua berawal dari <em>angka</em>', p:'Garis bilangan, urutan operasi, pecahan, pangkat, dan peluang sehari-hari. AI hanya mengulang operasi ini miliaran kali.', href:'#p0-1', go:'Mulai di Lapis 0', col:[201,184,255], col2:[127,216,242]},
+    {lab:'Lapis 1 · Fondasi', h:'Titik-titik mencari <em>garis</em>', p:'Variabel, fungsi, garis y = mx + b, eksponen, Σ, varians, dan vektor. Dengan bekal ini, titik data yang berserakan bisa dirangkum satu garis: regresi linear, model AI paling sederhana.', href:'#p1-1', go:'Mulai di Lapis 1', col:[127,216,242]},
+    {lab:'Lapis 2 · Tiga pilar', h:'Ketidakpastian punya <em>bentuk</em>', p:'Kalkulus mengukur perubahan, aljabar linear memutar dan meregangkan ruang, peluang memberi bentuk pada ketidakpastian. Lonceng ini adalah distribusi normal dua dimensi, bentuk yang paling sering muncul di AI.', href:'#p2-1', go:'Mulai di Lapis 2', col:[201,184,255]},
+    {lab:'Lapis 3 · Alat inti AI', h:'Menggelinding ke <em>dasar</em>', p:'Model belajar dengan menuruni lembah loss, selangkah demi selangkah: θ ← θ − η∇L. Itulah gradient descent, ditemani MLE, Bayes, dan entropi.', href:'#p3-1', go:'Mulai di Lapis 3', col:[201,184,255], col2:[255,210,140]},
+    {lab:'Lapis 4 · Fisika untuk AI', h:'Acak yang <em>teratur</em>', p:'Serbuk sari di air ditabrak molekul dari segala arah: gerak Brown. Tiap jalurnya acak, tapi sebarannya tumbuh teratur seperti √t. Matematika yang sama dipakai model difusi untuk membuat gambar dari noise.', href:'#p4-1', go:'Mulai di Lapis 4', col:[127,216,242], col2:[201,184,255]},
+    {lab:'Lapis 5 · AI', h:'Neuron kecil, <em>jaringan</em> besar', p:'Setiap neuron hanya menghitung σ(Wx + b). Disusun berlapis-lapis lalu dilatih dengan backpropagation, mereka menjadi CNN, Transformer, model difusi, dan LLM.', href:'#p5-1', go:'Mulai di Lapis 5', col:[127,216,242], col2:[201,184,255]}
   ];
+  function LT(){ return document.documentElement.getAttribute('data-theme') === 'light'; }
+  var DARKEN = {'201,184,255':[90,61,194], '127,216,242':[11,111,146], '255,210,140':[154,90,6]};
+  function cc(c){ return LT() ? (DARKEN[String(c)] || c) : c; }
   function rnd(a){ return (Math.random()-.5)*a; }
   function shapes(){
     var S = [], a, i, j, x, y;
@@ -21,18 +25,23 @@
     // 2. permukaan lonceng 2D
     a = []; for(i=0;i<72;i++) for(j=0;j<72;j++){ x = -1.25 + i/71*2.5; var z = -1.25 + j/71*2.5; a.push([x, 1.3*Math.exp(-(x*x+z*z)/.5) - .5, z, (i%8===0||j%8===0)?1:0]); }
     S.push({pts:a});
-    // 3. jaringan saraf: lapisan 4-7-7-3
-    var L = [4,7,7,3], nodes = []; a = [];
-    L.forEach(function(n, li){ for(i=0;i<n;i++){ var nd = [-1.5 + li, (i-(n-1)/2)*.36, rnd(.3)]; nodes.push(nd.concat(li)); for(j=0;j<80;j++) a.push([nd[0]+rnd(.09), nd[1]+rnd(.09), nd[2]+rnd(.09), 1]); } });
-    var edges = []; nodes.forEach(function(p){ nodes.forEach(function(q){ if(q[3] === p[3]+1) edges.push([p,q]); }); });
-    edges.forEach(function(e){ for(j=0;j<16;j++){ var t = Math.random(); a.push([e[0][0]+(e[1][0]-e[0][0])*t, e[0][1]+(e[1][1]-e[0][1])*t, e[0][2]+(e[1][2]-e[0][2])*t, 0]); } });
-    S.push({pts:a, edges:edges});
-    // 4. lembah galat + jejak bola
+    // 3. lembah loss + jejak bola
     a = []; for(i=0;i<68;i++) for(j=0;j<68;j++){ x = -1.5 + i/67*3; var z2 = -1.5 + j/67*3; a.push([x, .5*(x*x + .6*z2*z2) + .08*Math.sin(4*x)*Math.cos(3*z2) - .8, z2, 0]); }
     var trail = []; x = 1.35; var zz = -1.2;
     for(i=0;i<40;i++){ trail.push([x, .5*(x*x + .6*zz*zz) + .08*Math.sin(4*x)*Math.cos(3*zz) - .74, zz]); x -= .12*x; zz -= .12*.6*zz; }
     trail.forEach(function(t){ for(j=0;j<10;j++) a.push([t[0]+rnd(.03), t[1]+rnd(.03), t[2]+rnd(.03), 1]); });
     S.push({pts:a, trail:trail});
+    // 4. gerak Brown: jalur acak dari satu titik, sebarannya melebar seperti akar waktu
+    a = []; var seedB = 7; function rb(){ seedB = (seedB * 16807) % 2147483647; return seedB / 2147483647 - .5; }
+    for(i=0;i<14;i++){ var px = 0, py = 0, pz = 0; for(j=0;j<260;j++){ px += rb()*.11; py += rb()*.11; pz += rb()*.11; a.push([px, py, pz, j > 240 ? 1 : 0]); } }
+    for(i=0;i<900;i++){ var r = .05 + Math.random()*.02, u = Math.random()*6.283, v = Math.acos(2*Math.random()-1); a.push([r*Math.sin(v)*Math.cos(u), r*Math.sin(v)*Math.sin(u), r*Math.cos(v), 1]); }
+    S.push({pts:a});
+    // 5. jaringan saraf: lapisan 4-7-7-3
+    var L = [4,7,7,3], nodes = []; a = [];
+    L.forEach(function(n, li){ for(i=0;i<n;i++){ var nd = [-1.5 + li, (i-(n-1)/2)*.36, rnd(.3)]; nodes.push(nd.concat(li)); for(j=0;j<80;j++) a.push([nd[0]+rnd(.09), nd[1]+rnd(.09), nd[2]+rnd(.09), 1]); } });
+    var edges = []; nodes.forEach(function(p){ nodes.forEach(function(q){ if(q[3] === p[3]+1) edges.push([p,q]); }); });
+    edges.forEach(function(e){ for(j=0;j<16;j++){ var t = Math.random(); a.push([e[0][0]+(e[1][0]-e[0][0])*t, e[0][1]+(e[1][1]-e[0][1])*t, e[0][2]+(e[1][2]-e[0][2])*t, 0]); } });
+    S.push({pts:a, edges:edges});
     return S;
   }
   function ease(t){ return t<0?0:t>1?1:t*t*(3-2*t); }
@@ -62,7 +71,7 @@
       var sc = f < .22 ? .15 + .85*ease(f/.22) : f > .78 ? 1 + Math.pow((f-.78)/.22, 2)*5 : 1;
       var al = f < .22 ? ease(f/.22) : f > .78 ? 1 - ease((f-.78)/.22) : 1;
       if(al <= .01) return;
-      var b = BAB[k], c1 = b.col, c2 = b.col2 || b.col, sh = S[k], pr = [];
+      var b = BAB[k], c1 = cc(b.col), c2 = cc(b.col2 || b.col), sh = S[k], pr = [];
       if(sh.edges){
         cx.strokeStyle = 'rgba('+c2+','+(.13*al)+')'; cx.lineWidth = 1; cx.beginPath();
         sh.edges.forEach(function(e){ var a = proj(e[0], rot, sc, wide), z = proj(e[1], rot, sc, wide); if(a && z){ push(a); push(z); cx.moveTo(a[0], a[1]); cx.lineTo(z[0], z[1]); } });
@@ -85,9 +94,9 @@
         var P = prog(), k = Math.floor(P), f = P - k, wide = W > 900, rot = .35*Math.sin(t*.00025) + (f-.5)*.5;
         setPanel(k);
         var r = cv.getBoundingClientRect(); mouse.mx = mouse.x - r.left; mouse.my = mouse.y - r.top;
-        cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,W,H); cx.globalCompositeOperation = 'lighter';
+        cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,W,H); cx.globalCompositeOperation = LT() ? 'source-over' : 'lighter';
         // debu bola, warnanya ikut bab
-        var dc = BAB[k].col;
+        var dc = cc(BAB[k].col);
         dust.forEach(function(d){
           var w = d[3] + t*.0004, p = [d[0] + .12*Math.sin(w), d[1] + .12*Math.cos(w*1.3), d[2] + .12*Math.sin(w*.7)];
           var q = proj(p, rot*.4, 1, wide); if(!q) return; push(q);

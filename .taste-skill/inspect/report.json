@@ -1,0 +1,2846 @@
+{
+ "url": "index.html",
+ "at": "2026-10-31T03:14:11.473Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 10,
+   "filled": [
+    0.9,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0.2,
+    0.12,
+    0.08
+   ],
+   "motion": {
+    "elements": 8,
+    "css": 2,
+    "transitions": 6,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 8766,
+     "screens": 9.7,
+     "words": 326,
+     "img": 0,
+     "video": 0,
+     "canvas": 3,
+     "svg": 4,
+     "sections": 6,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Batu itu kini bertanya balik",
+     "words": 5,
+     "chars": 28,
+     "lines": 2,
+     "size": 103.7,
+     "vw": 7.2,
+     "font": "Instrument Serif",
+     "weight": 400,
+     "tracking": -0.025,
+     "leading": 0.95,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.44,
+     "top": 181,
+     "mixedFonts": [
+      "Instrument Serif",
+      "Instrument Serif italic"
+     ],
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Batu itu kini bertanya balik",
+     "words": 5,
+     "lines": 2,
+     "size": 103.7,
+     "font": "Instrument Serif"
+    },
+    "headings": [
+     {
+      "text": "Batu itu kini bertanya balik",
+      "words": 5,
+      "chars": 28,
+      "lines": 2,
+      "size": 103.7,
+      "vw": 7.2,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 0.95,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 181,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Semua berawal dari angka",
+      "words": 4,
+      "chars": 24,
+      "lines": 2,
+      "size": 63.4,
+      "vw": 4.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.32,
+      "top": 1241,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Menggelinding ke dasar",
+      "words": 3,
+      "chars": 22,
+      "lines": 2,
+      "size": 63.4,
+      "vw": 4.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.32,
+      "top": 1261,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Ide lama, wajah baru di AI",
+      "words": 6,
+      "chars": 26,
+      "lines": 1,
+      "size": 57.6,
+      "vw": 4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.37,
+      "top": 6440,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Enam lapis, dari akal sehat sampai riset",
+      "words": 7,
+      "chars": 40,
+      "lines": 2,
+      "size": 57.6,
+      "vw": 4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.37,
+      "top": 6808,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "0",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 54.4,
+      "vw": 3.8,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.08,
+      "top": 6980,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Akal sehat",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 2,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.27,
+      "top": 6992,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "1",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 54.4,
+      "vw": 3.8,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.08,
+      "top": 7088,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Fondasi",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 2,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.27,
+      "top": 7099,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "2",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 54.4,
+      "vw": 3.8,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.08,
+      "top": 7195,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Tiga pilar",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 2,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.27,
+      "top": 7206,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "3",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 54.4,
+      "vw": 3.8,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.08,
+      "top": 7302,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Alat inti AI",
+      "words": 3,
+      "chars": 12,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 2,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.27,
+      "top": 7314,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "4",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 54.4,
+      "vw": 3.8,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.08,
+      "top": 7410,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Fisika untuk AI",
+      "words": 3,
+      "chars": 15,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 2,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.27,
+      "top": 7421,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "5",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 54.4,
+      "vw": 3.8,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.08,
+      "top": 7517,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "AI",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 2,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.27,
+      "top": 7529,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "Cara belajar yang disarankan",
+      "words": 4,
+      "chars": 28,
+      "lines": 2,
+      "size": 57.6,
+      "vw": 4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.33,
+      "top": 7739,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Batu itu butuh berabad-abad untuk belajar berhitung. Kamu cukup mulai dari satu pelajaran.",
+      "words": 13,
+      "chars": 90,
+      "lines": 3,
+      "size": 38.4,
+      "vw": 2.7,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.29,
+      "top": 8274,
+      "tag": "p",
+      "kind": "statement"
+     }
+    ],
+    "headingSummary": {
+     "count": 19,
+     "maxLines": 3,
+     "over2Lines": 0,
+     "statements": 13,
+     "centered": 1,
+     "medianWords": 2,
+     "mixedFontHeadings": 6
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Source Serif 4",
+       "share": 0.75,
+       "mono": false
+      },
+      {
+       "family": "Instrument Serif",
+       "share": 0.25,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      14,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      29,
+      38,
+      54,
+      58,
+      63,
+      104
+     ],
+     "sizeCount": 15,
+     "notLoaded": [],
+     "body": {
+      "font": "Source Serif 4",
+      "size": 17.6,
+      "leading": 1.7,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": null
+     },
+     "measureChars": 48,
+     "max": {
+      "size": 103.7,
+      "vw": 7.2,
+      "font": "Instrument Serif",
+      "text": "Batu itu kini"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.05,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#120d1d",
+     "bodyBgHsl": {
+      "h": 259,
+      "s": 0.38,
+      "l": 0.08
+     },
+     "dark": true,
+     "sectionBgs": [],
+     "textColors": [
+      {
+       "color": "#d9d2e8",
+       "share": 0.46
+      },
+      {
+       "color": "#a69cbd",
+       "share": 0.26
+      },
+      {
+       "color": "#efeaf8",
+       "share": 0.19
+      },
+      {
+       "color": "#c9b8ff",
+       "share": 0.04
+      },
+      {
+       "color": "#7fd8f2",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#201834",
+      "hsl": {
+       "h": 257,
+       "s": 0.37,
+       "l": 0.15
+      },
+      "fg": "#efeaf8"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 12,
+     "inHero": 6,
+     "radius": 0,
+     "height": 38,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Mulai belajar",
+      "Mulai dari 0.1",
+      "Lihat peta belajar"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 2,
+     "scrims": 0,
+     "gradientSamples": [
+      "div#glowbg → radial-gradient(closest-side, rgba(150, 110, 255, 0.16), rgba(0, 0, 0, 0))",
+      "div.jstick → radial-gradient(at 66% 50%, rgba(120, 90, 220, 0.12), rgba(0, 0, 0, 0) 60%)"
+     ],
+     "gradientText": 0,
+     "hairlines": 11,
+     "hairlineSamples": [
+      "header#bar 1440px",
+      "li 592px",
+      "li 592px",
+      "li 592px",
+      "li 592px"
+     ],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 3,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "canvas",
+      "ratio": 1
+     },
+     {
+      "type": "canvas",
+      "ratio": 1
+     }
+    ],
+    "nav": {
+     "links": 3,
+     "fixed": true,
+     "height": 60,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "instrument serif",
+     "source serif 4"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 8766,
+    "margins": {
+     "left": 48,
+     "right": 100
+    },
+    "sections": [
+     {
+      "sel": "section.hero",
+      "tag": "section",
+      "top": 0,
+      "height": 900,
+      "words": 59,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Batu itu kini",
+       "size": 104,
+       "tag": "h1"
+      },
+      "left": 48,
+      "right": 873,
+      "textLeft": 48,
+      "textRight": 873,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.journey",
+      "tag": "section",
+      "top": 900,
+      "height": 5400,
+      "words": 58,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Semua berawal dari",
+       "size": 63,
+       "tag": "h2"
+      },
+      "left": 48,
+      "right": 934,
+      "textLeft": 48,
+      "textRight": 934,
+      "fullBleed": true,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": true
+     },
+     {
+      "sel": "section.idea",
+      "tag": "section",
+      "top": 6440,
+      "height": 228,
+      "words": 36,
+      "media": 0,
+      "middle": 181,
+      "heading": null,
+      "left": 100,
+      "right": 100,
+      "textLeft": 100,
+      "textRight": 100,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section",
+      "tag": "section",
+      "top": 6808,
+      "height": 791,
+      "words": 90,
+      "media": 0,
+      "middle": 276,
+      "heading": {
+       "text": "Akal sehat",
+       "size": 29,
+       "tag": "b"
+      },
+      "left": 240,
+      "right": 184,
+      "textLeft": 240,
+      "textRight": 184,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.howto",
+      "tag": "section",
+      "top": 7739,
+      "height": 287,
+      "words": 57,
+      "media": 0,
+      "middle": 317,
+      "heading": {
+       "text": "disarankan",
+       "size": 58,
+       "tag": "h2"
+      },
+      "left": 100,
+      "right": 115,
+      "textLeft": 100,
+      "textRight": 115,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.coda",
+      "tag": "section",
+      "top": 8166,
+      "height": 480,
+      "words": 17,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Batu itu butuh berabad-abad untuk belajar berhitun",
+       "size": 38,
+       "tag": "p"
+      },
+      "left": 509,
+      "right": 509,
+      "textLeft": 509,
+      "textRight": 509,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Batu itu kini bertanya balik",
+      "size": 104,
+      "top": 181,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 48,
+      "n": 9
+     },
+     {
+      "x": 100,
+      "n": 6
+     },
+     {
+      "x": 222,
+      "n": 1
+     },
+     {
+      "x": 551,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 17,
+    "bodySize": 18,
+    "stage": true,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 10,
+   "filled": [
+    0.94,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0.27,
+    0.26,
+    0.19
+   ],
+   "motion": {
+    "elements": 8,
+    "css": 2,
+    "transitions": 6,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 9941,
+     "screens": 9.7,
+     "words": 325,
+     "img": 0,
+     "video": 0,
+     "canvas": 3,
+     "svg": 4,
+     "sections": 6,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Batu itu kini bertanya balik",
+     "words": 5,
+     "chars": 28,
+     "lines": 1,
+     "size": 55.3,
+     "vw": 7.2,
+     "font": "Instrument Serif",
+     "weight": 400,
+     "tracking": -0.025,
+     "leading": 0.95,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "right",
+     "widthRatio": 0.65,
+     "top": 548,
+     "mixedFonts": [
+      "Instrument Serif",
+      "Instrument Serif italic"
+     ],
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Batu itu kini bertanya balik",
+     "words": 5,
+     "lines": 1,
+     "size": 55.3,
+     "font": "Instrument Serif"
+    },
+    "headings": [
+     {
+      "text": "Batu itu kini bertanya balik",
+      "words": 5,
+      "chars": 28,
+      "lines": 1,
+      "size": 55.3,
+      "vw": 7.2,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 0.95,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.65,
+      "top": 548,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Semua berawal dari angka",
+      "words": 4,
+      "chars": 24,
+      "lines": 1,
+      "size": 35.2,
+      "vw": 4.6,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 1825,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Menggelinding ke dasar",
+      "words": 3,
+      "chars": 22,
+      "lines": 1,
+      "size": 35.2,
+      "vw": 4.6,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 1845,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Ide lama, wajah baru di AI",
+      "words": 6,
+      "chars": 26,
+      "lines": 1,
+      "size": 35.2,
+      "vw": 4.6,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.42,
+      "top": 7246,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Enam lapis, dari akal sehat sampai riset",
+      "words": 7,
+      "chars": 40,
+      "lines": 2,
+      "size": 35.2,
+      "vw": 4.6,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.42,
+      "top": 7717,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Akal sehat",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 3.8,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.81,
+      "top": 7832,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "0",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 41.6,
+      "vw": 5.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.09,
+      "top": 7863,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Fondasi",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 3.8,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.81,
+      "top": 7989,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "1",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 41.6,
+      "vw": 5.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.09,
+      "top": 8021,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Tiga pilar",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 3.8,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.81,
+      "top": 8147,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "2",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 41.6,
+      "vw": 5.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.09,
+      "top": 8178,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Alat inti AI",
+      "words": 3,
+      "chars": 12,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 3.8,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.81,
+      "top": 8304,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "3",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 41.6,
+      "vw": 5.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.09,
+      "top": 8347,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Fisika untuk AI",
+      "words": 3,
+      "chars": 15,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 3.8,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.81,
+      "top": 8485,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "4",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 41.6,
+      "vw": 5.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.09,
+      "top": 8516,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "AI",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 3.8,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.81,
+      "top": 8642,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "5",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 41.6,
+      "vw": 5.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.09,
+      "top": 8673,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Cara belajar yang disarankan",
+      "words": 4,
+      "chars": 28,
+      "lines": 2,
+      "size": 35.2,
+      "vw": 4.6,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.42,
+      "top": 8869,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 18,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 12,
+     "centered": 0,
+     "medianWords": 2,
+     "mixedFontHeadings": 6
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Source Serif 4",
+       "share": 0.75,
+       "mono": false
+      },
+      {
+       "family": "Instrument Serif",
+       "share": 0.25,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      26,
+      29,
+      35,
+      42,
+      55
+     ],
+     "sizeCount": 14,
+     "notLoaded": [],
+     "body": {
+      "font": "Source Serif 4",
+      "size": 16,
+      "leading": 1.7,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": null
+     },
+     "measureChars": 49,
+     "max": {
+      "size": 55.3,
+      "vw": 7.2,
+      "font": "Instrument Serif",
+      "text": "Batu itu kini"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.06,
+     "smallText": 0
+    },
+    "eyebrows": [
+     {
+      "text": "Segera hadir",
+      "above": "Fisika untuk AI",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 14.4,
+      "top": 8395
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#120d1d",
+     "bodyBgHsl": {
+      "h": 259,
+      "s": 0.38,
+      "l": 0.08
+     },
+     "dark": true,
+     "sectionBgs": [],
+     "textColors": [
+      {
+       "color": "#d9d2e8",
+       "share": 0.46
+      },
+      {
+       "color": "#a69cbd",
+       "share": 0.26
+      },
+      {
+       "color": "#efeaf8",
+       "share": 0.2
+      },
+      {
+       "color": "#c9b8ff",
+       "share": 0.04
+      },
+      {
+       "color": "#7fd8f2",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#201834",
+      "hsl": {
+       "h": 257,
+       "s": 0.37,
+       "l": 0.15
+      },
+      "fg": "#efeaf8"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 12,
+     "inHero": 6,
+     "radius": 0,
+     "height": 38,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Mulai belajar",
+      "Mulai dari 0.1",
+      "Lihat peta belajar"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 2,
+     "scrims": 0,
+     "gradientSamples": [
+      "div#glowbg → radial-gradient(closest-side, rgba(150, 110, 255, 0.16), rgba(0, 0, 0, 0))",
+      "div.jstick → radial-gradient(at 66% 50%, rgba(120, 90, 220, 0.12), rgba(0, 0, 0, 0) 60%)"
+     ],
+     "gradientText": 0,
+     "hairlines": 11,
+     "hairlineSamples": [
+      "header#bar 768px",
+      "li 707px",
+      "li 707px",
+      "li 707px",
+      "li 707px"
+     ],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 3,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "canvas",
+      "ratio": 1
+     },
+     {
+      "type": "canvas",
+      "ratio": 0.98
+     }
+    ],
+    "nav": {
+     "links": 2,
+     "fixed": true,
+     "height": 60,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "instrument serif",
+     "source serif 4"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 9941,
+    "margins": {
+     "left": 31,
+     "right": 31
+    },
+    "sections": [
+     {
+      "sel": "section.hero",
+      "tag": "section",
+      "top": -18,
+      "height": 1024,
+      "words": 59,
+      "media": 1,
+      "middle": 0,
+      "heading": null,
+      "left": 239,
+      "right": 31,
+      "textLeft": 239,
+      "textRight": 31,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.journey",
+      "tag": "section",
+      "top": 1006,
+      "height": 6144,
+      "words": 58,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Semua berawal dari",
+       "size": 35,
+       "tag": "h2"
+      },
+      "left": 31,
+      "right": 38,
+      "textLeft": 31,
+      "textRight": 38,
+      "fullBleed": true,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": true
+     },
+     {
+      "sel": "section.idea",
+      "tag": "section",
+      "top": 7246,
+      "height": 375,
+      "words": 36,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 31,
+      "right": 31,
+      "textLeft": 31,
+      "textRight": 31,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section",
+      "tag": "section",
+      "top": 7717,
+      "height": 1056,
+      "words": 90,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Akal sehat",
+       "size": 29,
+       "tag": "b"
+      },
+      "left": 116,
+      "right": 45,
+      "textLeft": 116,
+      "textRight": 45,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.howto",
+      "tag": "section",
+      "top": 8869,
+      "height": 405,
+      "words": 57,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "disarankan",
+       "size": 35,
+       "tag": "h2"
+      },
+      "left": 31,
+      "right": 42,
+      "textLeft": 31,
+      "textRight": 42,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.coda",
+      "tag": "section",
+      "top": 9370,
+      "height": 451,
+      "words": 17,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Batu itu butuh berabad-abad untuk belajar berhitun",
+       "size": 26,
+       "tag": "p"
+      },
+      "left": 243,
+      "right": 243,
+      "textLeft": 243,
+      "textRight": 243,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Batu itu kini bertanya balik",
+      "size": 55,
+      "top": 548,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 31,
+      "n": 10
+     },
+     {
+      "x": 239,
+      "n": 2
+     },
+     {
+      "x": 105,
+      "n": 1
+     },
+     {
+      "x": 250,
+      "n": 1
+     },
+     {
+      "x": 274,
+      "n": 1
+     },
+     {
+      "x": 306,
+      "n": 1
+     },
+     {
+      "x": 461,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 17,
+    "bodySize": 16,
+    "stage": true,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 11,
+   "filled": [
+    0.83,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0.48,
+    0.27,
+    0.49,
+    0.25
+   ],
+   "motion": {
+    "elements": 8,
+    "css": 2,
+    "transitions": 6,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 9067,
+     "screens": 10.7,
+     "words": 325,
+     "img": 0,
+     "video": 0,
+     "canvas": 3,
+     "svg": 4,
+     "sections": 6,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Batu itu kini bertanya balik",
+     "words": 5,
+     "chars": 28,
+     "lines": 2,
+     "size": 48,
+     "vw": 12.3,
+     "font": "Instrument Serif",
+     "weight": 400,
+     "tracking": -0.025,
+     "leading": 0.95,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.92,
+     "top": 272,
+     "mixedFonts": [
+      "Instrument Serif",
+      "Instrument Serif italic"
+     ],
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Batu itu kini bertanya balik",
+     "words": 5,
+     "lines": 2,
+     "size": 48,
+     "font": "Instrument Serif"
+    },
+    "headings": [
+     {
+      "text": "Batu itu kini bertanya balik",
+      "words": 5,
+      "chars": 28,
+      "lines": 2,
+      "size": 48,
+      "vw": 12.3,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 0.95,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 272,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Semua berawal dari angka",
+      "words": 4,
+      "chars": 24,
+      "lines": 1,
+      "size": 35.2,
+      "vw": 9,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 1438,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Menggelinding ke dasar",
+      "words": 3,
+      "chars": 22,
+      "lines": 1,
+      "size": 35.2,
+      "vw": 9,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 1457,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Ide lama, wajah baru di AI",
+      "words": 6,
+      "chars": 26,
+      "lines": 1,
+      "size": 35.2,
+      "vw": 9,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.83,
+      "top": 5986,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Enam lapis, dari akal sehat sampai riset",
+      "words": 7,
+      "chars": 40,
+      "lines": 2,
+      "size": 35.2,
+      "vw": 9,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.83,
+      "top": 6522,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Akal sehat",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 7.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.7,
+      "top": 6637,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "0",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 41.6,
+      "vw": 10.7,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.17,
+      "top": 6681,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Fondasi",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 7.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.7,
+      "top": 6819,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "1",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 41.6,
+      "vw": 10.7,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.17,
+      "top": 6862,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Tiga pilar",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 7.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.7,
+      "top": 7000,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "2",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 41.6,
+      "vw": 10.7,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.17,
+      "top": 7055,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Alat inti AI",
+      "words": 3,
+      "chars": 12,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 7.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.7,
+      "top": 7205,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "3",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 41.6,
+      "vw": 10.7,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.17,
+      "top": 7260,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Fisika untuk AI",
+      "words": 3,
+      "chars": 15,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 7.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.7,
+      "top": 7410,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "4",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 41.6,
+      "vw": 10.7,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.17,
+      "top": 7453,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "AI",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 28.8,
+      "vw": 7.4,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.7,
+      "top": 7591,
+      "tag": "b",
+      "kind": "statement"
+     },
+     {
+      "text": "5",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 41.6,
+      "vw": 10.7,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.17,
+      "top": 7647,
+      "tag": "span",
+      "kind": "statement"
+     },
+     {
+      "text": "Cara belajar yang disarankan",
+      "words": 4,
+      "chars": 28,
+      "lines": 2,
+      "size": 35.2,
+      "vw": 9,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.83,
+      "top": 7866,
+      "mixedFonts": [
+       "Instrument Serif",
+       "Instrument Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Batu itu butuh berabad-abad untuk belajar berhitung. Kamu cukup mulai dari satu pelajaran.",
+      "words": 13,
+      "chars": 90,
+      "lines": 3,
+      "size": 25.6,
+      "vw": 6.6,
+      "font": "Instrument Serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.72,
+      "top": 8648,
+      "tag": "p",
+      "kind": "statement"
+     }
+    ],
+    "headingSummary": {
+     "count": 19,
+     "maxLines": 3,
+     "over2Lines": 0,
+     "statements": 13,
+     "centered": 1,
+     "medianWords": 2,
+     "mixedFontHeadings": 6
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Source Serif 4",
+       "share": 0.74,
+       "mono": false
+      },
+      {
+       "family": "Instrument Serif",
+       "share": 0.26,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      21,
+      22,
+      26,
+      29,
+      35,
+      42,
+      48
+     ],
+     "sizeCount": 13,
+     "notLoaded": [],
+     "body": {
+      "font": "Source Serif 4",
+      "size": 16,
+      "leading": 1.7,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": null
+     },
+     "measureChars": 43,
+     "max": {
+      "size": 48,
+      "vw": 12.3,
+      "font": "Instrument Serif",
+      "text": "Batu itu kini"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.06,
+     "smallText": 0
+    },
+    "eyebrows": [
+     {
+      "text": "Kristal silikon",
+      "above": "Batu itu kini bertanya balik",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 17.6,
+      "top": 217
+     },
+     {
+      "text": "0 dari 7 selesai",
+      "above": "Fondasi",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 14.4,
+      "top": 6729
+     },
+     {
+      "text": "0 dari 9 selesai",
+      "above": "Tiga pilar",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 14.4,
+      "top": 6910
+     },
+     {
+      "text": "Segera hadir",
+      "above": "Alat inti AI",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 14.4,
+      "top": 7115
+     },
+     {
+      "text": "Segera hadir",
+      "above": "Fisika untuk AI",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 14.4,
+      "top": 7321
+     },
+     {
+      "text": "Segera hadir",
+      "above": "AI",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 14.4,
+      "top": 7502
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#120d1d",
+     "bodyBgHsl": {
+      "h": 259,
+      "s": 0.38,
+      "l": 0.08
+     },
+     "dark": true,
+     "sectionBgs": [],
+     "textColors": [
+      {
+       "color": "#d9d2e8",
+       "share": 0.46
+      },
+      {
+       "color": "#a69cbd",
+       "share": 0.27
+      },
+      {
+       "color": "#efeaf8",
+       "share": 0.2
+      },
+      {
+       "color": "#c9b8ff",
+       "share": 0.04
+      },
+      {
+       "color": "#7fd8f2",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#201834",
+      "hsl": {
+       "h": 257,
+       "s": 0.37,
+       "l": 0.15
+      },
+      "fg": "#efeaf8"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 12,
+     "inHero": 6,
+     "radius": 0,
+     "height": 38,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Mulai",
+      "Mulai dari 0.1",
+      "Lihat peta belajar"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 2,
+     "scrims": 0,
+     "gradientSamples": [
+      "div#glowbg → radial-gradient(closest-side, rgba(150, 110, 255, 0.16), rgba(0, 0, 0, 0))",
+      "div.jstick → radial-gradient(at 66% 50%, rgba(120, 90, 220, 0.12), rgba(0, 0, 0, 0) 60%)"
+     ],
+     "gradientText": 0,
+     "hairlines": 11,
+     "hairlineSamples": [
+      "header#bar 390px",
+      "li 358px",
+      "li 358px",
+      "li 358px",
+      "li 358px"
+     ],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 3,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "canvas",
+      "ratio": 1
+     },
+     {
+      "type": "canvas",
+      "ratio": 0.98
+     }
+    ],
+    "nav": {
+     "links": 2,
+     "fixed": true,
+     "height": 60,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "instrument serif",
+     "source serif 4"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 9067,
+    "margins": {
+     "left": 16,
+     "right": 16
+    },
+    "sections": [
+     {
+      "sel": "section.hero",
+      "tag": "section",
+      "top": -18,
+      "height": 844,
+      "words": 61,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Batu itu kini",
+       "size": 48,
+       "tag": "h1"
+      },
+      "left": 16,
+      "right": 18,
+      "textLeft": 16,
+      "textRight": 18,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.journey",
+      "tag": "section",
+      "top": 826,
+      "height": 5064,
+      "words": 58,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Semua berawal dari",
+       "size": 35,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 29,
+      "textLeft": 16,
+      "textRight": 29,
+      "fullBleed": true,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": true
+     },
+     {
+      "sel": "section.idea",
+      "tag": "section",
+      "top": 5986,
+      "height": 440,
+      "words": 36,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 16,
+      "right": 16,
+      "textLeft": 16,
+      "textRight": 16,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section",
+      "tag": "section",
+      "top": 6522,
+      "height": 1248,
+      "words": 90,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Akal sehat",
+       "size": 29,
+       "tag": "b"
+      },
+      "left": 101,
+      "right": 17,
+      "textLeft": 101,
+      "textRight": 17,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.howto",
+      "tag": "section",
+      "top": 7866,
+      "height": 584,
+      "words": 57,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "disarankan",
+       "size": 35,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 17,
+      "textLeft": 16,
+      "textRight": 17,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.coda",
+      "tag": "section",
+      "top": 8546,
+      "height": 401,
+      "words": 17,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Batu itu butuh berabad-abad untuk belajar berhitun",
+       "size": 26,
+       "tag": "p"
+      },
+      "left": 54,
+      "right": 54,
+      "textLeft": 54,
+      "textRight": 54,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Batu itu kini bertanya balik",
+      "size": 48,
+      "top": 272,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 16,
+      "n": 13
+     },
+     {
+      "x": 91,
+      "n": 1
+     },
+     {
+      "x": 235,
+      "n": 1
+     },
+     {
+      "x": 259,
+      "n": 1
+     },
+     {
+      "x": 292,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 17,
+    "bodySize": 16,
+    "stage": true,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "FAIL",
+   "id": "headline-lines",
+   "width": 1440,
+   "message": "1 headline(s) wrap past two lines at 1440px: \"Batu itu butuh berabad-abad untuk belajar berhit\" → 3 lines (13 words, 38.4px, a paragraph set above 36px)",
+   "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 36px or less."
+  },
+  {
+   "level": "WARN",
+   "id": "mixed-font-headline",
+   "width": 1440,
+   "message": "6 headline(s) switch typeface or to italic mid-line (the \"one italic serif word\" move).",
+   "fix": "Set the whole headline in one face. Emphasis comes from the words.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "gradient",
+   "width": 1440,
+   "message": "2 gradient fill(s): div#glowbg → radial-gradient(closest-side, rgba(150, 110, 255, 0.16), rgba(0, 0, 0, 0)) | div.jstick → radial-gradient(at 66% 50%, rgba(120, 90, 220, 0.12), rgba(0, 0, 0, 0) 60%)",
+   "fix": "Use a flat colour or a real image. The only gradient allowed by default is a neutral scrim over a photo for legibility.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "hairline",
+   "width": 1440,
+   "message": "11 thin rule(s)/divider line(s): header#bar 1440px | li 592px | li 592px | li 592px",
+   "fix": "Delete. Separate with space, a tone change, or scale. Lines are only for real tables and form fields.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "size-count",
+   "width": 1440,
+   "message": "15 different font sizes (14, 16, 17, 18, 19, 20, 21, 22, 23, 29, 38, 54, 58, 63, 104).",
+   "fix": "A page needs about five: display, heading, lead, body, small.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "few-pictures",
+   "width": 1440,
+   "message": "Only 0 picture(s) on the page (0 photographs, footage or raster images, 0 interface fragments). Drawings in SVG do not count.",
+   "fix": "Find real pictures of the subject's world with scripts/assets.mjs (photographs, archival images, maps, engravings, footage), download them to assets/ and give them room: a hero picture, one per section that has a subject, a full-width band. At least four, usually six to twelve."
+  },
+  {
+   "level": "WARN",
+   "id": "no-footage",
+   "width": 1440,
+   "message": "No video anywhere on the page.",
+   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+  },
+  {
+   "level": "WARN",
+   "id": "off-centre",
+   "width": 1440,
+   "message": "The margins differ: 48px on the left, 100px on the right, at 1440px.",
+   "fix": "Put the navigation and the content on one pair of margins; check for padding on one side only, a scrollbar gutter, or a header on another inset than the page."
+  },
+  {
+   "level": "WARN",
+   "id": "pinned-over-picture",
+   "width": 1440,
+   "message": "Pinned large text slides across pictures while the page scrolls: \"Semua berawal dari angka\" (screen 2, 100% over a picture); \"Titik-titik mencari garis\" (screen 3, 100% over a picture); \"Ketidakpastian punya bentuk\" (screen 4, 100% over a picture)",
+   "fix": "Jurors read a pinned title crossing drawings or photographs as a collision. Keep the pictures in the column the title does not occupy, or unpin it.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "still-page",
+   "width": 1440,
+   "message": "Little motion: 8 element(s) moved while the page loaded and scrolled.",
+   "fix": "Give every section an entrance for its parts (not one fade of the whole block) and add one moving picture: a looping clip or a slow move on a photograph."
+  },
+  {
+   "level": "FAIL",
+   "id": "empty-screens",
+   "width": 1440,
+   "message": "2 of 10 desktop screens are almost empty ground (under 20% of the screen holds text, a picture or a colour field): screens 9, 10.",
+   "fix": "An empty screen is a rest only once per page. Elsewhere it means the section is underbuilt: set its content larger, give it the full information, put it on a colour field, or cut it."
+  },
+  {
+   "level": "FAIL",
+   "id": "eyebrow",
+   "width": 768,
+   "message": "1 eyebrow/kicker label(s) above headings: \"Segera hadir\" above \"Fisika untuk AI\"",
+   "fix": "Delete them. If the label carried real information, fold it into the headline or the supporting sentence.",
+   "alsoAt": [
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "headline-lines",
+   "width": 390,
+   "message": "1 headline(s) wrap past two lines at 390px: \"Batu itu butuh berabad-abad untuk belajar berhit\" → 3 lines (13 words, 25.6px, a paragraph set above 24px)",
+   "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 24px or less."
+  },
+  {
+   "level": "FAIL",
+   "id": "reduced-hidden",
+   "width": 1440,
+   "message": "With reduced motion requested, 107 text block(s) on the first screen stay invisible: \"Daftar\", \"pelajaran\", \"Tutup\", \"Esc\"",
+   "fix": "Put every hidden starting state inside @media (prefers-reduced-motion: no-preference); the reduced page is the finished page (references/motion.md §8)."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "C:\\Users\\Ade Rizky Darmawan\\Downloads\\belajar-matematika-ai\\web\\.taste-skill\\inspect\\desktop-fold.jpg",
+   "pages": [
+    "C:\\Users\\Ade Rizky Darmawan\\Downloads\\belajar-matematika-ai\\web\\.taste-skill\\inspect\\desktop-page-01.jpg",
+    "C:\\Users\\Ade Rizky Darmawan\\Downloads\\belajar-matematika-ai\\web\\.taste-skill\\inspect\\desktop-page-02.jpg",
+    "C:\\Users\\Ade Rizky Darmawan\\Downloads\\belajar-matematika-ai\\web\\.taste-skill\\inspect\\desktop-page-03.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "C:\\Users\\Ade Rizky Darmawan\\Downloads\\belajar-matematika-ai\\web\\.taste-skill\\inspect\\tablet-fold.jpg",
+   "pages": [
+    "C:\\Users\\Ade Rizky Darmawan\\Downloads\\belajar-matematika-ai\\web\\.taste-skill\\inspect\\tablet-page-01.jpg",
+    "C:\\Users\\Ade Rizky Darmawan\\Downloads\\belajar-matematika-ai\\web\\.taste-skill\\inspect\\tablet-page-02.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "C:\\Users\\Ade Rizky Darmawan\\Downloads\\belajar-matematika-ai\\web\\.taste-skill\\inspect\\mobile-fold.jpg",
+   "pages": [
+    "C:\\Users\\Ade Rizky Darmawan\\Downloads\\belajar-matematika-ai\\web\\.taste-skill\\inspect\\mobile-page-01.jpg",
+    "C:\\Users\\Ade Rizky Darmawan\\Downloads\\belajar-matematika-ai\\web\\.taste-skill\\inspect\\mobile-page-02.jpg"
+   ],
+   "film": []
+  }
+ ]
+}
