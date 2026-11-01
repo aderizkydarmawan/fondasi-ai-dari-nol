@@ -535,6 +535,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
   sizeBg(); seedF(AI_F);
   window.addEventListener('resize', function(){ sizeBg(); if(main.dataset.kind === 'lesson') seedF(F.map(function(f){ return f.t; }), lessonEdge()); if(RM) drawBg(0); });
   window.addEventListener('pointermove', function(e){ mouse.x = e.clientX; mouse.y = e.clientY; }, {passive:true});
+  // HP: setelah jari diangkat, efek dorongan ikut hilang
+  ['pointerup','pointercancel'].forEach(function(ev){ window.addEventListener(ev, function(e){ if(e.pointerType !== 'mouse'){ mouse.x = -999; mouse.y = -999; } }, {passive:true}); });
   document.fonts && document.fonts.ready.then(function(){ requestAnimationFrame(loopBg); });
   if(RM) window.addEventListener('scroll', function(){ drawBg(0); }, {passive:true});
 
@@ -676,7 +678,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       P.forEach(function(p){
         var ax = (p.tx - p.x)*.035, ay = (p.ty - p.y)*.035;
         var dx = p.x - mx, dy = p.y - my, dd = dx*dx + dy*dy;
-        if(dd < 9000){ var k = (9000-dd)/9000*2.4, s = Math.sqrt(dd)||1; ax += dx/s*k; ay += dy/s*k; }
+        var RR = W > 900 ? 9000 : 2200; // HP: dorongan sentuhan lebih kecil
+        if(dd < RR){ var k = (RR-dd)/RR*(W > 900 ? 2.4 : 1.2), s = Math.sqrt(dd)||1; ax += dx/s*k; ay += dy/s*k; }
         p.vx = (p.vx + ax)*.8; p.vy = (p.vy + ay)*.8; p.x += p.vx; p.y += p.vy;
         var fr = p.free || p.y > lim;
         cx.fillStyle = LIGHT() ? (fr ? 'rgba(90,61,194,.16)' : (p.c ? 'rgba(11,111,146,.85)' : 'rgba(90,61,194,.85)')) : (fr ? 'rgba(201,184,255,.18)' : (p.c ? 'rgba(127,216,242,.9)' : 'rgba(214,201,255,.92)'));

@@ -62,8 +62,8 @@
       return [ (wide ? W*.66 : W*.5) + x*f, (wide ? H*.5 : H*.36) - y2*f, cam ];
     }
     function push(pt){
-      var dx = pt[0] - mouse.mx, dy = pt[1] - mouse.my, d = Math.sqrt(dx*dx + dy*dy) || 1, R = 140;
-      if(d < R){ var k = (R-d)/R * 34 * (1 + .35*Math.sin(d*.08 - t*.006)); pt[0] += dx/d*k; pt[1] += dy/d*k; }
+      var dx = pt[0] - mouse.mx, dy = pt[1] - mouse.my, d = Math.sqrt(dx*dx + dy*dy) || 1, sm = W <= 900, R = sm ? 60 : 140; // HP: dorongan sentuhan lebih kecil
+      if(d < R){ var k = (R-d)/R * (sm ? 12 : 34) * (1 + .35*Math.sin(d*.08 - t*.006)); pt[0] += dx/d*k; pt[1] += dy/d*k; }
     }
     function drawShape(k, f, rot, wide){
       if(k < 0 || k >= S.length) return;
