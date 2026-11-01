@@ -83,6 +83,9 @@ p,li{text-wrap:pretty}
 .navb.cta{white-space:nowrap;background:var(--accent);color:var(--accent-ink);font-weight:600;padding:8px 16px}
 .navb.cta:hover{background:#ddd1ff}
 .navb.cta .ls{display:none}
+@media (max-width:400px){ #bar{gap:4px} #bar nav{gap:0} .navb.cta{padding:8px 9px!important} #menuBtn{padding:8px 6px!important} .themeb{width:36px!important} }
+/* HP: teks hero mengalir di bawah kristal, tidak menindihnya */
+@media (max-width:900px){ section.hero{height:auto;min-height:100svh;padding-top:300px} }
 @media (max-width:540px){ .navb.cta .lw{display:none} .navb.cta .ls{display:inline} #menuBtn{font-size:0;gap:0;padding:8px 10px} #menuBtn .ico{font-size:1.3rem} }
 #prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(--cyan);z-index:31;box-shadow:0 0 12px rgba(127,216,242,.7)}
 
@@ -278,7 +281,8 @@ pre.hasil{border-style:dashed;border-color:rgba(127,216,242,.35);white-space:pre
 .hero .hstage span{font:400 1.5rem/1.1 var(--f-display);color:var(--ink)}
 .hero .hstage small{font:italic 400 1rem/1.4 var(--f-body);color:var(--muted)}
 @keyframes stIn{0%{opacity:0;transform:translate(-50%,8px)}12%,85%{opacity:1;transform:translate(-50%,0)}100%{opacity:0}}
-@media (max-width:430px){.brand{font-size:1.05rem!important}}
+@media (max-width:430px){.brand{font-size:1.05rem!important;gap:6px}}
+@media (max-width:400px){.brand{font-size:.98rem!important;gap:5px}}
 @media (max-width:900px){.hero .hstage{display:block;width:max-content}.hero .hstage small{display:none}.hero .hstage b{margin-right:6px}.hero .hstage span{font-size:1.1rem}}
 @media (prefers-reduced-motion:reduce){.hero .hstage.in{animation:none;opacity:1}}
 .hero .copy{position:relative;z-index:2;max-width:640px}
@@ -667,13 +671,16 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       if(!t0 || tm - t0 > 5200){ t0 = tm; morph(); }
       cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,W,H);
       var r = rc || (rc = cv.getBoundingClientRect()), mx = mouse.x - r.left, my = mouse.y - r.top;
+      // HP: butir terang berhenti di atas judul supaya tidak menindih teks
+      var cp = cv.parentNode.querySelector('.copy'), lim = W > 900 || !cp ? 1e9 : cp.getBoundingClientRect().top - r.top - 16;
       P.forEach(function(p){
         var ax = (p.tx - p.x)*.035, ay = (p.ty - p.y)*.035;
         var dx = p.x - mx, dy = p.y - my, dd = dx*dx + dy*dy;
         if(dd < 9000){ var k = (9000-dd)/9000*2.4, s = Math.sqrt(dd)||1; ax += dx/s*k; ay += dy/s*k; }
         p.vx = (p.vx + ax)*.8; p.vy = (p.vy + ay)*.8; p.x += p.vx; p.y += p.vy;
-        cx.fillStyle = LIGHT() ? (p.free ? 'rgba(90,61,194,.16)' : (p.c ? 'rgba(11,111,146,.85)' : 'rgba(90,61,194,.85)')) : (p.free ? 'rgba(201,184,255,.18)' : (p.c ? 'rgba(127,216,242,.9)' : 'rgba(214,201,255,.92)'));
-        cx.fillRect(p.x, p.y, p.free ? 1.2 : 2.2, p.free ? 1.2 : 2.2);
+        var fr = p.free || p.y > lim;
+        cx.fillStyle = LIGHT() ? (fr ? 'rgba(90,61,194,.16)' : (p.c ? 'rgba(11,111,146,.85)' : 'rgba(90,61,194,.85)')) : (fr ? 'rgba(201,184,255,.18)' : (p.c ? 'rgba(127,216,242,.9)' : 'rgba(214,201,255,.92)'));
+        cx.fillRect(p.x, p.y, fr ? 1.2 : 2.2, fr ? 1.2 : 2.2);
       });
       requestAnimationFrame(frame);
     }
