@@ -67,8 +67,8 @@
     }
     function drawShape(k, f, rot, wide){
       if(k < 0 || k >= S.length) return;
-      // tumbuh dari kecil (f<.22), diam, lalu meledak melewati kamera (f>.78)
-      var sc = f < .22 ? .15 + .85*ease(f/.22) : f > .78 ? 1 + Math.pow((f-.78)/.22, 2)*5 : 1;
+      // tumbuh dari kecil (f<.22), diam, lalu meledak melewati kamera (f>.78); bentuk berikutnya baru muncul setelah ini habis, jadi tidak pernah bertumpuk
+      var sc = f < .22 ? .15 + .85*ease(f/.22) : f > .78 ? 1 + Math.pow((f-.78)/.22, 2)*(wide ? 5 : 1.6) : 1;
       var al = f < .22 ? ease(f/.22) : f > .78 ? 1 - ease((f-.78)/.22) : 1;
       if(al <= .01) return;
       var b = BAB[k], c1 = cc(b.col), c2 = cc(b.col2 || b.col), sh = S[k], pr = [];
@@ -103,8 +103,7 @@
           cx.fillStyle = 'rgba('+dc+',.22)'; cx.fillRect(q[0], q[1], 1.3, 1.3);
         });
         drawShape(k, f, rot, wide);
-        if(f > .7) drawShape(k+1, (f-.7)/.3*.22, rot, wide);
-        cx.globalCompositeOperation = 'source-over';
+            cx.globalCompositeOperation = 'source-over';
       }
       if(!RM) requestAnimationFrame(frame);
     }
