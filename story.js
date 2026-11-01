@@ -4,7 +4,7 @@
   var V = window.VIZ, W = V.W, el = V.el;
   var kurangGerak = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
-  function ease(u) { u = clamp(u, 0, 1); return u * u * (3 - 2 * u); }
+  function ease(u) { u = clamp(u, 0, 1); return u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2; }
   function seg(t, a, b) { return ease((t - a) / (b - a)); }
 
   /* Kerangka umum: kartu teks di satu kolom, gambar menempel di kolom lain. draw(t) dipanggil dengan t = 0 … n−1. */
@@ -15,15 +15,24 @@
     var lst = document.createElement("div"); lst.className = "st-steps";
     kartu.forEach(function (k, i) { var d = document.createElement("div"); d.className = "st-step"; d.innerHTML = '<div class="st-card"><span class="st-no">' + (i + 1) + "/" + kartu.length + "</span>" + k + "</div>"; lst.appendChild(d); });
     host.appendChild(fig); host.appendChild(lst);
-    var n = kartu.length, last = -1, antri = false;
+    var n = kartu.length, last = -1, antri = false, kini = 0, tuju = 0, jalan = false;
+    /* t yang tampil mengejar t dari scroll dengan pegas lembut, jadi gerakannya mengalir, tidak patah-patah */
+    /* frame berikutnya; setTimeout sebagai cadangan kalau tab sedang diperlambat browser */
+    function jadwal() { var sdh = false; function go() { if (!sdh) { sdh = true; langkah(); } } requestAnimationFrame(go); setTimeout(go, 40); }
+    function langkah() {
+      var d = tuju - kini;
+      kini = Math.abs(d) < 0.002 ? tuju : kini + d * 0.09;
+      if (Math.abs(kini - last) > 1e-4) { last = kini; draw(svg, kini); }
+      if (kini !== tuju) jadwal(); else jalan = false;
+    }
     function hitung() {
       antri = false;
       if (!host.isConnected) { window.removeEventListener("scroll", tunda, true); return; }
       var r = lst.getBoundingClientRect(), H = r.height / n, vh = window.innerHeight;
       var t = clamp((vh * 0.6 - r.top) / H - 0.5, 0, n - 1);
-      if (kurangGerak) t = Math.round(t);
       [].forEach.call(lst.children, function (c, i) { c.classList.toggle("on", Math.abs(t - i) < 0.5); });
-      if (Math.abs(t - last) < 1e-3) return; last = t; draw(svg, t);
+      if (kurangGerak) { t = Math.round(t); if (t !== last) { last = kini = tuju = t; draw(svg, t); } return; }
+      tuju = t; if (!jalan) { jalan = true; jadwal(); }
     }
     function tunda() { if (!antri) { antri = true; requestAnimationFrame(hitung); } }
     window.addEventListener("scroll", tunda, { passive: true, capture: true });
@@ -53,10 +62,12 @@
     cerita(host, kartu, function (svg, t) {
       svg.setAttribute("viewBox", "0 0 " + Wd + " " + Hd); svg.innerHTML = "";
       var s = seg(t, 0.25, 1), terang = seg(t, 1.25, 2), rumus = seg(t, 2.3, 3), akhir = seg(t, 3.3, 4);
-      var dfs = el("defs", {}, svg), cp = el("clipPath", { id: "stclip" }, dfs); el("rect", { x: 0, y: 0, width: Wd, height: Hd, rx: 12 }, cp);
-      var g = el("g", { "clip-path": "url(#stclip)" }, svg);
-      el("rect", { x: 0, y: 0, width: Wd, height: Hd, rx: 12, style: "fill:var(--sheet)" }, g);
-      /* lembar karet: persegi [-2,2]² dan garis gridnya ikut ditransformasi */
+      var dfs = el("defs", {}, svg), cp = el("clipPath", { id: "stclip" }, dfs); el("rect", { x: 0, y: 0, width: Wd, height: Hd }, cp);
+      var rg = el("radialGradient", { id: "stfade", cx: "50%", cy: "50%", r: "50%" }, dfs);
+      el("stop", { offset: "55%", "stop-color": "#fff" }, rg); el("stop", { offset: "100%", "stop-color": "#000" }, rg);
+      var mk = el("mask", { id: "stmask" }, dfs); el("rect", { x: 0, y: 0, width: Wd, height: Hd, fill: "url(#stfade)" }, mk);
+      var g0 = el("g", { "clip-path": "url(#stclip)" }, svg), g = el("g", { mask: "url(#stmask)" }, g0), gTop = g0;
+            /* lembar karet: persegi [-2,2]² dan garis gridnya ikut ditransformasi */
       var sudut = [[-2, -2], [2, -2], [2, 2], [-2, 2]].map(function (v) { return M(s, v); });
       el("polygon", { points: sudut.map(function (q) { return X(q[0]) + "," + Y(q[1]); }).join(" "), style: "fill:var(--s1);opacity:.07" }, g);
       for (var i = -2; i <= 2; i += 0.5) {
@@ -79,17 +90,16 @@
       /* label tahap 3: ×3 dan ×1 */
       if (terang > 0) {
         var l3 = 1 + 2 * s;
-        teks(g, l3 * 0.707 + 0.25, l3 * 0.707 + 0.1, "×" + l3.toFixed(1).replace(".", ","), "var(--s2)", 18, terang, "start");
-        teks(g, 0.95, -0.95, "×1", "var(--s2)", 18, terang, "start");
+        teks(gTop, l3 * 0.707 + 0.25, l3 * 0.707 + 0.1, "×" + l3.toFixed(1).replace(".", ","), "var(--s2)", 18, terang, "start");
+        teks(gTop, 0.95, -0.95, "×1", "var(--s2)", 18, terang, "start");
       }
       /* tahap 4: rumus */
       if (rumus > 0) {
-        el("rect", { x: 14, y: Hd - 74, width: Wd - 28, height: 60, rx: 10, style: "fill:var(--bg,#000);opacity:" + 0.85 * rumus }, g);
-        var tx = el("text", { x: Wd / 2, y: Hd - 36, "text-anchor": "middle", style: "font-size:24px;font-weight:700;opacity:" + rumus }, g);
+        var tx = el("text", { x: Wd / 2, y: Hd - 36, "text-anchor": "middle", style: "font-size:24px;font-weight:700;opacity:" + rumus }, gTop);
         [["A", "var(--s1)"], [" v", "var(--s2)"], ["  =  ", "var(--text,currentColor)"], ["λ", "var(--accent,var(--s1))"], [" v", "var(--s2)"]].forEach(function (p) { var ts = el("tspan", { style: "fill:" + p[1] + ";white-space:pre" }, tx); ts.textContent = p[0]; });
-        teks(g, 0, (cy - 18) / k, "A = tarikan · v = panah yang setia · λ = kali panjangnya", "var(--muted,#888)", 15, rumus * (1 - akhir));
+        teks(gTop, 0, (cy - 18) / k, "A = tarikan · v = panah yang setia · λ = kali panjangnya", "var(--muted,#888)", 15, rumus * (1 - akhir));
       }
-      if (akhir > 0) teks(g, 0, (cy - 26) / k, "↓ coba sendiri di bawah", "var(--s2)", 16, akhir);
+      if (akhir > 0) teks(gTop, 0, (cy - 26) / k, "↓ coba sendiri di bawah", "var(--s2)", 16, akhir);
     });
   };
 })();
