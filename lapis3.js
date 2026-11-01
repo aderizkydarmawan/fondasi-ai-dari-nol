@@ -209,7 +209,7 @@ print(round((q * np.log(q / p)).sum(), 3))               # 0.092</code></pre>
   src: [
     "Shannon (1948), “A Mathematical Theory of Communication”, <i>Bell System Technical Journal</i>. Lokal.",
     "Cover & Thomas, <i>Elements of Information Theory</i> (2e), Bab 2 “Entropy, Relative Entropy, and Mutual Information”. Lokal.",
-    "Kullback & Leibler (1951), “On information and sufficiency”. Lokal.",
+    "Kullback & Leibler (1951), “On information and sufficiency”, <i>Annals of Mathematical Statistics</i>. Mereka menyebut D<sub>KL</sub> sebagai “mean information for discrimination” I(1:2); kata “divergence” mereka pakai untuk versi simetrisnya, J(1, 2). Nama “divergensi KL” datang belakangan. Lokal (hasil OCR).",
     "MacKay, <i>Information Theory, Inference, and Learning Algorithms</i>, Bab 2 dan 4. Lokal (gratis dari situs penulis)."
   ]
 };

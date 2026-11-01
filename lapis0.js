@@ -65,7 +65,7 @@ Mulai di −2, jalan 8 ke kanan.</div>
 `,
   src: [
     "OpenStax, <i>Prealgebra 2e</i>, Bab 3 “Integers”: garis bilangan, bilangan negatif, dan aturan tanda (gratis online di openstax.org).",
-    "Kenapa (−)×(−) = (+) memakai pola, bukan hafalan: cara berpikir yang sama dipakai Pólya, <i>How to Solve It</i> (1945), bagian “Generalization” dan “Analogy”. Lokal (PDF scan)."
+    "Kenapa (−)×(−) = (+) memakai pola, bukan hafalan: cara berpikir yang sama dipakai Pólya, <i>How to Solve It</i> (1945), bagian “Generalization” dan “Analogy”. Lokal (hasil OCR)."
   ]
 };
 
