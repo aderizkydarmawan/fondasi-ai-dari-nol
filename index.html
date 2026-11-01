@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="id">
 <head>
+<script>try{if(localStorage.getItem("fondasi-tema")==="light")document.documentElement.setAttribute("data-theme","light")}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Belajar matematika, statistika, dan fisika di balik AI dari nol, dengan visualisasi interaktif, Python di browser, dan sumber yang bisa dicek.">
@@ -26,6 +27,31 @@
   --ease:cubic-bezier(.16,1,.3,1);
   --gut:clamp(16px,4vw,48px);
 }
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f6f2ea; --paper:#f6f2ea; --sheet:#fffcf6; --raise:#ece5f6; --ink:#1c1430; --text:#2c2440; --muted:#5b5272;
+  --line:rgba(60,36,120,.14); --line2:rgba(60,36,120,.26); --grid:rgba(60,36,120,.05);
+  --accent:#5a3dc2; --accent-ink:#ffffff; --accent-soft:rgba(90,61,194,.08); --accent-line:rgba(90,61,194,.45);
+  --cyan:#0b6f92; --cyan-soft:rgba(11,111,146,.08);
+  --s1:#6247d6; --s2:#0a7fa6; --warn:#9a5a06; --ok:#0b6f92; --mark:rgba(90,61,194,.14);
+}
+[data-theme="light"] html,html[data-theme="light"]{scrollbar-color:#c9bfe0 var(--bg)}
+html[data-theme="light"] ::selection{background:rgba(90,61,194,.22);color:var(--ink)}
+html[data-theme="light"] ::-webkit-scrollbar-thumb{background:#c9bfe0}
+html[data-theme="light"] #bar{background:rgba(246,242,234,.92)}
+html[data-theme="light"] #menu{background:rgba(246,242,234,.98)}
+html[data-theme="light"] .navb.cta:hover,html[data-theme="light"] .btn.primary:hover{background:#4a2fae}
+html[data-theme="light"] .chap{color:rgba(90,61,194,.07)}
+html[data-theme="light"] code{color:#3b2a7a}
+html[data-theme="light"] pre{background:#f0eaf8}
+html[data-theme="light"] .runbtn{border-color:rgba(11,111,146,.45)}
+html[data-theme="light"] .viz .grid line{stroke:rgba(60,36,120,.08)}
+html[data-theme="light"] .viz .axis line{stroke:#8a7fa3}
+html[data-theme="light"] .viz .cell{fill:rgba(90,61,194,.06)}
+html[data-theme="light"] pre.hasil{border-color:rgba(11,111,146,.35)}
+html[data-theme="light"] #prog{box-shadow:none}
+.themeb{display:inline-grid;place-items:center;width:40px;height:40px;padding:0}
+.themeb .ico{width:20px;height:20px}
 *{box-sizing:border-box}
 html{scrollbar-color:#3a2d57 var(--bg);-webkit-text-size-adjust:100%}
 ::selection{background:rgba(201,184,255,.32);color:#fff}
@@ -123,6 +149,10 @@ article b,article strong{color:var(--ink);font-weight:600}
 .lg i{font-style:normal;font-weight:700;color:var(--accent);margin-right:.25em}
 .rule .lg{margin:.7em 0 0}
 .viz .lg-viz{margin:.3em 0 .8em;padding-top:.5em}
+.tabs .tg,.tabs .tgb{display:contents}
+@media (max-width:700px){ .tabs{display:grid!important;gap:12px} .tabs .sep{display:none} .tabs .tg{display:grid;grid-template-columns:6.5em minmax(0,1fr);align-items:center;gap:8px} .tabs .tgb{display:flex;flex-wrap:wrap;gap:8px} }
+html[data-theme="light"] .k-M{--kc:#5a3dc2}html[data-theme="light"] .k-S{--kc:#0b6f92}html[data-theme="light"] .k-F{--kc:#8a5206}html[data-theme="light"] .k-K{--kc:#a83a26}html[data-theme="light"] .k-B{--kc:#1f7a43}html[data-theme="light"] .k-C{--kc:#5b5272}
+.modpel{margin:.8em 0 .4em;padding-top:.6em;border-top:1px dashed var(--line);font-size:.95rem}.modpel a{color:var(--accent)}
 /* Widget di layar sempit: grafik dulu, lalu angka, lalu slider, supaya grafik terlihat saat slider digeser */
 @media (max-width:700px){
   .viz{display:flex;flex-direction:column}
@@ -350,7 +380,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 @media (prefers-reduced-motion:reduce){ .jp{transition:none} }
 @media (max-width:1100px){ .page{grid-template-columns:minmax(0,1fr)} aside.otl{display:none} }
 @media (max-width:900px){
-  #bar nav .navb:not(.cta):not(#menuBtn){display:none}
+  #bar nav .navb:not(.cta):not(#menuBtn):not(.themeb){display:none}
   .hero{grid-template-columns:minmax(0,1fr);align-items:end;padding-bottom:90px}
   .hero .cap{position:static;text-align:left;margin:22px 0 0}
   .hero{display:flex;flex-direction:column;justify-content:flex-end}
@@ -379,6 +409,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
   <span class="sp"></span>
   <nav aria-label="Utama">
     <button class="navb" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Daftar pelajaran"><svg class="ico" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Pelajaran</button>
+    <button class="navb themeb" id="themeBtn" type="button" aria-label="Ganti ke tema terang" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg></button>
     <a class="navb" href="#peta" id="navPeta">Peta belajar</a>
     <a class="navb cta glow" href="#beranda" id="navGo">Mulai</a>
   </nav>
@@ -449,6 +480,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
   function isDone(id){ return getDone().indexOf(id) >= 0; }
   function lastId(){ var x = null; try{ x = localStorage.getItem('fondasi-terakhir'); }catch(e){} return L[x] ? x : null; }
 
+  /* Tema terang/gelap: tersimpan di browser */
+  function LIGHT(){ return document.documentElement.getAttribute('data-theme') === 'light'; }
+  (function(){ var b = document.getElementById('themeBtn'); if(!b) return;
+    function sync(){ var l = LIGHT(); b.setAttribute('aria-pressed', l); b.setAttribute('aria-label', l ? 'Ganti ke tema gelap' : 'Ganti ke tema terang'); b.title = b.getAttribute('aria-label'); }
+    b.addEventListener('click', function(){ var l = !LIGHT(); if(l) document.documentElement.setAttribute('data-theme','light'); else document.documentElement.removeAttribute('data-theme'); try{ localStorage.setItem('fondasi-tema', l ? 'light' : 'dark'); }catch(e){} sync(); });
+    sync(); })();
   /* Rumus melayang di latar: mengambang, parallax saat scroll, menjauhi kursor */
   var bgf = document.getElementById('bgf'), bx = bgf.getContext('2d'), F = [], mouse = {x:-999,y:-999}, dpr = Math.min(2, window.devicePixelRatio||1);
   var AI_F = ['softmax(zᵢ) = eᶻⁱ / Σ eᶻʲ','∇θ L','P(A | B) = P(B | A) P(A) / P(B)','σ(Wx + b)','Attention(Q, K, V)','θ ← θ − η ∇L','KL(p ‖ q)','E[X] = Σ x p(x)','dx = f(x) dt + g dW','−Σ y log ŷ','p(x) ∝ e^(−E/kT)','x·y = Σ xᵢ yᵢ','ŷ = wx + b','∂L/∂w'];
@@ -486,7 +523,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       var tx = 0, ty = 0; if(dd < 180){ var k = (180-dd)/180*36; tx = dx/dd*k; ty = dy/dd*k; }
       f.ox += (tx - f.ox)*.08; f.oy += (ty - f.oy)*.08;
       bx.font = 'italic '+f.s+'px "Source Serif 4", serif';
-      bx.fillStyle = f.c ? 'rgba(127,216,242,'+f.a+')' : 'rgba(201,184,255,'+f.a+')';
+      bx.fillStyle = (LIGHT() ? (f.c ? 'rgba(11,111,146,' : 'rgba(90,61,194,') : (f.c ? 'rgba(127,216,242,' : 'rgba(201,184,255,')) + f.a + ')';
       bx.fillText(f.t, x + f.ox, y + f.oy);
     });
   }
@@ -635,7 +672,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
         var dx = p.x - mx, dy = p.y - my, dd = dx*dx + dy*dy;
         if(dd < 9000){ var k = (9000-dd)/9000*2.4, s = Math.sqrt(dd)||1; ax += dx/s*k; ay += dy/s*k; }
         p.vx = (p.vx + ax)*.8; p.vy = (p.vy + ay)*.8; p.x += p.vx; p.y += p.vy;
-        cx.fillStyle = p.free ? 'rgba(201,184,255,.18)' : (p.c ? 'rgba(127,216,242,.9)' : 'rgba(214,201,255,.92)');
+        cx.fillStyle = LIGHT() ? (p.free ? 'rgba(90,61,194,.16)' : (p.c ? 'rgba(11,111,146,.85)' : 'rgba(90,61,194,.85)')) : (p.free ? 'rgba(201,184,255,.18)' : (p.c ? 'rgba(127,216,242,.9)' : 'rgba(214,201,255,.92)'));
         cx.fillRect(p.x, p.y, p.free ? 1.2 : 2.2, p.free ? 1.2 : 2.2);
       });
       requestAnimationFrame(frame);
@@ -761,9 +798,15 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     function mod(id){
       var m = P.modul[id]; if(!m) return '';
       return '<details class="mod k-'+id[0]+'"><summary><code>'+id+'</code> '+m.judul+(m.catatan?' <small style="color:var(--muted);font-style:italic">'+m.catatan+'</small>':'')+'</summary><div class="mi">'+
-        (m.ai ? '<div class="ai"><b>Untuk AI:</b> '+m.ai+'</div>' : '')+m.isi+
+        (m.ai ? '<div class="ai"><b>Untuk AI:</b> '+m.ai+'</div>' : '')+m.isi+pelOf(id)+
         (cabangOf(id) ? '<button type="button" class="cablink" data-d="cabang/'+cabangOf(id).slug+'.html">'+ico('up')+'Lihat diagram cabang '+id+'</button>' : '')+'</div></details>';
     }
+    /* Modul peta -> pelajaran di situs yang membahasnya */
+    var MODPEL = {M1:'0.1 0.3 0.4 1.1 1.2 1.3 1.4 1.5',M2:'0.7 2.1 2.2 2.4',M3:'0.6 1.8 2.5 2.6 2.7 2.8',M4:'2.3',M5:'3.7',M6:'3.6',M7:'3.1 5.9',M8:'4.6',
+      K1:'1.9',K2:'3.7 4.6',S1:'0.5 2.9 2.10 2.11 2.12',S2:'1.6 1.7 3.2',S2b:'5.1',S3:'3.3',S4:'3.4',S7:'3.8 5.14',C2:'3.5',
+      F1:'4.7',F3:'4.1 4.2 4.3',F4:'4.4 4.5 4.6',B1:'5.1 3.1',B2:'0.2 5.4',B3:'5.1 3.4',B4:'5.2 5.3',B5:'5.7 5.13 5.9',B6:'5.5',B7:'5.10 5.11',B8:'5.12',B9:'5.8',B10:'5.14'};
+    function pelOf(id){ var ids = (MODPEL[id]||'').split(' ').filter(function(x){ return L[x]; });
+      return '<div class="modpel"><b>Di situs ini:</b> '+(ids.length ? ids.map(function(x){ return '<a href="#'+x+'">'+x+' '+L[x].title+'</a>'; }).join(', ') : 'belum ada pelajaran untuk modul ini; pelajari dari sumber di atas.')+'</div>'; }
     function kol(t, ids){ return ids.length ? '<div class="kol"><b>'+t+'</b>'+ids.map(mod).join('')+'</div>' : ''; }
     var steps = P.langkah.map(function(l, i){
       return '<div class="langkah" data-n="'+(i+1)+'"><h3>Langkah '+(i+1)+'</h3>'+(l.cat?'<p class="cat">'+l.cat+'</p>':'')+
@@ -772,10 +815,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     frame(
       '<h1>Peta belajar, dari matematika sampai <em>AI</em></h1>'+
       '<p>Mulai dari <b>Global</b> untuk melihat gambaran besar 6 tahap. Lalu buka <b>cabang</b> untuk melihat isi tiap modul secara rinci: satu baris adalah satu modul, dan kotak-kotaknya adalah topik yang dipelajari berurutan sampai tes lulus.</p>'+
-      '<div class="tabs" role="group" aria-label="Pilih diagram"><span class="grp">Global</span><button type="button" data-d="peta-urutan.html" aria-pressed="true">Semua pilar · 6 tahap</button>'+
+      '<p>Peta ini adalah kurikulum lengkap (modul M, S, F, K, C, B). Ke-58 pelajaran di situs (Lapis 0 sampai 5) adalah jalur ringkas melewatinya. Buka satu modul di daftar bawah untuk melihat pelajaran mana yang membahasnya.</p>'+
+      '<div class="tabs" role="group" aria-label="Pilih diagram"><div class="tg"><span class="grp">Global</span><div class="tgb"><button type="button" data-d="peta-urutan.html" aria-pressed="true">Semua pilar · 6 tahap</button></div></div>'+
         [['Matematika',/^matematika/],['Statistika',/^statistika/],['Fisika',/^fisika/],['Bangun AI',/^bangun-ai/],['Dunia nyata',/^dunia-nyata/]].map(function(g){
           var cs = (window.CABANG||[]).filter(function(c){ return g[1].test(c.slug); }); if(!cs.length) return '';
-          return '<span class="sep"></span><span class="grp">'+g[0]+'</span>'+cs.map(function(c, k){ return '<button type="button" data-d="cabang/'+c.slug+'.html" aria-pressed="false" title="'+c.title+'">'+(cs.length > 1 ? 'Bagian '+(k+1) : 'Semua modul')+' <span>'+c.mods[0]+'–'+c.mods[c.mods.length-1]+'</span></button>'; }).join('');
+          return '<span class="sep"></span><div class="tg"><span class="grp">'+g[0]+'</span><div class="tgb">'+cs.map(function(c, k){ return '<button type="button" data-d="cabang/'+c.slug+'.html" aria-pressed="false" title="'+c.title+'">'+(cs.length > 1 ? 'Bagian '+(k+1) : 'Semua modul')+' <span>'+c.mods[0]+'–'+c.mods[c.mods.length-1]+'</span></button>'; }).join('')+'</div></div>';
         }).join('')+
       '</div>'+
       '<div class="stage" id="stage"><div class="stage-bar"><span class="title" id="stageTitle">Semua pilar · 6 tahap</span>'+
@@ -822,7 +866,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       fr.style.width = W+'px'; fr.style.height = H+'px';
       apply(isFs() ? 1 : fitK(), false); sv.scrollLeft = 0; sv.scrollTop = 0;
     }
-    function theme(){ try{ var d = fr.contentDocument; if(d && d.documentElement){ d.documentElement.setAttribute('data-theme','dark'); d.documentElement.style.colorScheme = 'dark';
+    function theme(){ try{ var d = fr.contentDocument; if(d && d.documentElement){ var tm = LIGHT() ? 'light' : 'dark'; d.documentElement.setAttribute('data-theme',tm); d.documentElement.style.colorScheme = tm;
       if(!d.getElementById('fondasi-tema')){ var s = d.createElement('style'); s.id = 'fondasi-tema'; s.textContent = ARCH_CSS; d.head.appendChild(s);
         var l = d.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=Instrument+Serif&display=swap'; d.head.appendChild(l); } } }catch(e){} }
     fr.addEventListener('load', theme); theme();
