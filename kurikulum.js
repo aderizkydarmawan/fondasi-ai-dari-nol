@@ -65,7 +65,7 @@ window.KURIKULUM = [
     { id: "5.10", t: "Autoencoder dan VAE" },
     { id: "5.11", t: "GAN" },
     { id: "5.12", t: "Model difusi" },
-    { id: "5.13", t: "Model bahasa besar" },
+    { id: "5.13", t: "Large language model (LLM)" },
     { id: "5.14", t: "Reinforcement learning" },
     { id: "5.15", t: "Bonus: Black-Scholes" }
   ]}

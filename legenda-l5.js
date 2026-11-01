@@ -24,7 +24,7 @@ Object.assign(window.LEGENDA, {
  "x": "vektor input ke lapisan",
  "b": "bias: angka geser tiap neuron",
  "φ": "fungsi aktivasi, misalnya ReLU max(0, z)",
- "h": "vektor keluaran lapisan tersembunyi; juga langkah kecil cek gradien",
+ "h": "vektor keluaran hidden layer; juga langkah kecil cek gradien",
  "W": "matriks bobot lapisan (W₁, W₂ = lapisan 1, 2)",
  "z": "nilai masuk ke fungsi aktivasi",
  "L": "loss: ukuran salahnya jaringan"
@@ -75,28 +75,28 @@ Object.assign(window.LEGENDA, {
  "z": "kode laten: ringkasan acak dari data",
  "p": "decoder: peluang menghasilkan x dari kode z",
  "D": "D_KL: divergensi KL, ukuran beda sebaran kode dari N(0, 1)",
- "ε": "derau acak dari normal baku N(0,1)",
+ "ε": "noise acak dari normal baku N(0,1)",
  "E": "nilai harapan: rata-rata berbobot peluang dari isi kurungnya (2.10)"
 },
 "5.11": {
- "G": "generator: pembuat data palsu dari derau",
- "D": "diskriminator: peluang data itu asli",
+ "G": "generator: pembuat data palsu dari noise",
+ "D": "discriminator: peluang data itu asli",
  "x": "contoh data (asli atau buatan)",
  "p": "sebaran data asli",
- "z": "derau acak masukan generator",
+ "z": "noise acak masukan generator",
  "q": "sebaran data buatan generator"
 },
 "5.12": {
- "x": "gambar; x₀ bersih, x_t setelah t langkah derau",
- "β": "banyak derau ditambah pada langkah t",
- "t": "nomor langkah penambahan derau",
+ "x": "gambar; x₀ bersih, x_t setelah t langkah noise",
+ "β": "banyak noise ditambah pada langkah t",
+ "t": "nomor langkah penambahan noise",
  "α": "ᾱ_t: porsi sinyal asli yang tersisa di langkah t",
- "ε": "derau Gaussian; ε_θ = tebakan derau oleh jaringan",
- "I": "matriks identitas: derau tiap piksel bebas, ragam 1",
+ "ε": "noise Gaussian; ε_θ = tebakan noise oleh jaringan",
+ "I": "matriks identitas: noise tiap piksel bebas, ragam 1",
  "s": "indeks langkah yang dikalikan, dari 1 sampai t",
- "θ": "parameter (bobot) jaringan penebak derau",
- "L": "loss: selisih kuadrat derau asli dan tebakan",
- "T": "langkah terakhir, gambar sudah jadi derau murni",
+ "θ": "parameter (bobot) jaringan penebak noise",
+ "L": "loss: selisih kuadrat noise asli dan tebakan",
+ "T": "langkah terakhir, gambar sudah jadi noise murni",
  "p": "sebaran peluang data; ∇log p = arah skor"
 },
 "5.13": {
@@ -105,7 +105,7 @@ Object.assign(window.LEGENDA, {
  "n": "panjang kalimat dalam token",
  "t": "posisi token dalam kalimat",
  "N": "banyaknya parameter model",
- "D": "banyaknya token data latih"
+ "D": "banyaknya token training data"
 },
 "5.14": {
  "γ": "discount factor: reward nanti dihargai lebih kecil",

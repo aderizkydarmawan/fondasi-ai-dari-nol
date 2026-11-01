@@ -8,7 +8,7 @@ window.LESSONS["5.1"] = {
   why: "Dua model ini adalah titik awal semua machine learning. Regresi linear menebak angka; regresi logistik menebak peluang ya atau tidak. Satu neuron di jaringan saraf adalah regresi logistik, dan lapis terakhir GPT adalah regresi logistik dengan puluhan ribu kelas. Semua alat dari Lapis 2 dan 3 bertemu di sini.",
   body: String.raw`
 <h2>Regresi linear: menebak angka</h2>
-<p>Model: <span class="tx">\hat y = w x + b</span>, atau dengan banyak fitur <span class="tx">\hat y = \mathbf{w}\cdot\mathbf{x} + b</span>. Loss: rata-rata kuadrat selisih (MSE), yang menurut 3.2 adalah MLE kalau deraunya normal. Untuk model ini ada rumus jawaban langsung, disebut <b>kuadrat terkecil</b> (contoh di bawah), tapi gradient descent (3.1) juga sampai ke jawaban yang sama.</p>
+<p>Model: <span class="tx">\hat y = w x + b</span>, atau dengan banyak fitur <span class="tx">\hat y = \mathbf{w}\cdot\mathbf{x} + b</span>. Loss: rata-rata kuadrat selisih (MSE), yang menurut 3.2 adalah MLE kalau noisenya normal. Untuk model ini ada rumus jawaban langsung, disebut <b>kuadrat terkecil</b> (contoh di bawah), tapi gradient descent (3.1) juga sampai ke jawaban yang sama.</p>
 <div class="ex"><div class="q">Data (1; 2), (2; 4), (3; 5), (4; 8). Cari garis kuadrat terkecil.</div>
 <div class="step">Rata-rata x = 2,5, rata-rata y = 4,75
 w = Σ(x − x̄)(y − ȳ) ÷ Σ(x − x̄)² = 9,5 ÷ 5 = 1,9
@@ -65,7 +65,7 @@ Kiri: G = 1 − (5/6)² − (1/6)² ≈ 0,278
 Kanan: G = 1 − (1/4)² − (3/4)² = 0,375
 Rata-rata berbobot: 0,6 × 0,278 + 0,4 × 0,375 ≈ 0,317</div>
 <div class="ans">Jawaban: ketidakmurnian turun dari 0,48 ke 0,317. Algoritma mencoba semua pertanyaan yang mungkin dan memilih penurunan terbesar.</div></div>
-<p>Entropi (3.4) bisa dipakai menggantikan Gini; hasilnya biasanya mirip. Pohon yang terus dibelah sampai setiap daun murni akan menghafal data latih: varians tinggi (3.5). Satu pohon itu rapuh.</p>
+<p>Entropi (3.4) bisa dipakai menggantikan Gini; hasilnya biasanya mirip. Pohon yang terus dibelah sampai setiap daun murni akan menghafal training data: varians tinggi (3.5). Satu pohon itu rapuh.</p>
 
 <h2>Random forest: banyak pohon, rata-rata suara</h2>
 <p>Breiman (2001): latih ratusan pohon, masing-masing pada sampel acak data (diambil dengan pengembalian, disebut <b>bootstrap</b>) dan hanya boleh memilih dari sebagian fitur acak di setiap simpul. Lalu ambil suara terbanyak. Merata-ratakan B tebakan yang masing-masing bervarians σ² dan berkorelasi ρ menghasilkan varians</p>
@@ -109,7 +109,7 @@ Putaran 3: tidak ada yang pindah</div>
 <p>Jumlah kuadrat jarak selalu turun ketika k naik (k = banyak titik memberi nol), jadi tidak bisa dipakai langsung. Cara umum: plot terhadap k dan cari "siku" di mana penurunannya melambat, atau pakai skor <b>silhouette</b> yang membandingkan jarak ke kelompok sendiri dan ke kelompok tetangga. Keduanya petunjuk, bukan bukti; struktur kelompok yang dipilih harus masuk akal dalam konteks data.</p>
 
 <h2>PCA, diingat kembali</h2>
-<p>Di 2.8 kita melihat PCA mencari arah sebaran terbesar, yaitu vektor eigen matriks kovarians. Dalam praktik ML, PCA dipakai untuk: memampatkan fitur sebelum model lain, membuang derau di arah bervarians kecil, dan menggambar data berdimensi tinggi di bidang dua dimensi. Untuk gambar, metode nonlinear seperti t-SNE dan UMAP lebih sering dipakai, karena mempertahankan siapa bertetangga dengan siapa, bukan jarak jauh.</p>
+<p>Di 2.8 kita melihat PCA mencari arah sebaran terbesar, yaitu vektor eigen matriks kovarians. Dalam praktik ML, PCA dipakai untuk: memampatkan fitur sebelum model lain, membuang noise di arah bervarians kecil, dan menggambar data berdimensi tinggi di bidang dua dimensi. Untuk gambar, metode nonlinear seperti t-SNE dan UMAP lebih sering dipakai, karena mempertahankan siapa bertetangga dengan siapa, bukan jarak jauh.</p>
 <div class="rule">Klasterisasi selalu menghasilkan kelompok, <mark>bahkan pada data acak tanpa struktur</mark>. Kelompok yang ditemukan perlu dicek kestabilannya, bukan langsung dipercaya.</div>
 
 <h2>Periksa dengan Python</h2>
@@ -202,7 +202,7 @@ Setelah pooling: 16 × 16 × 64</div>
 <p>Setiap lapis melihat wilayah yang makin luas dari gambar asli (receptive field). Tiga lapis 3 × 3 berturut-turut melihat kotak 7 × 7. Ketika jaringan dilatih, lapis awal belajar pendeteksi tepi dan warna, lapis tengah tekstur dan pola, lapis akhir bagian benda seperti mata atau roda. Tidak ada yang memrogram hierarki ini; ia muncul dari gradient descent.</p>
 
 <h2>Lebih dalam dengan jalan pintas</h2>
-<p>Menumpuk lapis lebih banyak semestinya membantu, tapi di atas belasan lapis pelatihan justru memburuk: gradien sulit mengalir mundur. ResNet (He dkk., 2016) menambahkan <b>sambungan residual</b>: keluaran lapis = <span class="tx">\mathbf{x} + F(\mathbf{x})</span>. Lapis hanya perlu mempelajari perubahan kecil, dan gradien bisa melewati jalan pintas tanpa melemah. Dengan trik ini jaringan 152 lapis bisa dilatih, dan sambungan residual kini ada di hampir setiap arsitektur, termasuk Transformer.</p>
+<p>Menumpuk lapis lebih banyak semestinya membantu, tapi di atas belasan lapis pelatihan justru memburuk: gradien sulit mengalir mundur. ResNet (He dkk., 2016) menambahkan <b>residual connection</b>: keluaran lapis = <span class="tx">\mathbf{x} + F(\mathbf{x})</span>. Lapis hanya perlu mempelajari perubahan kecil, dan gradien bisa melewati jalan pintas tanpa melemah. Dengan trik ini jaringan 152 lapis bisa dilatih, dan residual connection kini ada di hampir setiap arsitektur, termasuk Transformer.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>n, k, pad, stride, kanal, banyak = 32, 3, 1, 1, 3, 64
@@ -220,7 +220,7 @@ print(keluar, (k * k * kanal + 1) * banyak, keluar // 2)   # 32 1792 16</code></
 window.LESSONS["5.6"] = {
   title: "RNN dan LSTM",
   pre: "5.4, 2.2 sigmoid, 2.7 nilai eigen", min: 0,
-  why: "Teks, suara, dan deret waktu datang berurutan. Recurrent neural network membaca satu langkah demi satu sambil membawa ingatan. Masalah gradien yang lenyap pada RNN, dan solusi gerbang di LSTM, adalah pelajaran penting yang menjelaskan kenapa Transformer dan Mamba dirancang seperti sekarang.",
+  why: "Teks, suara, dan deret waktu datang berurutan. Recurrent neural network membaca satu langkah demi satu sambil membawa ingatan. Masalah vanishing gradient pada RNN, dan solusi gate di LSTM, adalah pelajaran penting yang menjelaskan kenapa Transformer dan Mamba dirancang seperti sekarang.",
   body: String.raw`
 <h2>Satu sel, dipakai berulang</h2>
 <p>RNN menyimpan <b>hidden state</b> <span class="tx">\mathbf{h}_t</span>, ringkasan semua yang sudah dibaca. Di setiap langkah, keadaan baru dihitung dari keadaan lama dan masukan baru, dengan bobot yang sama setiap langkah:</p>
@@ -228,15 +228,15 @@ window.LESSONS["5.6"] = {
 <p><b>tanh</b> (tangen hiperbolik) adalah fungsi aktivasi berbentuk S seperti sigmoid (2.2), tapi keluarannya dari −1 sampai 1, bukan 0 sampai 1. Rumusnya tanh(z) = (eᶻ − e⁻ᶻ)/(eᶻ + e⁻ᶻ), dan ternyata tanh(z) = 2σ(2z) − 1. Contoh: tanh(0) = 0, tanh(1) ≈ 0,762.</p>
 <p>Dilatih dengan backpropagation yang dibentangkan sepanjang waktu (backpropagation through time): jaringan dianggap sebagai tumpukan lapis sebanyak panjang urutan, semuanya berbagi bobot.</p>
 
-<h2>Masalahnya: gradien lenyap atau meledak</h2>
+<h2>Masalahnya: vanishing gradient atau meledak</h2>
 <p>Untuk mengalirkan sinyal kesalahan dari langkah 50 ke langkah 1, aturan rantai mengalikan turunan sebanyak 50 kali. Kalau setiap faktor sekitar 0,9:</p>
 <div class="tx d">0{,}9^{50} \approx 0{,}005, \qquad 1{,}1^{50} \approx 117</div>
-<p>Faktor sedikit di bawah 1: gradien lenyap, dan model tidak bisa belajar hubungan jarak jauh ("kucing yang ... sedang tidur" butuh mengingat subjek). Faktor sedikit di atas 1: gradien meledak. Untuk matriks, yang menentukan adalah nilai eigen (2.7) W. Bengio dkk. (1994) dan Pascanu dkk. (2013) menganalisisnya; ledakan biasa diatasi dengan memotong panjang gradien (gradient clipping), tapi lenyapnya lebih sulit.</p>
+<p>Faktor sedikit di bawah 1: vanishing gradient, dan model tidak bisa belajar hubungan jarak jauh ("kucing yang ... sedang tidur" butuh mengingat subjek). Faktor sedikit di atas 1: exploding gradient. Untuk matriks, yang menentukan adalah nilai eigen (2.7) W. Bengio dkk. (1994) dan Pascanu dkk. (2013) menganalisisnya; ledakan biasa diatasi dengan memotong panjang gradien (gradient clipping), tapi lenyapnya lebih sulit.</p>
 
 <h2>LSTM: jalur ingatan dengan gerbang</h2>
 <p>Hochreiter &amp; Schmidhuber (1997) menambahkan <b>memory cell</b> <span class="tx">\mathbf{c}_t</span> yang diperbarui dengan penjumlahan, bukan perkalian berulang. Versi aslinya hanya punya input gate dan output gate; forget gate (f di bawah) baru ditambahkan Gers, Schmidhuber &amp; Cummins (2000). Bentuk yang dipakai sekarang:</p>
 <div class="tx d">\mathbf{c}_t = \mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t \odot \tilde{\mathbf{c}}_t</div>
-<p>f (forget gate) dan i (input gate) adalah angka antara 0 dan 1 dari sigmoid, dipelajari dari data, dan ⊙ berarti kali per elemen. Kalau f ≈ 1, ingatan dibawa utuh dan gradien mengalir tanpa melemah, seperti jalan pintas ResNet (5.5). Gerbang ketiga (keluaran) memilih bagian ingatan yang ditampilkan sebagai <span class="tx">\mathbf{h}_t</span>. GRU (Cho dkk., 2014) adalah versi yang lebih sederhana dengan dua gerbang.</p>
+<p>f (forget gate) dan i (input gate) adalah angka antara 0 dan 1 dari sigmoid, dipelajari dari data, dan ⊙ berarti kali per elemen. Kalau f ≈ 1, ingatan dibawa utuh dan gradien mengalir tanpa melemah, seperti jalan pintas ResNet (5.5). Gate ketiga (output gate) memilih bagian ingatan yang ditampilkan sebagai <span class="tx">\mathbf{h}_t</span>. GRU (Cho dkk., 2014) adalah versi yang lebih sederhana dengan dua gerbang.</p>
 
 <h2>Batas RNN</h2>
 <p>LSTM menguasai terjemahan mesin dan pengenalan suara sekitar 2014–2017. Tapi ia tetap membaca satu langkah demi satu, sehingga tidak bisa memanfaatkan GPU yang suka mengerjakan banyak hal sekaligus, dan ingatan jarak jauhnya tetap terbatas. Attention (5.7) menyelesaikan keduanya dengan membiarkan setiap posisi melihat langsung ke semua posisi lain.</p>
@@ -273,7 +273,7 @@ Keluaran: 0,401·[10; 0] + 0,198·[0; 10] + 0,401·[5; 5]</div>
 <p><b>Multi-head</b>: beberapa attention dijalankan berdampingan dengan matriks berbeda, sehingga satu kepala bisa melacak tata bahasa, kepala lain melacak siapa merujuk siapa. Karena attention tidak peduli urutan, posisi setiap token disuntikkan sebagai vektor tambahan (positional encoding).</p>
 
 <h2>Satu blok Transformer</h2>
-<p>Vaswani dkk. (2017) menyusun satu blok: self-attention, lalu jaringan dua lapis per token (MLP), masing-masing dibungkus sambungan residual (5.5) dan layer normalization (menjaga angka tetap di kisaran wajar; dibahas di 5.9). Model besar menumpuk puluhan blok ini. Untuk model bahasa, attention diberi topeng supaya setiap token hanya melihat token sebelumnya (causal), karena tugasnya menebak token berikutnya (5.13).</p>
+<p>Vaswani dkk. (2017) menyusun satu blok: self-attention, lalu jaringan dua lapis per token (MLP), masing-masing dibungkus residual connection (5.5) dan layer normalization (menjaga angka tetap di kisaran wajar; dibahas di 5.9). Model besar menumpuk puluhan blok ini. Untuk model bahasa, attention diberi topeng supaya setiap token hanya melihat token sebelumnya (causal), karena tugasnya menebak token berikutnya (5.13).</p>
 <div class="rule">Kelebihan: setiap token melihat langsung ke semua token, tanpa ingatan yang memudar seperti RNN. Harga: biaya attention tumbuh seperti <mark>n²</mark> untuk n token. Konteks dua kali lebih panjang, empat kali lebih mahal.</div>
 
 <h2>Periksa dengan Python</h2>
@@ -311,7 +311,7 @@ Konvolusi dengan [1; 0,9; 0,81; …]: hasil yang sama</div>
 <p>Inilah keunggulan SSM: saat <b>pelatihan</b>, hitung sebagai konvolusi panjang sekaligus (paralel, cepat di GPU, bisa lewat FFT); saat <b>menghasilkan teks</b>, hitung sebagai rekursi (biaya tetap per token, ingatan berukuran tetap). Nilai a menentukan berapa lama ingatan bertahan: a = 0,9 membuat masukan tinggal 35% setelah 10 langkah. Gu dkk. (2022, S4) menurunkan matriks A khusus (HiPPO) supaya keadaan mengingat sejarah panjang secara teratur.</p>
 
 <h2>Mamba: SSM yang memilih</h2>
-<p>SSM linear memperlakukan setiap token sama: kernelnya tetap. Itu kelemahan untuk bahasa, di mana sebagian kata penting dan sebagian tidak. Mamba (Gu &amp; Dao, 2023) membuat Δ, B, dan C bergantung pada token masukan. Langkah Δ besar berarti "simpan token ini kuat-kuat dan lupakan yang lama"; Δ kecil berarti "abaikan token ini". Ini mirip gerbang LSTM (5.6), tapi dengan trik perangkat keras (scan paralel) supaya tetap cepat. Konsekuensinya, bentuk konvolusi hilang karena kernelnya berubah-ubah.</p>
+<p>SSM linear memperlakukan setiap token sama: kernelnya tetap. Itu kelemahan untuk bahasa, di mana sebagian kata penting dan sebagian tidak. Mamba (Gu &amp; Dao, 2023) membuat Δ, B, dan C bergantung pada token masukan. Langkah Δ besar berarti "simpan token ini kuat-kuat dan lupakan yang lama"; Δ kecil berarti "abaikan token ini". Ini mirip gate LSTM (5.6), tapi dengan trik perangkat keras (scan paralel) supaya tetap cepat. Konsekuensinya, bentuk konvolusi hilang karena kernelnya berubah-ubah.</p>
 <p>Mamba-2 (Dao &amp; Gu, 2024) menunjukkan bahwa SSM terpilih dan attention berkerabat dekat: keduanya bisa ditulis sebagai perkalian matriks dengan struktur tertentu. Banyak model terbaru mencampur lapis attention dan lapis SSM.</p>
 
 <h2>Periksa dengan Python</h2>

@@ -65,14 +65,14 @@
 
   /* 4.5 proses Ornstein–Uhlenbeck */
   W.ou = function (h) {
-    var f = frame(h, "dX = −κX dt + σ dW, mulai X = 3. Ungu tipis = 20 lintasan, putus-putus = rata-rata ± 2 simpangan baku dari rumus", [{ id: "th", label: "tarikan κ", min: 0, max: 3, step: 0.1, v: 1, d: 1 }, { id: "s", label: "derau σ", min: 0, max: 2, step: 0.1, v: 1, d: 1 }]);
+    var f = frame(h, "dX = −κX dt + σ dW, mulai X = 3. Ungu tipis = 20 lintasan, putus-putus = rata-rata ± 2 simpangan baku dari rumus", [{ id: "th", label: "tarikan κ", min: 0, max: 3, step: 0.1, v: 1, d: 1 }, { id: "s", label: "noise σ", min: 0, max: 2, step: 0.1, v: 1, d: 1 }]);
     var p = mk(f.svg, { x0: 0, x1: 8, y0: -4, y1: 5, h: 320, sx: 1, sy: 1, lx: 2, ly: 2 }), seed = 5;
     h._draw = function () {
       var th = f.vals.th, s = f.vals.s, dt = 0.02, r = rng(seed), g, k, i; p.clear(); g = clip(p);
       var m = function (t) { return 3 * Math.exp(-th * t); }, v = function (t) { return th > 1e-9 ? s * s / (2 * th) * (1 - Math.exp(-2 * th * t)) : s * s * t; };
       for (k = 0; k < 20; k++) { var x = 3, a = [[0, 3]]; for (i = 1; i <= 400; i++) { x += -th * x * dt + s * Math.sqrt(dt) * gauss(r); a.push([i * dt, x]); } thin(path(p, a, "s1 line", g)); }
       p.curve(m, "ink line"); p.curve(function (t) { return m(t) + 2 * Math.sqrt(v(t)); }, "s2 line dash"); p.curve(function (t) { return m(t) - 2 * Math.sqrt(v(t)); }, "s2 line dash");
-      f.out.innerHTML = (th > 1e-9 ? "Varians stasioner σ²/(2κ) = <b>" + fmt(s * s / (2 * th), 3) + "</b>. Rata-rata meluruh seperti 3e<sup>−κt</sup>; setelah t ≈ " + fmt(2.3 / th, 1) + " titik awal praktis terlupakan." : "κ = 0: tidak ada tarikan, X murni gerak Brown dan variansnya σ²t terus membesar, tanpa distribusi stasioner.") + (s === 0 ? " σ = 0: tanpa derau, persis ODE peluruhan dari 3.7." : "");
+      f.out.innerHTML = (th > 1e-9 ? "Varians stasioner σ²/(2κ) = <b>" + fmt(s * s / (2 * th), 3) + "</b>. Rata-rata meluruh seperti 3e<sup>−κt</sup>; setelah t ≈ " + fmt(2.3 / th, 1) + " titik awal praktis terlupakan." : "κ = 0: tidak ada tarikan, X murni gerak Brown dan variansnya σ²t terus membesar, tanpa distribusi stasioner.") + (s === 0 ? " σ = 0: tanpa noise, persis ODE peluruhan dari 3.7." : "");
     };
     button(f, "Acak ulang", function () { seed++; h._draw(); });
     h._draw();

@@ -15,7 +15,7 @@ deep: String.raw`<p>MLE punya sifat bagus kalau datanya banyak: ia <b>konsisten<
 <p>Tapi MLE bisa keliru kalau datanya sedikit. Lempar koin 3 kali, dapat 3 gambar: MLE berkata p = 1, alias koin tidak akan pernah memberi angka. Ini overfitting dalam bentuk paling murni, dan alasan prior (3.3) dan regularisasi diperlukan.</p>
 <p>Penaksir varians MLE membagi dengan n, bukan n − 1. Hasilnya sedikit terlalu kecil rata-rata (bias), tapi selisihnya hilang ketika n besar. Ini contoh bahwa "paling mungkin" tidak sama dengan "tidak bias".</p>`,
 salah: ["Mengira likelihood adalah peluang parameter benar. Likelihood adalah peluang data, dibaca sebagai fungsi parameter.", "Mengira log mengubah jawaban. Log hanya mengubah skala; letak puncaknya sama."],
-ringkas: ["Likelihood L(θ) = peluang data yang sudah terlihat, sebagai fungsi θ.", "MLE = θ yang memaksimalkan L; dalam praktik minimalkan −log L.", "Derau normal → MSE; klasifikasi → cross-entropy."],
+ringkas: ["Likelihood L(θ) = peluang data yang sudah terlihat, sebagai fungsi θ.", "MLE = θ yang memaksimalkan L; dalam praktik minimalkan −log L.", "Noise normal → MSE; klasifikasi → cross-entropy."],
 uji: ["Tuliskan log-likelihood untuk k gambar dari n lemparan dan turunkan bahwa MLE-nya k/n.", "Kenapa MLE dari 3 gambar dalam 3 lemparan adalah tebakan yang buruk?"] },
 
 "3.3": { viz: "beta",
@@ -35,12 +35,12 @@ ringkas: ["Entropi H(p) = −Σ p log p, ketidakpastian rata-rata.", "Cross-entr
 uji: ["Hitung entropi dadu enam sisi dalam bit.", "Jelaskan kenapa meminimalkan cross-entropy sama dengan meminimalkan KL."] },
 
 "3.5": { viz: "overfit",
-deep: String.raw`<p>Penguraian bias–varians bisa diturunkan dengan aljabar ekspektasi (2.10). Tulis tebakan model <span class="tx">\hat f</span>, rata-ratanya atas banyak sampel data <span class="tx">\bar f</span>, dan kebenaran f. Kuadrat <span class="tx">(\hat f - f)</span> dipecah lewat <span class="tx">\bar f</span>; suku silangnya bernilai nol rata-rata, sehingga yang tersisa bias² + varians. Ditambah derau data, keluarlah rumus tiga bagian.</p>
-<p>Data dibagi tiga dalam praktik: <b>latih</b> untuk menyetel bobot, <b>validasi</b> untuk memilih ukuran model, learning rate, dan kapan berhenti, serta <b>uji</b> yang hanya dibuka sekali di akhir. Kalau data uji dipakai untuk memilih, ia diam-diam ikut "dilatih", dan angka akhirnya terlalu optimis. Kebocoran ini salah satu kesalahan paling umum dalam penelitian ML.</p>
-<p>Untuk data deret waktu atau data spasial, pembagian acak sendiri sudah bocor: titik uji punya tetangga dekat di data latih. Pembagian harus mengikuti waktu atau wilayah.</p>`,
-salah: ["Melaporkan akurasi data latih sebagai kemampuan model.", "Memilih model dengan melihat data uji berkali-kali, lalu melaporkan skor data uji itu."],
-ringkas: ["Galat = bias² + varians + derau.", "Model kaku underfit, model lentur overfit; pilih dengan data validasi.", "Deep learning modern bisa menunjukkan double descent; gambaran U tidak lengkap."],
-uji: ["Model punya galat latih 1% dan galat uji 30%. Underfit atau overfit? Apa tiga hal yang bisa kamu coba?", "Kenapa data uji tidak boleh dipakai untuk memilih derajat polinomial?"] },
+deep: String.raw`<p>Penguraian bias–varians bisa diturunkan dengan aljabar ekspektasi (2.10). Tulis tebakan model <span class="tx">\hat f</span>, rata-ratanya atas banyak sampel data <span class="tx">\bar f</span>, dan kebenaran f. Kuadrat <span class="tx">(\hat f - f)</span> dipecah lewat <span class="tx">\bar f</span>; suku silangnya bernilai nol rata-rata, sehingga yang tersisa bias² + varians. Ditambah noise data, keluarlah rumus tiga bagian.</p>
+<p>Data dibagi tiga dalam praktik: <b>latih</b> untuk menyetel bobot, <b>validasi</b> untuk memilih ukuran model, learning rate, dan kapan berhenti, serta <b>uji</b> yang hanya dibuka sekali di akhir. Kalau test data dipakai untuk memilih, ia diam-diam ikut "dilatih", dan angka akhirnya terlalu optimis. Kebocoran ini salah satu kesalahan paling umum dalam penelitian ML.</p>
+<p>Untuk data deret waktu atau data spasial, pembagian acak sendiri sudah bocor: titik uji punya tetangga dekat di training data. Pembagian harus mengikuti waktu atau wilayah.</p>`,
+salah: ["Melaporkan akurasi training data sebagai kemampuan model.", "Memilih model dengan melihat test data berkali-kali, lalu melaporkan skor test data itu."],
+ringkas: ["Galat = bias² + varians + noise.", "Model kaku underfit, model lentur overfit; pilih dengan data validasi.", "Deep learning modern bisa menunjukkan double descent; gambaran U tidak lengkap."],
+uji: ["Model punya training error 1% dan test error 30%. Underfit atau overfit? Apa tiga hal yang bisa kamu coba?", "Kenapa test data tidak boleh dipakai untuk memilih derajat polinomial?"] },
 
 "3.6": { viz: "conv",
 deep: String.raw`<p>Dua pengaturan menentukan ukuran keluaran. <b>Padding</b> menambahkan nol di tepi sehingga keluaran sama panjang dengan masukan. <b>Stride</b> menggeser kernel lebih dari satu langkah, sehingga keluaran lebih pendek. Panjang keluaran = ⌊(n + 2·padding − k) / stride⌋ + 1. Untuk n = 7, k = 3, tanpa padding, stride 1: 5, seperti contoh di atas.</p>

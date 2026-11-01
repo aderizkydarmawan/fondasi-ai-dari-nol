@@ -60,7 +60,7 @@
     "∼": "berdistribusi menurut (\"diambil dari\")", "∝": "sebanding dengan (sama sampai pengali konstan)", "≈": "kira-kira sama dengan",
     "ᵀ": "transpos: tukar baris dan kolom (2.6)", "|": "dengan syarat / diketahui (peluang bersyarat)", "→": "menuju / menjadi",
     "←": "isi ulang dengan nilai baru (pembaruan)", "⇒": "maka", "√": "akar kuadrat", "⟨⟩": "kurung sudut: rata-rata (ekspektasi) dari isinya",
-    "‖‖": "panjang (norma) vektor", "‖KL": "pemisah di KL(q ‖ p): q dibandingkan dengan p", "𝟙": "fungsi indikator: 1 kalau syaratnya benar, 0 kalau tidak", "ˆ": "topi: nilai tebakan/perkiraan", "¯": "garis atas: rata-rata", "˜": "tilde: versi lain / versi berderau", "˙": "titik atas: laju perubahan terhadap waktu",
+    "‖‖": "panjang (norma) vektor", "‖KL": "pemisah di KL(q ‖ p): q dibandingkan dengan p", "𝟙": "fungsi indikator: 1 kalau syaratnya benar, 0 kalau tidak", "ˆ": "topi: nilai tebakan/perkiraan", "¯": "garis atas: rata-rata", "˜": "tilde: versi lain / versi bernoise", "˙": "titik atas: laju perubahan terhadap waktu",
     "log": "logaritma", "ln": "logaritma natural (basis e)", "exp": "exp(x) = eˣ", "max": "nilai terbesar", "min": "nilai terkecil",
     "arg": "arg max/min: nilai masukan yang membuat fungsi terbesar/terkecil", "det": "determinan: faktor pengali luas (2.5)",
     "tanh": "tangen hiperbolik, fungsi aktivasi berbentuk S antara −1 dan 1", "sin": "sinus", "cos": "kosinus", "lim": "limit: nilai yang didekati",

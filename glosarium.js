@@ -44,7 +44,7 @@ window.GLOSARIUM = {
   'loss': 'Angka yang mengukur seberapa salah model. Pelatihan berusaha membuatnya sekecil mungkin.',
   'mini-batch': 'Segenggam contoh data acak yang dipakai untuk menghitung satu langkah gradien.',
   'entropi': 'Ketidakpastian rata-rata sebuah distribusi: makin rata peluangnya, makin besar entropinya.',
-  'overfitting': 'Model menghafal data latih termasuk deraunya, sehingga gagal pada data baru.',
+  'overfitting': 'Model menghafal training data termasuk noisenya, sehingga gagal pada data baru.',
   'kernel': 'Pola angka kecil yang digeser di atas data dalam konvolusi.',
   'fungsi partisi': 'Z, penjumlah faktor Boltzmann supaya semua peluang berjumlah 1.',
   'logit': 'Skor mentah sebuah model sebelum diubah menjadi peluang oleh softmax atau sigmoid.',

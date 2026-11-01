@@ -334,7 +334,7 @@ print(np.linalg.solve(B, [5, 3]))          # [2. 1.]</code></pre>
 window.LESSONS["2.7"] = {
   title: "Nilai dan vektor eigen",
   pre: "2.5, 2.6", min: 0,
-  why: "Eigen adalah arah yang tidak dibelokkan oleh sebuah matriks, hanya diregangkan. PCA mencari arah eigen data, PageRank Google adalah vektor eigen, dan stabilitas pelatihan jaringan saraf berulang (RNN) ditentukan oleh nilai eigen bobotnya: lebih dari 1 meledak, kurang dari 1 menghilang.",
+  why: "Eigen adalah arah yang tidak dibelokkan oleh sebuah matriks, hanya diregangkan. PCA mencari arah eigen data, PageRank Google adalah vektor eigen, dan stabilitas pelatihan recurrent neural network (RNN) ditentukan oleh nilai eigen bobotnya: lebih dari 1 meledak, kurang dari 1 menghilang.",
   body: String.raw`
 <h2>Arah yang tidak dibelokkan</h2>
 <p>Sebagian besar vektor dibelokkan oleh matriks. Ambil <span class="tx">A = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}</span>. Vektor (1, 0) dikirim ke (2, 1): arahnya berubah. Tapi (1, 1) dikirim ke (3, 3): arahnya <b>sama</b>, hanya tiga kali lebih panjang.</p>
@@ -433,7 +433,7 @@ print((S**2 / (S**2).sum()).round(3))   # [0.997 0.003]</code></pre>
 window.LESSONS["2.9"] = {
   title: "Variabel acak dan distribusi",
   pre: "0.5 peluang, 2.4 integral", min: 0,
-  why: "Model AI tidak pernah yakin 100%. Chatbot memilih kata berikutnya dari sebuah distribusi peluang, classifier mengeluarkan distribusi atas kelas, dan model difusi mengubah distribusi derau menjadi distribusi gambar. Distribusi adalah bahasa ketidakpastian, dan AI modern berbicara dalam bahasa itu.",
+  why: "Model AI tidak pernah yakin 100%. Chatbot memilih kata berikutnya dari sebuah distribusi peluang, classifier mengeluarkan distribusi atas kelas, dan model difusi mengubah distribusi noise menjadi distribusi gambar. Distribusi adalah bahasa ketidakpastian, dan AI modern berbicara dalam bahasa itu.",
   body: String.raw`
 <h2>Variabel acak: angka yang belum ketahuan</h2>
 <p>Lempar dadu. Sebelum dadu berhenti, hasilnya belum diketahui, tapi kita tahu kemungkinannya. <b>Variabel acak</b> X adalah angka hasil percobaan acak, ditulis dengan huruf besar. <span class="tx">P(X = 3) = 1/6</span> dibaca "peluang X bernilai 3".</p>
@@ -462,7 +462,7 @@ window.LESSONS["2.9"] = {
 <div class="tx d">p(x) = \frac{1}{\sigma\sqrt{2\pi}}\,e^{-\frac{(x-\mu)^2}{2\sigma^2}}</div>
 <p>μ (mu) menentukan letak puncak, σ menentukan lebar. Aturan praktisnya:</p>
 <div class="rule"><mark>68% data jatuh dalam ±1σ dari μ, 95% dalam ±2σ, 99,7% dalam ±3σ.</mark></div>
-<p>Kenapa normal muncul di mana-mana? <b>Teorema limit pusat</b>: jumlah banyak pengaruh acak kecil yang saling bebas cenderung berdistribusi normal, apa pun distribusi aslinya. Tinggi badan dipengaruhi banyak gen dan faktor gizi, jadi bentuknya mendekati lonceng. Di AI, bobot jaringan saraf sering diinisialisasi dari distribusi normal, dan model difusi menambahkan derau normal ke gambar.</p>
+<p>Kenapa normal muncul di mana-mana? <b>Teorema limit pusat</b>: jumlah banyak pengaruh acak kecil yang saling bebas cenderung berdistribusi normal, apa pun distribusi aslinya. Tinggi badan dipengaruhi banyak gen dan faktor gizi, jadi bentuknya mendekati lonceng. Di AI, bobot jaringan saraf sering diinisialisasi dari distribusi normal, dan model difusi menambahkan noise normal ke gambar.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>from math import comb, erf, sqrt

@@ -46,7 +46,7 @@ Object.assign(window.LEGENDA, {
   "T": "suhu cairan"
 },
 "4.5": {
-  "σ": "kekuatan derau acak",
+  "σ": "kekuatan noise acak",
   "d": "perubahan sangat kecil, misalnya dX dan dt",
   "X": "keadaan yang bergerak acak; X_n setelah n langkah",
   "f": "drift, arah tarikan deterministik",
@@ -57,7 +57,7 @@ Object.assign(window.LEGENDA, {
   "n": "nomor langkah simulasi",
   "κ": "kekuatan tarikan kembali ke nol (proses OU)",
   "E": "energi; partikel turun menuruni lerengnya",
-  "T": "suhu, besar derau",
+  "T": "suhu, besar noise",
   "p": "distribusi peluang akhir posisi",
   "x": "nilai posisi; x_0 = posisi awal",
   "g": "fungsi dari X yang perubahannya dihitung lemma Itô"
@@ -67,7 +67,7 @@ Object.assign(window.LEGENDA, {
   "t": "waktu",
   "D": "koefisien difusi, laju penyebaran",
   "x": "posisi",
-  "σ": "kekuatan derau",
+  "σ": "kekuatan noise",
   "p": "kepadatan peluang posisi partikel",
   "f": "drift, arah tarikan pada posisi x",
   "Δ": "selisih kecil: Δx jarak grid, Δt langkah waktu",

@@ -33,7 +33,7 @@ Langkah 3: w = 1,08 − 0,1 · 2(1,08 − 3) = 1,464</div>
 <div class="rule">Learning rate terlalu kecil: pelatihan lambat. Terlalu besar: <mark>loss meledak</mark>. Batas amannya ditentukan oleh kelengkungan lembah yang paling tajam.</div>
 
 <h2>SGD: gradien dari segenggam data</h2>
-<p>Loss sebenarnya adalah rata-rata atas seluruh data latih, yang bisa berisi jutaan contoh. Menghitung gradien penuh untuk satu langkah terlalu mahal. <b>Stochastic gradient descent</b> (SGD) memakai gradien dari satu <b>mini-batch</b> acak, misalnya 64 contoh. Gradien itu bergoyang, tapi ekspektasinya sama dengan gradien penuh (2.10). Robbins &amp; Monro (1951) membuktikan cara seperti ini tetap sampai ke tujuan kalau langkahnya mengecil dengan tepat.</p>
+<p>Loss sebenarnya adalah rata-rata atas seluruh training data, yang bisa berisi jutaan contoh. Menghitung gradien penuh untuk satu langkah terlalu mahal. <b>Stochastic gradient descent</b> (SGD) memakai gradien dari satu <b>mini-batch</b> acak, misalnya 64 contoh. Gradien itu bergoyang, tapi ekspektasinya sama dengan gradien penuh (2.10). Robbins &amp; Monro (1951) membuktikan cara seperti ini tetap sampai ke tujuan kalau langkahnya mengecil dengan tepat.</p>
 <p>Goyangan itu bahkan sering membantu: ia mendorong model keluar dari lekukan kecil dan dataran yang buruk.</p>
 
 <h2>Momentum: bola yang menggelinding</h2>
@@ -94,7 +94,7 @@ window.LESSONS["3.2"] = {
 <div class="rule">Komputer suka meminimalkan, jadi loss ditulis sebagai <mark>negative log-likelihood</mark> (NLL): <span class="tx">-\log L(\theta)</span>. Memaksimalkan likelihood = meminimalkan NLL.</div>
 
 <h2>MLE melahirkan loss yang kamu kenal</h2>
-<ul><li><b>Data kontinu dengan derau normal.</b> Kalau <span class="tx">y = f_\theta(x) + \text{derau}</span> dan derau berdistribusi normal, NLL-nya sama dengan jumlah kuadrat selisih ditambah konstanta. Jadi <b>mean squared error</b> adalah MLE untuk derau normal. Untuk data [2, 4, 4, 4, 5, 5, 7, 9], MLE untuk μ adalah rata-ratanya (5) dan untuk σ² variansnya (4), angka yang sama dengan 1.7.</li>
+<ul><li><b>Data kontinu dengan noise normal.</b> Kalau <span class="tx">y = f_\theta(x) + \text{noise}</span> dan noise berdistribusi normal, NLL-nya sama dengan jumlah kuadrat selisih ditambah konstanta. Jadi <b>mean squared error</b> adalah MLE untuk noise normal. Untuk data [2, 4, 4, 4, 5, 5, 7, 9], MLE untuk μ adalah rata-ratanya (5) dan untuk σ² variansnya (4), angka yang sama dengan 1.7.</li>
 <li><b>Klasifikasi.</b> Kalau model mengeluarkan peluang untuk setiap kelas, NLL-nya adalah <span class="tx">-\log(\text{peluang kelas yang benar})</span>. Itulah cross-entropy (3.4).</li>
 <li><b>Model bahasa.</b> Loss pelatihan GPT adalah rata-rata −log peluang token berikutnya yang sebenarnya. MLE atas seluruh internet.</li></ul>
 <p>Fisher (1921–1922) memperkenalkan nama "likelihood" dan sengaja membedakannya dari "probabilitas": likelihood bukan peluang bahwa parameter benar, dan tidak perlu berjumlah 1 atas semua p.</p>
@@ -167,7 +167,7 @@ print(round((10 + h) / (20 + h + t), 3))            # 0.567</code></pre>
 window.LESSONS["3.4"] = {
   title: "Entropi, cross-entropy, divergensi KL",
   pre: "1.5 logaritma, 2.10 ekspektasi, 3.2", min: 0,
-  why: "Cross-entropy adalah loss yang dipakai untuk melatih hampir semua classifier dan seluruh model bahasa besar. Divergensi KL muncul di VAE, RLHF, distilasi model, dan model difusi. Ketiganya berasal dari satu pertanyaan Claude Shannon tahun 1948: seberapa banyak informasi dalam sebuah pesan?",
+  why: "Cross-entropy adalah loss yang dipakai untuk melatih hampir semua classifier dan seluruh large language model (LLM). Divergensi KL muncul di VAE, RLHF, distilasi model, dan model difusi. Ketiganya berasal dari satu pertanyaan Claude Shannon tahun 1948: seberapa banyak informasi dalam sebuah pesan?",
   body: String.raw`
 <h2>Kejutan dan informasi</h2>
 <p>Kabar "besok matahari terbit" tidak memberi informasi; semua orang sudah tahu. Kabar "besok turun salju di Jakarta" sangat mengejutkan. Shannon mengukur kejutan sebuah kejadian dengan peluang p sebagai <span class="tx">-\log_2 p</span> bit. Peluang 1/2 memberi 1 bit, peluang 1/8 memberi 3 bit, peluang 1 memberi 0 bit.</p>
@@ -218,35 +218,35 @@ print(round((q * np.log(q / p)).sum(), 3))               # 0.092</code></pre>
 window.LESSONS["3.5"] = {
   title: "Bias, varians, overfitting",
   pre: "2.10, 3.2", min: 0,
-  why: "Model yang sempurna di data latih bisa gagal total di dunia nyata. Pelajaran ini adalah alasan setiap proyek ML memisahkan data latih dan data uji, memakai regularisasi, dan berhati-hati membaca angka akurasi. Kesalahan paling mahal dalam praktik ML bukan rumus yang salah, tapi model yang menghafal.",
+  why: "Model yang sempurna di training data bisa gagal total di dunia nyata. Pelajaran ini adalah alasan setiap proyek ML memisahkan training data dan test data, memakai regularisasi, dan berhati-hati membaca angka akurasi. Kesalahan paling mahal dalam praktik ML bukan rumus yang salah, tapi model yang menghafal.",
   body: String.raw`
 <h2>Menghafal bukan memahami</h2>
-<p>Tujuan model bukan cocok dengan data yang sudah dilihat, tapi menebak dengan baik data <b>baru</b>. Selisih antara keduanya disebut celah generalisasi. Untuk mengukurnya, sisihkan sebagian data sebagai <b>data uji</b> yang tidak pernah dipakai saat melatih.</p>
+<p>Tujuan model bukan cocok dengan data yang sudah dilihat, tapi menebak dengan baik data <b>baru</b>. Selisih antara keduanya disebut celah generalisasi. Untuk mengukurnya, sisihkan sebagian data sebagai <b>test data</b> yang tidak pernah dipakai saat melatih.</p>
 
 <h2>Percobaan: memasang polinomial</h2>
-<p>Ambil 15 titik dari kurva sinus ditambah derau (simpangan baku 0,25), lalu pasang polinomial berbagai derajat. Ukur rata-rata kuadrat kesalahan di data latih dan di 200 titik uji baru:</p>
+<p>Ambil 15 titik dari kurva sinus ditambah noise (simpangan baku 0,25), lalu pasang polinomial berbagai derajat. Ukur rata-rata kuadrat kesalahan di training data dan di 200 titik uji baru:</p>
 <div class="tbl"><table><tr><th>derajat</th><td>1 (garis)</td><td>3</td><td>9</td></tr>
-<tr><th>galat latih</th><td>0,271</td><td>0,057</td><td>0,028</td></tr>
-<tr><th>galat uji</th><td>0,241</td><td>0,073</td><td>7,68</td></tr></table></div>
+<tr><th>training error</th><td>0,271</td><td>0,057</td><td>0,028</td></tr>
+<tr><th>test error</th><td>0,241</td><td>0,073</td><td>7,68</td></tr></table></div>
 <ul><li><b>Derajat 1: underfitting.</b> Garis terlalu kaku untuk kurva sinus. Salah di latih, salah di uji.</li>
-<li><b>Derajat 3: pas.</b> Galat uji 0,073, dekat dengan batas bawah yang tak bisa ditembus: varians derau 0,25² ≈ 0,063.</li>
-<li><b>Derajat 9: overfitting.</b> Galat latih makin kecil, tapi galat uji meledak 100 kali. Kurvanya berkelok liar mengejar setiap derau.</li></ul>
+<li><b>Derajat 3: pas.</b> Test error 0,073, dekat dengan batas bawah yang tak bisa ditembus: varians noise 0,25² ≈ 0,063.</li>
+<li><b>Derajat 9: overfitting.</b> Training error makin kecil, tapi test error meledak 100 kali. Kurvanya berkelok liar mengejar setiap noise.</li></ul>
 
 <h2>Bias dan varians</h2>
-<p>Bayangkan mengulang percobaan berkali-kali dengan 15 titik acak yang berbeda. Galat uji rata-rata bisa dipecah menjadi tiga bagian:</p>
-<div class="tx d">\text{galat} = \text{bias}^2 + \text{varians} + \text{derau}</div>
+<p>Bayangkan mengulang percobaan berkali-kali dengan 15 titik acak yang berbeda. Test error rata-rata bisa dipecah menjadi tiga bagian:</p>
+<div class="tx d">\text{galat} = \text{bias}^2 + \text{varians} + \text{noise}</div>
 <ul><li><b>Bias</b>: seberapa jauh tebakan rata-rata dari kebenaran. Model kaku punya bias besar.</li>
 <li><b>Varians</b>: seberapa jauh tebakan berubah-ubah antar sampel data. Model lentur punya varians besar.</li>
-<li><b>Derau</b>: ketidakpastian dalam data itu sendiri, tidak bisa dihilangkan model apa pun.</li></ul>
+<li><b>Noise</b>: ketidakpastian dalam data itu sendiri, tidak bisa dihilangkan model apa pun.</li></ul>
 <div class="rule">Model sederhana: bias tinggi, varians rendah. Model rumit: bias rendah, varians tinggi. <mark>Galat terkecil ada di tengah</mark>, dan letaknya bergantung pada banyaknya data.</div>
 
 <h2>Penangkal overfitting</h2>
-<ul><li><b>Lebih banyak data</b>: varians turun, karena sulit menghafal derau yang lebih banyak.</li>
-<li><b>Regularisasi</b>: penalty untuk bobot besar (weight decay, 3.3), dropout, atau berhenti lebih awal saat galat validasi mulai naik.</li>
-<li><b>Validasi silang</b>: pilih derajat atau ukuran model dengan mengukur galat pada data yang disisihkan, bukan galat latih.</li></ul>
+<ul><li><b>Lebih banyak data</b>: varians turun, karena sulit menghafal noise yang lebih banyak.</li>
+<li><b>Regularisasi</b>: penalty untuk bobot besar (weight decay, 3.3), dropout, atau berhenti lebih awal saat validation error mulai naik.</li>
+<li><b>Validasi silang</b>: pilih derajat atau ukuran model dengan mengukur galat pada data yang disisihkan, bukan training error.</li></ul>
 
 <h2>Kejutan modern: double descent</h2>
-<p>Jaringan saraf modern punya parameter jauh lebih banyak daripada data, dan seharusnya menghafal. Zhang dkk. (2017) menunjukkan jaringan bisa menghafal label yang diacak sepenuhnya. Tapi pada data asli mereka tetap menggeneralisasi dengan baik. Belkin dkk. (2019) menemukan bahwa setelah melewati titik "tepat bisa menghafal", galat uji bisa <b>turun lagi</b> saat model dibuat lebih besar: kurva double descent. Gambaran U klasik masih benar untuk model kecil, tapi bukan cerita lengkap untuk deep learning, dan penjelasannya masih diteliti.</p>
+<p>Jaringan saraf modern punya parameter jauh lebih banyak daripada data, dan seharusnya menghafal. Zhang dkk. (2017) menunjukkan jaringan bisa menghafal label yang diacak sepenuhnya. Tapi pada data asli mereka tetap menggeneralisasi dengan baik. Belkin dkk. (2019) menemukan bahwa setelah melewati titik "tepat bisa menghafal", test error bisa <b>turun lagi</b> saat model dibuat lebih besar: kurva double descent. Gambaran U klasik masih benar untuk model kecil, tapi bukan cerita lengkap untuk deep learning, dan penjelasannya masih diteliti.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import numpy as np
@@ -340,7 +340,7 @@ t=1: 5   t=2: 2,5   t=3: 1,25   t=4: 0,625</div>
 <p>Strogatz mengajarkan cara melihat ODE secara geometris: gambar dy/dt sebagai fungsi y. Di mana dy/dt = 0, y berhenti: <b>titik tetap</b>. Kalau gangguan kecil di sekitar titik itu meluruh kembali, titiknya stabil (seperti y = 0 untuk −ky). Kalau membesar, tidak stabil.</p>
 
 <h2>Di AI</h2>
-<p>Gradient descent dengan langkah sangat kecil adalah metode Euler untuk ODE <span class="tx">d\theta/dt = -\nabla L(\theta)</span> (aliran gradien). Learning rate adalah Δt, dan learning rate terlalu besar membuat Euler meledak, persis seperti di 3.1. Model difusi menghasilkan gambar dengan menyelesaikan ODE (atau SDE, 4.5) dari derau menuju data, dan Neural ODE (Chen dkk., 2018) menjadikan lapis jaringan saraf sebagai langkah ODE.</p>
+<p>Gradient descent dengan langkah sangat kecil adalah metode Euler untuk ODE <span class="tx">d\theta/dt = -\nabla L(\theta)</span> (aliran gradien). Learning rate adalah Δt, dan learning rate terlalu besar membuat Euler meledak, persis seperti di 3.1. Model difusi menghasilkan gambar dengan menyelesaikan ODE (atau SDE, 4.5) dari noise menuju data, dan Neural ODE (Chen dkk., 2018) menjadikan lapis jaringan saraf sebagai langkah ODE.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import math
@@ -365,7 +365,7 @@ print(round(10 * math.exp(-2), 3))   # 1.353</code></pre>
 window.LESSONS["3.8"] = {
   title: "Rantai Markov",
   pre: "2.6 perkalian matriks, 2.7 eigen, 2.11", min: 0,
-  why: "Rantai Markov memodelkan sesuatu yang berpindah keadaan secara acak, dengan langkah berikutnya hanya bergantung pada keadaan sekarang. Model bahasa sederhana, PageRank, metode MCMC untuk statistik Bayes, reinforcement learning, dan proses derau di model difusi semuanya rantai Markov.",
+  why: "Rantai Markov memodelkan sesuatu yang berpindah keadaan secara acak, dengan langkah berikutnya hanya bergantung pada keadaan sekarang. Model bahasa sederhana, PageRank, metode MCMC untuk statistik Bayes, reinforcement learning, dan proses noise di model difusi semuanya rantai Markov.",
   body: String.raw`
 <h2>Keadaan dan peluang pindah</h2>
 <p>Cuaca sebuah kota: kalau hari ini cerah, besok cerah dengan peluang 0,8 dan hujan 0,2. Kalau hari ini hujan, besok cerah 0,4 dan hujan 0,6. Tulis dalam <b>matriks transisi</b>, baris = keadaan sekarang, kolom = keadaan besok:</p>
@@ -387,10 +387,10 @@ window.LESSONS["3.8"] = {
 <p>Kalau rantainya bisa mencapai semua keadaan dan tidak terjebak dalam siklus kaku (disebut ergodik), distribusi apa pun akan menuju π yang sama. Seberapa cepat ditentukan oleh nilai eigen kedua: untuk P ini nilainya 0,4, jadi jarak ke π mengecil 0,4 kali setiap hari.</p>
 
 <h2>Di AI</h2>
-<ul><li><b>Model bahasa n-gram</b> (Shannon, 1948): keadaan = kata terakhir, transisi = peluang kata berikutnya. LLM modern memakai konteks yang jauh lebih panjang, tapi pembangkitan token demi token tetap berbentuk rantai.</li>
+<ul><li><b>Model bahasa n-gram</b> (Shannon, 1948): keadaan = kata terakhir, transisi = peluang kata berikutnya. LLM modern memakai konteks yang jauh lebih panjang, tapi proses generate token demi token tetap berbentuk rantai.</li>
 <li><b>PageRank</b>: peselancar acak berpindah antarhalaman lewat tautan. Peringkat sebuah halaman = peluang stasioner peselancar ada di sana.</li>
 <li><b>MCMC</b> (Metropolis dkk. 1953, Hastings 1970): untuk mengambil sampel dari posterior yang rumit (3.3), rancang rantai Markov yang distribusi stasionernya adalah posterior itu, lalu jalankan lama.</li>
-<li><b>Reinforcement learning</b> (5.14) dan <b>model difusi</b> (5.12): proses keputusan Markov dan rantai penambahan derau.</li></ul>
+<li><b>Reinforcement learning</b> (5.14) dan <b>model difusi</b> (5.12): proses keputusan Markov dan rantai penambahan noise.</li></ul>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import numpy as np

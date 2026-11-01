@@ -82,9 +82,9 @@
     }; h._draw();
   };
 
-  /* 3.5 derajat polinomial vs galat latih dan uji */
+  /* 3.5 derajat polinomial vs training error dan uji */
   W.overfit = function (h) {
-    var f = frame(h, "Naikkan derajat polinomial. Titik ungu = 15 data latih, garis putus-putus = kurva sebenarnya sin(2πx)", [{ id: "d", label: "derajat", min: 0, max: 12, step: 1, v: 3, d: 0 }]);
+    var f = frame(h, "Naikkan derajat polinomial. Titik ungu = 15 training data, garis putus-putus = kurva sebenarnya sin(2πx)", [{ id: "d", label: "derajat", min: 0, max: 12, step: 1, v: 3, d: 0 }]);
     var p = mk(f.svg, { x0: 0, x1: 1, y0: -2, y1: 2, h: 300, sx: 0.1, sy: 0.5 }), r = rng(7), F = function (x) { return Math.sin(2 * Math.PI * x); };
     var X = [], Y = [], XT = [], YT = [], i;
     for (i = 0; i < 15; i++) X.push((i + 0.5 + (r() - 0.5) * 0.8) / 15); X.forEach(function (x) { Y.push(F(x) + 0.25 * gauss(r)); });
@@ -104,8 +104,8 @@
       var d = f.vals.d, g = fit(d), tr = mse(g, X, Y), te = mse(g, XT, YT); p.clear();
       p.curve(F, "s2 line dash"); p.curve(g, "ink line");
       X.forEach(function (x, t) { p.dot(x, Y[t], "s1 dot", 4); });
-      f.out.innerHTML = "Derajat " + d + ": galat latih <b>" + fmt(tr, 3) + "</b>, galat uji (200 titik baru) <b>" + fmt(te, 3) + "</b>. Batas bawah karena derau ≈ 0,063. " +
-        (d <= 1 ? "Underfitting: terlalu kaku untuk kurva sinus." : te < 0.1 ? "Pas: galat uji dekat batas derau." : te > 2 * tr + 0.05 ? "Overfitting: galat latih kecil, tapi kurva berkelok mengejar derau dan galat uji membesar." : "Mulai terlalu lentur.") +
+      f.out.innerHTML = "Derajat " + d + ": training error <b>" + fmt(tr, 3) + "</b>, test error (200 titik baru) <b>" + fmt(te, 3) + "</b>. Batas bawah karena noise ≈ 0,063. " +
+        (d <= 1 ? "Underfitting: terlalu kaku untuk kurva sinus." : te < 0.1 ? "Pas: test error dekat batas noise." : te > 2 * tr + 0.05 ? "Overfitting: training error kecil, tapi kurva berkelok mengejar noise dan test error membesar." : "Mulai terlalu lentur.") +
         " Data di sini dibuat ulang dengan pengacak berbeda dari Python di pelajaran, jadi angkanya tidak sama persis, polanya sama.";
     }; h._draw();
   };

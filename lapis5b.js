@@ -30,7 +30,7 @@ Langkah 1.000: 0,001 × ½(1 + cos π) = 0</div>
 <h2>4. Regularisasi: lawan overfitting</h2>
 <ul><li><b>Dropout</b> (Srivastava dkk., 2014): saat melatih, matikan setiap neuron secara acak dengan peluang p. Jaringan dipaksa tidak bergantung pada satu neuron mana pun, seperti melatih banyak sub-jaringan sekaligus. Supaya rata-rata sinyal tetap, keluaran yang tersisa dikali 1/(1 − p) saat melatih; makalah aslinya mengecilkan bobot saat menguji, hasilnya setara.</li>
 <li><b>Weight decay</b>: penalty untuk bobot besar, setara prior normal (3.3). AdamW (Loshchilov &amp; Hutter, 2019) memisahkan penalty ini dari langkah Adam. Di lapangan, AdamW kini jadi pilihan umum untuk melatih Transformer (ini praktik, bukan klaim makalahnya).</li>
-<li><b>Berhenti lebih awal</b> dan <b>augmentasi data</b> (membalik, memotong, memutar gambar) untuk memperbanyak variasi data latih.</li></ul>
+<li><b>Berhenti lebih awal</b> dan <b>augmentasi data</b> (membalik, memotong, memutar gambar) untuk memperbanyak variasi training data.</li></ul>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import numpy as np, math
@@ -72,7 +72,7 @@ window.LESSONS["5.10"] = {
 <h2>Trik reparameterisasi</h2>
 <p>Ada hambatan: z diambil acak, dan gradien tidak bisa mengalir melewati "ambil acak". Solusinya, tulis ulang pengambilan sampelnya:</p>
 <div class="tx d">z = \mu + \sigma \cdot \varepsilon, \qquad \varepsilon \sim \mathcal{N}(0, 1)</div>
-<p>Keacakan dipindahkan ke ε yang tidak bergantung pada bobot. Sekarang z adalah fungsi biasa dari μ dan σ, dan backpropagation (5.4) berjalan seperti biasa. Trik yang sama dipakai di model difusi untuk menulis gambar bederau (5.12).</p>
+<p>Keacakan dipindahkan ke ε yang tidak bergantung pada bobot. Sekarang z adalah fungsi biasa dari μ dan σ, dan backpropagation (5.4) berjalan seperti biasa. Trik yang sama dipakai di model difusi untuk menulis gambar benoise (5.12).</p>
 <div class="rule">Tarik-menarik VAE: suku rekonstruksi ingin kode yang tajam dan berbeda-beda, suku KL ingin semua kode mirip prior. Akibatnya hasil VAE sering <mark>agak buram</mark>, kelemahan yang mendorong lahirnya GAN dan model difusi.</div>
 
 <h2>Periksa dengan Python</h2>
@@ -94,12 +94,12 @@ window.LESSONS["5.11"] = {
   why: "Generative adversarial network melatih dua jaringan yang saling melawan: pemalsu dan detektif. Selama beberapa tahun GAN menghasilkan wajah buatan paling realistis (StyleGAN), dan gagasan pelatihan adversarial masih dipakai di banyak tempat, termasuk untuk mempercepat model difusi.",
   body: String.raw`
 <h2>Pemalsu dan detektif</h2>
-<p>Goodfellow dkk. (2014) memasang dua jaringan. <b>Generator</b> G mengambil derau acak z dan mengubahnya menjadi data palsu G(z). <b>Diskriminator</b> D menerima data dan mengeluarkan peluang data itu asli. D dilatih untuk membedakan asli dan palsu; G dilatih untuk menipu D. Keduanya bermain permainan dengan nilai:</p>
+<p>Goodfellow dkk. (2014) memasang dua jaringan. <b>Generator</b> G mengambil noise acak z dan mengubahnya menjadi data palsu G(z). <b>Discriminator</b> D menerima data dan mengeluarkan peluang data itu asli. D dilatih untuk membedakan asli dan palsu; G dilatih untuk menipu D. Keduanya bermain permainan dengan nilai:</p>
 <div class="tx d">\min_G \max_D\; \mathbb{E}_{x\sim p_{\text{data}}}[\log D(x)] + \mathbb{E}_{z}[\log(1 - D(G(z)))]</div>
 <p>Ini cross-entropy biner (5.1) untuk tugas "asli atau palsu", dengan G mencoba memperbesarnya.</p>
 
-<h2>Diskriminator terbaik</h2>
-<p>Kalau G tetap dan data asli berkerapatan <span class="tx">p</span> sedangkan data palsu <span class="tx">q</span>, diskriminator terbaik di setiap titik x adalah</p>
+<h2>Discriminator terbaik</h2>
+<p>Kalau G tetap dan data asli berkerapatan <span class="tx">p</span> sedangkan data palsu <span class="tx">q</span>, discriminator terbaik di setiap titik x adalah</p>
 <div class="tx d">D^*(x) = \frac{p(x)}{p(x) + q(x)}</div>
 <p>Masuk akal: kalau di titik x data asli dua kali lebih sering daripada palsu, D* = 2/3. Di tempat generator sudah sempurna, p = q dan D* = ½: detektif hanya bisa menebak. Memasukkan D* ke nilai permainan menghasilkan</p>
 <div class="tx d">-\log 4 + 2\,\text{JSD}(p \,\|\, q)</div>
@@ -108,7 +108,7 @@ window.LESSONS["5.11"] = {
 <h2>Kenapa GAN sulit dilatih</h2>
 <ul><li><b>Bukan lembah, tapi pelana</b>: dua pemain saling mengejar, dan gradient descent bisa berputar-putar tanpa mengendap.</li>
 <li><b>Mode collapse</b>: generator menemukan beberapa contoh yang menipu D dan hanya menghasilkan itu, misalnya wajah yang itu-itu saja.</li>
-<li><b>Gradien lenyap</b>: kalau D terlalu pintar, log(1 − D(G(z))) mendatar dan G tidak mendapat petunjuk. Makalah asli menyarankan G memaksimalkan log D(G(z)) sebagai gantinya.</li></ul>
+<li><b>Vanishing gradient</b>: kalau D terlalu pintar, log(1 − D(G(z))) mendatar dan G tidak mendapat petunjuk. Makalah asli menyarankan G memaksimalkan log D(G(z)) sebagai gantinya.</li></ul>
 <p>Model difusi (5.12) kemudian mengungguli GAN dalam kualitas dan keragaman, dengan pelatihan yang jauh lebih stabil karena loss-nya hanya regresi biasa.</p>
 
 <h2>Periksa dengan Python</h2>
@@ -128,25 +128,25 @@ print(round(math.log(0.5) + math.log(1 - 0.5), 3), round(-math.log(4), 3))   # -
 window.LESSONS["5.12"] = {
   title: "Model difusi",
   pre: "4.4, 4.5, 4.6, 5.5 CNN, 5.10 reparameterisasi", min: 0,
-  why: "Model difusi adalah mesin di balik Stable Diffusion, DALL·E, Midjourney, Sora, dan banyak model musik. Gagasannya dari fisika: rusak data perlahan dengan derau sampai menjadi derau murni, lalu latih jaringan untuk membalik proses itu langkah demi langkah. Semua alat Lapis 4 bertemu di sini.",
+  why: "Model difusi adalah mesin di balik Stable Diffusion, DALL·E, Midjourney, Sora, dan banyak model musik. Gagasannya dari fisika: rusak data perlahan dengan noise sampai menjadi noise murni, lalu latih jaringan untuk membalik proses itu langkah demi langkah. Semua alat Lapis 4 bertemu di sini.",
   body: String.raw`
 <h2>Proses maju: rusak perlahan</h2>
-<p>Mulai dari gambar asli <span class="tx">x_0</span>. Di setiap langkah t = 1, …, T, kecilkan sedikit gambarnya dan tambah sedikit derau normal dengan varians kecil <span class="tx">\beta_t</span>. Ho dkk. (2020) memakai T = 1000 dan β naik linear dari 0,0001 sampai 0,02. Ini rantai Markov (3.8) dan, kalau langkahnya diperhalus, SDE Ornstein–Uhlenbeck (4.5).</p>
+<p>Mulai dari gambar asli <span class="tx">x_0</span>. Di setiap langkah t = 1, …, T, kecilkan sedikit gambarnya dan tambah sedikit noise normal dengan varians kecil <span class="tx">\beta_t</span>. Ho dkk. (2020) memakai T = 1000 dan β naik linear dari 0,0001 sampai 0,02. Ini rantai Markov (3.8) dan, kalau langkahnya diperhalus, SDE Ornstein–Uhlenbeck (4.5).</p>
 <p>Untungnya, kita tidak perlu menjalankan t langkah satu per satu: langkah ke-t bisa dilompati langsung dengan trik reparameterisasi (5.10):</p>
 <div class="tx d">x_t = \sqrt{\bar\alpha_t}\;x_0 + \sqrt{1 - \bar\alpha_t}\;\varepsilon, \qquad \varepsilon \sim \mathcal{N}(0, I)</div>
-<p>dengan <span class="tx">\bar\alpha_t = \prod_{s \le t}(1 - \beta_s)</span>. Dua koefisien itu menyatakan berapa bagian sinyal yang tersisa dan berapa bagian derau:</p>
+<p>dengan <span class="tx">\bar\alpha_t = \prod_{s \le t}(1 - \beta_s)</span>. Dua koefisien itu menyatakan berapa bagian sinyal yang tersisa dan berapa bagian noise:</p>
 <div class="tbl"><table><tr><th>langkah t</th><td>1</td><td>100</td><td>250</td><td>500</td><td>1000</td></tr>
 <tr><th>bagian sinyal √ᾱ</th><td>0,9999</td><td>0,947</td><td>0,724</td><td>0,280</td><td>0,006</td></tr>
-<tr><th>bagian derau √(1 − ᾱ)</th><td>0,010</td><td>0,321</td><td>0,690</td><td>0,960</td><td>1,000</td></tr></table></div>
-<p>Di t = 1000, gambar asli tinggal 0,6%: praktis derau normal murni, apa pun gambar awalnya. Ini jaminan Fokker–Planck dari 4.6.</p>
+<tr><th>bagian noise √(1 − ᾱ)</th><td>0,010</td><td>0,321</td><td>0,690</td><td>0,960</td><td>1,000</td></tr></table></div>
+<p>Di t = 1000, gambar asli tinggal 0,6%: praktis noise normal murni, apa pun gambar awalnya. Ini jaminan Fokker–Planck dari 4.6.</p>
 
-<h2>Proses balik: latih penebak derau</h2>
-<p>Untuk membuat gambar, kita perlu berjalan mundur dari derau. Jaringan <span class="tx">\varepsilon_\theta(x_t, t)</span> (biasanya U-Net, jaringan konvolusi berbentuk U yang mengecilkan gambar lalu membesarkannya lagi, atau Transformer) dilatih dengan tugas sederhana: diberi gambar bederau <span class="tx">x_t</span> dan waktunya t, tebak derau ε yang ditambahkan. Loss-nya hanya MSE:</p>
+<h2>Proses balik: latih penebak noise</h2>
+<p>Untuk membuat gambar, kita perlu berjalan mundur dari noise. Jaringan <span class="tx">\varepsilon_\theta(x_t, t)</span> (biasanya U-Net, jaringan konvolusi berbentuk U yang mengecilkan gambar lalu membesarkannya lagi, atau Transformer) dilatih dengan tugas sederhana: diberi gambar benoise <span class="tx">x_t</span> dan waktunya t, tebak noise ε yang ditambahkan. Loss-nya hanya MSE:</p>
 <div class="tx d">L = \mathbb{E}_{x_0,\, t,\, \varepsilon}\;\big\|\,\varepsilon - \varepsilon_\theta(x_t, t)\,\big\|^2</div>
-<p>Resep pelatihan: ambil gambar, ambil t acak, ambil derau acak, buat <span class="tx">x_t</span> dengan rumus di atas, minta jaringan menebak deraunya. Tidak ada permainan dua pemain seperti GAN; hanya regresi, jadi pelatihannya stabil.</p>
+<p>Resep pelatihan: ambil gambar, ambil t acak, ambil noise acak, buat <span class="tx">x_t</span> dengan rumus di atas, minta jaringan menebak noisenya. Tidak ada permainan dua pemain seperti GAN; hanya regresi, jadi pelatihannya stabil.</p>
 
 <h2>Membuat gambar</h2>
-<p>Mulai dari derau murni <span class="tx">x_T</span>. Di setiap langkah, kurangi sebagian derau yang ditebak jaringan, tambahkan sedikit derau baru, dan mundur satu langkah. Setelah ratusan langkah, keluar gambar baru. Song dkk. (2021) menunjukkan bahwa penebak derau sebenarnya menaksir <b>skor</b> <span class="tx">\nabla_x \log p(x_t)</span>, arah naik peluang data, dan proses balik adalah SDE (4.5) yang drift-nya memuat skor itu. Cara deterministik (DDIM, ODE probability flow) memangkasnya menjadi puluhan langkah saja.</p>
+<p>Mulai dari noise murni <span class="tx">x_T</span>. Di setiap langkah, kurangi sebagian noise yang ditebak jaringan, tambahkan sedikit noise baru, dan mundur satu langkah. Setelah ratusan langkah, keluar gambar baru. Song dkk. (2021) menunjukkan bahwa penebak noise sebenarnya menaksir <b>skor</b> <span class="tx">\nabla_x \log p(x_t)</span>, arah naik peluang data, dan proses balik adalah SDE (4.5) yang drift-nya memuat skor itu. Cara deterministik (DDIM, ODE probability flow) memangkasnya menjadi puluhan langkah saja.</p>
 <p><b>Mengendalikan dengan teks</b>: jaringan juga diberi <b>embedding</b> teks perintah, yaitu daftar angka yang mewakili makna kalimat itu. Classifier-free guidance (Ho &amp; Salimans) menghitung tebakan dengan dan tanpa teks, lalu memperbesar selisihnya, sehingga gambar lebih patuh pada perintah. Stable Diffusion menjalankan semua ini di ruang kode VAE (5.10) yang lebih kecil, bukan di piksel.</p>
 
 <h2>Periksa dengan Python</h2>
@@ -170,7 +170,7 @@ for t in (1, 100, 250, 500, 1000):
 
 /* ───────────────────────── 5.13 ───────────────────────── */
 window.LESSONS["5.13"] = {
-  title: "Model bahasa besar",
+  title: "Large language model (LLM)",
   pre: "3.4 cross-entropy, 3.8, 4.2 suhu, 5.7", min: 0,
   why: "Inilah tujuan akhir yang kamu kejar: memahami ChatGPT, Claude, Gemini dari dalam. Ternyata intinya adalah tugas yang sangat sederhana, menebak potongan kata berikutnya, dijalankan dengan Transformer raksasa pada sebagian besar teks di internet, lalu diasah agar membantu dan aman.",
   body: String.raw`

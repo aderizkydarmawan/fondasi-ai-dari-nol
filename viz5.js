@@ -98,7 +98,7 @@
     h._draw();
   };
 
-  /* 5.6 gradien lenyap / meledak */
+  /* 5.6 vanishing gradient / meledak */
   W.vanish = function (h) {
     var f = frame(h, "Gradien setelah t backward pass ≈ λᵗ. Sumbu tegak memakai skala log (10ᵏ). Garis biru muda: LSTM dengan forget gate f", [{ id: "l", label: "faktor RNN λ", min: 0.5, max: 1.3, step: 0.01, v: 0.9 }, { id: "fg", label: "forget gate f", min: 0.5, max: 1, step: 0.01, v: 0.99 }]);
     var p = mk(f.svg, { x0: 0, x1: 100, y0: -8, y1: 4, h: 300, sx: 10, sy: 1, lx: 20, ly: 2 });
@@ -167,9 +167,9 @@
     }; h._draw();
   };
 
-  /* 5.11 GAN: diskriminator terbaik */
+  /* 5.11 GAN: discriminator terbaik */
   W.gan = function (h) {
-    var f = frame(h, "Data asli p (ungu, dua puncak) dan generator q (biru muda, normal). Garis tebal = diskriminator terbaik D* = p/(p + q)", [{ id: "m", label: "rata-rata q", min: -3, max: 3, step: 0.1, v: 1.5, d: 1 }, { id: "s", label: "simpangan baku q", min: 0.2, max: 3, step: 0.05, v: 0.6 }]);
+    var f = frame(h, "Data asli p (ungu, dua puncak) dan generator q (biru muda, normal). Garis tebal = discriminator terbaik D* = p/(p + q)", [{ id: "m", label: "rata-rata q", min: -3, max: 3, step: 0.1, v: 1.5, d: 1 }, { id: "s", label: "simpangan baku q", min: 0.2, max: 3, step: 0.05, v: 0.6 }]);
     var p = mk(f.svg, { x0: -5, x1: 5, y0: 0, y1: 1.05, h: 300, sx: 1, sy: 0.25 });
     var P = function (x) { return 0.5 * Npdf(x, -1.5, 0.6) + 0.5 * Npdf(x, 1.5, 0.6); };
     h._draw = function () {
@@ -191,7 +191,7 @@
       X0.forEach(function (x, k) { var v = a * x + b * EP[k], j = Math.floor((v + 4.5) / w); if (j >= 0 && j < 45) bins[j]++; });
       bins.forEach(function (c, j) { bar(p, -4.5 + j * w, -4.5 + (j + 1) * w, c / (2000 * w), "s1 area"); });
       p.curve(function (x) { return Npdf(x, 0, 1); }, "ink line dash");
-      f.out.innerHTML = "t = " + t + ": bagian sinyal √ᾱ = <b>" + fmt(a, 3) + "</b>, bagian derau √(1 − ᾱ) = <b>" + fmt(b, 3) + "</b>. " + (t < 150 ? "Dua kelompok masih jelas." : t < 450 ? "Kelompok mulai melebur." : t < 800 ? "Hampir tak bisa dibedakan dari derau." : "Sudah derau normal murni, apa pun data awalnya.") + " Model difusi belajar berjalan dari kanan ke kiri slider ini.";
+      f.out.innerHTML = "t = " + t + ": bagian sinyal √ᾱ = <b>" + fmt(a, 3) + "</b>, bagian noise √(1 − ᾱ) = <b>" + fmt(b, 3) + "</b>. " + (t < 150 ? "Dua kelompok masih jelas." : t < 450 ? "Kelompok mulai melebur." : t < 800 ? "Hampir tak bisa dibedakan dari noise." : "Sudah noise normal murni, apa pun data awalnya.") + " Model difusi belajar berjalan dari kanan ke kiri slider ini.";
     }; h._draw();
   };
 

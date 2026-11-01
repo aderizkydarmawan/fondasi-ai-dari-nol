@@ -80,7 +80,7 @@ Jumlah ≈ 11,212</div>
 <div class="rule">Suhu rendah: model memilih jawaban teratas hampir selalu (teks kaku, mengulang). Suhu tinggi: pilihan lebih beragam (teks kreatif, tapi bisa ngawur). <mark>T → 0 menjadi argmax.</mark></div>
 
 <h2>Di AI</h2>
-<ul><li>Lapis keluaran classifier dan model bahasa: softmax atas logit, dilatih dengan cross-entropy (3.4).</li>
+<ul><li>Output layer classifier dan model bahasa: softmax atas logit, dilatih dengan cross-entropy (3.4).</li>
 <li>Attention (5.7): bobot perhatian adalah softmax dari skor kecocokan, dibagi <span class="tx">\sqrt{d}</span> yang berperan seperti suhu.</li>
 <li>Distilasi model (Hinton dkk., 2015): model kecil belajar dari softmax model besar pada suhu tinggi, supaya peluang kelas yang kecil-kecil ikut terlihat.</li></ul>
 
@@ -151,7 +151,7 @@ print(round((u * np.log(u / p)).sum(), 3))                   # 0.309</code></pre
 window.LESSONS["4.4"] = {
   title: "Jalan acak dan gerak Brown",
   pre: "2.9, 2.10 varians", min: 0,
-  why: "Jalan acak adalah model paling sederhana untuk derau yang menumpuk. Model difusi (5.12) membuat gambar dari derau dengan membalik jalan acak; SGD (3.1) adalah jalan acak di sekitar lembah; harga saham di 5.15 dimodelkan sebagai gerak Brown. Satu hukum dari pelajaran ini, jarak tumbuh seperti akar waktu, muncul di semua tempat itu.",
+  why: "Jalan acak adalah model paling sederhana untuk noise yang menumpuk. Model difusi (5.12) membuat gambar dari noise dengan membalik jalan acak; SGD (3.1) adalah jalan acak di sekitar lembah; harga saham di 5.15 dimodelkan sebagai gerak Brown. Satu hukum dari pelajaran ini, jarak tumbuh seperti akar waktu, muncul di semua tempat itu.",
   body: String.raw`
 <h2>Pemabuk di trotoar</h2>
 <p>Seseorang berdiri di titik 0. Setiap detik ia melempar koin: gambar, satu langkah ke kanan; angka, satu langkah ke kiri. Di mana ia setelah n langkah?</p>
@@ -167,7 +167,7 @@ Simulasi (Python di bawah): 9,96 dan 5,02</div>
 <h2>Gerak Brown: jalan acak yang diperhalus</h2>
 <p>Tahun 1827 (diterbitkan 1828) ahli botani Robert Brown melihat serbuk sari di air bergoyang tanpa henti. Einstein (1905) menjelaskannya: serbuk ditabrak molekul air dari segala arah, ribuan kali per detik, dan setiap tabrakan adalah satu langkah acak kecil. Buat langkahnya makin kecil dan makin sering, maka jalan acak menjadi <b>gerak Brown</b> W(t), dengan</p>
 <div class="tx d">W(t) - W(s) \sim \mathcal{N}(0,\; t - s)</div>
-<p>Perubahan dalam waktu Δt berdistribusi normal dengan varians Δt, jadi besarnya kira-kira <span class="tx">\sqrt{\Delta t}</span>. Akibat anehnya: untuk Δt kecil, <span class="tx">\sqrt{\Delta t}</span> jauh lebih besar dari Δt, sehingga lintasannya bergerigi di setiap skala dan tidak punya turunan di mana pun. Itulah sebabnya persamaan dengan derau Brown butuh kalkulus khusus (4.5).</p>
+<p>Perubahan dalam waktu Δt berdistribusi normal dengan varians Δt, jadi besarnya kira-kira <span class="tx">\sqrt{\Delta t}</span>. Akibat anehnya: untuk Δt kecil, <span class="tx">\sqrt{\Delta t}</span> jauh lebih besar dari Δt, sehingga lintasannya bergerigi di setiap skala dan tidak punya turunan di mana pun. Itulah sebabnya persamaan dengan noise Brown butuh kalkulus khusus (4.5).</p>
 <p>Einstein juga menghubungkan laju penyebaran dengan suhu: koefisien difusi <span class="tx">D = kT/\gamma</span>, dengan γ gesekan.</p>
 
 <h2>Periksa dengan Python</h2>
@@ -188,20 +188,20 @@ print(round(posisi[:, -1].std(), 2), round(posisi[:, 24].std(), 2))   # 9.96 5.0
 window.LESSONS["4.5"] = {
   title: "Persamaan diferensial stokastik",
   pre: "3.7 ODE, 4.4", min: 0,
-  why: "Model difusi modern ditulis sebagai persamaan diferensial stokastik (SDE): satu SDE merusak gambar menjadi derau, dan kebalikannya membangun gambar dari derau. Langevin dynamics, cara mengambil sampel dari distribusi dengan menuruni lembah sambil digoyang, juga sebuah SDE.",
+  why: "Model difusi modern ditulis sebagai persamaan diferensial stokastik (SDE): satu SDE merusak gambar menjadi noise, dan kebalikannya membangun gambar dari noise. Langevin dynamics, cara mengambil sampel dari distribusi dengan menuruni lembah sambil digoyang, juga sebuah SDE.",
   body: String.raw`
-<div class="box intuisi"><p>Pelajaran ini sengaja berhenti di tingkat intuisi. Kalkulus Itô, yang membuat dW benar-benar bermakna, tidak diturunkan di sini; cukup pegang gambarnya: drift menarik, derau menggoyang, dan rumus rata-rata serta varians OU yang bisa kamu cek sendiri dengan simulasi.</p></div>
-<h2>ODE ditambah derau</h2>
+<div class="box intuisi"><p>Pelajaran ini sengaja berhenti di tingkat intuisi. Kalkulus Itô, yang membuat dW benar-benar bermakna, tidak diturunkan di sini; cukup pegang gambarnya: drift menarik, noise menggoyang, dan rumus rata-rata serta varians OU yang bisa kamu cek sendiri dengan simulasi.</p></div>
+<h2>ODE ditambah noise</h2>
 <p>ODE (3.7) berkata: perubahan = arah × waktu. SDE menambahkan tendangan acak dari gerak Brown (4.4):</p>
-<div class="tx d">dX = \underbrace{f(X)\,dt}_{\text{drift}} + \underbrace{\sigma\,dW}_{\text{derau}}</div>
-<p>Drift menarik X ke suatu arah; suku derau menggoyangnya. Karena W acak, setiap kali dijalankan lintasannya berbeda. Yang bisa diramalkan adalah <b>distribusi</b> X, bukan nilai persisnya.</p>
+<div class="tx d">dX = \underbrace{f(X)\,dt}_{\text{drift}} + \underbrace{\sigma\,dW}_{\text{noise}}</div>
+<p>Drift menarik X ke suatu arah; suku noise menggoyangnya. Karena W acak, setiap kali dijalankan lintasannya berbeda. Yang bisa diramalkan adalah <b>distribusi</b> X, bukan nilai persisnya.</p>
 
 <h2>Euler–Maruyama: Euler dengan dadu</h2>
 <p>Cara menyelesaikannya dengan komputer sama seperti Euler, ditambah satu bilangan acak normal per langkah. Ingat dari 4.4: tendangan Brown dalam waktu Δt berukuran <span class="tx">\sqrt{\Delta t}</span>, bukan Δt.</p>
 <div class="tx d">X_{n+1} = X_n + f(X_n)\,\Delta t + \sigma\sqrt{\Delta t}\;\xi_n, \qquad \xi_n \sim \mathcal{N}(0, 1)</div>
 
 <h2>Contoh: proses Ornstein–Uhlenbeck</h2>
-<p>Ambil drift yang menarik ke nol: <span class="tx">dX = -\kappa X\,dt + \sigma\,dW</span>. Tanpa derau, X meluruh ke 0 seperti di 3.7. Dengan derau, X tidak pernah diam, tapi bergoyang di sekitar 0 dengan sebaran tetap. Tarikan dan tendangan mencapai keseimbangan:</p>
+<p>Ambil drift yang menarik ke nol: <span class="tx">dX = -\kappa X\,dt + \sigma\,dW</span>. Tanpa noise, X meluruh ke 0 seperti di 3.7. Dengan noise, X tidak pernah diam, tapi bergoyang di sekitar 0 dengan sebaran tetap. Tarikan dan tendangan mencapai keseimbangan:</p>
 <div class="tx d">\text{varians stasioner} = \frac{\sigma^2}{2\kappa}</div>
 <div class="ex"><div class="q">κ = 1, σ = 1, mulai dari X = 3. Berapa rata-rata dan varians X setelah waktu lama?</div>
 <div class="step">Rata-rata: 3·e^(−κt) → 0
@@ -211,12 +211,12 @@ Simulasi 5.000 lintasan sampai t = 10: rata-rata 0,015, varians 0,505</div>
 <p>Inilah pola penting: SDE dengan drift yang tepat <b>melupakan</b> titik awal dan menuju satu distribusi tujuan, mirip rantai Markov (3.8) yang menuju distribusi stasioner.</p>
 
 <h2>Langevin dynamics: mengambil sampel dengan menuruni lembah</h2>
-<p>Pilih drift = minus gradien sebuah energi, dan derau yang sesuai dengan suhu:</p>
+<p>Pilih drift = minus gradien sebuah energi, dan noise yang sesuai dengan suhu:</p>
 <div class="tx d">dX = -\nabla E(X)\,dt + \sqrt{2T}\,dW</div>
-<p>Distribusi tujuannya adalah distribusi Boltzmann <span class="tx">p \propto e^{-E/T}</span> dari 4.2. Ini gradient descent (3.1) yang digoyang: tanpa derau ia jatuh ke dasar lembah, dengan derau ia menjelajahi lembah sesuai peluangnya. Welling &amp; Teh (2011) memakai SGD plus derau seperti ini untuk mengambil sampel posterior Bayes jaringan saraf.</p>
+<p>Distribusi tujuannya adalah distribusi Boltzmann <span class="tx">p \propto e^{-E/T}</span> dari 4.2. Ini gradient descent (3.1) yang digoyang: tanpa noise ia jatuh ke dasar lembah, dengan noise ia menjelajahi lembah sesuai peluangnya. Welling &amp; Teh (2011) memakai SGD plus noise seperti ini untuk mengambil sampel posterior Bayes jaringan saraf.</p>
 
 <h2>Di model difusi</h2>
-<p>Song dkk. (2021) menulis model difusi sebagai SDE. Proses maju: SDE seperti Ornstein–Uhlenbeck mengubah gambar apa pun menjadi derau normal. Proses balik: SDE lain, yang drift-nya memuat gradien log peluang data (disebut <b>skor</b>), mengubah derau menjadi gambar. Jaringan saraf dilatih untuk menaksir skor itu (5.12).</p>
+<p>Song dkk. (2021) menulis model difusi sebagai SDE. Proses maju: SDE seperti Ornstein–Uhlenbeck mengubah gambar apa pun menjadi noise normal. Proses balik: SDE lain, yang drift-nya memuat gradien log peluang data (disebut <b>skor</b>), mengubah noise menjadi gambar. Jaringan saraf dilatih untuk menaksir skor itu (5.12).</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import numpy as np
@@ -237,7 +237,7 @@ print(round(x.mean(), 3), round(x.var(), 3))     # 0.015 0.505</code></pre>
 window.LESSONS["4.6"] = {
   title: "Persamaan panas dan Fokker-Planck",
   pre: "2.1 turunan kedua, 2.4 integral, 2.9 distribusi normal, 3.7, 4.4, 4.5", min: 0,
-  why: "Satu partikel bergoyang acak; jutaan partikel menyebar dengan mulus seperti tinta di air. Persamaan panas dan Fokker–Planck menggambarkan penyebaran itu sebagai satu kurva peluang yang bergerak. Ini cara pandang kedua atas model difusi: bukan satu lintasan, tapi seluruh distribusi data yang pelan-pelan melebur menjadi derau.",
+  why: "Satu partikel bergoyang acak; jutaan partikel menyebar dengan mulus seperti tinta di air. Persamaan panas dan Fokker–Planck menggambarkan penyebaran itu sebagai satu kurva peluang yang bergerak. Ini cara pandang kedua atas model difusi: bukan satu lintasan, tapi seluruh distribusi data yang pelan-pelan melebur menjadi noise.",
   body: String.raw`
 <div class="box intuisi"><p>Pelajaran ini juga di tingkat intuisi. Persamaan diferensial parsial tidak diselesaikan secara formal; kita hanya membaca artinya (kelengkungan meratakan, drift menggeser) dan memeriksanya dengan simulasi kisi.</p></div>
 <h2>Dari partikel ke kepadatan</h2>
@@ -260,7 +260,7 @@ window.LESSONS["4.6"] = {
 <p>Bagi x menjadi kisi dengan jarak Δx, dan waktu menjadi langkah Δt. Turunan kedua didekati dengan <span class="tx">(u_{i+1} - 2u_i + u_{i-1})/\Delta x^2</span>, lalu maju dengan Euler. Skema ini <b>stabil</b> (galatnya tidak membesar dari langkah ke langkah sampai meledak) hanya kalau <span class="tx">D\,\Delta t/\Delta x^2 \le \tfrac12</span>. Kisi dihaluskan dua kali, langkah waktu harus diperkecil empat kali. Lagi-lagi pelajaran yang sama dengan learning rate (3.1) dan Euler (3.7).</p>
 
 <h2>Di AI</h2>
-<p>Sohl-Dickstein dkk. (2015), makalah yang memulai model difusi, terinspirasi langsung oleh termodinamika tak seimbang: perlahan hancurkan struktur data dengan proses difusi, lalu pelajari kebalikannya. Persamaan Fokker–Planck menjamin bahwa proses maju membawa distribusi data apa pun ke derau normal.</p>
+<p>Sohl-Dickstein dkk. (2015), makalah yang memulai model difusi, terinspirasi langsung oleh termodinamika tak seimbang: perlahan hancurkan struktur data dengan proses difusi, lalu pelajari kebalikannya. Persamaan Fokker–Planck menjamin bahwa proses maju membawa distribusi data apa pun ke noise normal.</p>
 
 <h2>Periksa dengan Python</h2>
 <p>Kode di bawah memakai <b>slicing</b> NumPy (1.9) untuk menggeser array: <code>u[1:-1]</code> adalah semua titik kecuali dua ujung (titik i), <code>u[2:]</code> adalah tetangga kanannya (i + 1), dan <code>u[:-2]</code> tetangga kirinya (i − 1). Jadi satu baris menghitung u<sub>i+1</sub> − 2u<sub>i</sub> + u<sub>i−1</sub> untuk semua titik sekaligus, tanpa perulangan.</p>
