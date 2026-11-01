@@ -2,7 +2,7 @@
 Object.assign(window.LEGENDA, {
 "5.1": {
  "X": "tabel data: satu baris per contoh, satu kolom per fitur",
- "y": "label asli (0 atau 1); ŷ = tebakan model",
+ "y": "nilai asli: angka bebas di regresi linear, 0 atau 1 di regresi logistik; ȳ = rata-ratanya, ŷ = tebakan model",
  "w": "bobot: seberapa penting tiap fitur input",
  "x": "input/fitur data, bisa satu angka atau vektor",
  "b": "bias: angka geser yang ditambahkan ke hasil",
@@ -76,7 +76,7 @@ Object.assign(window.LEGENDA, {
  "p": "decoder: peluang menghasilkan x dari kode z",
  "D": "D_KL: divergensi KL, ukuran beda sebaran kode dari N(0, 1)",
  "ε": "derau acak dari normal baku N(0,1)",
- "E": "nilai harapan (rata-rata) z²"
+ "E": "nilai harapan: rata-rata berbobot peluang dari isi kurungnya (2.10)"
 },
 "5.11": {
  "G": "generator: pembuat data palsu dari derau",
@@ -108,11 +108,11 @@ Object.assign(window.LEGENDA, {
  "D": "banyaknya token data latih"
 },
 "5.14": {
- "γ": "faktor diskon: hadiah nanti dihargai lebih kecil",
- "G": "return: total hadiah terdiskon mulai waktu t",
+ "γ": "faktor diskon: imbalan nanti dihargai lebih kecil",
+ "G": "return: total imbalan terdiskon mulai waktu t",
  "t": "langkah waktu",
- "r": "hadiah (reward) yang diterima",
- "V": "nilai keadaan: total hadiah terbaik dari s",
+ "r": "imbalan (reward) yang diterima",
+ "V": "nilai keadaan: total imbalan terbaik dari s",
  "s": "keadaan (state); s' = keadaan berikutnya",
  "a": "aksi yang dipilih agen; a' = aksi berikutnya",
  "P": "peluang pindah ke s' setelah aksi a",

@@ -413,6 +413,8 @@ Selisih y: −1 − 3 = −4  → dikuadratkan jadi 16, tanda minus hilang
 &gt;&gt;&gt; math.dist((1, 2, 3), (4, 6, 15))
 13.0</code></pre>
 <p>Contoh terakhir tiga arah: selisihnya 3, 4, dan 12, jadi √(9 + 16 + 144) = √169 = 13.</p>
+
+<div class="box intuisi"><b>Bonus untuk nanti: sinus dan kosinus.</b> Berdiri di alun-alun, menghadap timur, lalu berputar ke kiri sebesar sudut θ dan jalan tepat 1 blok. Posisimu sekarang ditulis <b>(cos θ, sin θ)</b>: cos θ adalah berapa jauh kamu ke timur, sin θ berapa jauh ke utara. Contoh: θ = 0° memberi (1, 0); θ = 90° memberi (0, 1); θ = 30° memberi (0,866; 0,5). Karena jarakmu dari alun-alun selalu 1, Pythagoras di atas berlaku: cos²θ + sin²θ = 1 (cek: 0,866² + 0,5² = 0,75 + 0,25 = 1). Dua fungsi ini muncul lagi saat memutar vektor (2.6, 2.7) dan di penanda posisi Transformer (5.7).</div>
 `,
   src: [
     "OpenStax, <i>Prealgebra 2e</i>, Bab 9 “Math Models and Geometry”, bagian teorema Pythagoras (gratis online).",

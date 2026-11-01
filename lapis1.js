@@ -389,7 +389,7 @@ print((d - d.mean()) / d.std())
 <p>Perhatikan: <code>np.var</code> secara bawaan membagi n, sedangkan banyak paket statistik lain membagi n − 1. Ini sumber selisih angka yang sering membingungkan.</p>
 `,
   src: [
-    "Boyd & Vandenberghe, VMLS, §3.3 “Standard deviation” (hlm. 52–53): definisi bagi n dan standarisasi. Lokal.",
+    "Boyd & Vandenberghe, VMLS, §3.3 “Standard deviation” (hlm. 52–56): definisi bagi n (hlm. 52) dan standarisasi (sekitar hlm. 55–56). Lokal.",
     "Wasserman, <i>All of Statistics</i>, §3.3 “Variance and Covariance”: Definisi 3.14, rumus (3.10), Teorema 3.17 (hlm. 51–52). Lokal.",
     "Grinstead & Snell, <i>Introduction to Probability</i>, §6.2 “Variance of Discrete Random Variables”, Definisi 6.3 (hlm. 257). Lokal.",
     "OpenStax, <i>Introductory Statistics 2e</i>, Bab 2 “Descriptive Statistics” (gratis online)."
@@ -448,7 +448,7 @@ print(w @ x + 0.1)            # 2.2</code></pre>
 `,
   src: [
     "Boyd & Vandenberghe, VMLS, Bab 1 “Vectors” (§1.1 hlm. 3; §1.4 “Inner product” hlm. 19) dan Bab 3 “Norm and distance” (hlm. 45). Lokal. Buku pemula terbaik untuk lapis ini.",
-    "Deisenroth, Faisal & Ong, <i>Mathematics for Machine Learning</i>, §3.2 “Inner Products” (hlm. 73). Lokal.",
+    "Deisenroth, Faisal & Ong, <i>Mathematics for Machine Learning</i>, §3.2 “Inner Products” (hlm. 72). Lokal.",
     "Vaswani dkk. (2017), “Attention Is All You Need”, §3.2.1: attention memakai hasil kali titik. Lokal. Baca nanti, di proyek B5."
   ]
 };
@@ -467,7 +467,8 @@ print(np.array([1, 2]) + np.array([3, 4]))  # [4 6]</code></pre>
 
 <h2>Vektorisasi: satu baris untuk semua data</h2>
 <p>Paper resmi NumPy (Harris dkk., <i>Nature</i> 2020) menyebut ini <b>vektorisasi</b>: operasi ditulis untuk seluruh array, dan perulangannya dijalankan di dalam kode C yang cepat.</p>
-<pre><code>x = np.array([3, 5, 7, 9])
+<pre><code>import numpy as np
+x = np.array([3, 5, 7, 9])
 print(x * 2)        # [ 6 10 14 18]
 print(x ** 2)       # [ 9 25 49 81]
 print(x.sum())      # 24      (Σ dari 1.6)
@@ -480,12 +481,14 @@ print(x - x.mean()) # [-3. -1.  1.  3.]</code></pre>
 <div class="step">Rumus:  rata-rata dari (xᵢ − x̄)²
 Kode:   ((d - d.mean()) ** 2).mean()</div>
 <div class="ans">Hasilnya 4.0, sama dengan np.var(d)</div></div>
-<pre><code>d = np.array([2, 4, 4, 4, 5, 5, 7, 9])
+<pre><code>import numpy as np
+d = np.array([2, 4, 4, 4, 5, 5, 7, 9])
 print(((d - d.mean()) ** 2).mean(), np.var(d))   # 4.0 4.0</code></pre>
 
 <h2>Neuron untuk banyak rumah sekaligus</h2>
 <p>Setiap baris adalah satu rumah: [luas dalam puluhan m², jumlah kamar]. Bobot w = [3, 5], bias b = 10.</p>
-<pre><code>X = np.array([[7, 2],
+<pre><code>import numpy as np
+X = np.array([[7, 2],
               [10, 3],
               [5, 1]])
 w = np.array([3, 5])
@@ -497,7 +500,8 @@ print(X @ w + b)    # [41 55 30]</code></pre>
 <p><code>X @ w</code> menghitung hasil kali titik w dengan <b>setiap baris</b>. Inilah "perkalian matriks dengan vektor", tema utama Lapis 2. Satu lapis jaringan saraf persis seperti ini, hanya dengan lebih banyak kolom dan baris.</p>
 
 <h2>Fungsi matematika bawaan</h2>
-<pre><code>print(np.exp([2, 1, 0]))          # [7.3890561  2.71828183 1.        ]
+<pre><code>import numpy as np
+print(np.exp([2, 1, 0]))          # [7.3890561  2.71828183 1.        ]
 print(np.log([1, np.e, 10]))      # [0.         1.         2.30258509]
 s = np.exp([2, 1, 0])
 print(s / s.sum())                # softmax dari 1.5: [0.66524096 0.24472847 0.09003057]</code></pre>

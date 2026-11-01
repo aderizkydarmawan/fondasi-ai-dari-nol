@@ -126,7 +126,7 @@ Selalu terendah: ⟨E⟩ = 0, H = 0, F[q] = 0</div>
 
 <h2>Inferensi variasional: posterior sebagai sistem fisika</h2>
 <p>Posterior Bayes bisa ditulis seperti distribusi Boltzmann: <span class="tx">p(\theta\mid D) = e^{-E(\theta)}/Z</span> dengan "energi" <span class="tx">E(\theta) = -\log p(D\mid\theta) - \log p(\theta)</span> dan Z = p(D), peluang data. Z inilah yang mustahil dihitung untuk model besar.</p>
-<p>Jalan keluarnya: pilih keluarga distribusi yang mudah (misalnya normal dengan rata-rata dan varians yang bisa diatur), lalu cari anggota yang F[q]-nya terkecil. Kita tidak butuh Z, karena Z hanya konstanta. Di machine learning, minus F[q] disebut <b>ELBO</b> (evidence lower bound), karena ia batas bawah dari log p(D). Kenapa batas bawah? Rumus di atas berkata F[q] − F = KL ≥ 0, dan di sini F = −ln Z = −log p(D). Jadi −F[q] = log p(D) − KL, yang tidak pernah melebihi log p(D). Di sini kT = 1, jadi ELBO = −F[q]: memaksimalkan ELBO sama dengan meminimalkan F[q]. Ditulis lengkap:</p>
+<p>Jalan keluarnya: pilih keluarga distribusi yang mudah (misalnya normal dengan rata-rata dan varians yang bisa diatur), lalu cari anggota yang F[q]-nya terkecil. Kita tidak butuh Z, karena Z hanya konstanta. Di machine learning, minus F[q] disebut <b>ELBO</b> (evidence lower bound), karena ia batas bawah dari log p(D). Kenapa batas bawah? Rumus di atas berkata F[q] − F = KL ≥ 0. Di sini kT = 1, jadi F = −ln Z = −log p(D). Akibatnya −F[q] = log p(D) − KL, yang tidak pernah melebihi log p(D). Dan ELBO = −F[q]: memaksimalkan ELBO sama dengan meminimalkan F[q]. Ditulis lengkap:</p>
 <div class="tx d">\log p(D) \;\ge\; \underbrace{\mathbb{E}_q[\log p(D\mid\theta)]}_{\text{cocok dengan data}} - \underbrace{D_{\text{KL}}(q(\theta)\,\|\,p(\theta))}_{\text{jangan jauh dari prior}}</div>
 <p>Dua suku ini akan muncul lagi persis sebagai loss VAE (5.10): galat rekonstruksi ditambah KL.</p>
 
@@ -165,7 +165,7 @@ Simulasi (Python di bawah): 9,96 dan 5,02</div>
 <p>Menurut teorema limit pusat (2.9), posisi setelah banyak langkah berdistribusi hampir normal dengan varians n.</p>
 
 <h2>Gerak Brown: jalan acak yang diperhalus</h2>
-<p>Tahun 1827 ahli botani Robert Brown melihat serbuk sari di air bergoyang tanpa henti. Einstein (1905) menjelaskannya: serbuk ditabrak molekul air dari segala arah, ribuan kali per detik, dan setiap tabrakan adalah satu langkah acak kecil. Buat langkahnya makin kecil dan makin sering, maka jalan acak menjadi <b>gerak Brown</b> W(t), dengan</p>
+<p>Tahun 1827 (diterbitkan 1828) ahli botani Robert Brown melihat serbuk sari di air bergoyang tanpa henti. Einstein (1905) menjelaskannya: serbuk ditabrak molekul air dari segala arah, ribuan kali per detik, dan setiap tabrakan adalah satu langkah acak kecil. Buat langkahnya makin kecil dan makin sering, maka jalan acak menjadi <b>gerak Brown</b> W(t), dengan</p>
 <div class="tx d">W(t) - W(s) \sim \mathcal{N}(0,\; t - s)</div>
 <p>Perubahan dalam waktu Δt berdistribusi normal dengan varians Δt, jadi besarnya kira-kira <span class="tx">\sqrt{\Delta t}</span>. Akibat anehnya: untuk Δt kecil, <span class="tx">\sqrt{\Delta t}</span> jauh lebih besar dari Δt, sehingga lintasannya bergerigi di setiap skala dan tidak punya turunan di mana pun. Itulah sebabnya persamaan dengan derau Brown butuh kalkulus khusus (4.5).</p>
 <p>Einstein juga menghubungkan laju penyebaran dengan suhu: koefisien difusi <span class="tx">D = kT/\gamma</span>, dengan γ gesekan.</p>
@@ -180,7 +180,7 @@ print(round(posisi[:, -1].std(), 2), round(posisi[:, 24].std(), 2))   # 9.96 5.0
     "Sethna, <i>Statistical Mechanics</i> (2e), Bab 2 “Random walks and emergent properties” (§2.1 “Random walk examples: universality and scale invariance”, §2.2 “The diffusion equation”). Lokal.",
     "Øksendal, <i>Stochastic Differential Equations</i> (5e), §2.2 “An Important Example: Brownian Motion”. Lokal.",
     "Grinstead & Snell, <i>Introduction to Probability</i>, §12.1 “Random Walks in Euclidean Space”. Lokal (gratis).",
-    "Einstein (1905), “Über die von der molekularkinetischen Theorie der Wärme geforderte Bewegung von in ruhenden Flüssigkeiten suspendierten Teilchen”, <i>Annalen der Physik</i> 17. Dirujuk lewat Sethna Bab 2."
+    "Einstein (1905), “Über die von der molekularkinetischen Theorie der Wärme geforderte Bewegung von in ruhenden Flüssigkeiten suspendierten Teilchen”, <i>Annalen der Physik</i> 17. Lokal."
   ]
 };
 
@@ -236,14 +236,14 @@ print(round(x.mean(), 3), round(x.var(), 3))     # 0.015 0.505</code></pre>
 /* ───────────────────────── 4.6 ───────────────────────── */
 window.LESSONS["4.6"] = {
   title: "Persamaan panas dan Fokker-Planck",
-  pre: "2.1, 3.7, 4.4, 4.5", min: 0,
+  pre: "2.1 turunan kedua, 2.4 integral, 2.9 distribusi normal, 3.7, 4.4, 4.5", min: 0,
   why: "Satu partikel bergoyang acak; jutaan partikel menyebar dengan mulus seperti tinta di air. Persamaan panas dan Fokker–Planck menggambarkan penyebaran itu sebagai satu kurva peluang yang bergerak. Ini cara pandang kedua atas model difusi: bukan satu lintasan, tapi seluruh distribusi data yang pelan-pelan melebur menjadi derau.",
   body: String.raw`
 <div class="box intuisi"><p>Pelajaran ini juga di tingkat intuisi. Persamaan diferensial parsial tidak diselesaikan secara formal; kita hanya membaca artinya (kelengkungan meratakan, drift menggeser) dan memeriksanya dengan simulasi kisi.</p></div>
 <h2>Dari partikel ke kepadatan</h2>
 <p>Lepaskan sejuta partikel di titik 0 dan biarkan masing-masing berjalan acak (4.4). Lihat histogramnya, bukan satu partikel. Histogram itu awalnya paku tajam, lalu melebar menjadi lonceng normal yang makin pendek dan makin lebar. Kurva kepadatan u(x, t) ini mengikuti <b>persamaan panas</b> (atau persamaan difusi):</p>
 <div class="tx d">\frac{\partial u}{\partial t} = D\,\frac{\partial^2 u}{\partial x^2}</div>
-<p>Turunan kedua (2.1) mengukur kelengkungan. Di puncak, kurva melengkung ke bawah (turunan kedua negatif), jadi u turun. Di lembah, u naik. Persamaan ini meratakan apa saja: tonjolan dikikis, cekungan diisi. Itu juga cara panas menyebar di batang logam, yang membuat Fourier (1822) menemukan persamaan ini.</p>
+<p>Turunan kedua (2.1) mengukur kelengkungan. Di puncak, kurva melengkung ke bawah (turunan kedua negatif), jadi u turun. Di lembah, u naik. Persamaan ini meratakan apa saja: tonjolan dikikis, cekungan diisi. Itu juga cara panas menyebar di batang logam, yang membuat Fourier menemukan persamaan ini (dipresentasikan 1807, dibukukan 1822).</p>
 
 <h2>Jawaban untuk sebuah paku</h2>
 <p>Kalau semua kepadatan awalnya di x = 0, jawabannya distribusi normal yang melebar:</p>
@@ -285,7 +285,7 @@ window.LESSONS["4.7"] = {
   why: "Hamiltonian Monte Carlo (HMC), cara mengambil sampel dari posterior yang dipakai Stan dan PyMC, meminjam hukum gerak Newton versi Hamilton: biarkan sebuah bola meluncur tanpa gesekan di lanskap peluang. Pelajaran ini juga menunjukkan kenapa cara menghitung simulasi bisa lebih penting daripada ukuran langkahnya.",
   body: String.raw`
 <h2>Posisi, momentum, energi total</h2>
-<p>Hamilton (1833) menulis ulang mekanika Newton dengan dua variabel: posisi q dan momentum p (massa × kecepatan). Seluruh fisika sistem termuat dalam satu fungsi, <b>Hamiltonian</b> H, yaitu energi total:</p>
+<p>Sekitar tahun 1830-an, Hamilton menulis ulang mekanika Newton dengan dua variabel: posisi q dan momentum p (massa × kecepatan). Seluruh fisika sistem termuat dalam satu fungsi, <b>Hamiltonian</b> H, yaitu energi total:</p>
 <div class="tx d">H(q, p) = \underbrace{\tfrac{p^2}{2m}}_{\text{kinetik}} + \underbrace{U(q)}_{\text{potensial}}</div>
 <p>Hukum geraknya dua persamaan pendek:</p>
 <div class="tx d">\frac{dq}{dt} = \frac{\partial H}{\partial p}, \qquad \frac{dp}{dt} = -\frac{\partial H}{\partial q}</div>

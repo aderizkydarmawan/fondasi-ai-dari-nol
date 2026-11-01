@@ -130,15 +130,25 @@
   };
 
   /* 2.7 mencari arah eigen */
+  /* sudut (derajat bulat, 0–179) arah eigen real dari matriks 2×2; dipakai agar "Searah!" hanya muncul tepat di arah eigen */
+  function eigDeg(M) {
+    var a = M[0][0], b = M[0][1], c = M[1][0], d = M[1][1], tr = a + d, D = tr * tr - 4 * (a * d - b * c), out = [];
+    if (D < -1e-12) return out;
+    [(tr + Math.sqrt(Math.max(D, 0))) / 2, (tr - Math.sqrt(Math.max(D, 0))) / 2].forEach(function (L) {
+      var vs = Math.abs(b) > 1e-12 ? [[b, L - a]] : Math.abs(c) > 1e-12 ? [[L - d, c]] : [[1, 0], [0, 1]];
+      vs.forEach(function (v) { var g = ((Math.round(Math.atan2(v[1], v[0]) * 180 / Math.PI) % 180) + 180) % 180; if (out.indexOf(g) < 0) out.push(g); });
+    });
+    return out;
+  }
   W.eigen = function (h) {
     var f = frame(h, "Putar v (biru muda). Kalau Av (ungu) searah dengan v, kamu menemukan vektor eigen", [{ id: "t", label: "sudut v (derajat)", min: 0, max: 180, step: 1, v: 20, d: 0 }]);
     var p = Plane(f.svg, { x0: -3.5, x1: 3.5, y0: -3, y1: 3, h: 340, w: 560, sx: 1, sy: 1 }), M = [[2, 1], [1, 2]], name = "simetris";
     preset(f, [["[[2; 1]; [1; 2]]", [[2, 1], [1, 2]]], ["Regang [[2; 0]; [0; 1]]", [[2, 0], [0, 1]]], ["Geser [[1; 1]; [0; 1]]", [[1, 1], [0, 1]]], ["Putar 90°", [[0, -1], [1, 0]]]], function (m) { M = m; h._draw(); });
     h._draw = function () {
       var th = f.vals.t * Math.PI / 180, v = [Math.cos(th), Math.sin(th)], Av = [M[0][0] * v[0] + M[0][1] * v[1], M[1][0] * v[0] + M[1][1] * v[1]];
-      /* Searah kalau sudut antara v dan Av di bawah 0,5° (slider bergerak per 1°); λ = panjang Av, bertanda minus kalau berlawanan arah */
+      /* Searah hanya di sudut arah eigen yang dihitung tepat (eigDeg); λ = panjang Av, bertanda minus kalau berlawanan arah */
       var cross = v[0] * Av[1] - v[1] * Av[0], dot = v[0] * Av[0] + v[1] * Av[1], nAv = Math.hypot(Av[0], Av[1]);
-      var ang = Math.atan2(Math.abs(cross), Math.abs(dot)) * 180 / Math.PI, lam = (dot < 0 ? -1 : 1) * nAv, ok = nAv > 1e-9 && ang < 0.5; p.clear(); heads(f.svg);
+      var ang = Math.atan2(Math.abs(cross), Math.abs(dot)) * 180 / Math.PI, lam = (dot < 0 ? -1 : 1) * nAv, ok = nAv > 1e-9 && eigDeg(M).indexOf(f.vals.t % 180) >= 0; p.clear(); heads(f.svg);
       p.curve(function (x) { return Math.sqrt(Math.max(0, 1 - x * x)); }, "faint line", -1, 1); p.curve(function (x) { return -Math.sqrt(Math.max(0, 1 - x * x)); }, "faint line", -1, 1);
       p.seg(-3.5 * v[0], -3.5 * v[1], 3.5 * v[0], 3.5 * v[1], "guide");
       p.arrow(0, 0, Av[0], Av[1], "s1"); p.arrow(0, 0, v[0], v[1], "s2");

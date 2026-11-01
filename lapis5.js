@@ -30,7 +30,7 @@ Spam (y = 1): L = −log 0,953 ≈ 0,049
 Bukan spam (y = 0): L = −log(1 − 0,953) ≈ 3,05</div>
 <div class="ans">Jawaban: 0,953; loss 0,049 kalau benar, 3,05 kalau salah. Yakin tapi salah dihukum sekitar 60 kali lebih berat.</div></div>
 <p>Gradiennya sangat sederhana: <span class="tx">\partial L/\partial z = \hat p - y</span>, selisih tebakan dan kenyataan. Asalnya dari aturan rantai (2.2): turunan L terhadap p̂ adalah <span class="tx">-y/\hat p + (1-y)/(1-\hat p)</span> (turunan ln dari 2.1), turunan p̂ = σ(z) terhadap z adalah <span class="tx">\hat p(1-\hat p)</span> (2.2). Kalikan keduanya, banyak suku saling coret, dan sisanya p̂ − y. Di z = 3 dengan y = 1: 0,953 − 1 = −0,047.</p>
-<p>Berbeda dengan regresi linear, tidak ada rumus jawaban langsung, jadi bobotnya dicari dengan gradient descent. Untungnya loss ini <b>cembung</b>. Artinya: tali yang direntangkan di antara dua titik mana pun pada grafiknya selalu berada di atas grafik, sehingga grafiknya hanya punya satu lembah dan tidak ada lembah palsu tempat GD bisa terjebak. Untuk satu variabel, cembung berarti turunan keduanya tidak pernah negatif (x² cembung; x⁴ − x² tidak, karena punya dua lembah). Jadi GD sampai ke dasar, asal learning rate cukup kecil (3.1). Satu pengecualian: kalau kedua kelas bisa dipisahkan sempurna oleh garis, dasarnya ada di tak hingga dan bobot terus membesar; regularisasi (3.5) mencegah hal itu.</p>
+<p>Berbeda dengan regresi linear, tidak ada rumus jawaban langsung, jadi bobotnya dicari dengan gradient descent. Untungnya loss ini <b>cembung</b>. Artinya: tali yang direntangkan di antara dua titik mana pun pada grafiknya tidak pernah berada di bawah grafik, sehingga grafiknya hanya punya satu lembah (atau satu dasar datar) dan tidak ada lembah palsu tempat GD bisa terjebak. Untuk satu variabel, cembung berarti turunan keduanya tidak pernah negatif (x² cembung; x⁴ − x² tidak, karena punya dua lembah). Jadi GD sampai ke dasar, asal learning rate cukup kecil (3.1). Satu pengecualian: kalau kedua kelas bisa dipisahkan sempurna oleh garis, dasarnya ada di tak hingga dan bobot terus membesar; regularisasi (3.5) mencegah hal itu.</p>
 
 <h2>Periksa dengan Python</h2>
 <pre><code>import numpy as np
@@ -157,7 +157,7 @@ L = ½(−2 − 1)² = 4,5</div>
 ∂L/∂z = ∂L/∂h × ReLU'(z) = [−3 × 0; 3 × 1] = [0; 3]
 ∂L/∂W₁ = ∂L/∂z · xᵀ = [[0; 0]; [3; 6]]</div>
 <div class="ans">Jawaban: ∂L/∂w₂ = [0; −6], ∂L/∂W₁ = [[0; 0]; [3; 6]]. Baris pertama W₁ mendapat gradien nol, karena neuronnya mati (z negatif, dipotong ReLU).</div></div>
-<p>Dua langkah di atas perlu dijelaskan. <b>ReLU'(z)</b>, turunan ReLU, bernilai 0 kalau z negatif (grafiknya datar di sana) dan 1 kalau z positif (grafiknya garis miring 45°). Lalu <span class="tx">\partial L/\partial z \cdot \mathbf{x}^\top</span> adalah vektor kolom kali vektor baris, kebalikan dari aᵀb di 2.6. Hasilnya bukan satu angka, melainkan tabel: baris ke-i, kolom ke-j berisi (∂L/∂z)ᵢ × xⱼ. Di sini [0; 3] kali [1, 2] memberi [[0 × 1; 0 × 2]; [3 × 1; 3 × 2]] = [[0; 0]; [3; 6]]. Artinya masuk akal: bobot W₁ baris i, kolom j menghubungkan masukan j ke neuron i, jadi gradiennya = sinyal kesalahan neuron i × besar masukan j.</p>
+<p>Dua langkah di atas perlu dijelaskan. <b>ReLU'(z)</b>, turunan ReLU, bernilai 0 kalau z negatif (grafiknya datar di sana) dan 1 kalau z positif (grafiknya garis miring 45°). Tepat di z = 0 turunannya tidak terdefinisi; dalam praktik biasanya dipakai 0. Lalu <span class="tx">\partial L/\partial z \cdot \mathbf{x}^\top</span> adalah vektor kolom kali vektor baris, kebalikan dari aᵀb di 2.6. Hasilnya bukan satu angka, melainkan tabel: baris ke-i, kolom ke-j berisi (∂L/∂z)ᵢ × xⱼ. Di sini [0; 3] kali [1, 2] memberi [[0 × 1; 0 × 2]; [3 × 1; 3 × 2]] = [[0; 0]; [3; 6]]. Artinya masuk akal: bobot W₁ baris i, kolom j menghubungkan masukan j ke neuron i, jadi gradiennya = sinyal kesalahan neuron i × besar masukan j.</p>
 <p>Inilah <b>backpropagation</b> (Rumelhart, Hinton &amp; Williams, 1986): satu lintasan maju menyimpan semua nilai antara, satu lintasan mundur menghitung semua gradien sekaligus, dengan biaya kira-kira dua kali lintasan maju. Tanpa trik ini, model bermiliar bobot mustahil dilatih. Pustaka seperti PyTorch melakukannya otomatis (autodiff).</p>
 
 <h2>Periksa dengan Python</h2>
@@ -219,12 +219,13 @@ print(keluar, (k * k * kanal + 1) * banyak, keluar // 2)   # 32 1792 16</code></
 /* ───────────────────────── 5.6 ───────────────────────── */
 window.LESSONS["5.6"] = {
   title: "RNN dan LSTM",
-  pre: "5.4, 2.7 nilai eigen", min: 0,
+  pre: "5.4, 2.2 sigmoid, 2.7 nilai eigen", min: 0,
   why: "Teks, suara, dan deret waktu datang berurutan. Recurrent neural network membaca satu langkah demi satu sambil membawa ingatan. Masalah gradien yang lenyap pada RNN, dan solusi gerbang di LSTM, adalah pelajaran penting yang menjelaskan kenapa Transformer dan Mamba dirancang seperti sekarang.",
   body: String.raw`
 <h2>Satu sel, dipakai berulang</h2>
 <p>RNN menyimpan <b>keadaan tersembunyi</b> <span class="tx">\mathbf{h}_t</span>, ringkasan semua yang sudah dibaca. Di setiap langkah, keadaan baru dihitung dari keadaan lama dan masukan baru, dengan bobot yang sama setiap langkah:</p>
 <div class="tx d">\mathbf{h}_t = \tanh(W\mathbf{h}_{t-1} + U\mathbf{x}_t + \mathbf{b})</div>
+<p><b>tanh</b> (tangen hiperbolik) adalah fungsi aktivasi berbentuk S seperti sigmoid (2.2), tapi keluarannya dari −1 sampai 1, bukan 0 sampai 1. Rumusnya tanh(z) = (eᶻ − e⁻ᶻ)/(eᶻ + e⁻ᶻ), dan ternyata tanh(z) = 2σ(2z) − 1. Contoh: tanh(0) = 0, tanh(1) ≈ 0,762.</p>
 <p>Dilatih dengan backpropagation yang dibentangkan sepanjang waktu (backpropagation through time): jaringan dianggap sebagai tumpukan lapis sebanyak panjang urutan, semuanya berbagi bobot.</p>
 
 <h2>Masalahnya: gradien lenyap atau meledak</h2>
@@ -233,7 +234,7 @@ window.LESSONS["5.6"] = {
 <p>Faktor sedikit di bawah 1: gradien lenyap, dan model tidak bisa belajar hubungan jarak jauh ("kucing yang ... sedang tidur" butuh mengingat subjek). Faktor sedikit di atas 1: gradien meledak. Untuk matriks, yang menentukan adalah nilai eigen (2.7) W. Bengio dkk. (1994) dan Pascanu dkk. (2013) menganalisisnya; ledakan biasa diatasi dengan memotong panjang gradien (gradient clipping), tapi lenyapnya lebih sulit.</p>
 
 <h2>LSTM: jalur ingatan dengan gerbang</h2>
-<p>Hochreiter &amp; Schmidhuber (1997) menambahkan <b>sel ingatan</b> <span class="tx">\mathbf{c}_t</span> yang diperbarui dengan penjumlahan, bukan perkalian berulang:</p>
+<p>Hochreiter &amp; Schmidhuber (1997) menambahkan <b>sel ingatan</b> <span class="tx">\mathbf{c}_t</span> yang diperbarui dengan penjumlahan, bukan perkalian berulang. Versi aslinya hanya punya gerbang masuk dan gerbang keluaran; gerbang lupa (f di bawah) baru ditambahkan Gers, Schmidhuber &amp; Cummins (2000). Bentuk yang dipakai sekarang:</p>
 <div class="tx d">\mathbf{c}_t = \mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t \odot \tilde{\mathbf{c}}_t</div>
 <p>f (gerbang lupa) dan i (gerbang masuk) adalah angka antara 0 dan 1 dari sigmoid, dipelajari dari data, dan ⊙ berarti kali per elemen. Kalau f ≈ 1, ingatan dibawa utuh dan gradien mengalir tanpa melemah, seperti jalan pintas ResNet (5.5). Gerbang ketiga (keluaran) memilih bagian ingatan yang ditampilkan sebagai <span class="tx">\mathbf{h}_t</span>. GRU (Cho dkk., 2014) adalah versi yang lebih sederhana dengan dua gerbang.</p>
 
@@ -245,7 +246,7 @@ window.LESSONS["5.6"] = {
 `,
   src: [
     "Goodfellow, Bengio & Courville, <i>Deep Learning</i>, Bab 10, §10.7 “The Challenge of Long-Term Dependencies” dan §10.10 “The Long Short-Term Memory and Other Gated RNNs”. Lokal.",
-    "Hochreiter & Schmidhuber (1997), “Long Short-Term Memory”, <i>Neural Computation</i>; Cho dkk. (2014), RNN encoder–decoder (GRU). Lokal.",
+    "Hochreiter & Schmidhuber (1997), “Long Short-Term Memory”, <i>Neural Computation</i>; Gers, Schmidhuber & Cummins (2000), “Learning to Forget: Continual Prediction with LSTM”, dirujuk lewat Goodfellow §10.10; Cho dkk. (2014), RNN encoder–decoder (GRU). Lokal.",
     "Bengio, Simard & Frasconi (1994), “Learning long-term dependencies with gradient descent is difficult”. Lokal. Pascanu, Mikolov & Bengio (2013), “On the difficulty of training recurrent neural networks”, dirujuk lewat Goodfellow §10.7 dan §10.11."
   ]
 };
@@ -260,7 +261,7 @@ window.LESSONS["5.7"] = {
 <p>Bayangkan kamus: kamu punya pertanyaan (<b>query</b>), setiap entri punya <b>key</b> (kata kunci) dan <b>value</b> (isi). Kamus biasa mengembalikan isi dari kunci yang persis cocok. Attention mengembalikan <b>campuran</b> semua isi, dengan bobot sesuai seberapa cocok setiap kunci dengan pertanyaan.</p>
 <p>Kecocokan diukur dengan perkalian titik (1.8): vektor yang searah memberi skor tinggi. Skor diubah menjadi bobot dengan softmax (4.2):</p>
 <div class="tx d">\text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d}}\right) V</div>
-<p>Pembagian dengan <span class="tx">\sqrt{d}</span> (d = panjang vektor) menjaga skor tidak terlalu besar ketika d besar. Ia bekerja seperti suhu (4.2): tanpa itu, softmax terlalu tajam, hampir semua bobot jatuh ke satu kunci. Peluang yang sudah hampir 1 atau hampir 0 hampir tidak berubah walau skornya digeser (turunannya p(1 − p), mirip sigmoid di 2.2), jadi gradiennya nyaris nol dan model berhenti belajar.</p>
+<p>Pembagian dengan <span class="tx">\sqrt{d}</span> (d = banyaknya komponen vektor) menjaga skor tidak terlalu besar ketika d besar. Ia bekerja seperti suhu (4.2): tanpa itu, softmax terlalu tajam, hampir semua bobot jatuh ke satu kunci. Peluang yang sudah hampir 1 atau hampir 0 hampir tidak berubah walau skornya digeser (turunannya p(1 − p), mirip sigmoid di 2.2), jadi gradiennya nyaris nol dan model berhenti belajar.</p>
 <div class="ex"><div class="q">Query q = [1; 0]. Tiga kunci: k₁ = [1; 0], k₂ = [0; 1], k₃ = [1; 1]. Value: v₁ = [10; 0], v₂ = [0; 10], v₃ = [5; 5]. Hitung keluaran attention.</div>
 <div class="step">Skor q·k ÷ √2: [1; 0; 1] ÷ 1,414 = [0,707; 0; 0,707]
 Softmax: [0,401; 0,198; 0,401]
@@ -282,7 +283,7 @@ skor = K @ q / np.sqrt(2); w = np.exp(skor) / np.exp(skor).sum()
 print(w.round(3), (w @ V).round(2))   # [0.401 0.198 0.401] [6.02 3.98]</code></pre>
 `,
   src: [
-    "Vaswani dkk. (2017), “Attention Is All You Need”, <i>NeurIPS</i>. Lokal.",
+    "Vaswani dkk. (2017), “Attention Is All You Need”, <i>NIPS 2017</i> (sekarang bernama NeurIPS). Lokal.",
     "Bahdanau, Cho & Bengio (2015), “Neural Machine Translation by Jointly Learning to Align and Translate” (attention pertama). Lokal.",
     "Ba, Kiros & Hinton (2016), “Layer Normalization”; Dao dkk. (2022), “FlashAttention”. Lokal."
   ]

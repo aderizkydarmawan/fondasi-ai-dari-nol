@@ -22,6 +22,8 @@
     if (/KL/.test(s)) s = s.replace(/\\\|/g, function () { add("‖KL"); return " "; });
     /* garis tegak di dalam p(…|…) atau P(…|…) berarti "dengan syarat" */
     s = s.replace(/([pPqQ]\s*\([^()]*?)\|/g, function (_, a) { return a + "\\mid "; });
+    /* nama operator seperti \operatorname{Var} atau \text{KL} tetap masuk legenda */
+    s = s.replace(/\\(text|mathrm|operatorname)\s*\{\s*(Var|Cov|KL|softmax)\s*\}/g, function (_, f, w) { add(w); return " "; });
     s = s.replace(/\\(text|mathrm|operatorname|textbf|begin|end|color)\s*\{[^{}]*\}/g, " ");
     s = s.replace(/\\(mathbb|mathcal)\s*\{?\s*([A-Za-z0-9])\s*\}?/g, function (_, f, l) { add((FONT[f] || {})[l] || l); return " "; });
     s = s.replace(/\\(mathbf|boldsymbol|vec)\s*\{([^{}]*)\}/g, " $2 ");
@@ -67,7 +69,7 @@
     "*": "bintang: nilai terbaik (optimal)", "∘": "komposisi fungsi", "≡": "didefinisikan sama dengan", "∀": "untuk semua",
     "𝔼": "ekspektasi: rata-rata berbobot peluang (2.10)", "𝒩": "distribusi normal 𝒩(rata-rata, varians)", "ℝ": "himpunan bilangan real",
     "ℒ": "loss atau likelihood", "′": "aksen: turunan (f′ = turunan f)", "!": "faktorial: n! = 1·2·…·n", "|·|": "nilai mutlak (jarak ke nol) atau banyak anggota",
-    "Δ": "delta: selisih atau perubahan (ΔE = selisih energi)", "π": "pi ≈ 3,14159", "e": "bilangan Euler ≈ 2,718", "Pr": "peluang", "Var": "varians", "Cov": "kovarians", "KL": "divergensi KL (3.4)"
+    "Δ": "delta: selisih atau perubahan (ΔE = selisih energi)", "π": "pi ≈ 3,14159", "e": "bilangan Euler ≈ 2,718", "Pr": "peluang", "Var": "varians", "Cov": "kovarians", "KL": "divergensi KL (3.4)", "softmax": "softmax: mengubah skor jadi peluang yang jumlahnya 1 (4.2)"
   };
   var api = { tokens: tokens, tokensPlain: tokensPlain, SIMBOL: SIMBOL };
   if (typeof module !== "undefined" && module.exports) module.exports = api;

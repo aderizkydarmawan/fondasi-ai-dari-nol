@@ -29,7 +29,7 @@ Langkah 1.000: 0,001 × ½(1 + cos π) = 0</div>
 
 <h2>4. Regularisasi: lawan overfitting</h2>
 <ul><li><b>Dropout</b> (Srivastava dkk., 2014): saat melatih, matikan setiap neuron secara acak dengan peluang p. Jaringan dipaksa tidak bergantung pada satu neuron mana pun, seperti melatih banyak sub-jaringan sekaligus. Supaya rata-rata sinyal tetap, keluaran yang tersisa dikali 1/(1 − p) saat melatih; makalah aslinya mengecilkan bobot saat menguji, hasilnya setara.</li>
-<li><b>Weight decay</b>: denda untuk bobot besar, setara prior normal (3.3). AdamW (Loshchilov &amp; Hutter, 2019) memisahkan denda ini dari langkah Adam, dan menjadi standar untuk Transformer.</li>
+<li><b>Weight decay</b>: denda untuk bobot besar, setara prior normal (3.3). AdamW (Loshchilov &amp; Hutter, 2019) memisahkan denda ini dari langkah Adam. Di lapangan, AdamW kini jadi pilihan umum untuk melatih Transformer (ini praktik, bukan klaim makalahnya).</li>
 <li><b>Berhenti lebih awal</b> dan <b>augmentasi data</b> (membalik, memotong, memutar gambar) untuk memperbanyak variasi data latih.</li></ul>
 
 <h2>Periksa dengan Python</h2>
@@ -126,7 +126,7 @@ print(round(math.log(0.5) + math.log(1 - 0.5), 3), round(-math.log(4), 3))   # -
 /* ───────────────────────── 5.12 ───────────────────────── */
 window.LESSONS["5.12"] = {
   title: "Model difusi",
-  pre: "4.4, 4.5, 4.6, 5.10 reparameterisasi", min: 0,
+  pre: "4.4, 4.5, 4.6, 5.5 CNN, 5.10 reparameterisasi", min: 0,
   why: "Model difusi adalah mesin di balik Stable Diffusion, DALL·E, Midjourney, Sora, dan banyak model musik. Gagasannya dari fisika: rusak data perlahan dengan derau sampai menjadi derau murni, lalu latih jaringan untuk membalik proses itu langkah demi langkah. Semua alat Lapis 4 bertemu di sini.",
   body: String.raw`
 <h2>Proses maju: rusak perlahan</h2>
@@ -174,8 +174,9 @@ window.LESSONS["5.13"] = {
   why: "Inilah tujuan akhir yang kamu kejar: memahami ChatGPT, Claude, Gemini dari dalam. Ternyata intinya adalah tugas yang sangat sederhana, menebak potongan kata berikutnya, dijalankan dengan Transformer raksasa pada sebagian besar teks di internet, lalu diasah agar membantu dan aman.",
   body: String.raw`
 <h2>Satu tugas: tebak token berikutnya</h2>
-<p>Teks dipotong menjadi <b>token</b>: kata, bagian kata, atau tanda baca (biasanya puluhan ribu jenis, dibentuk dengan algoritma seperti byte-pair encoding). Model bahasa memberi peluang token berikutnya dari semua token sebelumnya. Peluang sebuah kalimat dipecah dengan aturan perkalian peluang (2.9):</p>
+<p>Teks dipotong menjadi <b>token</b>: kata, bagian kata, atau tanda baca (biasanya puluhan ribu jenis, dibentuk dengan algoritma seperti byte-pair encoding atau BPE: mulai dari huruf, lalu berulang kali menggabungkan pasangan yang paling sering muncul berdampingan menjadi satu token baru). Model bahasa memberi peluang token berikutnya dari semua token sebelumnya. Peluang sebuah kalimat dipecah dengan aturan perkalian peluang (2.9):</p>
 <div class="tx d">p(w_1, \dots, w_n) = \prod_{t=1}^{n} p(w_t \mid w_1, \dots, w_{t-1})</div>
+<p>Simbol ∏ berarti "kalikan semuanya", seperti Σ berarti "jumlahkan semuanya" (1.6). Jadi peluang kalimat = peluang kata pertama × peluang kata kedua kalau kata pertama sudah diketahui × dan seterusnya.</p>
 
 <h2>Versi paling kecil: bigram</h2>
 <p>Model bigram hanya melihat satu token terakhir, persis rantai Markov (3.8). Peluangnya dihitung dari frekuensi.</p>
@@ -185,11 +186,11 @@ window.LESSONS["5.13"] = {
 <p>Shannon (1948) sudah membangkitkan teks Inggris dengan cara ini. Masalahnya: konteks satu kata terlalu pendek, dan kombinasi yang tidak pernah muncul di korpus diberi peluang nol. LLM menggantikan tabel frekuensi dengan Transformer (5.7) yang melihat ribuan token ke belakang dan memberi peluang yang masuk akal untuk kalimat yang belum pernah ada.</p>
 
 <h2>Pelatihan awal (pretraining)</h2>
-<p>Loss-nya cross-entropy (3.4) untuk setiap token berikutnya, yang sama dengan MLE (3.2). Ukuran yang sering dilaporkan adalah <b>perplexity</b>, <span class="tx">e^{\text{loss}}</span>: model dengan loss 2 nat per token sama bingungnya dengan memilih acak dari sekitar 7,4 kemungkinan.</p>
-<p><b>Hukum skala</b>: Kaplan dkk. (2020) menemukan loss turun mulus mengikuti pangkat dari banyaknya parameter N, data D, dan komputasi. Biaya latih sekitar <span class="tx">6ND</span> operasi. Hoffmann dkk. (2022, Chinchilla) menunjukkan bahwa untuk anggaran komputasi tertentu, parameter dan token harus diperbesar bersama-sama: model 70 miliar parameter mereka dilatih pada 1,4 triliun token, kira-kira 20 token per parameter, sekitar <span class="tx">6 \times 70 \times 10^9 \times 1{,}4 \times 10^{12} \approx 5{,}9 \times 10^{23}</span> operasi.</p>
+<p>Loss-nya cross-entropy (3.4) untuk setiap token berikutnya, yang sama dengan MLE (3.2). Ukuran yang sering dilaporkan adalah <b>perplexity</b>, <span class="tx">e^{\text{loss}}</span>: model dengan loss 2 nat per token (nat adalah satuan informasi kalau logaritmanya ln; kalau log₂, satuannya bit, lihat 3.4) sama bingungnya dengan memilih acak dari sekitar 7,4 kemungkinan.</p>
+<p><b>Hukum skala</b>: Kaplan dkk. (2020) menemukan loss turun mulus mengikuti pangkat dari banyaknya parameter N, data D, dan komputasi. Biaya latih sekitar <span class="tx">6ND</span> operasi: kira-kira 2 operasi per parameter per token untuk langkah maju dan 4 untuk langkah mundur (backpropagation). Hoffmann dkk. (2022, Chinchilla) menunjukkan bahwa untuk anggaran komputasi tertentu, parameter dan token harus diperbesar bersama-sama: model 70 miliar parameter mereka dilatih pada 1,4 triliun token, kira-kira 20 token per parameter, sekitar <span class="tx">6 \times 70 \times 10^9 \times 1{,}4 \times 10^{12} \approx 5{,}9 \times 10^{23}</span> operasi.</p>
 
 <h2>Membangkitkan teks</h2>
-<p>Model menghasilkan logit untuk semua token, softmax dengan suhu T (4.2) mengubahnya menjadi peluang, satu token diambil, ditempel ke konteks, dan diulang. Suhu, top-k, dan top-p mengatur keseimbangan antara aman dan beragam. GPT-3 (Brown dkk., 2020) menunjukkan bahwa model yang cukup besar bisa mengerjakan tugas baru hanya dari beberapa contoh di dalam perintah (few-shot), tanpa dilatih ulang.</p>
+<p>Model menghasilkan logit untuk semua token, softmax dengan suhu T (4.2) mengubahnya menjadi peluang, satu token diambil, ditempel ke konteks, dan diulang. Selain suhu, ada <b>top-k</b> (undi hanya dari k token paling mungkin) dan <b>top-p</b> (undi hanya dari token teratas yang peluangnya, kalau dijumlah, mencapai p, misalnya 0,9). Ketiganya mengatur keseimbangan antara aman dan beragam. GPT-3 (Brown dkk., 2020) menunjukkan bahwa model yang cukup besar bisa mengerjakan tugas baru hanya dari beberapa contoh di dalam perintah (few-shot), tanpa dilatih ulang.</p>
 
 <h2>Dari peramal teks ke asisten</h2>
 <p>Model hasil pretraining hanya melanjutkan teks; ia belum tentu menjawab pertanyaan dengan sopan dan jujur. Ouyang dkk. (2022, InstructGPT) menambahkan dua tahap: <b>fine-tuning</b> pada contoh percakapan yang ditulis manusia, lalu <b>RLHF</b>: manusia membandingkan pasangan jawaban, sebuah model reward dilatih dari pilihan itu, dan model bahasa dioptimalkan dengan reinforcement learning (5.14) untuk mengejar reward, dengan denda KL (3.4) supaya tidak menyimpang jauh dari model awal.</p>
@@ -224,6 +225,7 @@ window.LESSONS["5.14"] = {
 <h2>Fungsi nilai dan persamaan Bellman</h2>
 <p>Nilai sebuah keadaan, V(s), adalah ekspektasi (2.10) imbalan total kalau mulai dari s dan bertindak sebaik mungkin. Bellman (1957) memperhatikan bahwa nilai bisa ditulis secara berulang: nilai sekarang = imbalan langkah ini + γ × nilai keadaan berikutnya, dengan aksi terbaik.</p>
 <div class="tx d">V(s) = \max_a \Big[\, r(s, a) + \gamma \sum_{s'} P(s' \mid s, a)\,V(s') \Big]</div>
+<p>Dibaca dengan kata-kata: nilai keadaan s = coba setiap aksi a, dan untuk tiap aksi jumlahkan imbalan langsung r ditambah γ kali nilai keadaan berikutnya. Karena keadaan berikutnya s′ bisa acak, nilainya dirata-rata dengan bobot peluangnya (itulah Σ atas s′). Lalu <b>max</b> atas a: ambil aksi yang hasilnya paling besar.</p>
 <div class="ex"><div class="q">Lorong lima kotak; kotak paling kanan adalah tujuan. Melangkah ke tujuan memberi imbalan 1, langkah lain 0. γ = 0,9. Berapa nilai setiap kotak?</div>
 <div class="step">Satu langkah dari tujuan: 1
 Dua langkah: 0 + 0,9 × 1 = 0,9
@@ -273,7 +275,7 @@ dt = T / langkah
 S = np.full(n, 100.0)
 for _ in range(langkah):
     S = S + mu * S * dt + sig * S * np.sqrt(dt) * rng.standard_normal(n)
-print(round(np.log(S).mean() - np.log(100), 3))   # 0.08
+print(round(np.log(S).mean() - np.log(100), 2))   # ≈ 0.08 (acak)
 print(round(mu - sig**2 / 2, 3))                  # 0.08</code></pre></div>
 
 <h2>Gagasan besar: lindung nilai menghapus risiko</h2>

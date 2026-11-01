@@ -154,7 +154,7 @@
       path(p, A, "s1 line"); path(p, B, "s2 line"); A.forEach(function (q) { p.dot(q[0], q[1], "s1 dot", 3); }); B.forEach(function (q) { p.dot(q[0], q[1], "s2 dot", 3); });
       var l2 = 1 - a - b;
       f.out.innerHTML = "P = [[" + fmt(1 - a) + "; " + fmt(a) + "]; [" + fmt(b) + "; " + fmt(1 - b) + "]]. Peluang cerah jangka panjang π = b/(a + b) = <b>" + fmt(pi, 3) + "</b>. Nilai eigen kedua 1 − a − b = <b>" + fmt(l2, 2) + "</b>: selisih ke π dikali angka ini setiap hari. " +
-        (Math.abs(l2) > 0.9 ? (l2 < 0 ? "Hampir −1: rantai berayun bolak-balik dan lambat mengendap." : "Hampir 1: rantai lambat lupa keadaan awalnya.") : l2 < 0 ? "Negatif: kurva berzig-zag di sekitar π." : "Kurva merayap mulus ke π.");
+        (l2 < -0.999 ? "Tepat −1: rantai berpindah keadaan setiap hari tanpa henti. Kedua garis bertukar tempat terus dan <b>tidak pernah</b> bertemu di π. Rantai seperti ini disebut periodik." : Math.abs(l2) > 0.9 ? (l2 < 0 ? "Hampir −1: rantai berayun bolak-balik dan lambat mengendap." : "Hampir 1: rantai lambat lupa keadaan awalnya.") : l2 < 0 ? "Negatif: kurva berzig-zag di sekitar π." : "Kurva merayap mulus ke π.");
     }; h._draw();
   };
 })();

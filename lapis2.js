@@ -43,6 +43,16 @@ ln x: (ln 2,001 − ln 2) ÷ 0,001 ≈ 0,49988, dekat 1/2</div>
 <div class="ans">Jawaban: cocok dengan aturan: turunan eˣ di 1 adalah e, turunan ln x di 2 adalah 1/2.</div></div>
 <p>Turunan ln x inilah yang dipakai saat melatih model dengan log-likelihood (3.2) dan cross-entropy (3.4).</p>
 
+<h2>Turunan kedua: kemiringan dari kemiringan</h2>
+<p>Turunan f' sendiri adalah fungsi, jadi ia juga punya turunan. Itu disebut <b>turunan kedua</b>, ditulis f''. Kalau f' mengukur kemiringan, f'' mengukur seberapa cepat kemiringan berubah, yaitu kelengkungan. f'' &gt; 0: grafik melengkung ke atas seperti mangkuk (lembah). f'' &lt; 0: melengkung ke bawah seperti bukit (puncak).</p>
+<div class="ex"><div class="q">f(x) = x³. Hitung f'' di x = 1.</div>
+<div class="step">f'(x) = 3x²  (aturan pangkat)
+f''(x) = 6x  (turunkan sekali lagi)
+f''(1) = 6
+Cek selisih kecil: (f'(1,001) − f'(1)) ÷ 0,001 = (3,006003 − 3) ÷ 0,001 ≈ 6,003</div>
+<div class="ans">Jawaban: f''(1) = 6, positif, jadi di x = 1 grafik x³ melengkung ke atas.</div></div>
+<p>Turunan kedua dipakai untuk membedakan lembah dari puncak, untuk mendefinisikan fungsi cembung (5.1), dan di persamaan panas (4.6).</p>
+
 <h2>Membaca turunan</h2>
 <ul><li><b>f' &gt; 0</b>: fungsi sedang naik. Geser x ke kanan, f bertambah.</li>
 <li><b>f' &lt; 0</b>: fungsi sedang turun.</li>
@@ -463,7 +473,7 @@ for k in (1, 2, 3):                         # aturan 68-95-99,7
 # 3 0.9973</code></pre>
 `,
   src: [
-    "Grinstead & Snell, <i>Introduction to Probability</i>, Bab 1 “Discrete Probability Distributions”, Bab 2 “Continuous Probability Densities”, dan Bab 5 “Important Distributions and Densities”. Lokal (gratis).",
+    "Grinstead & Snell, <i>Introduction to Probability</i>, Bab 1 “Discrete Probability Distributions”, Bab 2 “Continuous Probability Densities”, dan Bab 5 “Distributions and Densities” (§5.1 “Important Distributions”, §5.2 “Important Densities”). Lokal (gratis).",
     "Deisenroth, Faisal & Ong, <i>Mathematics for Machine Learning</i>, §6.2 “Discrete and Continuous Probabilities” dan §6.5 “Gaussian Distribution”. Lokal.",
     "Downey, <i>Think Stats</i> (repo lokal <code>AllenDowney__ThinkStats</code>), bab distribusi."
   ]

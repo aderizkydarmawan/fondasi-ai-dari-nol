@@ -65,7 +65,7 @@ for lr in (0.1, 1.1):
   src: [
     "Goodfellow, Bengio & Courville, <i>Deep Learning</i>, §8.3 “Basic Algorithms” (SGD, momentum) dan §8.5 “Algorithms with Adaptive Learning Rates”. Lokal.",
     "Robbins & Monro (1951), “A stochastic approximation method”; Polyak (1964), metode heavy-ball (momentum). Lokal.",
-    "Kingma & Ba (2015), “Adam: A Method for Stochastic Optimization”, <i>ICLR</i>; Loshchilov & Hutter, “Decoupled Weight Decay Regularization” (AdamW). Lokal.",
+    "Kingma & Ba (2015), “Adam: A Method for Stochastic Optimization”, <i>ICLR</i>; Loshchilov & Hutter (2019), “Decoupled Weight Decay Regularization” (AdamW), <i>ICLR</i>. Lokal.",
     "Deisenroth, Faisal & Ong, <i>Mathematics for Machine Learning</i>, §7.1 “Optimization Using Gradient Descent”. Lokal."
   ]
 };
@@ -389,7 +389,7 @@ window.LESSONS["3.8"] = {
 <h2>Di AI</h2>
 <ul><li><b>Model bahasa n-gram</b> (Shannon, 1948): keadaan = kata terakhir, transisi = peluang kata berikutnya. LLM modern memakai konteks yang jauh lebih panjang, tapi pembangkitan token demi token tetap berbentuk rantai.</li>
 <li><b>PageRank</b>: peselancar acak berpindah antarhalaman lewat tautan. Peringkat sebuah halaman = peluang stasioner peselancar ada di sana.</li>
-<li><b>MCMC</b> (Metropolis 1953, Hastings 1970): untuk mengambil sampel dari posterior yang rumit (3.3), rancang rantai Markov yang distribusi stasionernya adalah posterior itu, lalu jalankan lama.</li>
+<li><b>MCMC</b> (Metropolis dkk. 1953, Hastings 1970): untuk mengambil sampel dari posterior yang rumit (3.3), rancang rantai Markov yang distribusi stasionernya adalah posterior itu, lalu jalankan lama.</li>
 <li><b>Reinforcement learning</b> (5.14) dan <b>model difusi</b> (5.12): proses keputusan Markov dan rantai penambahan derau.</li></ul>
 
 <h2>Periksa dengan Python</h2>

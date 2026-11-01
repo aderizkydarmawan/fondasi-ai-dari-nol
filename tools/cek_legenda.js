@@ -12,12 +12,14 @@ const same = (a, b) => assert.deepStrictEqual([...a].sort(), [...b].sort());
 same(LEG.tokensPlain("θ ← θ − ηv", true), ["θ", "←", "η", "v"]);
 same(LEG.tokensPlain("Peluang A dan B terjadi"), ["A", "B"]);
 same(LEG.tokens("P(A|B) = P(B|A)P(A)/P(B)"), ["P", "A", "|", "B"]);
-same(LEG.tokens("D_{\\text{KL}}(q \\,\\|\\, p)"), ["D", "q", "‖KL", "p"]);
+same(LEG.tokens("D_{\\text{KL}}(q \\,\\|\\, p)"), ["D", "KL", "q", "‖KL", "p"]);
 same(LEG.tokens("\\|x\\|"), ["‖‖", "x"]);
 same(LEG.tokens("|x - y|"), ["|·|", "x", "y"]);
 same(LEG.tokens("\\overline{x} + \\mathbb{1}[y]"), ["¯", "x", "𝟙", "y"]);
 same(LEG.tokens("\\hat{y} = \\sigma(\\mathbf{w}^\\top \\mathbf{x})"), ["ˆ", "y", "σ", "w", "ᵀ", "x"]);
 same(LEG.tokens("f'(x)"), ["f", "′", "x"]);
+same(LEG.tokens("\\operatorname{Var}(aX) + \\text{KL}"), ["Var", "a", "X", "KL"]);
+same(LEG.tokens("\\text{softmax}(z)"), ["softmax", "z"]);
 assert.ok(!/siku/.test(LEG.SIMBOL["⟨⟩"]), "⟨⟩ adalah kurung sudut");
 console.log("uji pemecah simbol: lulus");
 
