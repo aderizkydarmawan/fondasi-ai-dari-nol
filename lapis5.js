@@ -270,6 +270,7 @@ window.LESSONS["5.7"] = {
   why: "Transformer adalah arsitektur di balik GPT, Claude, Gemini, BERT, dan model gambar modern. Inti barunya hanya satu rumus: attention, cara setiap kata memutuskan kata lain mana yang perlu diperhatikan. Rumus itu dibangun sepenuhnya dari alat yang sudah kamu pelajari: perkalian titik, matriks, dan softmax.",
   body: String.raw`
 <h2>Gagasannya: mencari di kamus yang lentur</h2>
+<p class="adegan">Ambil kalimat "Rina menaruh kunci di meja karena ia buru-buru". Saat membaca kata "ia", kamu otomatis menoleh ke belakang dan memutuskan kata mana yang dirujuk. Attention melakukan hal yang sama secara angka: kata "ia" memberi perhatian besar ke "Rina", perhatian kecil ke "kunci" dan "meja", lalu maknanya diperkaya dengan campuran kata-kata itu sesuai besar perhatiannya.</p>
 <p>Bayangkan kamus: kamu punya pertanyaan (<b>query</b>), setiap entri punya <b>key</b> (kata kunci) dan <b>value</b> (isi). Kamus biasa mengembalikan isi dari kunci yang persis cocok. Attention mengembalikan <b>campuran</b> semua isi, dengan bobot sesuai seberapa cocok setiap kunci dengan pertanyaan.</p>
 <p>Kecocokan diukur dengan perkalian titik (1.8): vektor yang searah memberi skor tinggi. Skor diubah menjadi bobot dengan softmax (4.2):</p>
 <div class="tx d">\text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d}}\right) V</div>
@@ -308,6 +309,7 @@ window.LESSONS["5.8"] = {
   why: "Attention mahal untuk teks yang sangat panjang (biayanya n²). State space model (SSM) seperti S4 dan Mamba membaca urutan dengan biaya sebanding n, seperti RNN, tapi bisa dilatih secepat CNN. Mereka menghubungkan ODE dari Lapis 3 dengan model bahasa modern, dan kini dipakai dalam model hibrida bersama attention.",
   body: String.raw`
 <h2>Kembali ke ODE linear</h2>
+<p class="adegan">Bayangkan kamu membaca novel tebal tapi hanya boleh membawa satu kartu catatan kecil. Di setiap halaman, kamu memperbarui kartu itu dengan sebagian isi lama yang masih penting ditambah informasi baru, dan semua pertanyaan tentang cerita harus dijawab hanya dari kartu itu. Kartu itulah hidden state, SSM adalah aturan matematis untuk memperbaruinya, dan Mamba menambahkan kemampuan memilih, yaitu memutuskan bagian mana yang layak dicatat dan mana yang boleh dilewati.</p>
 <p>SSM berangkat dari sistem kontrol klasik: hidden state h(t) berubah menurut ODE linear (3.7) yang digerakkan masukan x(t), lalu keluaran y dibaca dari keadaan:</p>
 <div class="tx d">\frac{d\mathbf{h}}{dt} = A\mathbf{h} + B x, \qquad y = C\mathbf{h}</div>
 <p>Untuk data berlangkah diskret (token), ODE ini diubah menjadi aturan langkah, misalnya dengan ukuran langkah Δ:</p>

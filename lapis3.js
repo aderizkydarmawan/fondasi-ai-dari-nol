@@ -175,6 +175,7 @@ window.LESSONS["3.4"] = {
   why: "Cross-entropy adalah loss yang dipakai untuk melatih hampir semua classifier dan seluruh large language model (LLM). Divergensi KL muncul di VAE (5.10), RLHF (melatih chatbot dengan penilaian manusia, 5.13), distilasi model (model kecil belajar meniru model besar), dan model difusi (5.12). Ketiganya berasal dari satu pertanyaan Claude Shannon tahun 1948: seberapa banyak informasi dalam sebuah pesan?",
   body: String.raw`
 <h2>Kejutan dan informasi</h2>
+<p class="adegan">Bayangkan permainan tebak hewan dengan pertanyaan ya/tidak. Kalau temanmu memilih satu dari 8 hewan yang sama mungkinnya, kamu selalu butuh tepat 3 pertanyaan, karena setiap jawaban membelah kemungkinan menjadi dua (8 → 4 → 2 → 1). Satu pertanyaan ya/tidak seperti itu adalah arti satu <b>bit</b>, dan kejadian yang makin jarang butuh makin banyak pertanyaan untuk ditunjuk.</p>
 <p>Kabar "besok matahari terbit" tidak memberi informasi; semua orang sudah tahu. Kabar "besok turun salju di Jakarta" sangat mengejutkan. Shannon mengukur kejutan sebuah kejadian dengan peluang p sebagai <span class="tx">-\log_2 p</span> bit. Peluang 1/2 memberi 1 bit, peluang 1/8 memberi 3 bit, peluang 1 memberi 0 bit.</p>
 
 <h2>Entropi: kejutan rata-rata</h2>

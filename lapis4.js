@@ -110,6 +110,7 @@ window.LESSONS["4.3"] = {
   why: "Posterior Bayes (3.3) untuk model besar tidak bisa dihitung tepat. Jalan keluar paling populer, inferensi variasional, adalah resep fisika: minimalkan energi bebas. Inilah matematika di balik VAE, loss ELBO, dan banyak metode ketidakpastian dalam deep learning.",
   body: String.raw`
 <h2>Tarik-menarik energi dan entropi</h2>
+<p class="adegan">Bayangkan udara di sekitar bumi. Gravitasi menarik semua molekul udara ke bawah, sehingga kalau hanya energi yang diperhitungkan, seluruh udara akan rebah sebagai lapisan tipis di permukaan tanah. Kenyataannya udara tetap tersebar sampai berkilo-kilometer ke atas, karena gerak acak molekul akibat panas terus mendorongnya menyebar ke lebih banyak kemungkinan posisi. Susunan yang akhirnya kita lihat adalah kompromi antara tarikan ke energi rendah dan dorongan untuk menyebar, dan makin panas suhunya, makin menang dorongan menyebar itu.</p>
 <p>Pada suhu T, alam tidak sekadar meminimalkan energi, juga tidak sekadar memaksimalkan entropi. Yang diminimalkan adalah kompromi keduanya, <b>energi bebas</b>:</p>
 <div class="tx d">F = \langle E \rangle - T\,S</div>
 <p>Tanda kurung sudut <span class="tx">\langle E \rangle</span> adalah cara fisikawan menulis ekspektasi, sama dengan <span class="tx">\mathbb{E}[E]</span> dari 2.10: energi rata-rata, ditimbang peluang tiap keadaan. S adalah entropi Boltzmann dari 4.1.</p>
@@ -193,6 +194,7 @@ window.LESSONS["4.5"] = {
   body: String.raw`
 <div class="box intuisi"><p>Pelajaran ini sengaja berhenti di tingkat intuisi. Kalkulus Itô, yang membuat dW benar-benar bermakna, tidak diturunkan di sini; cukup pegang gambarnya: drift menarik, noise menggoyang, dan rumus rata-rata serta varians OU yang bisa kamu cek sendiri dengan simulasi.</p></div>
 <h2>ODE ditambah noise</h2>
+<p class="adegan">Bayangkan daun yang hanyut di sungai. Arus membawanya ke hilir dengan arah yang bisa diramal, dan itulah bagian ODE, sementara riak-riak kecil terus menyenggolnya ke kiri dan ke kanan secara acak, dan itulah noise. Kalau kamu melepas seratus daun dari titik yang sama, semuanya bergerak ke hilir tapi makin lama makin menyebar, dan SDE adalah bahasa untuk menulis dua gaya itu sekaligus.</p>
 <p>ODE (3.7) berkata: perubahan = arah × waktu. SDE menambahkan tendangan acak dari gerak Brown (4.4):</p>
 <div class="tx d">dX = \underbrace{f(X)\,dt}_{\text{drift}} + \underbrace{\sigma\,dW}_{\text{noise}}</div>
 <p>Drift menarik X ke suatu arah; suku noise menggoyangnya. Karena W acak, setiap kali dijalankan lintasannya berbeda. Yang bisa diramalkan adalah <b>distribusi</b> X, bukan nilai persisnya.</p>
@@ -287,6 +289,7 @@ window.LESSONS["4.7"] = {
   why: "Hamiltonian Monte Carlo (HMC), cara mengambil sampel dari posterior yang dipakai Stan dan PyMC, meminjam hukum gerak Newton versi Hamilton: biarkan sebuah bola meluncur tanpa gesekan di lanskap peluang. Pelajaran ini juga menunjukkan kenapa cara menghitung simulasi bisa lebih penting daripada ukuran langkahnya.",
   body: String.raw`
 <h2>Posisi, momentum, energi total</h2>
+<p class="adegan">Bayangkan bandul yang berayun tanpa gesekan. Di titik tertinggi ia diam sesaat tapi posisinya paling jauh dari tengah, sedangkan di titik terendah posisinya tepat di tengah tapi lajunya paling kencang, sehingga energi terus berpindah bolak-balik antara "posisi" dan "gerak" tanpa pernah hilang. Hamilton mencatat bandul itu sebagai titik di peta dua sumbu, posisi dan momentum, sehingga ayunan bolak-balik itu tergambar sebagai satu titik yang berputar mengelilingi lingkaran (atau elips) yang sama terus-menerus.</p>
 <p>Sekitar tahun 1830-an, Hamilton menulis ulang mekanika Newton dengan dua variabel: posisi q dan momentum p (massa × kecepatan). Seluruh fisika sistem termuat dalam satu fungsi, <b>Hamiltonian</b> H, yaitu energi total:</p>
 <div class="tx d">H(q, p) = \underbrace{\tfrac{p^2}{2m}}_{\text{kinetik}} + \underbrace{U(q)}_{\text{potensial}}</div>
 <p>Hukum geraknya dua persamaan pendek:</p>

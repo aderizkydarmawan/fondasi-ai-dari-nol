@@ -55,6 +55,7 @@ window.LESSONS["5.10"] = {
   why: "Autoencoder belajar meringkas data menjadi sedikit angka lalu membangunnya kembali. Variational autoencoder (VAE) mengubah ringkasan itu menjadi ruang yang bisa disampel, sehingga model bisa membuat data baru. Encoder VAE dipakai di Stable Diffusion untuk memampatkan gambar sebelum proses difusi (5.12).",
   body: String.raw`
 <h2>Autoencoder: peras lalu bangun ulang</h2>
+<p class="adegan">Bayangkan kamu harus menjelaskan wajah seseorang lewat telepon hanya dengan 16 angka, misalnya lebar senyum, panjang rambut, dan arah pandang, lalu temanmu menggambar ulang wajah itu dari angka-angka tersebut. Kamu terpaksa memilih ciri yang paling penting dan merelakan detail kecil, dan pasangan "yang menjelaskan" dan "yang menggambar ulang" itulah encoder dan decoder.</p>
 <p>Autoencoder punya dua bagian: <b>encoder</b> memampatkan masukan x (misalnya gambar 784 piksel) menjadi kode pendek z (misalnya 16 angka), dan <b>decoder</b> membangun ulang <span class="tx">\hat x</span> dari z. Loss-nya adalah reconstruction error, yaitu seberapa beda hasil bangun ulang dari aslinya, misalnya <span class="tx">\|x - \hat x\|^2</span>. Karena z lebih sempit dari x, jaringan dipaksa menyimpan hanya hal terpenting. Autoencoder linear dengan loss kuadrat mempelajari ruang yang sama dengan PCA (2.8); dengan lapis nonlinear, ia bisa menangkap struktur yang melengkung.</p>
 <p>Masalahnya: ruang z dari autoencoder biasa berlubang-lubang. Ambil titik z acak dan decode, hasilnya sering sampah, karena tidak ada yang memaksa ruang itu teratur.</p>
 
@@ -131,6 +132,7 @@ window.LESSONS["5.12"] = {
   why: "Model difusi adalah mesin di balik Stable Diffusion, DALL·E, Midjourney, Sora, dan banyak model musik. Gagasannya dari fisika: rusak data perlahan dengan noise sampai menjadi noise murni, lalu latih jaringan untuk membalik proses itu langkah demi langkah. Semua alat Lapis 4 bertemu di sini.",
   body: String.raw`
 <h2>Proses maju: rusak perlahan</h2>
+<p class="adegan">Bayangkan setetes tinta di gelas air bening yang perlahan menyebar sampai airnya keruh merata. Arah ini mudah dan tidak butuh kecerdasan apa pun, sedangkan model difusi belajar menonton film itu terbalik: mulai dari air keruh yang acak, lalu sedikit demi sedikit mengumpulkan tintanya kembali menjadi bentuk yang jelas. Proses maju di bawah ini adalah bagian "tinta menyebar", yang dipakai untuk membuat bahan latihan.</p>
 <p>Mulai dari gambar asli <span class="tx">x_0</span>. Di setiap langkah t = 1, …, T, kecilkan sedikit gambarnya dan tambah sedikit noise normal dengan varians kecil <span class="tx">\beta_t</span>. Ho dkk. (2020) memakai T = 1000 dan β naik linear dari 0,0001 sampai 0,02. Ini rantai Markov (3.8) dan, kalau langkahnya diperhalus, SDE Ornstein–Uhlenbeck (gerak acak yang selalu ditarik kembali ke nol, 4.5).</p>
 <p>Untungnya, kita tidak perlu menjalankan t langkah satu per satu: langkah ke-t bisa dilompati langsung dengan trik reparameterisasi (5.10):</p>
 <div class="tx d">x_t = \sqrt{\bar\alpha_t}\;x_0 + \sqrt{1 - \bar\alpha_t}\;\varepsilon, \qquad \varepsilon \sim \mathcal{N}(0, I)</div>

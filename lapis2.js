@@ -282,6 +282,7 @@ window.LESSONS["2.6"] = {
   why: "Jaringan saraf dalam adalah gerakan yang disusun berurutan: lapis 1, lalu lapis 2, lalu lapis 3. Menyusun gerakan = mengalikan matriks. Invers menjawab pertanyaan sebaliknya: bisakah gerakan itu dibatalkan? Itu dipakai untuk menyelesaikan sistem persamaan, termasuk rumus tertutup regresi linear.",
   body: String.raw`
 <h2>Menyusun dua gerakan</h2>
+<p class="adegan">Bayangkan foto di ponselmu yang kamu putar 90°, lalu kamu tarik melebar dua kali ke samping. Dua langkah itu bisa diganti satu tombol "putar lalu lebarkan" yang hasilnya sama persis, dan tombol gabungan itulah hasil kali matriks. Urutannya penting, karena kalau foto dilebarkan dulu baru diputar, hasil akhirnya justru memanjang ke atas, bukan melebar ke samping.</p>
 <p>Lakukan A dulu, lalu B. Vektor x menjadi <span class="tx">B(Ax)</span>. Ternyata ada satu matriks yang melakukan keduanya sekaligus, yaitu hasil kali <span class="tx">BA</span>:</p>
 <div class="tx d">B(Ax) = (BA)\,x</div>
 <div class="rule"><mark>Hasil kali BA dibaca dari kanan ke kiri</mark>: A dikerjakan lebih dulu, seperti g(f(x)) di 1.3.</div>
@@ -337,6 +338,7 @@ window.LESSONS["2.7"] = {
   why: "Eigen adalah arah yang tidak dibelokkan oleh sebuah matriks, hanya diregangkan. PCA mencari arah eigen data, PageRank Google adalah vektor eigen, dan stabilitas pelatihan recurrent neural network (RNN) ditentukan oleh nilai eigen bobotnya: lebih dari 1 meledak, kurang dari 1 menghilang.",
   body: String.raw`
 <h2>Arah yang tidak dibelokkan</h2>
+<p class="adegan">Bayangkan selembar karet yang kamu gambari banyak panah dari titik tengah ke segala arah, lalu karet itu kamu tarik ke kanan dan ke kiri. Hampir semua panah ikut miring dan berubah arah, tapi panah yang sejak awal menunjuk lurus ke kanan atau ke kiri hanya bertambah panjang dan tetap berada di garisnya sendiri. Panah yang tidak dibelokkan seperti itulah <b>vektor eigen</b>, dan berapa kali ia diperpanjang adalah <b>nilai eigen</b>-nya.</p>
 <p>Sebagian besar vektor dibelokkan oleh matriks. Ambil <span class="tx">A = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}</span>. Vektor (1, 0) dikirim ke (2, 1): arahnya berubah. Tapi (1, 1) dikirim ke (3, 3): arahnya <b>sama</b>, hanya tiga kali lebih panjang.</p>
 <div class="rule">Vektor v (bukan nol) adalah <mark>vektor eigen</mark> A kalau <span class="tx">Av = \lambda v</span>. Angka λ (lambda) adalah <mark>nilai eigen</mark>: faktor regangannya.</div>
 <p>Kata "eigen" dari bahasa Jerman, artinya "milik sendiri": arah yang menjadi milik matriks itu sendiri.</p>
@@ -386,6 +388,7 @@ window.LESSONS["2.8"] = {
   why: "Data nyata punya ratusan kolom, tapi informasinya sering hanya tinggal di beberapa arah. SVD menemukan arah-arah itu untuk matriks apa pun, dan PCA memakainya untuk meringkas data. Kompresi gambar, sistem rekomendasi, dan fine-tuning LoRA pada LLM semuanya berdiri di atas gagasan ini.",
   body: String.raw`
 <h2>Setiap matriks = putar, regangkan, putar</h2>
+<p class="adegan">Bayangkan sebuah bola karet di tanganmu. Apa pun yang dilakukan sebuah matriks pada bola itu bisa diuraikan menjadi tiga gerakan: bola diputar dulu, lalu ditarik atau dipencet sepanjang beberapa sumbu yang saling tegak lurus sampai bentuknya lonjong, lalu bentuk lonjong itu diputar lagi ke posisi akhirnya. Seberapa kuat tarikan di tiap sumbu itulah yang nanti disebut singular value, dan PCA pada dasarnya mencari sumbu tarikan terpanjang dari sebuah awan data.</p>
 <p>Eigen (2.7) hanya bekerja untuk matriks persegi, dan tidak selalu rapi. SVD (<i>singular value decomposition</i>) bekerja untuk <b>semua</b> matriks:</p>
 <div class="tx d">A = U\,\Sigma\,V^{\top}</div>
 <p>Dibaca dari kanan: <span class="tx">V^{\top}</span> memutar, Σ meregangkan sepanjang sumbu (angka-angka di diagonalnya disebut <b>nilai singular</b> σ₁ ≥ σ₂ ≥ … ≥ 0), lalu U memutar lagi. Gerakan linear yang paling rumit pun hanya tiga gerakan sederhana.</p>
