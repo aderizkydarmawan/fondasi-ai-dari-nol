@@ -356,7 +356,7 @@ print(round(10 * math.exp(-2), 3))   # 1.353</code></pre>
 `,
   src: [
     "Strogatz, <i>Nonlinear Dynamics and Chaos</i> (2e), Bab 2: §2.1 “A Geometric Way of Thinking” dan §2.2 “Fixed Points and Stability”. Lokal.",
-    "Boyce & DiPrima, <i>Elementary Differential Equations and Boundary Value Problems</i>, Bab 1–2 dan bagian metode Euler. Lokal.",
+    "Boyce & DiPrima, <i>Elementary Differential Equations and Boundary Value Problems</i>, Bab 1–2, §2.7 “Numerical Approximations: Euler’s Method” dan §8.1 “The Euler or Tangent Line Method”. Lokal (hasil OCR).",
     "Chen dkk. (2018), “Neural Ordinary Differential Equations”, <i>NeurIPS</i>. Lokal."
   ]
 };
