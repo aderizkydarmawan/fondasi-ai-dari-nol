@@ -123,6 +123,18 @@ article b,article strong{color:var(--ink);font-weight:600}
 .lg i{font-style:normal;font-weight:700;color:var(--accent);margin-right:.25em}
 .rule .lg{margin:.7em 0 0}
 .viz .lg-viz{margin:.3em 0 .8em;padding-top:.5em}
+/* Widget di layar sempit: grafik dulu, lalu angka, lalu slider, supaya grafik terlihat saat slider digeser */
+@media (max-width:700px){
+  .viz{display:flex;flex-direction:column}
+  .viz > .viz-h,.viz > .coba{order:0}
+  .viz > svg{order:1}
+  .viz > .viz-out{order:2}
+  .viz > .viz-c{order:3}
+  .viz > .lg-viz{order:4}
+  .viz .viz-c label{flex:1 1 100%}
+}
+#view p{max-width:72ch}
+
 .lg .lg-lama{grid-column:1/-1;font-size:.82rem;opacity:.85}
 .lg .lg-lama i{margin:0 .1em}
 .lgbox{margin:0 0 2em;border-top:1px solid var(--line);padding-top:10px}
@@ -447,6 +459,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     // edge = [kiri, kanan] kolom baca: rumus hanya boleh di luar rentang ini
     for(var i=0;i<n;i++){
       var f = {t:list[i % list.length], x:Math.random()*w, y:Math.random()*innerHeight*2.2, s:16+Math.random()*20, d:.15+Math.random()*.5, ph:Math.random()*6.28, a:.07+Math.random()*.08, ox:0, oy:0, c:Math.random()<.25};
+      if(!edge && w < 700) f.a = .025 + Math.random()*.03; // di HP rumus latar menimpa teks: dibuat lebih samar
       if(edge){
         f.s = 14 + Math.random()*8; f.a = .04 + Math.random()*.04;
         bx.font = 'italic '+f.s+'px "Source Serif 4", serif'; var tw = bx.measureText(f.t).width + 24;

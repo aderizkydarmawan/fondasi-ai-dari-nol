@@ -79,6 +79,29 @@
     var esc = function (t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;"); };
     var NAMA = { "‖KL": "‖", "|·|": "| |", "⟨⟩": "⟨ ⟩", "‖‖": "‖ ‖" };
     function nama(t) { return NAMA[t] || t; }
+    /* Arti simbol slider yang ditulis khusus per widget (dipakai kalau arti umum di pelajaran kurang pas) */
+    var VIZLEG = {
+      "0.2": [["w", "bobot: seberapa kuat input memengaruhi neuron"], ["x", "input yang masuk ke neuron"], ["b", "bias: angka geser yang ditambahkan"]],
+      "0.3": [["p", "pembilang (angka di atas garis pecahan)"], ["q", "penyebut (angka di bawah garis pecahan)"]],
+      "1.2": [["c₁, c₂", "dua angka tetap (konstanta) yang kamu atur"]],
+      "1.9": [["w₁", "harga tambahan per 10 m² luas"], ["w₂", "harga tambahan per kamar"]],
+      "2.5": [["a", "angka kiri atas matriks"], ["b", "angka kanan atas"], ["c", "angka kiri bawah"], ["d", "angka kanan bawah"]],
+      "2.6": [["A", "matriks regangan: meregangkan bidang ke arah sumbu x"], ["R", "matriks putaran sebesar sudut yang dipilih"]],
+      "2.7": [["v", "vektor yang kamu putar; disebut vektor eigen kalau Av searah dengannya"], ["A", "matriks yang dipilih lewat tombol preset"]],
+      "2.9": [["n", "banyaknya lemparan koin"], ["p", "peluang berhasil (gambar) di tiap lemparan"]],
+      "3.2": [["n", "banyaknya lemparan"], ["k", "banyaknya hasil gambar dari n lemparan"]],
+      "3.4": [["p₁, p₂, p₃", "distribusi peluang yang benar"], ["q₁, q₂, q₃", "distribusi tebakan model"]],
+      "3.7": [["Δt", "ukuran satu langkah waktu di metode Euler"]],
+      "3.8": [["P(cerah → hujan)", "peluang besok hujan kalau hari ini cerah"], ["P(hujan → cerah)", "peluang besok cerah kalau hari ini hujan"]],
+      "4.1": [["kT", "suhu dikali konstanta Boltzmann: suhu dalam satuan energi"]],
+      "4.3": [["q₁, q₂, q₃", "bobot distribusi tebakan q (dinormalkan jadi peluang)"], ["kT", "suhu dalam satuan energi"]],
+      "4.7": [["Δt", "ukuran satu langkah waktu"]],
+      "5.4": [["x₁, x₂", "dua angka input"], ["t", "target: jawaban yang benar"]],
+      "5.6": [["λ", "faktor pengali gradien per langkah di RNN biasa"], ["f", "forget gate: bagian memori lama yang disimpan tiap langkah"]],
+      "5.7": [["d", "dimensi vektor key; skor dibagi √d"]],
+      "5.11": [["q", "sebaran data buatan generator; kamu atur rata-rata dan simpangan bakunya"]],
+      "5.13": [["T", "suhu: makin tinggi, pilihan token makin acak"]]
+    };
     function arti(id, t) { var L = root.LEGENDA[id] || {}; return L[t] || SIMBOL[t] || null; }
     root.legendify = function (view, id) {
       var all = [], seen = {}, groups = [];
@@ -119,8 +142,14 @@
     };
     /* Legenda untuk simbol di label slider widget (dipanggil setelah widget terpasang) */
     root.legendifyViz = function (view, id) {
+      var khusus = VIZLEG[id];
       [].forEach.call(view.querySelectorAll(".viz .viz-c"), function (c) {
         if (c.parentNode.querySelector(".lg-viz")) return;
+        if (khusus) {
+          var d0 = document.createElement("div"); d0.className = "lg lg-viz";
+          d0.innerHTML = "<b>Legenda</b> " + khusus.map(function (p) { return '<span><i>' + esc(p[0]) + "</i> " + esc(p[1]) + "</span>"; }).join("");
+          c.insertAdjacentElement("afterend", d0); return;
+        }
         var tk = [];
         [].forEach.call(c.querySelectorAll("label > span"), function (s) {
           var txt = s.textContent.split("=")[0];
