@@ -9,5 +9,6 @@ Object.assign(window.LEGENDA, {
 "1.5": { "a": "bilangan dasar yang dipangkatkan", "m": "pangkat pertama", "n": "pangkat kedua", "b": "bilangan kedua di dalam log" },
 "1.6": { "c": "konstanta: angka tetap yang sama untuk semua suku", "x": "data; xᵢ = data ke-i", "i": "nomor urut data (1, 2, 3, …)" },
 "1.7": { "x": "data; xᵢ = data ke-i, x̄ = rata-ratanya", "i": "nomor urut data" },
-"1.8": { "u": "vektor pertama; u₁, u₂, … isinya", "v": "vektor kedua; v₁, v₂, … isinya", "n": "banyak isi (panjang) vektor", "i": "nomor posisi di dalam vektor", "θ": "sudut antara dua vektor" }
+"1.8": { "u": "vektor pertama; u₁, u₂, … isinya", "v": "vektor kedua; v₁, v₂, … isinya", "n": "banyak isi (panjang) vektor", "i": "nomor posisi di dalam vektor", "θ": "sudut antara dua vektor" },
+"1.9": { "m": "kemiringan garis", "b": "titik potong sumbu y", "x": "data masukan; x̄ = rata-ratanya", "y": "data keluaran; ȳ = rata-ratanya" }
 });

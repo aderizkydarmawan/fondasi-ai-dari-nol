@@ -508,6 +508,25 @@ print(s / s.sum())                # softmax dari 1.5: [0.66524096 0.24472847 0.0
 
 <h2>Cara memasang dan menjalankan</h2>
 <p>Kalau sudah ada Python, jalankan <code>pip install numpy</code> di terminal. Cara lain tanpa memasang apa pun: buka <b>Google Colab</b> di browser, karena NumPy sudah tersedia di sana. Ketik ulang kode di halaman ini, jangan disalin-tempel, supaya jari dan kepala ikut belajar.</p>
+
+<h2>Penutup Lapis 1: garis terbaik dari empat titik</h2>
+<p>Rata-rata (1.6), selisih dari rata-rata (1.7), garis (1.4), dan hasil kali titik (1.8) cukup untuk membuat model AI paling sederhana: garis yang paling dekat dengan sekumpulan titik. Rumusnya (alasannya diturunkan di 5.1):</p>
+<div class="rule"><mark>m = Σ(x − x̄)(y − ȳ) ÷ Σ(x − x̄)²</mark>, lalu <mark>b = ȳ − m·x̄</mark>.</div>
+<div class="ex"><div class="q">Titik (1, 2), (2, 3), (3, 5), (4, 6). Cari garis y = mx + b yang paling cocok.</div>
+<div class="step">x̄ = 2,5 dan ȳ = 4
+x − x̄ = −1,5; −0,5; 0,5; 1,5      y − ȳ = −2; −1; 1; 2
+Σ(x − x̄)(y − ȳ) = 3 + 0,5 + 0,5 + 3 = 7
+Σ(x − x̄)² = 2,25 + 0,25 + 0,25 + 2,25 = 5
+m = 7 ÷ 5 = 1,4      b = 4 − 1,4 × 2,5 = 0,5</div>
+<div class="ans">Jawaban: y = 1,4x + 0,5. Tebakannya untuk x = 1, 2, 3, 4 adalah 1,9; 3,3; 4,7; 6,1, meleset rata-rata kuadrat hanya 0,05.</div></div>
+<p>Di NumPy, Σ(x − x̄)(y − ȳ) adalah hasil kali titik dua vektor selisih:</p>
+<pre><code>import numpy as np
+x = np.array([1, 2, 3, 4]); y = np.array([2, 3, 5, 6])
+dx, dy = x - x.mean(), y - y.mean()
+m = (dx @ dy) / (dx @ dx)
+b = y.mean() - m * x.mean()
+print(round(m, 2), round(b, 2))   # 1.4 0.5
+print(np.polyfit(x, y, 1).round(2))   # [1.4 0.5]</code></pre>
 `,
   src: [
     "Harris dkk. (2020), “Array programming with NumPy”, <i>Nature</i> 585: 357–362. Lokal: <code>Harris_dkk_Array_programming_with_NumPy.pdf</code>.",

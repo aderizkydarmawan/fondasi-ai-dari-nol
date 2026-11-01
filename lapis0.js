@@ -487,6 +487,15 @@ for h in [1, 0.1, 0.01, 0.001, 0.0001]:
 # 0.0001 4.0001000000078335</code></pre>
 <p>Ekor angka seperti 4,00999999999989 bukan salah hitung. Komputer menyimpan desimal dalam bentuk biner, jadi ada sisa pembulatan yang sangat kecil. Yang penting polanya: 5 → 4,1 → 4,01 → 4,001, menuju 4.</p>
 <p>Hasilnya bergerak dari 5 ke 4,1, lalu 4,01, dan seterusnya mendekati 4. Kalau <code>h</code> dibuat terlalu kecil, misalnya 1e-15, hasilnya justru kacau. Itu efek angka komputer yang tidak persis, seperti 0,1 + 0,2 di pelajaran 0.2.</p>
+
+<h2>Penutup Lapis 0: satu neuron dari awal sampai akhir</h2>
+<p>Semua alat di lapis ini dipakai sekaligus dalam satu hitungan kecil: urutan operasi (0.2), desimal (0.3), pangkat (0.4), dan laju perubahan (0.7). Hasilnya adalah langkah pertama cara AI belajar.</p>
+<div class="ex"><div class="q">Neuron menerima input 2 dan 0,5, dengan bobot 0,3 dan −0,4, dan bias 0,1. Targetnya 1. Hitung keluarannya, kesalahannya (selisih dengan target, dikuadratkan), lalu laju perubahan kesalahan kalau bobot pertama dinaikkan 0,01.</div>
+<div class="step">keluaran = 0,3 × 2 + (−0,4) × 0,5 + 0,1 = 0,6 − 0,2 + 0,1 = 0,5
+kesalahan = (0,5 − 1)² = (−0,5)² = 0,25
+bobot pertama jadi 0,31: keluaran = 0,62 − 0,2 + 0,1 = 0,52, kesalahan = (0,52 − 1)² = 0,2304
+laju = (0,2304 − 0,25) ÷ 0,01 = −0,0196 ÷ 0,01 = −1,96</div>
+<div class="ans">Jawaban: keluaran 0,5, kesalahan 0,25, laju −1,96. Lajunya negatif: menaikkan bobot pertama menurunkan kesalahan, jadi bobot itu sebaiknya dinaikkan sedikit. Mengulang "hitung laju, geser bobot ke arah yang menurunkan kesalahan" ribuan kali adalah gradient descent (3.1).</div></div>
 `,
   src: [
     "Thompson, <i>Calculus Made Easy</i>, Bab II “On different degrees of smallness”, Bab III “On relative growings”, dan Bab IV “Simplest cases” (turunan x² dari prinsip pertama). Lokal.",

@@ -146,6 +146,16 @@ article b,article strong{color:var(--ink);font-weight:600}
 .ingat li{margin:.2em 0}
 .coba{margin:.4em 0 .8em;color:var(--muted);font-size:.95rem}
 .coba b{color:var(--ink);font-weight:600}
+.bgg{margin-left:.6em;vertical-align:middle;font:italic 400 .82rem var(--f-body);color:var(--muted);background:none;border:1px dashed var(--line2);padding:2px 9px;min-height:28px;cursor:pointer}
+.bgg:hover{color:var(--ink);border-color:var(--accent)}
+.bgg[aria-pressed="true"]{color:var(--ink);border-style:solid;border-color:var(--accent);background:rgba(201,184,255,.12)}
+.bglist ul{list-style:none;padding:0;margin:0 0 1em;display:grid;gap:8px}
+.bglist li{display:grid;gap:2px;padding:10px 14px;border:1px solid var(--line2)}
+.bglist li span{color:var(--muted);font-size:.95rem}
+.bglist .cta{display:flex;gap:10px;flex-wrap:wrap}
+details.coba summary{cursor:pointer;min-height:24px}
+details.coba summary b{color:var(--accent)}
+.coba.tebak{color:var(--text);margin-bottom:.2em}
 .lg{margin:-.4em 0 1.4em;font-size:.86rem;line-height:1.45;color:var(--muted);display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:.25em 1.4em;padding:.6em 0 0;border-top:1px dashed var(--line)}
 .lg b{font-weight:600;color:var(--ink);grid-column:1/-1}
 .lg span{white-space:normal}
@@ -481,6 +491,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
   /* Kemajuan: disimpan di browser */
   function getDone(){ try{ return JSON.parse(localStorage.getItem('fondasi-selesai')||'[]'); }catch(e){ return []; } }
   function setDone(a){ try{ localStorage.setItem('fondasi-selesai', JSON.stringify(a)); }catch(e){} }
+  /* Penanda "bingung di sini": daftar bagian pelajaran yang belum klik, untuk dibawa ke chat latihan. */
+  function getBg(){ try{ return JSON.parse(localStorage.getItem('fondasi-bingung')||'[]'); }catch(e){ return []; } }
+  function setBg(a){ try{ localStorage.setItem('fondasi-bingung', JSON.stringify(a)); }catch(e){} }
+  function bgKey(id, h){ return id + '|' + h; }
+
   function isDone(id){ return getDone().indexOf(id) >= 0; }
   function lastId(){ var x = null; try{ x = localStorage.getItem('fondasi-terakhir'); }catch(e){} return L[x] ? x : null; }
 
@@ -696,6 +711,22 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     return function(){ alive = false; window.removeEventListener('resize', onR); };
   }
 
+  function bgList(){
+    var a = getBg().filter(function(x){ return L[x.id]; });
+    if(!a.length) return '';
+    return '<section class="bglist"><h2>Yang masih <em>membingungkan</em></h2><p>Bagian yang kamu tandai. Salin daftarnya lalu tempel di chat untuk minta penjelasan ulang atau latihan.</p><ul>'+
+      a.map(function(x){ return '<li><a href="#'+slug(x.id)+'">'+x.id+' · '+L[x.id].title+'</a><span>'+x.h.replace(/</g,'&lt;')+'</span></li>'; }).join('')+
+      '</ul><div class="cta"><button type="button" class="btn glow" id="bgCopy">Salin daftar</button><button type="button" class="btn" id="bgClear">Kosongkan</button></div></section>';
+  }
+  function bgWire(){
+    var c = document.getElementById('bgCopy'), k = document.getElementById('bgClear'); if(!c) return;
+    c.addEventListener('click', function(){
+      var t = 'Bagian yang masih membingungkan:\n' + getBg().filter(function(x){ return L[x.id]; }).map(function(x){ return '- ' + x.id + ' ' + L[x.id].title + ': ' + x.h; }).join('\n');
+      var done = function(){ c.textContent = 'Tersalin'; };
+      if(navigator.clipboard) navigator.clipboard.writeText(t).then(done, function(){ c.textContent = 'Gagal menyalin'; }); else c.textContent = 'Browser tidak mendukung salin';
+    });
+    k.addEventListener('click', function(){ setBg([]); var sct = document.querySelector('.bglist'); if(sct) sct.remove(); });
+  }
   function home(){
     var n = order.length, total = 0, done = getDone();
     window.KURIKULUM.forEach(function(l){ total += l.items.length; });
@@ -715,7 +746,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
           (last ? '<a class="btn primary glow" href="#'+slug(last)+'">Lanjutkan '+last+' · '+L[last].title+ico('arrow')+'</a>' : (first ? '<a class="btn primary glow" href="#'+slug(first)+'">Mulai dari '+first+ico('arrow')+'</a>' : ''))+
           '<a class="btn glow" href="#peta">'+ico('map')+'Lihat peta belajar</a>'+
         '</div><p class="cap"><b>'+n+' dari '+total+'</b>pelajaran sudah terbit</p></div></section>'+
-      window.journeyHTML()+'<div class="home-body">'+
+      window.journeyHTML()+'<div class="home-body">'+bgList()+
         '<section class="idea"><div><h2>Ide lama, wajah baru di <em>AI</em></h2><p>Hampir setiap teknik AI meminjam dari ilmu lain. Kalau fondasinya kuat, arsitektur baru terasa seperti teman lama.</p></div>'+
           '<ul><li><span>Pengolahan sinyal</span><span>menjadi</span><span>CNN</span></li><li><span>Teori kendali</span><span>menjadi</span><span>Mamba</span></li><li><span>Fisika statistik</span><span>menjadi</span><span>Model difusi</span></li><li><span>Probabilitas</span><span>menjadi</span><span>Attention</span></li></ul></section>'+
         '<section><h2>Enam <em>lapis</em>, dari akal sehat sampai riset</h2><ol class="layers">'+rows+'</ol></section>'+
@@ -724,6 +755,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
         '<section class="coda"><p>Batu itu butuh berabad-abad untuk belajar berhitung. Kamu cukup mulai dari satu pelajaran.</p>'+
           (last ? '<a class="btn primary glow" href="#'+slug(last)+'">Lanjutkan '+last+' · '+L[last].title+ico('arrow')+'</a>' : (first ? '<a class="btn primary glow" href="#'+slug(first)+'">Mulai dari '+first+ico('arrow')+'</a>' : ''))+'</section>'+
       '</div>';
+    bgWire();
     var hs = heroParticles(document.getElementById('heroc')), js = window.journey(main.querySelector('.journey'), mouse, dpr, RM);
     heroStop = function(){ hs(); js(); };
     seedF(AI_F);
@@ -784,7 +816,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     var hs = view.querySelectorAll('h2, .viz'), as = main.querySelector('aside.otl'); if(!as) return;
     if(hs.length < 2){ as.remove(); main.querySelector('.page').classList.add('solo'); return; }
     var h = '<b>Di halaman ini</b>';
-    [].forEach.call(hs, function(x, i){ x.id = 'b'+i; var t = x.cloneNode(true); var sm = t.querySelector('small'); if(sm) sm.remove(); h += '<a href="#" data-to="b'+i+'">'+(x.classList.contains('viz') ? 'Coba sendiri' : t.textContent)+'</a>'; });
+    [].forEach.call(hs, function(x, i){ x.id = 'b'+i; var t = x.cloneNode(true); var sm = t.querySelector('small'); if(sm) sm.remove(); var bq = t.querySelector('.bgg'); if(bq) bq.remove(); h += '<a href="#" data-to="b'+i+'">'+(x.classList.contains('viz') ? 'Coba sendiri' : t.textContent)+'</a>'; });
     as.innerHTML = h;
     as.addEventListener('click', function(e){ var a = e.target.closest('[data-to]'); if(!a) return; e.preventDefault(); document.getElementById(a.getAttribute('data-to')).scrollIntoView({behavior: RM ? 'auto' : 'smooth'}); });
     var links = as.querySelectorAll('a'), cur = null;
@@ -942,6 +974,19 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       d.innerHTML = '<summary>Lihat jawaban</summary>'; a.parentNode.insertBefore(d, a); d.appendChild(a);
     });
     if(window.glosarium) window.glosarium(view);
+    var bg = getBg();
+    [].forEach.call(view.querySelectorAll('h2'), function(h){
+      if(h.closest('.ex, .viz, .why, .ingat, .dalam')) return;
+      var t = h.textContent.trim(), on = bg.some(function(x){ return bgKey(x.id, x.h) === bgKey(id, t); });
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'bgg'; b.setAttribute('aria-pressed', on);
+      b.title = 'Tandai bagian ini masih membingungkan'; b.innerHTML = '<span>' + (on ? 'Ditandai bingung' : 'Bingung di sini?') + '</span>';
+      b.addEventListener('click', function(){
+        var a = getBg(), k = bgKey(id, t), ada = a.some(function(x){ return bgKey(x.id, x.h) === k; });
+        a = ada ? a.filter(function(x){ return bgKey(x.id, x.h) !== k; }) : a.concat([{id:id, h:t}]);
+        setBg(a); b.setAttribute('aria-pressed', !ada); b.firstChild.textContent = ada ? 'Bingung di sini?' : 'Ditandai bingung';
+      });
+      h.appendChild(b);
+    });
     outline();
     /* rumus latar diambil dari pelajaran ini, dicampur rumus AI */
     var own = [].map.call(view.querySelectorAll('.big, .rule mark'), function(e){ return e.textContent.trim(); }).filter(function(t){ return t.length > 2 && t.length < 26 && t.indexOf('\\') < 0 &&!/^(Hitung|Cari|Tentukan|Berapa)/.test(t); });

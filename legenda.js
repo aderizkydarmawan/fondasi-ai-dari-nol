@@ -55,21 +55,21 @@
     return out;
   }
   var SIMBOL = {
-    "∑": "jumlahkan semua suku (sigma besar)", "∏": "kalikan semua suku (pi besar)", "∫": "integral: jumlah kontinu / luas di bawah kurva",
-    "∇": "gradien (nabla): daftar semua turunan parsial", "∂": "turunan parsial: turunan terhadap satu variabel saja", "∞": "tak hingga",
-    "∼": "berdistribusi menurut (\"diambil dari\")", "∝": "sebanding dengan (sama sampai pengali konstan)", "≈": "kira-kira sama dengan",
-    "ᵀ": "transpos: tukar baris dan kolom (2.6)", "|": "dengan syarat / diketahui (peluang bersyarat)", "→": "menuju / menjadi",
-    "←": "isi ulang dengan nilai baru (pembaruan)", "⇒": "maka", "√": "akar kuadrat", "⟨⟩": "kurung sudut: rata-rata (ekspektasi) dari isinya",
-    "‖‖": "panjang (norma) vektor", "‖KL": "pemisah di KL(q ‖ p): q dibandingkan dengan p", "𝟙": "fungsi indikator: 1 kalau syaratnya benar, 0 kalau tidak", "ˆ": "topi: nilai tebakan/perkiraan", "¯": "garis atas: rata-rata", "˜": "tilde: versi lain / versi bernoise", "˙": "titik atas: laju perubahan terhadap waktu",
-    "log": "logaritma", "ln": "logaritma natural (basis e)", "exp": "exp(x) = eˣ", "max": "nilai terbesar", "min": "nilai terkecil",
-    "arg": "arg max/min: nilai masukan yang membuat fungsi terbesar/terkecil", "det": "determinan: faktor pengali luas (2.5)",
-    "tanh": "tangen hiperbolik, fungsi aktivasi berbentuk S antara −1 dan 1", "sin": "sinus", "cos": "kosinus", "lim": "limit: nilai yang didekati",
-    "≤": "kurang dari atau sama dengan", "≥": "lebih dari atau sama dengan", "≠": "tidak sama dengan", "⊙": "kali per elemen (posisi sama dikalikan)",
+    "∑": "jumlahkan semua suku (sigma besar) (1.6)", "∏": "kalikan semua suku (pi besar) (5.12)", "∫": "integral: jumlah kontinu / luas di bawah kurva (2.4)",
+    "∇": "gradien (nabla): daftar semua turunan parsial (2.3)", "∂": "turunan parsial: turunan terhadap satu variabel saja (2.3)", "∞": "tak hingga",
+    "∼": "berdistribusi menurut (\"diambil dari\"); soal distribusi lihat (2.9)", "∝": "sebanding dengan (sama sampai pengali konstan) (3.3)", "≈": "kira-kira sama dengan",
+    "ᵀ": "transpos: tukar baris dan kolom (2.6)", "|": "dengan syarat / diketahui (peluang bersyarat) (2.11)", "→": "menuju / menjadi",
+    "←": "isi ulang dengan nilai baru (pembaruan)", "⇒": "maka", "√": "akar kuadrat (0.4)", "⟨⟩": "kurung sudut: rata-rata (ekspektasi) dari isinya (4.3)",
+    "‖‖": "panjang (norma) vektor (1.8)", "‖KL": "pemisah di KL(q ‖ p): q dibandingkan dengan p", "𝟙": "fungsi indikator: 1 kalau syaratnya benar, 0 kalau tidak", "ˆ": "topi: nilai tebakan/perkiraan", "¯": "garis atas: rata-rata", "˜": "tilde: versi lain / versi bernoise", "˙": "titik atas: laju perubahan terhadap waktu",
+    "log": "logaritma (1.5)", "ln": "logaritma natural (basis e) (1.5)", "exp": "exp(x) = eˣ (1.5)", "max": "nilai terbesar", "min": "nilai terkecil",
+    "arg": "arg max/min: nilai masukan yang membuat fungsi terbesar/terkecil (3.2)", "det": "determinan: faktor pengali luas (2.5)",
+    "tanh": "tangen hiperbolik, fungsi aktivasi berbentuk S antara −1 dan 1 (5.6)", "sin": "sinus (0.6)", "cos": "kosinus (0.6)", "lim": "limit: nilai yang didekati (2.1)",
+    "≤": "kurang dari atau sama dengan", "≥": "lebih dari atau sama dengan", "≠": "tidak sama dengan", "⊙": "kali per elemen (posisi sama dikalikan) (5.6)",
     "⊗": "hasil kali tensor/luar", "∈": "anggota dari", "±": "plus atau minus", "≪": "jauh lebih kecil dari", "≫": "jauh lebih besar dari", "…": "dan seterusnya",
     "*": "bintang: nilai terbaik (optimal)", "∘": "komposisi fungsi", "≡": "didefinisikan sama dengan", "∀": "untuk semua",
-    "𝔼": "ekspektasi: rata-rata berbobot peluang (2.10)", "𝒩": "distribusi normal 𝒩(rata-rata, varians)", "ℝ": "himpunan bilangan real",
-    "ℒ": "loss atau likelihood", "′": "aksen: turunan (f′ = turunan f)", "!": "faktorial: n! = 1·2·…·n", "|·|": "nilai mutlak (jarak ke nol) atau banyak anggota",
-    "Δ": "delta: selisih atau perubahan (ΔE = selisih energi)", "π": "pi ≈ 3,14159", "e": "bilangan Euler ≈ 2,718", "Pr": "peluang", "Var": "varians", "Cov": "kovarians", "KL": "divergensi KL (3.4)", "softmax": "softmax: mengubah skor jadi peluang yang jumlahnya 1 (4.2)"
+    "𝔼": "ekspektasi: rata-rata berbobot peluang (2.10)", "𝒩": "distribusi normal 𝒩(rata-rata, varians) (2.9)", "ℝ": "himpunan bilangan real",
+    "ℒ": "loss atau likelihood", "′": "aksen: turunan (f′ = turunan f) (2.1)", "!": "faktorial: n! = 1·2·…·n (2.9)", "|·|": "nilai mutlak (jarak ke nol) atau banyak anggota",
+    "Δ": "delta: selisih atau perubahan (ΔE = selisih energi); soal laju perubahan lihat (0.7)", "π": "pi ≈ 3,14159", "e": "bilangan Euler ≈ 2,718 (1.5)", "Pr": "peluang", "Var": "varians (1.7)", "Cov": "kovarians (2.12)", "KL": "divergensi KL (3.4)", "softmax": "softmax: mengubah skor jadi peluang yang jumlahnya 1 (4.2)"
   };
   var api = { tokens: tokens, tokensPlain: tokensPlain, SIMBOL: SIMBOL };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
@@ -103,6 +103,8 @@
       "5.13": [["T", "suhu: makin tinggi, pilihan token makin acak"]]
     };
     function arti(id, t) { var L = root.LEGENDA[id] || {}; return L[t] || SIMBOL[t] || null; }
+    /* nomor pelajaran "(2.3)" di teks legenda jadi link ke pelajaran tempat simbol itu diajarkan */
+    function tautkan(h) { return h.replace(/\b([0-5])\.(\d{1,2})\b/g, function (m, a, b) { return root.LESSONS && root.LESSONS[m] ? '<a href="#p' + a + "-" + b + '">' + m + "</a>" : m; }); }
     root.legendify = function (view, id) {
       var all = [], seen = {}, groups = [];
       [].forEach.call(view.querySelectorAll(".tx, mark"), function (el) {
@@ -130,14 +132,14 @@
         var baru = g.tk.filter(function (t) { return !shown[t]; }), lama = g.tk.filter(function (t) { return shown[t]; });
         baru.forEach(function (t) { shown[t] = 1; });
         var d = document.createElement("div"); d.className = "lg";
-        d.innerHTML = "<b>Legenda</b> " + baru.map(function (t) { return '<span><i>' + esc(nama(t)) + "</i> " + esc(arti(id, t)) + "</span>"; }).join("") +
+        d.innerHTML = "<b>Legenda</b> " + baru.map(function (t) { return '<span><i>' + esc(nama(t)) + "</i> " + tautkan(esc(arti(id, t))) + "</span>"; }).join("") +
           (lama.length ? '<span class="lg-lama">' + (baru.length ? "Juga" : "Semua simbol") + " sudah dijelaskan di atas: " + lama.map(function (t) { return "<i>" + esc(nama(t)) + "</i>"; }).join(", ") + "</span>" : "");
         if (g.host.classList.contains("rule")) g.host.appendChild(d); else g.host.insertAdjacentElement("afterend", d);
       });
       if (!all.length) return;
       var box = document.createElement("details"); box.className = "lgbox";
       box.innerHTML = "<summary>Legenda semua simbol di pelajaran ini (" + all.length + ")</summary><dl>" +
-        all.map(function (t) { return "<div><dt>" + esc(nama(t)) + "</dt><dd>" + esc(arti(id, t)) + "</dd></div>"; }).join("") + "</dl>";
+        all.map(function (t) { return "<div><dt>" + esc(nama(t)) + "</dt><dd>" + tautkan(esc(arti(id, t))) + "</dd></div>"; }).join("") + "</dl>";
       var why = view.querySelector(".why"); if (why) why.insertAdjacentElement("afterend", box);
     };
     /* Legenda untuk simbol di label slider widget (dipanggil setelah widget terpasang) */

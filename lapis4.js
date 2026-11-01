@@ -321,6 +321,24 @@ q, p = 1.0, 0.0
 for i in range(100):
     p -= dt / 2 * q; q += dt * p; p -= dt / 2 * q   # leapfrog
 print(round(0.5 * (q*q + p*p), 4))            # 0.4996</code></pre>
+
+<h2>Penutup Lapis 4: suhu, gerak Brown, dan Boltzmann dalam satu persamaan</h2>
+<p>Gabungkan tiga gagasan lapis ini. Partikel menuruni energinya E(x) (4.1), tapi sambil ditendang noise acak (4.4) yang kekuatannya diatur suhu T. Sebagai SDE (4.5):</p>
+<div class="rule"><mark>dx = −E′(x) dt + √(2T) dW</mark></div>
+<p>Ini disebut <b>dinamika Langevin</b>. Ambil E(x) = x²/2, sehingga −E′(x) = −x. Persamaannya menjadi proses Ornstein–Uhlenbeck dari 4.5 dengan κ = 1 dan σ = √(2T), yang variansnya pada akhirnya σ² ÷ (2κ) = 2T ÷ 2 = T. Di sisi lain, distribusi Boltzmann (4.2) untuk energi yang sama sebanding dengan e<sup>−x²/(2T)</sup>, yaitu distribusi normal dengan varians T. Dua jalan, jawaban sama: partikel yang menuruni energi sambil digoyang suhu akhirnya tersebar persis seperti Boltzmann. Model difusi (5.12) memakai gagasan yang sama, noise yang terkendali untuk mengambil sampel dari sebuah distribusi.</p>
+<div class="ex"><div class="q">Simulasikan 5000 partikel mulai dari x = 3 dengan metode Euler (Δt = 0,01, 2000 langkah). Berapa varians akhirnya untuk T = 1 dan T = 0,25?</div>
+<div class="step">teori: varians = T, jadi 1 dan 0,25
+simulasi (seed 0): 1,04 dan 0,25</div>
+<div class="ans">Jawaban: sekitar 1 dan 0,25, sesuai teori. Selisih kecil di T = 1 berasal dari keacakan sampel dan langkah Euler yang tidak tak hingga kecil.</div></div>
+<pre><code>import numpy as np
+rng = np.random.default_rng(0)
+for T in (1.0, 0.25):
+    xs = np.full(5000, 3.0)
+    for _ in range(2000):
+        xs += -xs * 0.01 + np.sqrt(2 * T * 0.01) * rng.standard_normal(5000)
+    print(T, round(xs.var(), 2))
+# 1.0 1.04
+# 0.25 0.25</code></pre>
 `,
   src: [
     "Tong, <i>Classical Dynamics</i> (catatan kuliah Cambridge, gratis), §4.1 “Hamilton’s Equations” dan §4.2 “Liouville’s Theorem”. Lokal.",

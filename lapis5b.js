@@ -245,6 +245,26 @@ Tiga langkah: 0,9 × 0,9 = 0,81, lalu 0,729, lalu 0,656</div>
 for putaran in range(10):
     V = [gamma * V[i + 1] if i &lt; 4 else 1.0 for i in range(5)]
 print([round(v, 3) for v in V])  # [0.656, 0.729, 0.81, 0.9, 1.0]</code></pre>
+
+<h2>Penutup Lapis 5: satu langkah belajar model bahasa mini</h2>
+<p>Hampir semua alat kursus ini muncul dalam satu langkah pelatihan model bahasa. Versi mininya: vektor konteks h = (1, 0) (1.8) dan tiga token dengan embedding (2, 0), (1, 1), dan (0, 2) (5.13). Logit tiap token adalah hasil kali titik embedding-nya dengan h, softmax (4.2) mengubahnya jadi peluang, cross-entropy (3.4) mengukur kesalahan, gradien logit adalah p − y (5.1), aturan rantai (5.4) membawanya ke h, dan gradient descent (3.1) menggeser h.</p>
+<div class="ex"><div class="q">Token yang benar adalah token kedua. Hitung loss, lakukan satu langkah gradient descent pada h dengan learning rate 0,5, lalu hitung loss baru.</div>
+<div class="step">logit = (2·1 + 0·0, 1·1 + 1·0, 0·1 + 2·0) = (2, 1, 0)
+p = softmax = (0,665; 0,245; 0,090)
+loss = −ln 0,245 ≈ 1,408
+p − y = (0,665; −0,755; 0,090)
+gradien ke h = 0,665·(2, 0) − 0,755·(1, 1) + 0,090·(0, 2) = (0,575; −0,575)
+h ← (1, 0) − 0,5 × (0,575; −0,575) ≈ (0,712; 0,288)
+logit baru ≈ (1,425; 1; 0,575), p ≈ (0,480; 0,314; 0,205), loss ≈ 1,158</div>
+<div class="ans">Jawaban: peluang token yang benar naik dari 0,245 ke 0,314 dan loss turun dari 1,408 ke 1,158. Model sungguhan melakukan langkah yang sama dengan ribuan dimensi, puluhan ribu token, dan juga memperbarui embedding serta semua bobot di antaranya.</div></div>
+<pre><code>import numpy as np
+E = np.array([[2., 0], [1, 1], [0, 2]]); h = np.array([1., 0]); y = np.array([0., 1, 0])
+softmax = lambda z: np.exp(z) / np.exp(z).sum()
+p = softmax(E @ h)
+print(p.round(3), round(-np.log(p[1]), 3))   # [0.665 0.245 0.09 ] 1.408
+h = h - 0.5 * E.T @ (p - y)
+p = softmax(E @ h)
+print(p.round(3), round(-np.log(p[1]), 3))   # [0.48  0.314 0.205] 1.158</code></pre>
 `,
   src: [
     "Sutton & Barto, <i>Reinforcement Learning: An Introduction</i>, Bab 3 “Finite Markov Decision Processes” dan Bab 4 (value iteration). Lokal.",

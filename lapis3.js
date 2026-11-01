@@ -410,6 +410,27 @@ for hari in range(3):
 vals, vecs = np.linalg.eig(P.T)
 pi = vecs[:, vals.argmax()]; print((pi / pi.sum()).round(4))   # [0.6667 0.3333]
 print(sorted(vals.round(2)))                                   # [np.float64(0.4), np.float64(1.0)]</code></pre>
+
+<h2>Penutup Lapis 3: logistic regression dengan tangan</h2>
+<p>Empat data: x = −1, 0, 1, 2 dengan label 0, 0, 1, 1. Modelnya p = σ(wx + b), sigmoid (2.2) yang menghasilkan peluang label 1. Loss-nya cross-entropy rata-rata (3.4), yang sama dengan minus log-likelihood dibagi banyak data (3.2). Gradiennya ternyata sederhana (diturunkan di 5.1): turunan loss terhadap w adalah rata-rata (p − y)·x, dan terhadap b adalah rata-rata (p − y). Lalu gradient descent (3.1) melakukan sisanya.</p>
+<div class="ex"><div class="q">Mulai dari w = b = 0 dengan learning rate 1. Hitung loss awal, lalu satu langkah gradient descent.</div>
+<div class="step">w = b = 0: semua p = σ(0) = 0,5, loss = −ln 0,5 = ln 2 ≈ 0,693
+p − y = 0,5; 0,5; −0,5; −0,5
+turunan terhadap w = (0,5 × (−1) + 0,5 × 0 + (−0,5) × 1 + (−0,5) × 2) ÷ 4 = −2 ÷ 4 = −0,5
+turunan terhadap b = (0,5 + 0,5 − 0,5 − 0,5) ÷ 4 = 0
+w ← 0 − 1 × (−0,5) = 0,5      b tetap 0
+loss baru ≈ 0,489</div>
+<div class="ans">Jawaban: loss turun dari 0,693 ke 0,489 dalam satu langkah. Kurva peluang mulai miring ke arah yang benar: p untuk x = 2 naik dari 0,5 ke 0,731.</div></div>
+<p>Kalau langkahnya diteruskan, w terus membesar: sekitar 1,97 setelah 10 langkah, 4,87 setelah 100, dan 6,10 setelah 200, sementara loss terus mendekati nol. Sebabnya, data ini <b>terpisah sempurna</b>: ada satu ambang yang memisahkan semua label 0 dari semua label 1, sehingga MLE terus mendorong kurva menjadi tangga yang makin curam. Ini salah satu alasan memakai regularisasi, yang di 3.3 ternyata sama dengan memasang prior.</p>
+<pre><code>import numpy as np
+x = np.array([-1., 0, 1, 2]); y = np.array([0., 0, 1, 1])
+w = b = 0.0
+for t in range(200):
+    p = 1 / (1 + np.exp(-(w * x + b)))
+    w, b = w - ((p - y) * x).mean(), b - (p - y).mean()
+p = 1 / (1 + np.exp(-(w * x + b)))
+print(round(w, 3), round(b, 3))   # 6.099 -2.834
+print(round(-(y * np.log(p) + (1 - y) * np.log(1 - p)).mean(), 4))   # 0.0237</code></pre>
 `,
   src: [
     "Grinstead & Snell, <i>Introduction to Probability</i>, Bab 11 “Markov Chains” (§11.1 “Introduction”, §11.3 “Ergodic Markov Chains”). Lokal (gratis).",

@@ -75,6 +75,10 @@ Object.assign(window.LEGENDA, {
   "y": "arah posisi kedua (dimensi kedua)"
 },
 "4.7": {
+  "x": "posisi partikel (dinamika Langevin)",
+  "E": "energi; E′(x) = turunannya",
+  "T": "suhu: kekuatan tendangan acak",
+  "W": "gerak Brown; dW = tendangan acak kecil",
   "H": "Hamiltonian, energi total: kinetik plus potensial",
   "q": "posisi; di HMC: parameter yang dijelajahi",
   "p": "momentum; juga peluang p(θ)",
