@@ -515,11 +515,13 @@ print(s / s.sum())                # softmax dari 1.5: [0.66524096 0.24472847 0.0
 <div class="ex"><div class="q">Titik (1, 2), (2, 3), (3, 5), (4, 6). Cari garis y = mx + b yang paling cocok.</div>
 <div class="step">x̄ = 2,5 dan ȳ = 4
 x − x̄ = −1,5; −0,5; 0,5; 1,5      y − ȳ = −2; −1; 1; 2
-Σ(x − x̄)(y − ȳ) = 3 + 0,5 + 0,5 + 3 = 7
-Σ(x − x̄)² = 2,25 + 0,25 + 0,25 + 2,25 = 5
-m = 7 ÷ 5 = 1,4      b = 4 − 1,4 × 2,5 = 0,5</div>
+Σ(x − x̄)(y − ȳ) = (−1,5)(−2) + (−0,5)(−1) + 0,5 × 1 + 1,5 × 2 = 3 + 0,5 + 0,5 + 3 = 7
+Σ(x − x̄)² = (−1,5)² + (−0,5)² + 0,5² + 1,5² = 2,25 + 0,25 + 0,25 + 2,25 = 5
+m = 7 ÷ 5 = 1,4      b = 4 − 1,4 × 2,5 = 0,5
+tebakan 1,9; 3,3; 4,7; 6,1 → selisih dengan y: −0,1; 0,3; −0,3; 0,1
+rata-rata kuadrat selisih = (0,01 + 0,09 + 0,09 + 0,01) ÷ 4 = 0,05</div>
 <div class="ans">Jawaban: y = 1,4x + 0,5. Tebakannya untuk x = 1, 2, 3, 4 adalah 1,9; 3,3; 4,7; 6,1, meleset rata-rata kuadrat hanya 0,05.</div></div>
-<p>Di NumPy, Σ(x − x̄)(y − ȳ) adalah hasil kali titik dua vektor selisih:</p>
+<p>Di NumPy, Σ(x − x̄)(y − ȳ) adalah hasil kali titik dua vektor selisih, ditulis dengan <code>@</code> (1.8):</p>
 <pre><code>import numpy as np
 x = np.array([1, 2, 3, 4]); y = np.array([2, 3, 5, 6])
 dx, dy = x - x.mean(), y - y.mean()
@@ -527,6 +529,7 @@ m = (dx @ dy) / (dx @ dx)
 b = y.mean() - m * x.mean()
 print(round(m, 2), round(b, 2))   # 1.4 0.5
 print(np.polyfit(x, y, 1).round(2))   # [1.4 0.5]</code></pre>
+<p class="meta">Penutup ini merangkum pelajaran-pelajaran yang dirujuk; sumbernya ada di pelajaran itu masing-masing, sedangkan daftar sumber di bawah milik pelajaran ini.</p>
 `,
   src: [
     "Harris dkk. (2020), “Array programming with NumPy”, <i>Nature</i> 585: 357–362. Lokal: <code>Harris_dkk_Array_programming_with_NumPy.pdf</code>.",

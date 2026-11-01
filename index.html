@@ -146,11 +146,17 @@ article b,article strong{color:var(--ink);font-weight:600}
 .ingat li{margin:.2em 0}
 .coba{margin:.4em 0 .8em;color:var(--muted);font-size:.95rem}
 .coba b{color:var(--ink);font-weight:600}
-.bgg{margin-left:.6em;vertical-align:middle;font:italic 400 .82rem var(--f-body);color:var(--muted);background:none;border:1px dashed var(--line2);padding:2px 9px;min-height:28px;cursor:pointer}
+.bgg{display:inline-flex;align-items:center;margin:-.5em 0 1em;font:italic 400 .82rem var(--f-body);color:var(--muted);background:none;border:1px dashed var(--line2);padding:2px 9px;min-height:28px;cursor:pointer}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .bgg:hover{color:var(--ink);border-color:var(--accent)}
 .bgg[aria-pressed="true"]{color:var(--ink);border-style:solid;border-color:var(--accent);background:rgba(201,184,255,.12)}
 .bglist ul{list-style:none;padding:0;margin:0 0 1em;display:grid;gap:8px}
-.bglist li{display:grid;gap:2px;padding:10px 14px;border:1px solid var(--line2)}
+.bglist li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:10px 14px;border:1px solid var(--line2)}
+.bglist li span{grid-column:1}
+.bglist .bgx{grid-column:2;grid-row:1 / span 2;align-self:center;min-width:40px;min-height:40px;font-size:1.3rem;color:var(--muted);background:none;border:1px solid var(--line2);cursor:pointer}
+.bglist .bgx:hover{color:var(--ink);border-color:var(--accent)}
+.bglist textarea{width:100%;margin:.6em 0;font:400 .95rem var(--f-body);background:var(--raise);color:var(--ink);border:1px solid var(--line2);padding:8px}
+.bglist .bgmsg{min-height:1.4em;color:var(--muted);font-size:.95rem;margin:.6em 0 0}
 .bglist li span{color:var(--muted);font-size:.95rem}
 .bglist .cta{display:flex;gap:10px;flex-wrap:wrap}
 details.coba summary{cursor:pointer;min-height:24px}
@@ -715,17 +721,25 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     var a = getBg().filter(function(x){ return L[x.id]; });
     if(!a.length) return '';
     return '<section class="bglist"><h2>Yang masih <em>membingungkan</em></h2><p>Bagian yang kamu tandai. Salin daftarnya lalu tempel di chat untuk minta penjelasan ulang atau latihan.</p><ul>'+
-      a.map(function(x){ return '<li><a href="#'+slug(x.id)+'">'+x.id+' · '+L[x.id].title+'</a><span>'+x.h.replace(/</g,'&lt;')+'</span></li>'; }).join('')+
-      '</ul><div class="cta"><button type="button" class="btn glow" id="bgCopy">Salin daftar</button><button type="button" class="btn" id="bgClear">Kosongkan</button></div></section>';
+      a.map(function(x, i){ return '<li><a href="#'+slug(x.id)+'">'+x.id+' · '+L[x.id].title+'</a><span>'+x.h.replace(/</g,'&lt;')+'</span><button type="button" class="bgx" data-i="'+i+'" aria-label="Hapus tanda: '+x.h.replace(/"/g,'&quot;').replace(/</g,'&lt;')+'">×</button></li>'; }).join('')+
+      '</ul><div class="cta"><button type="button" class="btn glow" id="bgCopy">Salin daftar</button><button type="button" class="btn" id="bgClear">Kosongkan</button></div><p class="bgmsg" role="status" aria-live="polite"></p></section>';
   }
   function bgWire(){
-    var c = document.getElementById('bgCopy'), k = document.getElementById('bgClear'); if(!c) return;
+    var c = document.getElementById('bgCopy'), k = document.getElementById('bgClear'), sct = document.querySelector('.bglist'); if(!c) return;
+    var msg = sct.querySelector('.bgmsg'), say = function(t){ msg.textContent = t; clearTimeout(say.t); say.t = setTimeout(function(){ msg.textContent = ''; }, 2500); };
     c.addEventListener('click', function(){
       var t = 'Bagian yang masih membingungkan:\n' + getBg().filter(function(x){ return L[x.id]; }).map(function(x){ return '- ' + x.id + ' ' + L[x.id].title + ': ' + x.h; }).join('\n');
-      var done = function(){ c.textContent = 'Tersalin'; };
-      if(navigator.clipboard) navigator.clipboard.writeText(t).then(done, function(){ c.textContent = 'Gagal menyalin'; }); else c.textContent = 'Browser tidak mendukung salin';
+      var cadangan = function(){ var ta = sct.querySelector('textarea') || document.createElement('textarea'); ta.readOnly = true; ta.rows = 5; ta.value = t; ta.setAttribute('aria-label', 'Daftar untuk disalin'); if(!ta.parentNode) msg.insertAdjacentElement('beforebegin', ta); ta.focus(); ta.select(); say('Salin otomatis tidak bisa di sini. Teksnya sudah dipilih: tekan Ctrl+C atau tahan lalu Salin.'); };
+      if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(function(){ say('Tersalin. Tempel di chat.'); }, cadangan); else cadangan();
     });
-    k.addEventListener('click', function(){ setBg([]); var sct = document.querySelector('.bglist'); if(sct) sct.remove(); });
+    k.addEventListener('click', function(){
+      if(k.dataset.yakin !== '1'){ k.dataset.yakin = '1'; k.textContent = 'Yakin? Klik lagi'; setTimeout(function(){ k.dataset.yakin = ''; k.textContent = 'Kosongkan'; }, 3000); return; }
+      setBg([]); var nx = sct.nextElementSibling; sct.remove(); if(nx){ nx.setAttribute('tabindex', '-1'); nx.focus(); }
+    });
+    sct.addEventListener('click', function(e){ var x = e.target.closest('.bgx'); if(!x) return;
+      var a = getBg().filter(function(v){ return L[v.id]; }); a.splice(+x.dataset.i, 1); setBg(a);
+      if(!a.length){ var nx = sct.nextElementSibling; sct.remove(); if(nx){ nx.setAttribute('tabindex', '-1'); nx.focus(); } return; }
+      var tmp = document.createElement('div'); tmp.innerHTML = bgList(); sct.querySelector('ul').innerHTML = tmp.querySelector('ul').innerHTML; say('Tanda dihapus.'); });
   }
   function home(){
     var n = order.length, total = 0, done = getDone();
@@ -974,19 +988,23 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
       d.innerHTML = '<summary>Lihat jawaban</summary>'; a.parentNode.insertBefore(d, a); d.appendChild(a);
     });
     if(window.glosarium) window.glosarium(view);
-    var bg = getBg();
+    var bg = getBg(), judul = [];
     [].forEach.call(view.querySelectorAll('h2'), function(h){
       if(h.closest('.ex, .viz, .why, .ingat, .dalam')) return;
-      var t = h.textContent.trim(), on = bg.some(function(x){ return bgKey(x.id, x.h) === bgKey(id, t); });
+      var c = h.cloneNode(true), sm = c.querySelector('small'); if(sm) sm.remove();
+      var t = c.textContent.trim(); judul.push(t);
+      var on = bg.some(function(x){ return bgKey(x.id, x.h) === bgKey(id, t); });
       var b = document.createElement('button'); b.type = 'button'; b.className = 'bgg'; b.setAttribute('aria-pressed', on);
-      b.title = 'Tandai bagian ini masih membingungkan'; b.innerHTML = '<span>' + (on ? 'Ditandai bingung' : 'Bingung di sini?') + '</span>';
+      b.innerHTML = '<span>' + (on ? 'Ditandai bingung' : 'Bingung di sini?') + '</span><span class="vh"> ' + t.replace(/</g,'&lt;') + '</span>';
       b.addEventListener('click', function(){
         var a = getBg(), k = bgKey(id, t), ada = a.some(function(x){ return bgKey(x.id, x.h) === k; });
         a = ada ? a.filter(function(x){ return bgKey(x.id, x.h) !== k; }) : a.concat([{id:id, h:t}]);
         setBg(a); b.setAttribute('aria-pressed', !ada); b.firstChild.textContent = ada ? 'Bingung di sini?' : 'Ditandai bingung';
       });
-      h.appendChild(b);
+      h.insertAdjacentElement('afterend', b);
     });
+    /* tanda untuk judul yang sudah tidak ada (judulnya diganti) dibuang */
+    var bersih = getBg().filter(function(x){ return x.id !== id || judul.indexOf(x.h) >= 0; }); if(bersih.length !== getBg().length) setBg(bersih);
     outline();
     /* rumus latar diambil dari pelajaran ini, dicampur rumus AI */
     var own = [].map.call(view.querySelectorAll('.big, .rule mark'), function(e){ return e.textContent.trim(); }).filter(function(t){ return t.length > 2 && t.length < 26 && t.indexOf('\\') < 0 &&!/^(Hitung|Cari|Tentukan|Berapa)/.test(t); });

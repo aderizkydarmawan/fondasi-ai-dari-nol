@@ -325,11 +325,12 @@ print(round(0.5 * (q*q + p*p), 4))            # 0.4996</code></pre>
 <h2>Penutup Lapis 4: suhu, gerak Brown, dan Boltzmann dalam satu persamaan</h2>
 <p>Gabungkan tiga gagasan lapis ini. Partikel menuruni energinya E(x) (4.1), tapi sambil ditendang noise acak (4.4) yang kekuatannya diatur suhu T. Sebagai SDE (4.5):</p>
 <div class="rule"><mark>dx = −E′(x) dt + √(2T) dW</mark></div>
-<p>Ini disebut <b>dinamika Langevin</b>. Ambil E(x) = x²/2, sehingga −E′(x) = −x. Persamaannya menjadi proses Ornstein–Uhlenbeck dari 4.5 dengan κ = 1 dan σ = √(2T), yang variansnya pada akhirnya σ² ÷ (2κ) = 2T ÷ 2 = T. Di sisi lain, distribusi Boltzmann (4.2) untuk energi yang sama sebanding dengan e<sup>−x²/(2T)</sup>, yaitu distribusi normal dengan varians T. Dua jalan, jawaban sama: partikel yang menuruni energi sambil digoyang suhu akhirnya tersebar persis seperti Boltzmann. Model difusi (5.12) memakai gagasan yang sama, noise yang terkendali untuk mengambil sampel dari sebuah distribusi.</p>
+<p>E′(x) adalah turunan energi (2.1), jadi −E′(x) menunjuk ke arah energi menurun. Ini bukan topik mekanika Hamilton; penutup ini merangkum seluruh Lapis 4. Persamaan di atas disebut <b>dinamika Langevin</b>. Ambil E(x) = x²/2, sehingga −E′(x) = −x. Persamaannya menjadi proses Ornstein–Uhlenbeck dari 4.5 dengan κ = 1 dan σ = √(2T), yang variansnya pada akhirnya σ² ÷ (2κ) = 2T ÷ 2 = T. Di sisi lain, distribusi Boltzmann (4.2) untuk energi yang sama sebanding dengan e<sup>−x²/(2T)</sup>, yaitu distribusi normal dengan varians T. Dua jalan, jawaban sama: partikel yang menuruni energi sambil digoyang suhu akhirnya tersebar persis seperti Boltzmann. Jalan ketiga lewat Fokker–Planck (4.6): distribusi stasionernya adalah keadaan ketika aliran drift dan perataan oleh noise seimbang. Model difusi (5.12) memakai gagasan yang sama, noise yang terkendali untuk mengambil sampel dari sebuah distribusi.</p>
 <div class="ex"><div class="q">Simulasikan 5000 partikel mulai dari x = 3 dengan metode Euler (Δt = 0,01, 2000 langkah). Berapa varians akhirnya untuk T = 1 dan T = 0,25?</div>
-<div class="step">teori: varians = T, jadi 1 dan 0,25
+<div class="step">tiap langkah: x ← x − x·Δt + √(2T·Δt)·Z, dengan Z dari N(0, 1), karena dW selama Δt berukuran √Δt (4.4)
+teori: varians = T, jadi 1 dan 0,25
 simulasi (seed 0): 1,04 dan 0,25</div>
-<div class="ans">Jawaban: sekitar 1 dan 0,25, sesuai teori. Selisih kecil di T = 1 berasal dari keacakan sampel dan langkah Euler yang tidak tak hingga kecil.</div></div>
+<div class="ans">Jawaban: sekitar 1 dan 0,25, sesuai teori. Selisih kecil di T = 1 terutama berasal dari keacakan sampel (5000 partikel memberi galat sekitar ±0,02 per simpangan baku); efek langkah Euler di Δt = 0,01 hanya sekitar 0,5%.</div></div>
 <pre><code>import numpy as np
 rng = np.random.default_rng(0)
 for T in (1.0, 0.25):
@@ -339,6 +340,7 @@ for T in (1.0, 0.25):
     print(T, round(xs.var(), 2))
 # 1.0 1.04
 # 0.25 0.25</code></pre>
+<p class="meta">Penutup ini merangkum pelajaran-pelajaran yang dirujuk; sumbernya ada di pelajaran itu masing-masing, sedangkan daftar sumber di bawah milik pelajaran ini.</p>
 `,
   src: [
     "Tong, <i>Classical Dynamics</i> (catatan kuliah Cambridge, gratis), §4.1 “Hamilton’s Equations” dan §4.2 “Liouville’s Theorem”. Lokal.",

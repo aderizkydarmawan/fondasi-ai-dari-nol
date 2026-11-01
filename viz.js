@@ -368,7 +368,7 @@
   window.mountViz = function (root) {
     [].forEach.call(root.querySelectorAll("[data-viz]"), function (host) {
       var k = host.getAttribute("data-viz");
-      if (W[k]) { try { W[k](host); var tip = window.COBA && COBA[k], tb = window.TEBAK && TEBAK[k], hd = host.querySelector(".viz-h"); if (tip && hd) { var p = document.createElement(tb ? "details" : "p"); p.className = "coba"; p.innerHTML = tb ? "<summary><b>Coba ini</b> (buka setelah menebak)</summary>" + tip : "<b>Coba ini:</b> " + tip; hd.insertAdjacentElement("afterend", p); if (tb) { var q = document.createElement("p"); q.className = "coba tebak"; q.innerHTML = "<b>Tebak dulu:</b> " + tb; hd.insertAdjacentElement("afterend", q); } } } catch (e) { host.textContent = "Gagal memuat visualisasi: " + e.message; } }
+      if (W[k]) { try { W[k](host); var tip = window.COBA && COBA[k], tb = window.TEBAK && TEBAK[k], hd = host.querySelector(".viz-h"); if (tip && hd) { var p = document.createElement(tb ? "details" : "p"); p.className = "coba"; p.innerHTML = tb ? "<summary><b>Cek tebakanmu</b>: petunjuk dan jawabannya</summary>" + tip : "<b>Coba ini:</b> " + tip; hd.insertAdjacentElement("afterend", p); if (tb) { var q = document.createElement("p"); q.className = "coba tebak"; q.innerHTML = "<b>Tebak dulu:</b> " + tb; hd.insertAdjacentElement("afterend", q); } } } catch (e) { host.textContent = "Gagal memuat visualisasi: " + e.message; } }
     });
   };
 })();

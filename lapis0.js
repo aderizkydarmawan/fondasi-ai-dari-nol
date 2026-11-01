@@ -493,9 +493,10 @@ for h in [1, 0.1, 0.01, 0.001, 0.0001]:
 <div class="ex"><div class="q">Neuron menerima input 2 dan 0,5, dengan bobot 0,3 dan −0,4, dan bias 0,1. Targetnya 1. Hitung keluarannya, kesalahannya (selisih dengan target, dikuadratkan), lalu laju perubahan kesalahan kalau bobot pertama dinaikkan 0,01.</div>
 <div class="step">keluaran = 0,3 × 2 + (−0,4) × 0,5 + 0,1 = 0,6 − 0,2 + 0,1 = 0,5
 kesalahan = (0,5 − 1)² = (−0,5)² = 0,25
-bobot pertama jadi 0,31: keluaran = 0,62 − 0,2 + 0,1 = 0,52, kesalahan = (0,52 − 1)² = 0,2304
+bobot pertama jadi 0,31: keluaran = 0,31 × 2 − 0,2 + 0,1 = 0,62 − 0,2 + 0,1 = 0,52, kesalahan = (0,52 − 1)² = 0,2304
 laju = (0,2304 − 0,25) ÷ 0,01 = −0,0196 ÷ 0,01 = −1,96</div>
-<div class="ans">Jawaban: keluaran 0,5, kesalahan 0,25, laju −1,96. Lajunya negatif: menaikkan bobot pertama menurunkan kesalahan, jadi bobot itu sebaiknya dinaikkan sedikit. Mengulang "hitung laju, geser bobot ke arah yang menurunkan kesalahan" ribuan kali adalah gradient descent (3.1).</div></div>
+<div class="ans">Jawaban: keluaran 0,5, kesalahan 0,25, laju −1,96. Lajunya negatif: menaikkan bobot pertama menurunkan kesalahan, jadi bobot itu sebaiknya dinaikkan sedikit. (Laju tepatnya, kalau langkahnya dibuat sangat kecil, adalah −2; −1,96 adalah perkiraan dari langkah 0,01.) Mengulang "hitung laju, geser bobot ke arah yang menurunkan kesalahan" ribuan kali adalah gradient descent (3.1).</div></div>
+<p class="meta">Penutup ini merangkum pelajaran-pelajaran yang dirujuk; sumbernya ada di pelajaran itu masing-masing, sedangkan daftar sumber di bawah milik pelajaran ini.</p>
 `,
   src: [
     "Thompson, <i>Calculus Made Easy</i>, Bab II “On different degrees of smallness”, Bab III “On relative growings”, dan Bab IV “Simplest cases” (turunan x² dari prinsip pertama). Lokal.",

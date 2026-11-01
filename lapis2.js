@@ -618,9 +618,9 @@ print(np.corrcoef(t, t**2)[0, 1])                # 0.0</code></pre>
 <h2>Penutup Lapis 2: garis yang sama, dilihat dari tiga pilar</h2>
 <p>Ambil lagi empat titik dari penutup Lapis 1: (1, 2), (2, 3), (3, 5), (4, 6), dengan garis terbaik y = 1,4x + 0,5. Ketiga pilar lapis ini sampai ke jawaban yang sama lewat jalan berbeda.</p>
 <ul>
-<li><b>Peluang dan statistika.</b> Kemiringan = kovarians ÷ varians x (2.10, 2.12): (7/3) ÷ (5/3) = 1,4. Pembagi n − 1 = 3 muncul di atas dan di bawah, jadi saling coret.</li>
-<li><b>Aljabar linear.</b> Susun matriks X dengan kolom berisi 1 (untuk b) dan kolom x (2.5). Bobot terbaik w = (XᵀX)⁻¹Xᵀy (2.6; rumus ini diturunkan di 5.1). Di sini XᵀX = [[4, 10], [10, 30]] dan Xᵀy = [16, 47], hasilnya w = [0,5; 1,4].</li>
-<li><b>Kalkulus.</b> Di w itu, gradien rata-rata kuadrat galat (2.3) bernilai nol: kita berdiri di dasar lembah, tidak ada arah yang menurunkan galat lagi.</li>
+<li><b>Peluang dan statistika.</b> Kemiringan = kovarians ÷ varians x (2.10, 2.12): (7/3) ÷ (5/3) = 1,4. Pembagi n − 1 = 3 muncul di atas dan di bawah, jadi saling coret. (Di kode, <code>ddof=1</code> berarti "bagi n − 1", sama seperti <code>np.cov</code>.)</li>
+<li><b>Aljabar linear.</b> Susun matriks X dengan kolom berisi 1 (untuk b) dan kolom x (2.5). Bobot terbaik w = (XᵀX)⁻¹Xᵀy (2.6; rumus ini diturunkan di 5.1). Di sini XᵀX = [[4, 10], [10, 30]] dengan determinan 4 × 30 − 10 × 10 = 20, jadi inversnya (1/20)·[[30, −10], [−10, 4]]. Dengan Xᵀy = [16, 47]: w = (1/20)·[30 × 16 − 10 × 47, −10 × 16 + 4 × 47] = (1/20)·[10, 28] = [0,5; 1,4].</li>
+<li><b>Kalkulus.</b> Di w itu, gradien rata-rata kuadrat galat (2.3) bernilai nol: kita berdiri di dasar lembah, tidak ada arah yang menurunkan galat lagi. Gradien itu (2/n)·Xᵀ(Xw − y), diturunkan di 5.1; baris terakhir kode di bawah menghitungnya.</li>
 </ul>
 <pre><code>import numpy as np
 x = np.array([1., 2, 3, 4]); y = np.array([2., 3, 5, 6])
@@ -630,6 +630,7 @@ w = np.linalg.inv(X.T @ X) @ X.T @ y
 print(w.round(2))   # [0.5 1.4]
 g = 2 / 4 * X.T @ (X @ w - y)
 print(np.abs(g).max() < 1e-9)   # True</code></pre>
+<p class="meta">Penutup ini merangkum pelajaran-pelajaran yang dirujuk; sumbernya ada di pelajaran itu masing-masing, sedangkan daftar sumber di bawah milik pelajaran ini.</p>
 `,
   src: [
     "Deisenroth, Faisal & Ong, <i>Mathematics for Machine Learning</i>, §6.4 “Summary Statistics and Independence” (kovarians, korelasi, matriks kovarians). Lokal.",
