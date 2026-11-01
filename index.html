@@ -162,6 +162,8 @@ article b,article strong{color:var(--ink);font-weight:600}
 details.coba summary{cursor:pointer;min-height:24px}
 details.coba summary b{color:var(--accent)}
 .viz .buka{margin:.6em 0}
+.dalam-isi{margin:1em 0}
+.dalam-isi > summary{cursor:pointer;color:var(--accent);font:italic 400 1.05rem var(--f-display);min-height:32px;padding:6px 0}
 .coba.tebak{color:var(--text);margin-bottom:.2em}
 .lg{margin:-.4em 0 1.4em;font-size:.86rem;line-height:1.45;color:var(--muted);display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:.25em 1.4em;padding:.6em 0 0;border-top:1px dashed var(--line)}
 .lg b{font-weight:600;color:var(--ink);grid-column:1/-1}
@@ -776,15 +778,20 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
     seedF(AI_F);
   }
 
+  var TUTUP_DALAM = { bayes: 1, walk: 1, vanish: 1 };
   function dalam(id){
     var d = (window.DALAM||{})[id]; if(!d) return '';
     function li(a){ return '<ul>'+a.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>'; }
     return '<section class="dalam">'+
       (d.viz ? '<div class="viz" data-viz="'+d.viz+'"></div>' : '')+
-      '<h2><small>Pendalaman</small>Lebih dalam</h2>'+d.deep+
+      '<h2><small>Pendalaman</small>Lebih dalam</h2>'+
+      /* widget yang angkanya disembunyikan: penjelasan di bawahnya ikut dilipat supaya jawabannya tidak bocor */
+      (TUTUP_DALAM[d.viz] ? '<details class="dalam-isi"><summary>Baca pendalaman (berisi jawaban widget di atas, buka setelah menebak)</summary>' : '')+
+      d.deep+
       '<div class="box salah">'+li(d.salah)+'</div>'+
       '<div class="box ringkas">'+li(d.ringkas)+'</div>'+
       '<div class="box uji">'+li(d.uji)+'<p class="note">Tutup halaman ini, kerjakan di kertas, baru cek. Mengingat tanpa melihat membuat ingatan lebih awet daripada membaca ulang (Roediger &amp; Butler, 2011). Minta soal latihan tambahan ke Claude.</p></div>'+
+      (TUTUP_DALAM[d.viz] ? '</details>' : '')+
     '</section>';
   }
 
