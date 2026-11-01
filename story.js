@@ -28,8 +28,10 @@
     function hitung() {
       antri = false;
       if (!host.isConnected) { window.removeEventListener("scroll", tunda, true); return; }
-      var r = lst.getBoundingClientRect(), H = r.height / n, vh = window.innerHeight;
-      var t = clamp((vh * 0.6 - r.top) / H - 0.5, 0, n - 1);
+      /* t dihitung dari posisi tengah kartu yang sebenarnya: t = i tepat saat kartu ke-i ada di garis baca (55% tinggi layar) */
+      var vh = window.innerHeight, garis = vh * 0.55, c = [].map.call(lst.children, function (d) { var q = d.querySelector(".st-card").getBoundingClientRect(); return q.top + q.height / 2; }), t = 0;
+      if (garis <= c[0]) t = 0; else if (garis >= c[n - 1]) t = n - 1;
+      else for (var i = 0; i < n - 1; i++) if (garis < c[i + 1]) { t = i + (garis - c[i]) / (c[i + 1] - c[i]); break; }
       [].forEach.call(lst.children, function (c, i) { c.classList.toggle("on", Math.abs(t - i) < 0.5); });
       if (kurangGerak) { t = Math.round(t); if (t !== last) { last = kini = tuju = t; draw(svg, t); } return; }
       tuju = t; if (!jalan) { jalan = true; jadwal(); }
@@ -61,17 +63,17 @@
     function teks(g, x, y, s, warna, uk, op, anchor) { var t = el("text", { x: X(x), y: Y(y), "text-anchor": anchor || "middle", style: "fill:" + warna + ";font-size:" + uk + "px;opacity:" + op + ";font-weight:600" }, g); t.textContent = s; return t; }
     cerita(host, kartu, function (svg, t) {
       svg.setAttribute("viewBox", "0 0 " + Wd + " " + Hd); svg.innerHTML = "";
-      var s = seg(t, 0.25, 1), terang = seg(t, 1.25, 2), rumus = seg(t, 2.3, 3), akhir = seg(t, 3.3, 4);
+      var s = seg(t, 0.25, 1); k = 108 - 44 * s; /* kamera mundur pelan saat karet meregang */ var s_ = s, terang = seg(t, 1.45, 2), rumus = seg(t, 2.3, 3), akhir = seg(t, 3.3, 4);
       var dfs = el("defs", {}, svg), cp = el("clipPath", { id: "stclip" }, dfs); el("rect", { x: 0, y: 0, width: Wd, height: Hd }, cp);
       var rg = el("radialGradient", { id: "stfade", cx: "50%", cy: "50%", r: "50%" }, dfs);
       el("stop", { offset: "72%", "stop-color": "#fff" }, rg); el("stop", { offset: "100%", "stop-color": "#000" }, rg);
       var mk = el("mask", { id: "stmask" }, dfs); el("rect", { x: 0, y: 0, width: Wd, height: Hd, fill: "url(#stfade)" }, mk);
       var g0 = el("g", { "clip-path": "url(#stclip)" }, svg), g = el("g", { mask: "url(#stmask)" }, g0), gTop = g0;
             /* lembar karet: persegi [-2,2]² dan garis gridnya ikut ditransformasi */
-      var sudut = [[-2, -2], [2, -2], [2, 2], [-2, 2]].map(function (v) { return M(s, v); });
+      var sudut = [[-5, -5], [5, -5], [5, 5], [-5, 5]].map(function (v) { return M(s, v); });
       el("polygon", { points: sudut.map(function (q) { return X(q[0]) + "," + Y(q[1]); }).join(" "), style: "fill:var(--s1);opacity:.07" }, g);
-      for (var i = -2; i <= 2; i += 0.5) {
-        var a = M(s, [i, -2]), b = M(s, [i, 2]), c = M(s, [-2, i]), d = M(s, [2, i]);
+      for (var i = -5; i <= 5; i += 0.5) {
+        var a = M(s, [i, -5]), b = M(s, [i, 5]), c = M(s, [-5, i]), d = M(s, [5, i]);
         el("line", { x1: X(a[0]), y1: Y(a[1]), x2: X(b[0]), y2: Y(b[1]), style: "stroke:var(--s1);opacity:.18" }, g);
         el("line", { x1: X(c[0]), y1: Y(c[1]), x2: X(d[0]), y2: Y(d[1]), style: "stroke:var(--s1);opacity:.18" }, g);
       }
@@ -81,16 +83,18 @@
       for (var j = 0; j < 16; j++) {
         var ang = j * Math.PI / 8, v = [Math.cos(ang), Math.sin(ang)], w = M(s, v), eig = j % 4 === 2, satu = j === 0;
         if (s > 0.02 && !eig) panah(g, [0, 0], v, "var(--muted,#888)", 1, 0.25 * (1 - terang)); /* bayangan arah semula */
-        var warna = eig ? (terang > 0 ? "var(--s2)" : "var(--s1)") : satu && s > 0.5 && terang < 1 ? "var(--accent,var(--s1))" : "var(--s1)";
-        panah(g, [0, 0], w, warna, eig ? 1.6 + 1.6 * terang : satu ? 2.4 : 1.6, eig ? 1 : 1 - 0.75 * terang);
+        var warna = eig ? (terang > 0 ? "var(--s2)" : "var(--s1)") : satu ? "var(--warn)" : "var(--s1)";
+        var sorot = satu ? seg(t, 0.5, 0.9) * (1 - seg(t, 1.3, 1.6)) : 0;
+        if (sorot > 0) panah(g, [0, 0], v, "var(--warn)", 1.6, 0.5 * sorot); /* (1, 0) sebelum ditarik */
+        panah(gTop, [0, 0], w, satu && sorot > 0.05 ? "var(--warn)" : warna, eig ? 1.6 + 1.6 * terang : satu ? 1.6 + 1.4 * sorot : 1.6, eig ? 1 : Math.max(sorot, 1 - 0.75 * terang));
       }
       /* label tahap 2: (1,0) → (2,1) */
-      var lb = seg(t, 0.8, 1.1) * (1 - terang);
-      if (lb > 0) { var w1 = M(s, [1, 0]); teks(g, w1[0] + 0.15, w1[1] + 0.15, "(1, 0) → (" + (1 + s).toFixed(1).replace(".", ",") + "; " + s.toFixed(1).replace(".", ",") + ")", "var(--text,currentColor)", 14, lb, "start"); }
+      var lb = seg(t, 0.8, 1.0) * (1 - seg(t, 1.3, 1.6));
+      if (lb > 0 && s > 0.95) { var w1 = M(s, [1, 0]); teks(gTop, w1[0] + 0.15, w1[1] + 0.15, "(1, 0) → (2, 1)", "var(--warn)", 16, lb, "start"); }
       /* label tahap 3: ×3 dan ×1 */
       if (terang > 0) {
         var l3 = 1 + 2 * s;
-        teks(gTop, l3 * 0.707 + 0.25, l3 * 0.707 + 0.1, "×" + l3.toFixed(1).replace(".", ","), "var(--s2)", 18, terang, "start");
+        teks(gTop, l3 * 0.707 + 0.25, l3 * 0.707 + 0.1, "×" + (Math.abs(l3 - Math.round(l3)) < 0.05 ? Math.round(l3) : l3.toFixed(1).replace(".", ",")), "var(--s2)", 18, terang, "start");
         teks(gTop, 0.95, -0.95, "×1", "var(--s2)", 18, terang, "start");
       }
       /* tahap 4: rumus */
