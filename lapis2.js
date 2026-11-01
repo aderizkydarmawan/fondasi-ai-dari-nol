@@ -338,7 +338,9 @@ window.LESSONS["2.7"] = {
   why: "Eigen adalah arah yang tidak dibelokkan oleh sebuah matriks, hanya diregangkan. PCA mencari arah eigen data, PageRank Google adalah vektor eigen, dan stabilitas pelatihan recurrent neural network (RNN) ditentukan oleh nilai eigen bobotnya: lebih dari 1 meledak, kurang dari 1 menghilang.",
   body: String.raw`
 <h2>Arah yang tidak dibelokkan</h2>
-<p class="adegan">Bayangkan selembar karet yang kamu gambari banyak panah dari titik tengah ke segala arah, lalu karet itu kamu tarik ke kanan dan ke kiri. Hampir semua panah ikut miring dan berubah arah, tapi panah yang sejak awal menunjuk lurus ke kanan atau ke kiri hanya bertambah panjang dan tetap berada di garisnya sendiri. Panah yang tidak dibelokkan seperti itulah <b>vektor eigen</b>, dan berapa kali ia diperpanjang adalah <b>nilai eigen</b>-nya.</p>
+<p class="adegan">Bayangkan selembar karet yang kamu gambari banyak panah dari titik tengah ke segala arah, lalu karet itu kamu tarik serong, ke arah kanan-atas dan kiri-bawah. Hampir semua panah ikut miring dan berubah arah, tapi panah yang sejak awal menunjuk searah tarikan hanya bertambah panjang, dan panah yang tegak lurus terhadap tarikan malah tidak berubah sama sekali. Panah yang tidak dibelokkan seperti itulah <b>vektor eigen</b>, dan berapa kali ia diperpanjang adalah <b>nilai eigen</b>-nya.</p>
+<p>Gulir pelan-pelan dan lihat karetnya ditarik.</p>
+<div data-viz="eigenStory"></div>
 <p>Sebagian besar vektor dibelokkan oleh matriks. Ambil <span class="tx">A = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}</span>. Vektor (1, 0) dikirim ke (2, 1): arahnya berubah. Tapi (1, 1) dikirim ke (3, 3): arahnya <b>sama</b>, hanya tiga kali lebih panjang.</p>
 <div class="rule">Vektor v (bukan nol) adalah <mark>vektor eigen</mark> A kalau <span class="tx">Av = \lambda v</span>. Angka λ (lambda) adalah <mark>nilai eigen</mark>: faktor regangannya.</div>
 <p>Kata "eigen" dari bahasa Jerman, artinya "milik sendiri": arah yang menjadi milik matriks itu sendiri.</p>

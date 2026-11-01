@@ -170,6 +170,15 @@ details.coba summary b{color:var(--accent)}
 .lg span{white-space:normal}
 .lg i{font-style:normal;font-weight:700;color:var(--accent);margin-right:.25em}
 .rule .lg{margin:.7em 0 0}
+.story{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px;margin:1.6em 0 2em}
+.st-fig{position:sticky;top:76px;align-self:start}
+.st-fig svg{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:12px}
+.st-step{min-height:72vh;display:flex;align-items:center}
+.st-step:first-child{min-height:40vh;align-items:flex-start}
+.st-card{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--paper);opacity:.4;transition:opacity .35s}
+.st-step.on .st-card{opacity:1}
+.st-no{display:block;font-size:.75rem;color:var(--muted);margin-bottom:.3em}
+@media (max-width:760px){.story{grid-template-columns:minmax(0,1fr);gap:8px}.st-fig{top:0;z-index:3;background:var(--bg);padding:6px 0}.st-step{min-height:62vh}}
 #view p.adegan{border-left:3px solid var(--s2,#7cc);padding:.1em 0 .1em .9em;font-style:italic}
 .viz .lg-viz{margin:.3em 0 .8em;padding-top:.5em}
 .tabs .tg,.tabs .tgb{display:contents}
@@ -474,42 +483,43 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 </div>
 <div class="shell"><main id="main"></main></div>
 
-<script src="kurikulum.js?v=20261101b"></script>
-<script src="lapis0.js?v=20261101b"></script>
-<script src="lapis1.js?v=20261101b"></script>
-<script src="dalam.js?v=20261101b"></script>
-<script src="lapis2.js?v=20261101b"></script>
-<script src="dalam2.js?v=20261101b"></script>
-<script src="lapis3.js?v=20261101b"></script>
-<script src="dalam3.js?v=20261101b"></script>
-<script src="lapis4.js?v=20261101b"></script>
-<script src="dalam4.js?v=20261101b"></script>
-<script src="lapis5.js?v=20261101b"></script>
-<script src="lapis5b.js?v=20261101b"></script>
-<script src="lapis6.js?v=20261101b"></script>
-<script src="lapis6b.js?v=20261101b"></script>
-<script src="ingat.js?v=20261101b"></script>
-<script src="gagal.js?v=20261101b"></script>
-<script src="coba.js?v=20261101b"></script>
-<script src="legenda.js?v=20261101b"></script>
-<script src="legenda-l01.js?v=20261101b"></script>
-<script src="legenda-l2.js?v=20261101b"></script>
-<script src="legenda-l3.js?v=20261101b"></script>
-<script src="legenda-l4.js?v=20261101b"></script>
-<script src="legenda-l5.js?v=20261101b"></script>
-<script src="legenda-l6.js?v=20261101b"></script>
-<script src="dalam5.js?v=20261101b"></script>
-<script src="viz.js?v=20261101b"></script>
-<script src="viz2.js?v=20261101b"></script>
-<script src="viz3.js?v=20261101b"></script>
-<script src="viz4.js?v=20261101b"></script>
-<script src="viz5.js?v=20261101b"></script>
-<script src="peta.js?v=20261101b"></script>
-<script src="cabang.js?v=20261101b"></script>
-<script src="rumus.js?v=20261101b"></script>
-<script src="journey.js?v=20261101b"></script>
-<script src="glosarium.js?v=20261101b"></script>
-<script src="cari.js?v=20261101b"></script>
+<script src="kurikulum.js?v=20261101c"></script>
+<script src="lapis0.js?v=20261101c"></script>
+<script src="lapis1.js?v=20261101c"></script>
+<script src="dalam.js?v=20261101c"></script>
+<script src="lapis2.js?v=20261101c"></script>
+<script src="dalam2.js?v=20261101c"></script>
+<script src="lapis3.js?v=20261101c"></script>
+<script src="dalam3.js?v=20261101c"></script>
+<script src="lapis4.js?v=20261101c"></script>
+<script src="dalam4.js?v=20261101c"></script>
+<script src="lapis5.js?v=20261101c"></script>
+<script src="lapis5b.js?v=20261101c"></script>
+<script src="lapis6.js?v=20261101c"></script>
+<script src="lapis6b.js?v=20261101c"></script>
+<script src="ingat.js?v=20261101c"></script>
+<script src="gagal.js?v=20261101c"></script>
+<script src="coba.js?v=20261101c"></script>
+<script src="legenda.js?v=20261101c"></script>
+<script src="legenda-l01.js?v=20261101c"></script>
+<script src="legenda-l2.js?v=20261101c"></script>
+<script src="legenda-l3.js?v=20261101c"></script>
+<script src="legenda-l4.js?v=20261101c"></script>
+<script src="legenda-l5.js?v=20261101c"></script>
+<script src="legenda-l6.js?v=20261101c"></script>
+<script src="dalam5.js?v=20261101c"></script>
+<script src="viz.js?v=20261101c"></script>
+<script src="viz2.js?v=20261101c"></script>
+<script src="viz3.js?v=20261101c"></script>
+<script src="viz4.js?v=20261101c"></script>
+<script src="viz5.js?v=20261101c"></script>
+<script src="story.js?v=20261101c"></script>
+<script src="peta.js?v=20261101c"></script>
+<script src="cabang.js?v=20261101c"></script>
+<script src="rumus.js?v=20261101c"></script>
+<script src="journey.js?v=20261101c"></script>
+<script src="glosarium.js?v=20261101c"></script>
+<script src="cari.js?v=20261101c"></script>
 <script>
 (function(){
   var I = {
