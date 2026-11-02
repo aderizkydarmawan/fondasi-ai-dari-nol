@@ -36,7 +36,15 @@
       if (kurangGerak) { t = Math.round(t); if (t !== last) { last = kini = tuju = t; draw(svg, t); } return; }
       tuju = t; if (!jalan) { jalan = true; jadwal(); }
     }
+    /* lebarkan cerita ke ruang kosong di kanan halaman (desktop), supaya kartu teks tidak sempit memanjang */
+    function lebar() {
+      if (window.innerWidth <= 760) { host.style.width = host.style.maxWidth = ""; return; }
+      host.style.maxWidth = "none";
+      var kiri = host.parentElement.getBoundingClientRect().left, max = document.documentElement.clientWidth - kiri - 32;
+      host.style.width = Math.max(host.parentElement.clientWidth, Math.min(1240, max)) + "px";
+    }
     function tunda() { if (!antri) { antri = true; requestAnimationFrame(hitung); } }
+    window.addEventListener("resize", lebar); lebar();
     window.addEventListener("scroll", tunda, { passive: true, capture: true });
     window.addEventListener("resize", tunda);
     draw(svg, 0); setTimeout(hitung, 50);
@@ -68,7 +76,7 @@
       "<b>Giliranmu.</b> Seret dua titik bulat (ke mana (1, 0) dan (0, 1) dikirim) atau ketik angkanya, lalu tekan <b>kalikan lagi</b> berkali-kali. Gambar memecah panah oranye menjadi dua potongan di dua garis eigen: (1, 0) = ½·(1, 1) + ½·(1, −1). Setiap kali dikali A, potongan pertama membesar <b>3 kali</b> sedangkan potongan kedua tetap, jadi setelah 5 langkah perbandingannya sudah <b>243 : 1</b>. Itulah sebabnya panahnya menempel ke garis y = x.<div class=\"st-mat\">[[<input data-i=\"00\" value=\"2\" inputmode=\"decimal\" aria-label=\"baris 1 kolom 1\">, <input data-i=\"01\" value=\"1\" inputmode=\"decimal\" aria-label=\"baris 1 kolom 2\">], [<input data-i=\"10\" value=\"1\" inputmode=\"decimal\" aria-label=\"baris 2 kolom 1\">, <input data-i=\"11\" value=\"2\" inputmode=\"decimal\" aria-label=\"baris 2 kolom 2\">]]</div><button type=\"button\" class=\"st-lagi\">kalikan lagi</button> <button type=\"button\" class=\"st-ulang\">mulai dari (1, 0)</button><div class=\"st-contoh\">Coba juga: <button type=\"button\" data-m=\"2,1,1,2\">A semula</button><button type=\"button\" data-m=\"0,1,1,0\">cermin</button><button type=\"button\" data-m=\"1,1,1,1\">pemampat</button><button type=\"button\" data-m=\"0,-1,1,0\">putar 90°</button></div><span class=\"st-pesan\" aria-live=\"polite\"></span><span class=\"st-info\" aria-live=\"polite\"></span>",
       "<b>Kenapa ini penting untuk AI.</b> Mengalikan dengan matriks yang sama berulang-ulang muncul di mana-mana, dan hasilnya selalu dikuasai arah eigen dengan |λ| terbesar. <b>PageRank</b> menemukan halaman penting dengan cara persis seperti tombol tadi. <b>PCA</b> mencari arah eigen matriks kovarians, yaitu arah sebaran data terbesar. Di <b>RNN</b>, |λ| sedikit di atas 1 membuat sinyal meledak, sedikit di bawah 1 membuatnya lenyap.<br><br><b>Coba jelaskan ulang</b> dengan kata-katamu sendiri, tanpa melihat layar: kenapa panah (1, 0) lama-lama menempel ke garis y = x, dan apa yang terjadi pada contoh cermin? Kalau kamu bisa, kamu sudah memegang intinya."
     ];
-    var Wd = 520, Hd = 480, Hp = 400, cx = Wd / 2, cy = Hp / 2, k = 108;
+    var Wd = 520, Hd = 512, Hp = 400, cx = Wd / 2, cy = Hp / 2, k = 108;
     function X(x) { return cx + x * k; } function Y(y) { return cy - y * k; }
     function kali(Mx, v) { return [Mx[0][0] * v[0] + Mx[0][1] * v[1], Mx[1][0] * v[0] + Mx[1][1] * v[1]]; }
     function M(Mx, s, v) { var w = kali(Mx, v); return [v[0] + s * (w[0] - v[0]), v[1] + s * (w[1] - v[1])]; } /* (I + s(A − I))v */
@@ -126,7 +134,7 @@
     /* grafik belokan: sumbu x = arah semula 0°–360°, sumbu y = berapa derajat arah itu keluar dari garisnya */
     function grafik(g, Mx, s, op, sorotNol) {
       if (op <= 0.01) return;
-      var x0 = 44, x1 = Wd - 16, yt = Hp + 18, yb = Hd - 22, ym = (yt + yb) / 2, maks = Math.PI / 6;
+      var x0 = 44, x1 = Wd - 16, yt = Hp + 50, yb = Hd - 22, ym = (yt + yb) / 2, maks = Math.PI / 6;
       var data = [];
       for (var i = 0; i <= 180; i++) { var th = i / 180 * 2 * Math.PI, b = belok(Mx, s, th); data.push([th, b]); maks = Math.max(maks, Math.abs(b)); }
       function GX(th) { return x0 + (x1 - x0) * th / (2 * Math.PI); } function GY(b) { return ym - (yb - yt) / 2 * b / maks; }
