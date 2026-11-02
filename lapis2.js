@@ -87,7 +87,8 @@ window.LESSONS["2.2"] = {
 <p>Pertanyaannya: kalau x digeser sedikit, berapa cepat y berubah? Kita bisa membuka kuadratnya dulu, tapi untuk fungsi yang lebih rumit itu tidak praktis. Ada cara yang jauh lebih bersih.</p>
 
 <h2>Laju dikali laju</h2>
-<p>Bayangkan roda gigi. Kalau u berubah 2 kali secepat x, dan y berubah 6 kali secepat u, maka y berubah 2 × 6 = 12 kali secepat x. Laju-laju di sepanjang rantai <b>dikalikan</b>.</p>
+<p>Geser x sedikit sekali, misalnya 0,01. Di sekitar x = 1, u ikut bergeser 2 kali pergeseran x, lalu y bergeser sekitar 6 kali pergeseran u. Jadi y bergeser sekitar 2 × 6 = 12 kali pergeseran x. Laju-laju di sepanjang rantai <b>dikalikan</b>. Angka 6 itu hanya berlaku di sekitar x = 1, karena di x = 2 lajunya sudah lain. Itulah sebabnya aturan rantai selalu dihitung di satu titik, tidak seperti roda gigi yang perbandingannya tetap di mana pun.</p>
+<div data-viz="rantaiTabel"></div>
 <div class="tx d">\frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx}</div>
 <div class="rule"><mark>Aturan rantai</mark>: turunan fungsi bersusun = turunan fungsi luar (dihitung di nilai dalam) dikali turunan fungsi dalam.</div>
 <div class="ex"><div class="q">y = (2x + 1)². Hitung dy/dx di x = 1.</div>
