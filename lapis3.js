@@ -9,6 +9,7 @@ window.LESSONS["3.1"] = {
   body: String.raw`
 <h2>Tiga kata dulu: model, bobot, loss</h2>
 <p>Sebuah <b>model</b> adalah rumus yang menebak sesuatu dari data, misalnya neuron dari 0.2: tebakan = w·x + b. Angka-angka yang bisa disetel di dalamnya (w dan b) disebut <b>bobot</b> atau parameter. Untuk mengukur seberapa buruk tebakannya, kita pakai satu angka yang disebut <b>loss</b>: makin kecil, makin bagus. Contohnya rata-rata kuadrat selisih tebakan dan jawaban sebenarnya. Melatih model artinya mencari bobot yang membuat loss sekecil mungkin.</p>
+<div data-viz="gdStory"></div>
 <h2>Simbol yang dipakai</h2>
 <ul><li><b>θ</b> (theta): singkatan untuk "semua bobot model sekaligus". Kalau modelnya hanya punya satu bobot, kita sebut saja w, seperti di contoh di bawah. θ dan w di pelajaran ini adalah hal yang sama.</li>
 <li><b>L(θ)</b>: loss sebagai fungsi bobot. Bayangkan lanskap berbukit: posisi = bobot, ketinggian = loss.</li>
@@ -87,6 +88,7 @@ window.LESSONS["3.2"] = {
 <div class="tx d">L(p) = p^7\,(1-p)^3</div>
 <p>(Koefisien "10 pilih 7" tidak bergantung pada p, jadi boleh dibuang.) Data tetap, p yang berubah.</p>
 
+<div class="viz" data-viz="mleBatang"></div>
 <h2>Cari puncaknya</h2>
 <div class="tbl"><table><tr><th>p</th><td>0,3</td><td>0,5</td><td>0,7</td><td>0,9</td></tr>
 <tr><th>L(p) × 1000</th><td>0,08</td><td>0,98</td><td>2,22</td><td>0,48</td></tr></table></div>
@@ -132,6 +134,7 @@ window.LESSONS["3.3"] = {
 <div class="tx d">p(\theta \mid D) \propto p(D \mid \theta)\,p(\theta)</div>
 <p>Posterior ∝ likelihood × prior. Bedanya dengan 2.11: θ bukan dua pilihan (sakit/sehat), tapi sebuah angka kontinu, misalnya peluang gambar sebuah koin, p, di antara 0 dan 1. Jadi prior dan posterior adalah kurva.</p>
 
+<div class="viz" data-viz="betaDuaPrior"></div>
 <h2>Contoh: koin, lagi</h2>
 <p>Kita melihat 7 gambar dari 10 lemparan. Likelihood-nya <span class="tx">p^7(1-p)^3</span> (3.2).</p>
 <ul><li><b>Prior datar</b> (semua p sama mungkin): posterior sebanding dengan likelihood. Puncaknya tetap 0,7, rata-ratanya (1+7)/(2+10) ≈ 0,67.</li>
@@ -178,6 +181,7 @@ window.LESSONS["3.4"] = {
 <p class="adegan">Bayangkan permainan tebak hewan dengan pertanyaan ya/tidak. Kalau temanmu memilih satu dari 8 hewan yang sama mungkinnya, kamu selalu butuh tepat 3 pertanyaan, karena setiap jawaban membelah kemungkinan menjadi dua (8 → 4 → 2 → 1). Satu pertanyaan ya/tidak seperti itu adalah arti satu <b>bit</b>, dan kejadian yang makin jarang butuh makin banyak pertanyaan untuk ditunjuk.</p>
 <p>Kabar "besok matahari terbit" tidak memberi informasi; semua orang sudah tahu. Kabar "besok turun salju di Jakarta" sangat mengejutkan. Shannon mengukur kejutan sebuah kejadian dengan peluang p sebagai <span class="tx">-\log_2 p</span> bit. Peluang 1/2 memberi 1 bit, peluang 1/8 memberi 3 bit, peluang 1 memberi 0 bit.</p>
 
+<div data-viz="entropiTabel"></div>
 <h2>Entropi: kejutan rata-rata</h2>
 <div class="tx d">H(p) = -\sum_i p_i \log p_i</div>
 <p>Entropi adalah ekspektasi (2.10) kejutan. Ia mengukur ketidakpastian sebuah distribusi.</p>
@@ -229,6 +233,7 @@ window.LESSONS["3.5"] = {
 <h2>Menghafal bukan memahami</h2>
 <p>Tujuan model bukan cocok dengan data yang sudah dilihat, tapi menebak dengan baik data <b>baru</b>. Selisih antara keduanya disebut celah generalisasi. Untuk mengukurnya, sisihkan sebagian data sebagai <b>test data</b> yang tidak pernah dipakai saat melatih.</p>
 
+<div data-viz="overfitUrutan"></div>
 <h2>Percobaan: memasang polinomial</h2>
 <p>Ambil 15 titik dari kurva sinus ditambah noise (simpangan baku 0,25), lalu pasang polinomial berbagai derajat. Ukur rata-rata kuadrat kesalahan di training data dan di 200 titik uji baru:</p>
 <div class="tbl"><table><tr><th>derajat</th><td>1 (garis)</td><td>3</td><td>9</td></tr>
@@ -290,6 +295,7 @@ Posisi 4: (1 + 1 + 0)/3 ≈ 0,67
 Posisi 5: (1 + 0 + 0)/3 ≈ 0,33</div>
 <div class="ans">Jawaban: [0,33; 0,67; 1; 0,67; 0,33]. Tepi yang tajam menjadi landai: kernel ini menghaluskan (blur).</div></div>
 
+<div class="viz" data-viz="konvSel"></div>
 <h2>Kernel menentukan apa yang dicari</h2>
 <p>Ganti kernel menjadi [−1, 0, 1]. Di setiap posisi, hasilnya adalah (kanan − kiri): besar saat sinyal naik, negatif saat turun, nol di daerah datar. Untuk s di atas hasilnya [1, 1, 0, −1, −1]. Kernel ini adalah <b>pendeteksi tepi</b>, dan ia mirip turunan (2.1) versi diskret.</p>
 <p>Di gambar dua dimensi, kernel 3 × 3 bergeser di atas piksel. Kernel tertentu menemukan tepi tegak, yang lain tepi mendatar, yang lain sudut. Satu kernel yang sama dipakai di seluruh gambar, jadi pola yang dikenali di pojok kiri juga dikenali di pojok kanan.</p>
@@ -328,6 +334,7 @@ window.LESSONS["3.7"] = {
 <div class="tx d">\frac{dy}{dt} = -k\,y</div>
 <p>Dibaca: laju perubahan y sebanding dengan y itu sendiri, dengan tanda minus (berkurang). Ini <b>persamaan diferensial biasa</b> (ODE): persamaan yang memuat turunan. Jawabannya bukan angka, tapi sebuah fungsi y(t).</p>
 
+<div class="viz" data-viz="medanArah"></div>
 <h2>Jawaban tepat: eksponen</h2>
 <p>Fungsi apa yang turunannya sama dengan −k kali dirinya sendiri? Eksponen dari 1.5:</p>
 <div class="tx d">y(t) = y_0\,e^{-kt}</div>
@@ -378,6 +385,7 @@ window.LESSONS["3.8"] = {
 <div class="tx d">P = \begin{bmatrix} 0{,}8 & 0{,}2 \\ 0{,}4 & 0{,}6 \end{bmatrix}</div>
 <p>Setiap baris berjumlah 1. Sifat Markov: peluang besok hanya bergantung pada hari ini, bukan pada minggu lalu. Kedengarannya membatasi, tapi kalau "keadaan" dibuat cukup kaya, banyak sistem nyata memenuhinya.</p>
 
+<div class="viz" data-viz="markovKota"></div>
 <h2>Melangkah = mengalikan matriks</h2>
 <p>Kalau hari ini pasti cerah, distribusinya x = [1, 0]. Distribusi besok adalah <span class="tx">xP</span>, lusa <span class="tx">xP^2</span>, dan seterusnya:</p>
 <div class="tbl"><table><tr><th>hari</th><td>0</td><td>1</td><td>2</td><td>3</td><td>5</td><td>∞</td></tr>

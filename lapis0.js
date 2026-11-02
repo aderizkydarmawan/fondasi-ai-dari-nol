@@ -14,6 +14,7 @@ window.LESSONS["0.1"] = {
 <p>Bilangan negatif ada di sekitar kita. Suhu −5 °C artinya lima derajat di bawah nol. Saldo −20.000 artinya kamu berutang. Harga saham berubah −3 artinya turun tiga.</p>
 <p>Satu hal yang sering terbalik: <b>−5 lebih kecil dari −2</b>, karena −5 letaknya lebih ke kiri. Suhu −5 °C lebih dingin daripada −2 °C.</p>
 
+<div class="viz" data-viz="balikArah"></div>
 <h2>Tambah dan kurang adalah berjalan</h2>
 <div class="rule"><b>Menambah</b> berarti berjalan ke <b>kanan</b>. <b>Mengurangi</b> berarti berjalan ke <b>kiri</b>.</div>
 <div class="ex"><div class="q">Hitung 2 − 5.</div>
@@ -144,6 +145,7 @@ window.LESSONS["0.3"] = {
 <p>Satu pizza dipotong 8 sama besar, kamu makan 3 potong. Kamu makan <b>3/8</b> pizza. Angka atas (3) disebut <b>pembilang</b>, artinya berapa bagian yang diambil. Angka bawah (8) disebut <b>penyebut</b>, artinya keseluruhan dibagi menjadi berapa bagian.</p>
 <p>Pecahan juga berarti pembagian: 3/8 = 3 ÷ 8.</p>
 
+<div class="viz" data-viz="kueSamakan"></div>
 <h2>Pecahan senilai</h2>
 <p>1/2 pizza sama banyaknya dengan 2/4 dan 4/8. Kalikan atau bagi pembilang dan penyebut dengan angka yang <b>sama</b>, nilainya tidak berubah.</p>
 <div class="ex"><div class="q">Sederhanakan 6/12.</div>
@@ -217,6 +219,7 @@ window.LESSONS["0.4"] = {
 <tr><td>3²</td><td>3 × 3</td><td>9</td></tr><tr><td>5³</td><td>5 × 5 × 5</td><td>125</td></tr><tr><td>10⁴</td><td>10 × 10 × 10 × 10</td><td>10.000</td></tr><tr><td>2¹⁰</td><td>sepuluh angka 2 dikalikan</td><td>1.024</td></tr></table></div>
 <p>Pangkat dua disebut juga <b>kuadrat</b> karena luas persegi bersisi 3 adalah 3² = 9.</p>
 
+<div class="viz" data-viz="tanggaPangkat"></div>
 <h2>Hati-hati dengan tanda negatif</h2>
 <div class="ex"><div class="q">Bandingkan (−3)² dan −3².</div>
 <div class="step">(−3)² = (−3) × (−3) = 9      ← yang dipangkatkan −3
@@ -298,6 +301,7 @@ Yang kita mau: 6 → ada 1</div>
 <div class="step">Yang kita mau: 2, 4, 6 → ada 3 dari 6</div>
 <div class="ans">Jawaban: 3/6 = 1/2</div></div>
 
+<div class="viz" data-viz="lemparLagi"></div>
 <h2>Daftar semua kemungkinan</h2>
 <p>Untuk kejadian yang lebih rumit, tulis semua kemungkinan hasilnya. Daftar ini disebut <b>ruang sampel</b>.</p>
 <div class="ex"><div class="q">Dua koin dilempar. Berapa peluang keduanya muncul gambar (G)?</div>
@@ -373,6 +377,7 @@ window.LESSONS["0.6"] = {
     0  1  2  3  4</pre>
 <p>Alun-alun sendiri ada di (0, 0), disebut <b>titik asal</b>. Arah barat dan selatan memakai bilangan negatif: (−2, −1) artinya 2 blok ke barat dan 1 blok ke selatan.</p>
 
+<div class="viz" data-viz="pythLuas"></div>
 <h2>Perpindahan sebagai panah</h2>
 <p>"Jalan 3 ke timur dan 4 ke utara" bisa digambar sebagai panah dari (0, 0) ke (3, 4). Panah yang punya arah dan panjang seperti ini nanti disebut <b>vektor</b>. Dua perpindahan bisa digabung dengan menjumlahkan masing-masing arah:</p>
 <div class="ex"><div class="q">Jalan (3, 4), lalu jalan lagi (1, −2). Di mana posisi akhirnya?</div>
@@ -433,6 +438,7 @@ window.LESSONS["0.7"] = {
 <div class="rule">laju perubahan rata-rata = perubahan hasil ÷ perubahan input</div>
 <p>Rumus ini berlaku untuk apa pun, tidak hanya jarak dan waktu: kenaikan harga per hari, kenaikan suhu per jam, atau penurunan kesalahan model per langkah latihan.</p>
 
+<div data-viz="lajuUrutan"></div>
 <h2>Kalau lajunya tidak tetap</h2>
 <p>Sebuah bola menggelinding di bukit dan makin lama makin cepat. Posisinya, dalam meter, pada detik ke-t adalah t²:</p>
 <div class="tbl"><table><tr><th>detik (t)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>

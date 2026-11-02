@@ -44,6 +44,7 @@
     draw(svg, 0); setTimeout(hitung, 50);
     return { ulang: function () { last = kini; draw(svg, kini); }, kartu: lst, svg: svg };
   }
+  V.cerita = cerita; V.seg = seg; V.ease = ease;
 
   /* 2.7 Eigen. Kalimat inti: "lihat garis y = x tetap menjadi garisnya sendiri sementara hampir semua panah lain keluar dari garisnya".
      Salah paham yang diluruskan: (1) matriks bukan sekadar tabel angka, ia memindahkan setiap panah;

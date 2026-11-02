@@ -59,6 +59,7 @@ window.LESSONS["5.10"] = {
 <p>Autoencoder punya dua bagian: <b>encoder</b> memampatkan masukan x (misalnya gambar 784 piksel) menjadi kode pendek z (misalnya 16 angka), dan <b>decoder</b> membangun ulang <span class="tx">\hat x</span> dari z. Loss-nya adalah reconstruction error, yaitu seberapa beda hasil bangun ulang dari aslinya, misalnya <span class="tx">\|x - \hat x\|^2</span>. Karena z lebih sempit dari x, jaringan dipaksa menyimpan hanya hal terpenting. Autoencoder linear dengan loss kuadrat mempelajari ruang yang sama dengan PCA (2.8); dengan lapis nonlinear, ia bisa menangkap struktur yang melengkung.</p>
 <p>Masalahnya: ruang z dari autoencoder biasa berlubang-lubang. Ambil titik z acak dan decode, hasilnya sering sampah, karena tidak ada yang memaksa ruang itu teratur.</p>
 
+<div class="viz" data-viz="vaeAwan"></div>
 <h2>VAE: kode yang berupa distribusi</h2>
 <p>Kingma &amp; Welling (2014) membuat encoder mengeluarkan distribusi, bukan satu titik: rata-rata μ(x) dan simpangan baku σ(x) dari sebuah normal. Lalu mereka melatih dengan ELBO dari 4.3:</p>
 <div class="tx d">\mathcal{L} = \underbrace{\mathbb{E}_{q(z\mid x)}\big[\log p(x\mid z)\big]}_{\text{rekonstruksi}} - \underbrace{D_{\text{KL}}\big(\mathcal{N}(\mu, \sigma^2)\,\|\,\mathcal{N}(0, 1)\big)}_{\text{tetap dekat prior}}</div>
@@ -99,6 +100,7 @@ window.LESSONS["5.11"] = {
 <div class="tx d">\min_G \max_D\; \mathbb{E}_{x\sim p_{\text{data}}}[\log D(x)] + \mathbb{E}_{z}[\log(1 - D(G(z)))]</div>
 <p>Ini cross-entropy biner (5.1) untuk tugas "asli atau palsu", dengan G mencoba memperbesarnya.</p>
 
+<div class="viz" data-viz="ganLangkah"></div>
 <h2>Discriminator terbaik</h2>
 <p>Kalau G tetap dan data asli berkerapatan <span class="tx">p</span> sedangkan data palsu <span class="tx">q</span>, discriminator terbaik di setiap titik x adalah</p>
 <div class="tx d">D^*(x) = \frac{p(x)}{p(x) + q(x)}</div>
@@ -142,6 +144,7 @@ window.LESSONS["5.12"] = {
 <tr><th>bagian noise √(1 − ᾱ)</th><td>0,010</td><td>0,321</td><td>0,690</td><td>0,960</td><td>1,000</td></tr></table></div>
 <p>Di t = 1000, gambar asli tinggal 0,6%: praktis noise normal murni, apa pun gambar awalnya. Ini jaminan Fokker–Planck dari 4.6.</p>
 
+<div data-viz="difusiTabel"></div>
 <h2>Proses balik: latih penebak noise</h2>
 <p>Untuk membuat gambar, kita perlu berjalan mundur dari noise. Jaringan <span class="tx">\varepsilon_\theta(x_t, t)</span> (biasanya U-Net, jaringan konvolusi berbentuk U yang mengecilkan gambar lalu membesarkannya lagi, atau Transformer) dilatih dengan tugas sederhana: diberi gambar benoise <span class="tx">x_t</span> dan waktunya t, tebak noise ε yang ditambahkan. Loss-nya hanya MSE:</p>
 <div class="tx d">L = \mathbb{E}_{x_0,\, t,\, \varepsilon}\;\big\|\,\varepsilon - \varepsilon_\theta(x_t, t)\,\big\|^2</div>
@@ -182,6 +185,7 @@ window.LESSONS["5.13"] = {
 <p>Simbol ∏ berarti "kalikan semuanya", seperti Σ berarti "jumlahkan semuanya" (1.6). Jadi peluang kalimat = peluang kata pertama × peluang kata kedua kalau kata pertama sudah diketahui × dan seterusnya.</p>
 <p><b>Dari token ke vektor.</b> Setiap token punya nomor urut di vocabulary. Nomor itu dipakai untuk mengambil satu baris dari matriks <b>embedding</b> (ukurannya banyak-token × d), yang isinya ikut dipelajari seperti bobot lain. Hasilnya sebuah vektor (1.8), dan vektor inilah yang masuk ke Transformer (5.7). Di ujung, vektor terakhir dikalikan sebuah matriks lagi sehingga keluar satu logit per token di vocabulary, lalu softmax (4.2) mengubahnya jadi peluang token berikutnya. Vaswani dkk. (2017) bahkan memakai matriks yang sama untuk kedua ujung ini.</p>
 
+<div class="viz" data-viz="tokenSuhu"></div>
 <h2>Versi paling kecil: bigram</h2>
 <p>Model bigram hanya melihat satu token terakhir, persis rantai Markov (3.8). Peluangnya dihitung dari frekuensi.</p>
 <div class="ex"><div class="q">Korpus: "aku suka kopi . aku suka teh . kamu suka kopi .". Setelah kata "suka", berapa peluang "kopi" dan "teh"?</div>
@@ -226,6 +230,7 @@ window.LESSONS["5.14"] = {
 <div class="tx d">G_t = r_{t+1} + \gamma\,r_{t+2} + \gamma^2 r_{t+3} + \cdots</div>
 <p>dengan discount factor γ antara 0 dan 1. Reward yang jauh di masa depan dihitung lebih kecil; γ = 0,9 berarti reward 10 langkah lagi bernilai 0,9¹⁰ ≈ 0,35 dari reward sekarang.</p>
 
+<div class="viz" data-viz="bellmanLangkah"></div>
 <h2>Fungsi nilai dan persamaan Bellman</h2>
 <p>Nilai sebuah keadaan, V(s), adalah ekspektasi (2.10) reward total kalau mulai dari s dan bertindak sebaik mungkin. Bellman (1957) memperhatikan bahwa nilai bisa ditulis secara berulang: nilai sekarang = reward langkah ini + γ × nilai keadaan berikutnya, dengan aksi terbaik.</p>
 <div class="tx d">V(s) = \max_a \Big[\, r(s, a) + \gamma \sum_{s'} P(s' \mid s, a)\,V(s') \Big]</div>

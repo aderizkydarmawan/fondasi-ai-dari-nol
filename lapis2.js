@@ -12,6 +12,7 @@ window.LESSONS["2.1"] = {
 <p>Angka 4 itu tidak pernah benar-benar dicapai oleh selang mana pun, tapi semua selang yang makin kecil <b>menuju</b> ke sana. Angka tujuan seperti ini disebut <b>limit</b>.</p>
 <div class="rule">Limit: nilai yang didekati sebuah ekspresi ketika sesuatu dibuat makin kecil. Ditulis <mark><span class="tx">\lim_{h \to 0}</span></mark>, dibaca "limit saat h menuju nol".</div>
 
+<div class="viz" data-viz="zoomTurunan"></div>
 <h2>Definisi turunan</h2>
 <p>Ambil fungsi f dan titik x. Geser x sedikit sebesar h. Kemiringan garis yang menghubungkan dua titik itu adalah <span class="tx">\frac{f(x+h) - f(x)}{h}</span>, persis rumus kemiringan dari 1.4. Sekarang kecilkan h sampai nol:</p>
 <div class="tx d">f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}</div>
@@ -140,6 +141,7 @@ window.LESSONS["2.3"] = {
 <h2>Fungsi dengan banyak input</h2>
 <p>Ambil <span class="tx">f(x, y) = x^2 + 3y^2</span>. Bayangkan ini peta ketinggian sebuah lembah: x dan y posisi di tanah, f ketinggiannya. Di titik (1, 1), tingginya 1 + 3 = 4.</p>
 
+<div data-viz="gradStory"></div>
 <h2>Turunan parsial: geser satu, bekukan yang lain</h2>
 <p>Pertanyaan "seberapa curam" sekarang bergantung arah. Cara paling sederhana: geser x saja, anggap y konstanta. Hasilnya <b>turunan parsial terhadap x</b>, ditulis dengan d melengkung:</p>
 <div class="tx d">\frac{\partial f}{\partial x} = 2x, \qquad \frac{\partial f}{\partial y} = 6y</div>
@@ -187,6 +189,7 @@ window.LESSONS["2.4"] = {
 <p>Itulah <b>jumlah Riemann</b>, dan ia memakai Σ dari 1.6:</p>
 <div class="tx d">\text{luas} \approx \sum_{i=1}^{n} f(x_i)\,\Delta x</div>
 
+<div class="viz" data-viz="riemannTebak"></div>
 <h2>Contoh: luas di bawah x² dari 0 sampai 1</h2>
 <div class="ex"><div class="q">Hampiri luas di bawah y = x² dari 0 sampai 1 dengan 4 persegi panjang (tinggi diambil di ujung kanan).</div>
 <div class="step">Δx = 1/4. Ujung kanan: 1/4, 2/4, 3/4, 1
@@ -237,6 +240,7 @@ window.LESSONS["2.5"] = {
 <h2>Matriks memindahkan vektor</h2>
 <p>Di 1.9 kamu mengalikan matriks dengan vektor: tiap baris dikali-titik dengan vektor. Sekarang lihat hasilnya sebagai <b>gerakan</b>. Matriks <span class="tx">A = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}</span> mengirim (1, 1) ke (2, 1). Semua titik ditarik dua kali lebih jauh ke arah x, sementara y tetap.</p>
 
+<div data-viz="matriksStory"></div>
 <h2>Kolom matriks = tujuan sumbu</h2>
 <p>Trik paling berguna: lihat ke mana A mengirim dua vektor dasar, <span class="tx">e_1 = (1, 0)</span> dan <span class="tx">e_2 = (0, 1)</span>.</p>
 <div class="rule"><mark>Kolom pertama A adalah tujuan e₁, kolom kedua adalah tujuan e₂.</mark> Vektor lain ikut, karena (x, y) = x·e₁ + y·e₂.</div>
@@ -289,6 +293,7 @@ window.LESSONS["2.6"] = {
 <div class="rule"><mark>Hasil kali BA dibaca dari kanan ke kiri</mark>: A dikerjakan lebih dulu, seperti g(f(x)) di 1.3.</div>
 <p>Cara menghitungnya: entri baris i, kolom j dari BA adalah perkalian titik baris i dari B dengan kolom j dari A. Ukuran harus cocok: (m × n) dikali (n × p) menghasilkan (m × p).</p>
 
+<div class="viz" data-viz="urutanTrans"></div>
 <h2>Urutan itu penting</h2>
 <div class="ex"><div class="q">A = regangan [[2; 0]; [0; 1]], R = putaran 90° [[0; −1]; [1; 0]]. Bandingkan RA dan AR.</div>
 <div class="step">RA (regang dulu, lalu putar) = [[0; −1]; [2; 0]]
@@ -396,6 +401,7 @@ window.LESSONS["2.8"] = {
 <div class="tx d">A = U\,\Sigma\,V^{\top}</div>
 <p>Dibaca dari kanan: <span class="tx">V^{\top}</span> memutar, Σ meregangkan sepanjang sumbu (angka-angka di diagonalnya disebut <b>nilai singular</b> σ₁ ≥ σ₂ ≥ … ≥ 0), lalu U memutar lagi. Gerakan linear yang paling rumit pun hanya tiga gerakan sederhana.</p>
 
+<div data-viz="svdUrutan"></div>
 <h2>Nilai singular = seberapa penting tiap arah</h2>
 <div class="ex"><div class="q">A = [[3; 0]; [4; 5]] punya nilai singular √45 ≈ 6,71 dan √5 ≈ 2,24. Berapa persen "energi" A ada di arah pertama?</div>
 <div class="step">Energi diukur dengan kuadrat nilai singular
@@ -445,6 +451,7 @@ window.LESSONS["2.9"] = {
 <p>Lempar dadu. Sebelum dadu berhenti, hasilnya belum diketahui, tapi kita tahu kemungkinannya. <b>Variabel acak</b> X adalah angka hasil percobaan acak, ditulis dengan huruf besar. <span class="tx">P(X = 3) = 1/6</span> dibaca "peluang X bernilai 3".</p>
 <p><b>Distribusi</b> X adalah daftar lengkap: nilai apa saja yang mungkin, dan seberapa mungkin masing-masing. Syaratnya cuma dua: tiap peluang ≥ 0, dan totalnya 1.</p>
 
+<div class="viz" data-viz="sampelHist"></div>
 <h2>Diskret: binomial</h2>
 <p>Lempar koin 3 kali dan hitung banyaknya gambar (G). Dari 0.5 kamu tahu ada 8 hasil yang sama mungkin. Hitung berapa hasil untuk tiap jumlah G:</p>
 <div class="tbl"><table><tr><th>banyak G</th><td>0</td><td>1</td><td>2</td><td>3</td></tr>
@@ -546,6 +553,7 @@ window.LESSONS["2.11"] = {
 <div class="tx d">P(A \mid B) = \frac{P(A \text{ dan } B)}{P(B)}</div>
 <p>Contoh: dari satu dadu, P(angka 6 | genap) = (1/6) ÷ (3/6) = 1/3. Begitu kita tahu hasilnya genap, tinggal tiga kemungkinan, dan 6 salah satunya.</p>
 
+<div data-viz="bayesTabel"></div>
 <h2>Membalik arah syarat</h2>
 <p>Seringnya kita tahu <span class="tx">P(\text{bukti} \mid \text{sebab})</span> tapi ingin <span class="tx">P(\text{sebab} \mid \text{bukti})</span>. Teorema Bayes membaliknya:</p>
 <div class="tx d">P(H \mid D) = \frac{P(D \mid H)\,P(H)}{P(D)}</div>
@@ -593,6 +601,7 @@ window.LESSONS["2.12"] = {
 <div class="tx d">P(X = x) = \sum_y P(X = x, Y = y)</div>
 <p>X dan Y <b>saling bebas</b> kalau <span class="tx">P(x, y) = P(x)\,P(y)</span> untuk semua pasangan: mengetahui yang satu tidak memberi informasi tentang yang lain.</p>
 
+<div class="viz" data-viz="kovPersegi"></div>
 <h2>Kovarians: naik bersama atau berlawanan?</h2>
 <div class="tx d">\operatorname{Cov}(X, Y) = \mathbb{E}\bigl[(X - \mathbb{E}X)(Y - \mathbb{E}Y)\bigr]</div>
 <p>Kalau X di atas rata-rata cenderung bersamaan dengan Y di atas rata-rata, hasil kali selisihnya positif, dan kovariansnya positif. Kalau berlawanan, negatif. Kalau tidak ada pola, mendekati nol.</p>

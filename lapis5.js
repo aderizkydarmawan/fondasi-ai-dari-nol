@@ -16,6 +16,7 @@ b = ȳ − w x̄ = 4,75 − 1,9 × 2,5 = 0</div>
 <div class="ans">Jawaban: ŷ = 1,9x</div></div>
 <p>Dari mana rumus w dan b itu? Loss-nya <span class="tx">L(w, b) = \sum (y - wx - b)^2</span>. Di dasar lembah, kedua turunan parsial (2.3) bernilai nol. Turunan terhadap b: <span class="tx">-2\sum (y - wx - b) = 0</span>, jadi <span class="tx">b = \bar y - w\bar x</span>. Masukkan b ini ke turunan terhadap w, <span class="tx">-2\sum x\,(y - wx - b) = 0</span>, lalu rapikan: keluarlah rumus w di atas. Dengan banyak fitur, cara yang sama memberi <span class="tx">\mathbf{w} = (X^\top X)^{-1} X^\top \mathbf{y}</span>, memakai transpos dan invers dari 2.6.</p>
 
+<div class="viz" data-viz="regresiPersegi"></div>
 <h2>Regresi logistik: menebak peluang</h2>
 <p>Untuk pertanyaan ya/tidak (email ini spam? tumor ini ganas?), keluaran harus di antara 0 dan 1. Ambil skor linear <span class="tx">z = \mathbf{w}\cdot\mathbf{x} + b</span>, lalu peras dengan fungsi <b>sigmoid</b>:</p>
 <div class="tx d">\sigma(z) = \frac{1}{1 + e^{-z}}</div>
@@ -68,6 +69,7 @@ window.LESSONS["5.2"] = {
 <h2>Dua puluh pertanyaan</h2>
 <p>Pohon keputusan menebak dengan serangkaian pertanyaan ya/tidak: "Umur &gt; 40?", lalu "Tekanan darah &gt; 140?", dan seterusnya, sampai tiba di daun yang memberi jawaban. Pertanyaannya tidak dirancang manusia; algoritma memilih, di setiap simpul, pertanyaan yang paling memisahkan kelas.</p>
 
+<div class="viz" data-viz="giniBelah"></div>
 <h2>Mengukur "paling memisahkan": ketidakmurnian Gini</h2>
 <p>Simpul yang berisi satu kelas saja disebut murni. Ketidakmurnian Gini mengukur peluang dua contoh yang diambil acak dari simpul itu berbeda kelas:</p>
 <div class="tx d">G = 1 - \sum_k p_k^2</div>
@@ -117,6 +119,7 @@ Putaran 3: tidak ada yang pindah</div>
 <div class="ans">Jawaban: dua kelompok, {(1; 1), (1,5; 2)} dan lima titik lainnya, dengan pusat (1,25; 1,5) dan (3,9; 5,1)</div></div>
 <p>Kelemahannya: hasil bergantung pada pusat awal (jalankan beberapa kali, atau pakai k-means++ yang memilih pusat awal saling berjauhan), k harus ditentukan sendiri, dan k-means menganggap kelompok berbentuk bola seukuran. Kelompok memanjang atau bersarang perlu metode lain (DBSCAN, model campuran Gauss).</p>
 
+<div class="viz" data-viz="kmeansLangkah"></div>
 <h2>Memilih k</h2>
 <p>Jumlah kuadrat jarak selalu turun ketika k naik (k = banyak titik memberi nol), jadi tidak bisa dipakai langsung. Cara umum: plot terhadap k dan cari "siku" di mana penurunannya melambat, atau pakai skor <b>silhouette</b> yang membandingkan jarak ke kelompok sendiri dan ke kelompok tetangga. Keduanya petunjuk, bukan bukti; struktur kelompok yang dipilih harus masuk akal dalam konteks data.</p>
 
@@ -152,6 +155,7 @@ window.LESSONS["5.4"] = {
 <p>Fungsi aktivasi paling umum adalah <b>ReLU</b>: <span class="tx">\varphi(z) = \max(0, z)</span>. Nilai negatif dipotong jadi nol, nilai positif diteruskan apa adanya.</p>
 <p>Kenapa harus ada pembengkok? Tanpa φ, dua lapis berturut-turut hanya <span class="tx">W_2(W_1\mathbf{x}) = (W_2W_1)\mathbf{x}</span>, tetap satu matriks: setinggi apa pun tumpukannya, model hanya bisa menggambar garis lurus. Dengan φ, Cybenko (1989) dan Hornik dkk. (1989) membuktikan bahwa satu hidden layer yang cukup lebar bisa mendekati fungsi kontinu apa pun (teorema pendekatan universal).</p>
 
+<div data-viz="backpropTabel"></div>
 <h2>Contoh kecil: maju</h2>
 <div class="ex"><div class="q">x = [1; 2]. Lapis 1: W₁ = [[0,5; −1]; [1; 0,5]], tanpa bias, ReLU. Lapis 2: w₂ = [1; −1]. Target t = 1, loss ½(ŷ − t)². Hitung maju.</div>
 <div class="step">z = W₁x = [0,5 − 2; 1 + 1] = [−1,5; 2]
@@ -202,6 +206,7 @@ window.LESSONS["5.5"] = {
 <li><b>Pooling</b>: perkecil peta fitur, misalnya ambil nilai terbesar di setiap kotak 2 × 2 (max pooling). Ukurannya terbagi dua, dan pergeseran kecil gambar tidak lagi mengubah hasil.</li>
 <li><b>Lapis penuh</b> di ujung: ratakan peta fitur menjadi vektor, lalu klasifikasi dengan softmax (4.2).</li></ul>
 
+<div class="viz" data-viz="medanTerima"></div>
 <h2>Menghitung ukuran dan bobot</h2>
 <div class="ex"><div class="q">Masukan gambar RGB 32 × 32. Lapis konvolusi: 64 kernel 3 × 3, padding 1, stride 1. Lalu max pooling 2 × 2. Berapa ukuran keluaran dan berapa bobotnya?</div>
 <div class="step">Ukuran setelah konvolusi: (32 + 2·1 − 3)/1 + 1 = 32, jadi 32 × 32 × 64
@@ -240,6 +245,7 @@ window.LESSONS["5.6"] = {
 <p><b>tanh</b> (tangen hiperbolik) adalah fungsi aktivasi berbentuk S seperti sigmoid (2.2), tapi keluarannya dari −1 sampai 1, bukan 0 sampai 1. Rumusnya tanh(z) = (eᶻ − e⁻ᶻ)/(eᶻ + e⁻ᶻ), dan ternyata tanh(z) = 2σ(2z) − 1. Contoh: tanh(0) = 0, tanh(1) ≈ 0,762.</p>
 <p>Dilatih dengan backpropagation yang dibentangkan sepanjang waktu (backpropagation through time): jaringan dianggap sebagai tumpukan lapis sebanyak panjang urutan, semuanya berbagi bobot.</p>
 
+<div class="viz" data-viz="vanishTebak"></div>
 <h2>Masalahnya: vanishing gradient atau meledak</h2>
 <p>Untuk mengalirkan sinyal kesalahan dari langkah 50 ke langkah 1, aturan rantai mengalikan turunan sebanyak 50 kali. Kalau setiap faktor sekitar 0,9:</p>
 <div class="tx d">0{,}9^{50} \approx 0{,}005, \qquad 1{,}1^{50} \approx 117</div>
@@ -281,6 +287,7 @@ Softmax: [0,401; 0,198; 0,401]
 Keluaran: 0,401·[10; 0] + 0,198·[0; 10] + 0,401·[5; 5]</div>
 <div class="ans">Jawaban: [6,02; 3,98]. Kunci yang searah dengan query (k₁ dan k₃) mendapat bobot terbesar.</div></div>
 
+<div data-viz="attnTabel"></div>
 <h2>Self-attention</h2>
 <p>Dalam Transformer, setiap kata (token) menghasilkan query, key, dan value miliknya sendiri lewat tiga matriks yang dipelajari: <span class="tx">Q = XW_Q,\ K = XW_K,\ V = XW_V</span>. Lalu setiap token memperhatikan semua token lain. Kata "dia" dalam "Ani memberi Budi buku karena dia baik" bisa memberi bobot besar pada "Ani". Semua posisi dihitung bersamaan sebagai satu perkalian matriks, sempurna untuk GPU.</p>
 <p><b>Multi-head</b>: beberapa attention dijalankan berdampingan dengan matriks berbeda, sehingga satu kepala bisa melacak tata bahasa, kepala lain melacak siapa merujuk siapa. Karena attention tidak peduli urutan, posisi setiap token disuntikkan sebagai vektor tambahan (positional encoding): setiap posisi i mendapat vektor berisi sin dan cos (0.6) dengan frekuensi berbeda-beda (Vaswani dkk., 2017), yang ditambahkan ke vektor tokennya. Tanpa itu, "Ani memukul Budi" dan "Budi memukul Ani" terlihat sama bagi attention.</p>
@@ -316,6 +323,7 @@ window.LESSONS["5.8"] = {
 <div class="tx d">\mathbf{h}_t = \bar A\,\mathbf{h}_{t-1} + \bar B\,x_t, \qquad y_t = C\,\mathbf{h}_t</div>
 <p>Ini mirip RNN (5.6), dengan satu perbedaan penting: <b>tidak ada tanh</b>. Semuanya linear.</p>
 
+<div class="viz" data-viz="ssmKartu"></div>
 <h2>Linear berarti bisa jadi konvolusi</h2>
 <p>Ambil keadaan berdimensi satu dengan <span class="tx">\bar A = a</span>, <span class="tx">\bar B = C = 1</span>. Masukan di langkah s menyumbang <span class="tx">a^{t-s} x_s</span> ke keluaran di langkah t. Jadi keluarannya adalah konvolusi (3.6) masukan dengan kernel <span class="tx">[1, a, a^2, a^3, \dots]</span>:</p>
 <div class="ex"><div class="q">a = 0,9, masukan [1; 0; 0; 0; 2; 0]. Hitung keluaran dengan rekursi dan dengan konvolusi.</div>

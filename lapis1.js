@@ -78,6 +78,7 @@ Cek: kiri 2·11 − 7 = 15, kanan 11 + 4 = 15  ✓</div>
 <div class="ans">Jawaban: x = 11</div></div>
 <p>Disebut <b>linear</b> karena x hanya muncul berpangkat satu: tidak ada x², tidak ada x di penyebut. Kalau digambar, hasilnya garis lurus (pelajaran 1.4).</p>
 
+<div class="viz" data-viz="timbangan"></div>
 <h2>Contoh nyata: membalik rumus</h2>
 <p>Rumus suhu: F = 1,8C + 32. Kalau termometer menunjukkan 77 °F, berapa °C?</p>
 <div class="ex"><div class="q">Selesaikan 77 = 1,8C + 32.</div>
@@ -128,6 +129,7 @@ f(−1) = 2·(−1) + 1 = −2 + 1 = −1</div>
 <div class="rule">Syarat sebuah fungsi: <mark>setiap input menghasilkan tepat satu output</mark>. Dua input boleh memberi output yang sama, tapi satu input tidak boleh memberi dua output.</div>
 <p>Contoh: g(x) = x² memberi g(2) = 4 dan g(−2) = 4. Itu boleh, karena tiap input tetap punya satu output. Sebaliknya, "orang → nomor HP-nya" bukan fungsi kalau ada orang yang punya dua nomor.</p>
 
+<div class="viz" data-viz="mesinFungsi"></div>
 <h2>Tabel dan grafik</h2>
 <p>Cara paling jujur memahami fungsi: masukkan beberapa angka dan catat hasilnya.</p>
 <div class="tbl"><table><tr><th>x</th><td>−2</td><td>−1</td><td>0</td><td>1</td><td>2</td><td>3</td></tr>
@@ -182,6 +184,7 @@ window.LESSONS["1.4"] = {
 <div class="rule"><mark>m = (perubahan y) ÷ (perubahan x) = (y₂ − y₁) ÷ (x₂ − x₁)</mark>. Ini persis "laju perubahan" dari pelajaran 0.7.</div>
 <p>Kalau m positif, garis naik ke kanan. Kalau m negatif, garis turun. Kalau m = 0, garis datar. Makin besar m (tanpa melihat tanda), makin curam.</p>
 
+<div class="viz" data-viz="garisBayang"></div>
 <h2>Mencari garis dari dua titik</h2>
 <div class="ex"><div class="q">Garis melewati (1, 3) dan (3, 7). Cari persamaannya.</div>
 <div class="step">Kemiringan: m = (7 − 3) ÷ (3 − 1) = 4 ÷ 2 = 2
@@ -225,6 +228,7 @@ window.LESSONS["1.5"] = {
 <p>Fungsi x² kamu lihat di 1.3 berbentuk U. Sifat pentingnya: hasilnya <b>tidak pernah negatif</b>, dan tumbuh makin cepat. Salah 1 → hukuman 1. Salah 2 → hukuman 4. Salah 10 → hukuman 100.</p>
 <p>Karena itu AI sering mengukur kesalahan dengan kuadrat selisih: tebakan meleset ke atas atau ke bawah sama-sama dihukum, dan meleset jauh dihukum jauh lebih berat.</p>
 
+<div class="viz" data-viz="penggarisLog"></div>
 <h2>Aturan pangkat</h2>
 <p>Ingat dari 0.4: 2³ = 2 × 2 × 2. Dari arti "perkalian berulang", aturan berikut bisa kamu turunkan sendiri:</p>
 <div class="rule"><mark>aᵐ · aⁿ = aᵐ⁺ⁿ</mark> &nbsp; <mark>(aᵐ)ⁿ = aᵐⁿ</mark> &nbsp; <mark>a⁰ = 1</mark> &nbsp; <mark>a⁻ⁿ = 1 ÷ aⁿ</mark></div>
@@ -303,6 +307,7 @@ window.LESSONS["1.6"] = {
 <div class="ans">Jawaban: 55</div></div>
 <div class="rule">Konstanta bisa keluar dari Σ: <mark>Σ c·xᵢ = c · Σ xᵢ</mark>. Itu sifat distributif dari 1.1, hanya ditulis lebih ringkas.</div>
 
+<div class="viz" data-viz="jungkat"></div>
 <h2>Rata-rata</h2>
 <p>Rata-rata (mean) adalah jumlah dibagi banyaknya data. Simbolnya sering x̄ (dibaca "x bar").</p>
 <div class="big">x̄ = (1/n) · Σᵢ₌₁ⁿ xᵢ</div>
@@ -352,6 +357,7 @@ window.LESSONS["1.7"] = {
 <ul><li>Kelas A: 48, 50, 52</li><li>Kelas B: 10, 50, 90</li></ul>
 <p>Rata-rata keduanya 50. Tapi kelas A rapat, sedangkan kelas B tersebar jauh. Kita butuh angka yang mengukur sebaran.</p>
 
+<div class="viz" data-viz="persegiVar"></div>
 <h2>Membangun varians langkah demi langkah</h2>
 <p>Ide pertama: rata-ratakan jarak tiap data ke rata-rata. Tapi di 1.6 kita tahu jumlah (xᵢ − x̄) selalu 0, karena yang positif dan negatif saling menghapus. Solusinya: <b>kuadratkan</b> dulu, supaya semua positif (ingat 1.5).</p>
 <div class="rule"><mark>Varians = rata-rata dari (xᵢ − x̄)²</mark>. &nbsp; <mark>Simpangan baku = √varians</mark>, supaya satuannya kembali sama dengan data.</div>
@@ -406,6 +412,7 @@ window.LESSONS["1.8"] = {
 <p>Rumah bisa diringkas jadi daftar: [luas 70 m², 2 kamar, 15 tahun]. Daftar angka berurutan seperti ini disebut <b>vektor</b>. Banyaknya angka disebut <b>dimensi</b>; contoh ini vektor berdimensi 3.</p>
 <p>Urutan penting: [70, 2, 15] berbeda dari [2, 70, 15]. Vektor berdimensi 2 bisa digambar sebagai panah dari titik (0, 0). Vektor [3, 4] adalah panah ke titik (3, 4).</p>
 
+<div class="viz" data-viz="dotBayang"></div>
 <h2>Menjumlah dan mengali vektor</h2>
 <div class="rule">Jumlah dua vektor: jumlahkan <b>per posisi</b>. Kali bilangan: kalikan <b>setiap</b> isinya.</div>
 <div class="ex"><div class="q">u = [1, 2, 3], v = [4, 5, 6]. Hitung u + v dan 2u.</div>

@@ -10,6 +10,7 @@ window.LESSONS["4.1"] = {
 <h2>Banyak partikel, sedikit yang kita tahu</h2>
 <p>Segelas air berisi sekitar <span class="tx">10^{25}</span> molekul. Tidak ada yang bisa melacak semuanya. Fisika statistik menyerah pada detail dan bertanya hal yang lebih masuk akal: dari semua susunan yang mungkin, berapa peluang setiap susunan? Ini cara pandang yang sama dengan machine learning: kita tidak tahu proses persis yang menghasilkan data, jadi kita memodelkan peluangnya.</p>
 
+<div class="viz" data-viz="suhuLembah"></div>
 <h2>Energi: harga sebuah susunan</h2>
 <p>Setiap susunan (fisikawan menyebutnya <b>keadaan</b> atau mikrostate) punya energi E. Bola di dasar mangkuk berenergi rendah, bola di bibir mangkuk berenergi tinggi. Alam cenderung ke energi rendah, tapi tidak sepenuhnya: tumbukan acak antarmolekul terus menendang sistem ke keadaan berenergi lebih tinggi.</p>
 
@@ -68,6 +69,7 @@ Bagi setiap faktor dengan Z</div>
 <tr><th>peluang tiga keadaan</th><td>0,867; 0,117; 0,016</td><td>0,665; 0,245; 0,090</td><td>0,402; 0,329; 0,269</td></tr></table></div>
 <p>Dingin: hampir semua peluang di keadaan terendah. Panas: makin rata. Jaynes (1957) menunjukkan kenapa bentuknya harus eksponen: dari semua distribusi dengan energi rata-rata tertentu, distribusi Boltzmann adalah yang entropinya paling besar, yaitu yang paling sedikit mengandaikan hal lain.</p>
 
+<div class="viz" data-viz="softmaxSuhu"></div>
 <h2>Softmax = Boltzmann dengan tanda dibalik</h2>
 <p>Classifier menghasilkan skor mentah z (disebut <b>logit</b>), dan skor tinggi berarti lebih mungkin. Ganti energi dengan minus skor, maka keluarlah softmax:</p>
 <div class="tx d">\text{softmax}(z)_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}</div>
@@ -116,6 +118,7 @@ window.LESSONS["4.3"] = {
 <p>Tanda kurung sudut <span class="tx">\langle E \rangle</span> adalah cara fisikawan menulis ekspektasi, sama dengan <span class="tx">\mathbb{E}[E]</span> dari 2.10: energi rata-rata, ditimbang peluang tiap keadaan. S adalah entropi Boltzmann dari 4.1.</p>
 <p>Suhu menentukan siapa yang menang. Dingin: suku energi menang, sistem mengendap di keadaan terendah (es). Panas: suku entropi menang, sistem menyebar ke banyak keadaan (uap). Untuk distribusi Boltzmann, nilai minimumnya bisa dihitung dari fungsi partisi: <span class="tx">F = -kT \ln Z</span>.</p>
 
+<div class="viz" data-viz="energiBebas"></div>
 <h2>Energi bebas untuk tebakan apa pun</h2>
 <p>Tulis rumus yang sama untuk distribusi q sembarang, tidak harus Boltzmann: <span class="tx">F[q] = \langle E \rangle_q - T\,H(q)</span>. Ternyata selisihnya dengan minimum adalah divergensi KL dari 3.4:</p>
 <div class="tx d">F[q] - F = kT\; D_{\text{KL}}(q \,\|\, p)</div>
@@ -166,6 +169,7 @@ Simulasi (Python di bawah): 9,96 dan 5,02</div>
 <div class="ans">Jawaban: sekitar 10 dan 5. Waktu empat kali lipat, jarak hanya dua kali lipat.</div></div>
 <p>Menurut teorema limit pusat (2.9), posisi setelah banyak langkah berdistribusi hampir normal dengan varians n.</p>
 
+<div data-viz="jalanStory"></div>
 <h2>Gerak Brown: jalan acak yang diperhalus</h2>
 <p>Tahun 1827 (diterbitkan 1828) ahli botani Robert Brown melihat serbuk sari di air bergoyang tanpa henti. Einstein (1905) menjelaskannya: serbuk ditabrak molekul air dari segala arah, ribuan kali per detik, dan setiap tabrakan adalah satu langkah acak kecil. Buat langkahnya makin kecil dan makin sering, maka jalan acak menjadi <b>gerak Brown</b> W(t), dengan</p>
 <div class="tx d">W(t) - W(s) \sim \mathcal{N}(0,\; t - s)</div>
@@ -199,6 +203,7 @@ window.LESSONS["4.5"] = {
 <div class="tx d">dX = \underbrace{f(X)\,dt}_{\text{drift}} + \underbrace{\sigma\,dW}_{\text{noise}}</div>
 <p>Drift menarik X ke suatu arah; suku noise menggoyangnya. Karena W acak, setiap kali dijalankan lintasannya berbeda. Yang bisa diramalkan adalah <b>distribusi</b> X, bukan nilai persisnya.</p>
 
+<div class="viz" data-viz="ouSeimbang"></div>
 <h2>Euler–Maruyama: Euler dengan dadu</h2>
 <p>Cara menyelesaikannya dengan komputer sama seperti Euler, ditambah satu bilangan acak normal per langkah. Ingat dari 4.4: tendangan Brown dalam waktu Δt berukuran <span class="tx">\sqrt{\Delta t}</span>, bukan Δt.</p>
 <div class="tx d">X_{n+1} = X_n + f(X_n)\,\Delta t + \sigma\sqrt{\Delta t}\;\xi_n, \qquad \xi_n \sim \mathcal{N}(0, 1)</div>
@@ -248,6 +253,7 @@ window.LESSONS["4.6"] = {
 <div class="tx d">\frac{\partial u}{\partial t} = D\,\frac{\partial^2 u}{\partial x^2}</div>
 <p>Turunan kedua (2.1) mengukur kelengkungan. Di puncak, kurva melengkung ke bawah (turunan kedua negatif), jadi u turun. Di lembah, u naik. Persamaan ini meratakan apa saja: tonjolan dikikis, cekungan diisi. Itu juga cara panas menyebar di batang logam, yang membuat Fourier menemukan persamaan ini (dipresentasikan 1807, dibukukan 1822).</p>
 
+<div class="viz" data-viz="panasArus"></div>
 <h2>Jawaban untuk sebuah paku</h2>
 <p>Kalau semua kepadatan awalnya di x = 0, jawabannya distribusi normal yang melebar:</p>
 <div class="tx d">u(x, t) = \frac{1}{\sqrt{4\pi D t}}\, e^{-x^2/(4Dt)}, \qquad \text{varians} = 2Dt</div>
@@ -296,6 +302,7 @@ window.LESSONS["4.7"] = {
 <div class="tx d">\frac{dq}{dt} = \frac{\partial H}{\partial p}, \qquad \frac{dp}{dt} = -\frac{\partial H}{\partial q}</div>
 <p>Yang pertama berkata: posisi berubah sesuai kecepatan. Yang kedua: momentum berubah karena gaya, dan gaya adalah minus gradien potensial (bola didorong menuruni lereng). Akibat langsungnya: H tidak berubah sepanjang gerak. <b>Energi kekal.</b></p>
 
+<div class="viz" data-viz="bidangFase"></div>
 <h2>Contoh: pegas</h2>
 <p>Untuk pegas dengan m = 1 dan U = q²/2, H = (p² + q²)/2. Mulai dari q = 1, p = 0, energinya 0,5. Bola berayun dan di ruang (q, p) ia mengelilingi lingkaran berjari-jari 1 selamanya.</p>
 
