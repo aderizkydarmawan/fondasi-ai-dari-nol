@@ -136,7 +136,7 @@
       el("line", { x1: x0, y1: ym, x2: x1, y2: ym, style: "stroke:var(--muted,#888);opacity:.5" }, gg);
       [0, 90, 180, 270, 360].forEach(function (dg) { var t = el("text", { x: GX(dg * Math.PI / 180), y: yb + 12, "text-anchor": "middle", style: "fill:var(--muted,#888);font-size:10px" }, gg); t.textContent = dg + "°"; });
       var tl = el("text", { x: x0 - 6, y: ym + 4, "text-anchor": "end", style: "fill:var(--muted,#888);font-size:10px" }, gg); tl.textContent = "0°";
-      var tt = el("text", { x: x0, y: yt - 4, style: "fill:var(--muted,#888);font-size:11px;font-weight:600" }, gg); tt.textContent = "seberapa jauh tiap arah keluar dari garisnya (maks " + fmt(maks * 180 / Math.PI, 0) + "°)";
+      var tt = el("text", { x: x0, y: yt - 20, style: "fill:var(--muted,#888);font-size:11px;font-weight:600" }, gg); tt.textContent = "seberapa jauh tiap arah keluar dari garisnya (maks " + fmt(maks * 180 / Math.PI, 0) + "°)";
       var pts = [], prev = null;
       data.forEach(function (p) { if (prev && Math.abs(p[1] - prev[1]) > Math.PI / 2) { el("polyline", { points: pts.join(" "), style: "fill:none;stroke:var(--s1);stroke-width:2" }, gg); pts = []; } pts.push(GX(p[0]) + "," + GY(p[1])); prev = p; });
       el("polyline", { points: pts.join(" "), style: "fill:none;stroke:var(--s1);stroke-width:2" }, gg);
