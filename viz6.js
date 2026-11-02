@@ -83,15 +83,20 @@
     var sudah = false;
     tebak(f, "2⁰ = ?", ["0", "1", "2"], 1, "Dari 2¹ = 2, turun satu anak tangga berarti dibagi 2 sekali lagi: 2 ÷ 2 = 1. Pangkat 0 bukan berarti \"tidak ada\", tapi \"belum dikali apa-apa\", dan perkalian yang belum dimulai bernilai 1.", function () { sudah = true; h._draw(); });
     h._draw = function () {
-      var a = f.vals.a, s = f.svg; s.setAttribute("viewBox", "0 0 560 350"); s.innerHTML = ""; heads(s);
+      var a = f.vals.a, s = f.svg; s.setAttribute("viewBox", "0 0 560 326"); s.innerHTML = ""; heads(s);
       var sup = { "3": "³", "2": "²", "1": "¹", "0": "⁰", "-1": "⁻¹", "-2": "⁻²" };
       for (var k = 3; k >= -2; k--) {
-        var i = 3 - k, x = 40 + i * 86, y = 20 + i * 52, nil = Math.pow(a, k);
+        var i = 3 - k, x = 20 + i * 90, y = 14 + i * 52, nil = Math.pow(a, k);
         var tutup = !sudah && a === 2 && k <= 0;
-        el("rect", { x: x, y: y, width: 82, height: 46, rx: 6, "class": k === 0 ? "s1 fill" : "cell", "fill-opacity": k === 0 ? 0.25 : null }, s);
-        tx(s, x + 41, y + 19, a + sup[k], "lbl", "middle");
-        tx(s, x + 41, y + 39, tutup ? "?" : (k >= 0 ? String(nil) : "1/" + Math.pow(a, -k)), "lbl s1t", "middle");
-        if (k > -2) { var l = el("path", { d: "M" + (x + 70) + " " + (y + 48) + " Q" + (x + 96) + " " + (y + 54) + " " + (x + 100) + " " + (y + 62), "class": "s2 line" }, s); l.setAttribute("marker-end", "url(#s2-head)"); tx(s, x + 104, y + 52, "÷" + a, "lbl s2t"); }
+        el("rect", { x: x, y: y, width: 72, height: 44, rx: 6, "class": k === 0 ? "s1 area" : "cell" }, s);
+        tx(s, x + 36, y + 19, a + sup[k], "lbl", "middle");
+        tx(s, x + 36, y + 38, tutup ? "?" : (k >= 0 ? String(nil) : "1/" + Math.pow(a, -k)), "lbl s1t", "middle");
+        if (k > -2) {
+          var x1 = x + 72, y1 = y + 22, x2 = x + 112, y2 = y + 50;
+          el("line", { x1: x1 + 2, y1: y1, x2: x2 - 4, y2: y2 - 6, "class": "s2 line" }, s);
+          el("polygon", { points: x2 + "," + y2 + " " + (x2 - 11) + "," + (y2 - 4) + " " + (x2 - 4) + "," + (y2 - 12), "class": "s2 fill" }, s);
+          tx(s, x2 + 4, y1 + 6, "÷" + a, "lbl s2t");
+        }
       }
       f.out.innerHTML = !sudah && a === 2 ? "Tebak dulu 2⁰ di atas." : "Setiap anak tangga ke kanan dibagi " + a + ". Karena itu " + a + "⁰ = " + a + " ÷ " + a + " = <b>1</b>, dan " + a + "⁻¹ = 1/" + a + " = " + fmt(1 / a, 4) + ". Pangkat negatif berarti terus membagi.";
     }; h._draw();
@@ -119,7 +124,7 @@
       var pg = hasil.g / hasil.n;
       el("rect", { x: 120, y: 50, width: 400 * pg, height: 34, "class": "s1 fill" }, s);
       el("rect", { x: 120 + 400 * pg, y: 50, width: 400 * (1 - pg), height: 34, "class": "s2 fill" }, s);
-      tx(s, 110, 72, "gambar", "lbl", "end");
+      tx(s, 110, 72, "gambar", "lbl", "end"); tx(s, 116 + 400 * pg + 400 * (1 - pg), 110, "angka", "lbl s2t", "end");
       el("line", { x1: 320, x2: 320, y1: 44, y2: 92, "class": "guide" }, s); tx(s, 320, 110, "50%", "lbl", "middle");
       tx(s, 120 + 200 * pg, 140, fmt(pg * 100, 1) + "% gambar", "lbl s1t", "middle");
       f.out.innerHTML = "Dari " + hasil.N.toLocaleString("id") + " lemparan ada <b>" + hasil.n.toLocaleString("id") + "</b> kejadian sesudah 5 angka beruntun. Yang menjadi gambar: <b>" + fmt(pg * 100, 1) + "%</b>. Tekan lagi: angkanya bergoyang sedikit di sekitar 50%, tidak pernah condong ke gambar.";
@@ -160,15 +165,15 @@
     button(f, "ulang", function () { reset(); h._draw(); });
     function tulis(e) { var s = ""; if (e.a) s += (Math.abs(e.a - 1) < 1e-9 ? "" : fmt(e.a, 2)) + "x"; if (Math.abs(e.b) > 1e-9 || !e.a) s += (s ? (e.b < 0 ? " − " : " + ") + fmt(Math.abs(e.b), 2) : fmt(e.b, 2)); return s; }
     h._draw = function () {
-      var s = f.svg; s.setAttribute("viewBox", "0 0 560 240"); s.innerHTML = "";
-      var kiri = st.L.a * X + st.L.b, kanan = st.R.a * X + st.R.b, beda = kiri - kanan, ang = Math.max(-14, Math.min(14, beda * 2.5));
-      el("polygon", { points: "280,200 262,232 298,232", "class": "ink fill" }, s);
-      var g = el("g", { transform: "rotate(" + ang + " 280 200)" }, s);
-      el("line", { x1: 90, x2: 470, y1: 200, y2: 200, "class": "ink line" }, g);
-      el("rect", { x: 100, y: 150, width: 150, height: 46, rx: 8, "class": "s1 area" }, g);
-      el("rect", { x: 310, y: 150, width: 150, height: 46, rx: 8, "class": "s2 area" }, g);
-      tx(g, 175, 179, tulis(st.L), "lbl", "middle"); tx(g, 385, 179, tulis(st.R), "lbl", "middle");
-      tx(s, 280, 40, Math.abs(beda) < 1e-9 ? "seimbang: kedua sisi tetap sama (dengan x = 5, " + fmt(kiri, 2) + " = " + fmt(kanan, 2) + ")" : "MIRING: sisi kiri " + fmt(kiri, 2) + ", sisi kanan " + fmt(kanan, 2), Math.abs(beda) < 1e-9 ? "lbl s2t" : "lbl", "middle");
+      var s = f.svg; s.setAttribute("viewBox", "0 0 560 190"); s.innerHTML = "";
+      var kiri = st.L.a * X + st.L.b, kanan = st.R.a * X + st.R.b, beda = kiri - kanan, ang = Math.max(-14, Math.min(14, -beda * 2.5));
+      el("polygon", { points: "280,140 262,172 298,172", "class": "ink fill" }, s);
+      var g = el("g", { transform: "rotate(" + ang + " 280 140)" }, s);
+      el("line", { x1: 90, x2: 470, y1: 140, y2: 140, "class": "ink line" }, g);
+      el("rect", { x: 100, y: 90, width: 150, height: 46, rx: 8, "class": "s1 area" }, g);
+      el("rect", { x: 310, y: 90, width: 150, height: 46, rx: 8, "class": "s2 area" }, g);
+      tx(g, 175, 119, tulis(st.L), "lbl", "middle"); tx(g, 385, 119, tulis(st.R), "lbl", "middle");
+      tx(s, 280, 34, Math.abs(beda) < 1e-9 ? "seimbang: kedua sisi tetap sama (dengan x = 5, " + fmt(kiri, 2) + " = " + fmt(kanan, 2) + ")" : "MIRING: sisi kiri " + fmt(kiri, 2) + ", sisi kanan " + fmt(kanan, 2), Math.abs(beda) < 1e-9 ? "lbl s2t" : "lbl", "middle");
       var selesai = Math.abs(beda) < 1e-9 && Math.abs(st.L.a - 1) < 1e-9 && Math.abs(st.L.b) < 1e-9 && !st.R.a;
       f.out.innerHTML = (log.length ? "Langkah: " + log.join(" → ") + ". " : "Pilih langkah di bawah gambar. ") + (selesai ? "<b>x = " + fmt(st.R.b, 2) + "</b>. \"Memindahkan suku dan ganti tanda\" sebenarnya adalah langkah \"kurangi di kedua sisi\" ini." : Math.abs(beda) > 1e-9 ? "Langkah yang hanya dilakukan di satu sisi merusak persamaan. Tekan ulang." : "");
     }; h._draw();
@@ -205,10 +210,10 @@
       p.curve(function (x) { return lama.m * x + lama.b; }, "faint line");
       p.curve(function (x) { return m * x + b; }, "s1 line");
       p.seg(1, m + b, 2, m + b, "s2 line"); p.seg(2, m + b, 2, 2 * m + b, "s2 line");
-      p.text(1.5, m + b - (m >= 0 ? 0.7 : -0.4), "maju 1", "lbl s2t", "middle"); p.text(2.2, 1.5 * m + b, "naik " + fmt(m, 1), "lbl s2t");
-      p.dot(0, b, "s1 dot"); p.text(-0.25, b + 0.4, "b = " + b, "lbl s1t", "end");
+      p.text(1.5, m + b - (m >= 0 ? 1.2 : -0.5), "maju 1", "lbl s2t", "middle"); p.text(2.2, 1.5 * m + b, "naik " + fmt(m, 1), "lbl s2t");
+      p.dot(0, b, "s1 dot"); p.text(-0.6, b - (m >= 0 ? -0.5 : 1.1), "b = " + b, "lbl s1t", "end");
       var ubah = lama.m !== m ? "m berubah dari " + fmt(lama.m, 1) + " ke " + fmt(m, 1) + ": garis berputar di titik potongnya (0, " + b + "), yang tidak bergeser." : lama.b !== b ? "b berubah dari " + lama.b + " ke " + b + ": garis bergeser naik-turun, kemiringannya sama persis (sejajar bayangannya)." : "Geser satu kenop. Garis putus-putus tipis adalah posisi sebelumnya.";
-      f.out.innerHTML = "y = " + fmt(m, 1) + "x + " + b + ". " + ubah;
+      f.out.innerHTML = "y = " + (m === 1 ? "" : m === -1 ? "−" : fmt(m, 1)) + "x " + (b < 0 ? "− " + (-b) : "+ " + b) + ". " + ubah;
     }; h._draw();
   };
 
@@ -256,21 +261,36 @@
 
   /* 1.7 Varians sebagai rata-rata luas persegi */
   W.persegiVar = function (h) {
-    var f = frame(h, "Dua data dengan rata-rata 5. Kuadrat simpangan digambar sebagai persegi sungguhan", []);
+    var f = frame(h, "Dua data dengan rata-rata 5. Kuadrat simpangan setiap titik digambar sebagai persegi sungguhan", []);
     var D = { A: [4, 5, 5, 6], B: [1, 3, 7, 9] }, pilih = "A";
     var bt = button(f, "tampilkan data B", function () { pilih = pilih === "A" ? "B" : "A"; bt.textContent = "tampilkan data " + (pilih === "A" ? "B" : "A"); h._draw(); });
-    var p = Plane(f.svg, { x0: 0, x1: 10, y0: -0.5, y1: 4.5, h: 300, sx: 1, sy: 10 });
     h._draw = function () {
-      var xs = D[pilih], m = 5, s = f.svg; p.clear();
-      p.seg(m, -0.5, m, 4.5, "guide"); p.text(m, 4.15, "rata-rata 5", "lbl", "middle");
-      var sx = p.X(1) - p.X(0);
+      var xs = D[pilih], m = 5, s = f.svg, X = function (v) { return 40 + v * 48; }, u = 13;
+      s.setAttribute("viewBox", "0 0 560 290"); s.innerHTML = "";
+      /* atas: garis bilangan, setiap titik di barisnya sendiri dengan simpangannya */
+      el("line", { x1: X(0), x2: X(10), y1: 150, y2: 150, "class": "ink line" }, s);
+      for (var k = 0; k <= 10; k++) tx(s, X(k), 170, String(k), "tick lbl", "middle");
+      el("line", { x1: X(m), x2: X(m), y1: 14, y2: 150, "class": "guide" }, s); tx(s, X(m) + 6, 22, "rata-rata 5", "lbl");
       xs.forEach(function (x, i) {
-        var d = x - m, yb = 0.6 + i * 0.9;
-        if (d) { var w = Math.abs(d) * sx * 0.32; el("rect", { x: Math.min(p.X(m), p.X(m) + Math.sign(d) * w), y: p.Y(yb) - w, width: w, height: w, "class": (d > 0 ? "s1" : "s2") + " area" }, s); }
-        p.dot(x, yb, "ink dot", 5); p.text(x + (d >= 0 ? 0.2 : -0.2), yb - 0.35, "(" + fmt(d, 0) + ")² = " + d * d, "lbl", d >= 0 ? "start" : "end");
+        var y = 42 + i * 28, d = x - m;
+        if (d) el("line", { x1: X(m), x2: X(x), y1: y, y2: y, "class": (d > 0 ? "s1" : "s2") + " line" }, s);
+        el("circle", { cx: X(x), cy: y, r: 5, "class": "ink dot" }, s);
+        tx(s, X(x) + (d >= 0 ? 10 : -10), y + 5, (d > 0 ? "+" : "") + fmt(d, 0), "tick lbl", d >= 0 ? "start" : "end");
       });
-      var v = xs.reduce(function (a, x) { return a + (x - m) * (x - m); }, 0) / xs.length;
-      f.out.innerHTML = "Data " + pilih + " = " + xs.join(", ") + ". Luas persegi: " + xs.map(function (x) { return (x - m) * (x - m); }).join(" + ") + " = " + xs.reduce(function (a, x) { return a + (x - m) * (x - m); }, 0) + ", dibagi " + xs.length + " = varians <b>" + fmt(v, 2) + "</b>, simpangan baku √" + fmt(v, 2) + " = " + fmt(Math.sqrt(v), 3) + ". Persegi digambar diperkecil supaya muat, tapi perbandingan luasnya benar.";
+      /* bawah: persegi dengan sisi = |simpangan|, lalu persegi rata-rata (= varians) */
+      var x0 = 40, tot = 0;
+      xs.forEach(function (x) {
+        var d = Math.abs(x - m), w = d * u; tot += d * d;
+        if (w) el("rect", { x: x0, y: 260 - w, width: w, height: w, "class": (x - m > 0 ? "s1" : "s2") + " area" }, s);
+        else el("line", { x1: x0, x2: x0 + 8, y1: 260, y2: 260, "class": "ink line" }, s);
+        tx(s, x0 + Math.max(w, 8) / 2, 280, String(d * d), "lbl", "middle");
+        x0 += Math.max(w, 8) + 18;
+      });
+      var v = tot / xs.length, wv = Math.sqrt(v) * u;
+      tx(s, x0 + 4, 260 - wv / 2 + 5, "→", "lbl", "start"); x0 += 30;
+      el("rect", { x: x0, y: 260 - wv, width: wv, height: wv, "class": "cell", style: "stroke-dasharray:4 3;stroke:var(--warn);stroke-width:2" }, s);
+      tx(s, x0 + wv + 8, 260 - wv / 2 + 5, "luas rata-rata = varians " + fmt(v, 2), "lbl", "start");
+      f.out.innerHTML = "Data " + pilih + " = " + xs.join(", ") + ". Luas persegi: " + xs.map(function (x) { return (x - m) * (x - m); }).join(" + ") + " = " + tot + ", dibagi " + xs.length + " = varians <b>" + fmt(v, 2) + "</b>, simpangan baku √" + fmt(v, 2) + " = " + fmt(Math.sqrt(v), 3) + " (sisi persegi putus-putus). Rata-rata kedua data sama, sebarannya sangat berbeda.";
     }; h._draw();
   };
 
@@ -284,13 +304,14 @@
     h._draw = function () {
       var s = f.svg; p.clear(); heads(s);
       var la = Math.hypot(a[0], a[1]), d = a[0] * b[0] + a[1] * b[1], pr = d / la, u = [a[0] / la, a[1] / la], bay = [u[0] * pr, u[1] * pr];
-      p.seg(-u[0] * 8, -u[1] * 8, u[0] * 8, u[1] * 8, "faint line");
-      p.seg(b[0], b[1], bay[0], bay[1], "guide");
-      p.seg(0, 0, bay[0], bay[1], (pr >= 0 ? "s2" : "s2 dash") + " line thick");
+      var Lm = Math.min(Math.abs(u[0]) > 1e-9 ? 4.9 / Math.abs(u[0]) : 99, Math.abs(u[1]) > 1e-9 ? 3.9 / Math.abs(u[1]) : 99); p.seg(-u[0] * Lm, -u[1] * Lm, u[0] * Lm, u[1] * Lm, "faint line");
+      var nr = [u[1] * 0.28, -u[0] * 0.28];
+      p.seg(b[0], b[1], bay[0] + nr[0], bay[1] + nr[1], "guide");
+      p.seg(nr[0], nr[1], bay[0] + nr[0], bay[1] + nr[1], (pr >= 0 ? "s2" : "s2 dash") + " line thick");
       p.arrow(0, 0, a[0], a[1], "s1"); p.arrow(0, 0, b[0], b[1], "ink");
       el("circle", { cx: p.X(a[0]), cy: p.Y(a[1]), r: 9, "class": "s1 dot handle" }, s); el("circle", { cx: p.X(b[0]), cy: p.Y(b[1]), r: 9, "class": "ink dot handle" }, s);
       p.text(a[0] + 0.2, a[1] + 0.3, "a", "lbl s1t"); p.text(b[0] + 0.2, b[1] + 0.3, "b", "lbl");
-      f.out.innerHTML = "a·b = " + fmt(a[0], 1) + "×" + fmt(b[0], 1) + " + " + fmt(a[1], 1) + "×" + fmt(b[1], 1) + " = <b>" + fmt(d, 2) + "</b>. Panjang a = " + fmt(la, 3) + ", bayangan b di garis a = " + fmt(pr, 3) + " (biru, putus-putus kalau arahnya berlawanan). " + fmt(la, 3) + " × " + fmt(pr, 3) + " = " + fmt(la * pr, 2) + ", sama. " + (Math.abs(d) < 1e-9 ? "Tegak lurus: nol." : d > 0 ? "Positif: searah." : "Negatif: berlawanan arah.");
+      f.out.innerHTML = "a·b = " + fmt(a[0], 1) + "×" + fmt(b[0], 1) + " + " + fmt(a[1], 1) + "×" + fmt(b[1], 1) + " = <b>" + fmt(d, 2) + "</b>. Panjang a = " + fmt(la, 3) + ", bayangan b di garis a = " + fmt(pr, 3) + " (garis biru sejajar a, putus-putus kalau arahnya berlawanan). " + fmt(la, 3) + " × " + fmt(pr, 3) + " = " + fmt(la * pr, 2) + ", sama. " + (Math.abs(d) < 1e-9 ? "Tegak lurus: nol." : d > 0 ? "Positif: searah." : "Negatif: berlawanan arah.");
     }; h._draw();
   };
 })();

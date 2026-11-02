@@ -146,8 +146,8 @@
     root.legendifyViz = function (view, id) {
       var khusus = VIZLEG[id];
       [].forEach.call(view.querySelectorAll(".viz .viz-c"), function (c) {
-        if (c.parentNode.querySelector(".lg-viz")) return;
-        if (khusus) {
+        if (c.parentNode.querySelector(".lg-viz") || !c.closest(".dalam")) return; /* widget tambahan di badan pelajaran sudah menjelaskan simbolnya sendiri */
+        if (khusus && c.closest(".dalam")) {
           var d0 = document.createElement("div"); d0.className = "lg lg-viz";
           d0.innerHTML = "<b>Legenda</b> " + khusus.map(function (p) { return '<span><i>' + esc(p[0]) + "</i> " + esc(p[1]) + "</span>"; }).join("");
           c.insertAdjacentElement("afterend", d0); return;

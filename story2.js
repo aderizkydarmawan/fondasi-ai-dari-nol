@@ -157,7 +157,7 @@
         [-3, -2, -1, 0, 1, 2, 3].forEach(function (k) { a.teks(X(k), OY + 18, String(k).replace("-", "−"), MU, 12, o1, "middle", false); });
         if (tiga <= 0) {
           var xb = 3 - 0.6 * satu;
-          if (satu > 0) { a.panah(X(3), Y(9) - 22, X(2.4), Y(9) - 22, C1, 2.5, o1 * satu); a.teks(X(2.7), Y(9) - 32, "−η·f'(3) = −0,6", C1, 14, o1 * satu); }
+          if (satu > 0) { a.panah(X(3), Y(9) - 22, X(2.4), Y(9) - 22, C1, 2.5, o1 * satu); a.teks(X(2.4) - 8, Y(9) - 17, "−η·f'(3) = −0,6", C1, 14, o1 * satu, "end"); }
           a.titik(X(xb), Y(xb * xb), 9, C1, o1);
           a.teks(X(xb) + 14, Y(xb * xb) + 5, "x = " + fmt(xb, 2), C1, 14, o1, "start");
         } else {
@@ -165,7 +165,7 @@
             var r = jalur(b[0]), n = Math.min(6, Math.floor(tiga * 6.99)), pts = [];
             for (var i = 0; i <= n; i++) { if (Math.abs(r[i]) > 4.05) break; pts.push([X(r[i]), Y(r[i] * r[i]) - 6 * j]); }
             a.jalur(pts, b[1], 1.6, o1 * 0.8, "3 3"); pts.forEach(function (q, i) { a.titik(q[0], q[1], i === pts.length - 1 ? 7 : 3, b[1], o1); });
-            a.teks(20, 30 + 22 * j, b[2] + ": " + r.slice(0, Math.min(n, 4) + 1).map(function (v) { return fmt(v, 2); }).join(" → ") + (n >= 4 && Math.abs(r[4]) > 4 ? " …meledak" : ""), b[1], 13, o1, "start");
+            a.teks(X(0), Y(8.6) + 22 * j, b[2] + ": " + r.slice(0, Math.min(n, 2) + 1).map(function (v) { return fmt(v, 2); }).join(" → ") + (n >= 2 ? (b[0] > 1 ? " → …meledak" : " → …") : ""), b[1], 13, o1, "middle");
           });
         }
       }

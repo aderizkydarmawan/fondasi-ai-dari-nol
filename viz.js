@@ -61,6 +61,7 @@
       if (o.x0 <= 0 && o.x1 >= 0) el("line", { y1: p.Y(o.y0), y2: p.Y(o.y1), x1: p.X(0), x2: p.X(0) }, a);
       var lx = o.lx || sx, ly = o.ly || sy, t = el("g", { "class": "tick" }, svg);
       var ay = (o.y0 <= 0 && o.y1 >= 0) ? 0 : o.y0, ax = (o.x0 <= 0 && o.x1 >= 0) ? 0 : o.x0;
+      if (o.tepi) { ay = o.y0; ax = o.x0; }
       for (x = Math.ceil(o.x0 / lx) * lx; x <= o.x1 + 1e-9; x += lx) if (Math.abs(x) > 1e-9 || ax !== 0) txt(p.X(x), p.Y(ay) + 15, fmt(x, 2), t, "middle");
       for (y = Math.ceil(o.y0 / ly) * ly; y <= o.y1 + 1e-9; y += ly) if (Math.abs(y) > 1e-9 || ay !== 0) txt(p.X(ax) - 6, p.Y(y) + 4, fmt(y, 2), t, "end");
       return svg;

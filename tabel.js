@@ -47,7 +47,7 @@
       html += "<tbody>" + r.baris.map(function (b, i) {
         return "<tr class=\"" + (b.kelas || "") + "\">" + b.sel.map(function (c, j) {
           c = sel(c);
-          var isi = b.rahasia && !dibuka && j > 0 && c.v !== "" ? "?" : fmtA(c.v, c.d), kunci = i + ":" + j, baru = lama[kunci] !== undefined && lama[kunci] !== isi;
+          var isi = (b.rahasia || c.rahasia) && !dibuka && j > 0 && c.v !== "" ? "?" : fmtA(c.v, c.d), kunci = i + ":" + j, baru = lama[kunci] !== undefined && lama[kunci] !== isi;
           lama[kunci] = isi;
           return (j === 0 ? "<th scope=\"row\"" : "<td") + " class=\"" + (c.kelas || "") + (typeof c.v === "number" ? " n" : "") + (baru ? " baru" : "") + ((spec.hpSembunyi || []).indexOf(j) >= 0 ? " hp-x" : "") + "\">" + isi + (j === 0 ? "</th>" : "</td>");
         }).join("") + "</tr>";
@@ -186,15 +186,15 @@
         svg.setAttribute("viewBox", "0 0 560 200");
         var X0 = 20, Wd = 520, Hh = 132, s = Math.max(0, Math.min(100, v.prev)) / 100, ws = Wd * s;
         var sens = Math.max(0, Math.min(100, v.sens)) / 100, fp = 1 - Math.max(0, Math.min(100, v.spes)) / 100;
-        var Y0 = 42; Hh = 128;
+        var Y0 = 46; Hh = 124;
         el("rect", { x: X0, y: Y0, width: ws, height: Hh, "class": "cell" }, svg);
         el("rect", { x: X0 + ws, y: Y0, width: Wd - ws, height: Hh, "class": "cell" }, svg);
         el("rect", { x: X0, y: Y0, width: ws, height: Hh * sens, "class": "s1 fill" }, svg);
         el("rect", { x: X0 + ws, y: Y0, width: Wd - ws, height: Math.max(Hh * fp, fp > 0 ? 1.5 : 0), "class": "s2 fill" }, svg);
         tulis(svg, X0 + ws + (Wd - ws) / 2, Y0 + Hh / 2 + 10, "sehat", "lbl", "middle");
         var N = 10000, SP = N * s * sens, HP = N * (1 - s) * fp;
-        tulis(svg, X0, 13, "ungu (sakit & positif): " + fmtA(SP, 0) + " orang", "tick lbl s1t", "start");
-        tulis(svg, X0 + Wd, 34, "biru, pita tipis di tepi atas (sehat & positif): " + fmtA(HP, 0) + " orang", "tick lbl s2t", "end");
+        tulis(svg, X0, 17, "ungu (sakit & positif): " + fmtA(SP, 0) + " orang", "tick lbl s1t", "start");
+        tulis(svg, X0 + Wd, 38, "biru, pita tipis di tepi atas (sehat & positif): " + fmtA(HP, 0) + " orang", "tick lbl s2t", "end");
         tulis(svg, X0, 190, "Pita kiri: sakit (" + fmtA(s * 100, 2) + "% lebar). Ungu = sakit & positif, biru = sehat & positif.", "tick lbl faintt", "start");
       }
     });
@@ -242,8 +242,8 @@
         var k = K.map(function (q, i) { return i === 0 ? [v.kx, v.ky] : q; }), d = Math.sqrt(2);
         var sk = k.map(function (q) { return (Q[0] * q[0] + Q[1] * q[1]) / d; }), m = Math.max.apply(null, sk), e = sk.map(function (x) { return Math.exp(x - m); }), Z = e.reduce(function (a, b) { return a + b; }, 0), a = e.map(function (x) { return x / Z; });
         var out = [0, 0]; a.forEach(function (w, i) { out[0] += w * Vv[i][0]; out[1] += w * Vv[i][1]; });
-        var baris = kata.map(function (n, i) { return { sel: [n, "(" + fmtA(k[i][0], 2) + "; " + fmtA(k[i][1], 2) + ")", { v: sk[i], d: 3 }, { v: a[i], d: 3, kelas: "s1" }, "(" + fmtA(a[i] * Vv[i][0], 3) + "; " + fmtA(a[i] * Vv[i][1], 3) + ")"], rahasia: true }; });
-        baris.push({ sel: ["jumlah", "", "", { v: 1, d: 3, kelas: "warn" }, "(" + fmtA(out[0], 3) + "; " + fmtA(out[1], 3) + ")"], kelas: "tbh-jml", rahasia: true });
+        var baris = kata.map(function (n, i) { return { sel: [n, "(" + fmtA(k[i][0], 2) + "; " + fmtA(k[i][1], 2) + ")", { v: sk[i], d: 3 }, { v: a[i], d: 3, kelas: "s1", rahasia: true }, { v: "(" + fmtA(a[i] * Vv[i][0], 3) + "; " + fmtA(a[i] * Vv[i][1], 3) + ")", rahasia: true }] }; });
+        baris.push({ sel: ["jumlah", "", "", { v: 1, d: 3, kelas: "warn", rahasia: true }, { v: "(" + fmtA(out[0], 3) + "; " + fmtA(out[1], 3) + ")", rahasia: true }], kelas: "tbh-jml" });
         return {
           kolom: ["kata", "kunci k", "skor q·k / √2", "bobot (softmax)", "bobot × v"],
           baris: baris,

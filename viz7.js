@@ -88,7 +88,7 @@
 
   /* 2.12 Kovarians = rata-rata luas persegi bertanda */
   W.kovPersegi = function (h) {
-    var f = frame(h, "Seret titik. Setiap titik membentuk persegi panjang dengan titik rata-rata (+). Ungu = positif, biru = negatif", []);
+    var f = frame(h, "Seret titik. Setiap titik membentuk persegi panjang dengan titik rata-rata (perpotongan garis putus-putus). Ungu = positif, biru = negatif", []);
     var pts = [[1, 1], [2, 3], [3, 2], [4, 5], [5, 4]];
     button(f, "data naik bersama", function () { pts = [[1, 1], [2, 3], [3, 2], [4, 5], [5, 4]]; h._draw(); });
     button(f, "data berlawanan", function () { pts = [[1, 5], [2, 3], [3, 4], [4, 1], [5, 2]]; h._draw(); });
@@ -113,7 +113,7 @@
     var f = frame(h, "Data tetap (titik hitam). Geser rata-rata μ kurva normal (σ = 1); batang = tinggi kurva di setiap data", [{ id: "mu", label: "μ", min: 0, max: 5, step: 0.1, v: 1 }]);
     var sudah = false;
     tebak(f, "Hasil kali tinggi batang paling besar ketika μ ada di…", ["0", "2,5 (rata-rata data)", "3,7 (data terbesar)"], 1, "Untuk distribusi normal, MLE μ adalah rata-rata data: (1,2 + 2 + 2,5 + 3,1 + 3,7)/5 = 2,5.", function () { sudah = true; h._draw(); });
-    var p = Plane(f.svg, { x0: -0.5, x1: 5.5, y0: -0.08, y1: 0.45, h: 300, sx: 1, sy: 0.1 });
+    var p = Plane(f.svg, { x0: -1, x1: 5.5, y0: -0.08, y1: 0.45, h: 300, sx: 1, sy: 0.1 });
     function pdf(x, m) { return Math.exp(-(x - m) * (x - m) / 2) / Math.sqrt(2 * Math.PI); }
     h._draw = function () {
       var m = f.vals.mu, s = f.svg, L = 1, ll = 0; p.clear();
@@ -184,7 +184,7 @@
     f.svg.addEventListener("click", function (e) { var pt = f.svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; var q = pt.matrixTransform(f.svg.getScreenCTM().inverse()); x0 = Math.round(p.ix(q.x) * 2) / 2; y0 = Math.round(p.iy(q.y) * 2) / 2; h._draw(); });
     h._draw = function () {
       var s = f.svg, st = f.vals.h; p.clear();
-      for (var x = -3; x <= 4; x += 0.5) for (var y = -3; y <= 4; y += 0.5) { var m = x - y, L = 0.18 / Math.sqrt(1 + m * m); p.seg(x - L, y - m * L, x + L, y + m * L, "faint line"); }
+      for (var x = -2.75; x < 4; x += 0.5) for (var y = -2.75; y < 4; y += 0.5) { var m = x - y, L = 0.18 / Math.sqrt(1 + m * m); p.seg(x - L, y - m * L, x + L, y + m * L, "faint line"); }
       var C = (y0 - x0 + 1) * Math.exp(x0);
       p.curve(function (x) { return x - 1 + C * Math.exp(-x); }, "s1 line", x0, 4);
       var xe = x0, ye = y0, d = "M" + p.X(xe) + " " + p.Y(ye);
@@ -212,7 +212,7 @@
       for (var i = 0; i < 3; i++) for (var j = 0; j < 3; j++) if (i !== j) {
         var a = pos[i], b = pos[j], dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy), nx = -dy / L * 8, ny = dx / L * 8;
         var ln = el("line", { x1: a[0] + dx / L * 30 + nx, y1: a[1] + dy / L * 30 + ny, x2: b[0] - dx / L * 32 + nx, y2: b[1] - dy / L * 32 + ny, "class": "faint line" }, s); ln.setAttribute("marker-end", "url(#ink-head)");
-        tx(s, (a[0] + b[0]) / 2 + nx * 2.4, (a[1] + b[1]) / 2 + ny * 2.4 + 4, fmt(P[i][j], 1), "tick lbl", "middle");
+        tx(s, (a[0] + b[0]) / 2 + nx * 3.4, (a[1] + b[1]) / 2 + ny * 3.4 + 4, fmt(P[i][j], 1), "tick lbl", "middle");
       }
       pos.forEach(function (q, k) { el("circle", { cx: q[0], cy: q[1], r: 26, "class": "cell" }, s); tx(s, q[0], q[1] + 5, N[k] + " (" + fmt(P[k][k], 1) + ")", "lbl", "middle"); });
       var bx = 360;

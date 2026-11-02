@@ -46,7 +46,7 @@
       p.curve(function (x) { return x * x / 2 - T * Math.log(x); }, "ink line", 0.05, 3.2);
       var Fv = sg * sg / 2 - T * Math.log(sg), so = Math.sqrt(T);
       p.dot(sg, Fv, "ink dot"); p.seg(so, -2, so, 4.5, "guide");
-      p.text(2.6, 3.7, "E", "lbl s1t"); p.text(2.6, -T * Math.log(2.6) - 0.35, "−TS", "lbl s2t"); p.text(0.25, 4.1, "F = E − TS", "lbl");
+      p.text(2.6, 3.7, "E", "lbl s1t"); p.text(2.6, -T * Math.log(2.6) + 0.3, "−TS", "lbl s2t"); p.text(0.25, 4.1, "F = E − TS", "lbl");
       f.out.innerHTML = "σ = " + fmt(sg, 2) + ": E = " + fmt(sg * sg / 2, 3) + ", −TS = " + fmt(-T * Math.log(sg), 3) + ", F = <b>" + fmt(Fv, 3) + "</b>. Minimum F ada di σ = √T = " + fmt(so, 3) + " (garis tegak). Suhu tinggi menggeser kompromi ke tebakan yang lebih lebar.";
     }; h._draw();
   };
@@ -59,7 +59,7 @@
     ulang();
     button(f, "jalan 1 detik", function () { for (var k = 0; k < 100; k++) { var dt = 0.01; for (var i = 0; i < xs.length; i++) xs[i] += -f.vals.th * xs[i] * dt + f.vals.sg * Math.sqrt(dt) * randn(); } t += 1; h._draw(); });
     button(f, "ulang", function () { ulang(); h._draw(); });
-    var p = Plane(f.svg, { x0: -4, x1: 4, y0: 0, y1: 1.2, h: 280, sx: 1, sy: 0.2 });
+    var p = Plane(f.svg, { tepi: true, x0: -4, x1: 4, y0: 0, y1: 1.2, h: 280, sx: 1, sy: 0.2 });
     h._draw = function () {
       var s = f.svg, th = f.vals.th, sg = f.vals.sg, bins = new Array(32).fill(0), bw = 0.25; p.clear();
       xs.forEach(function (x) { var k = Math.floor((x + 4) / bw); if (k >= 0 && k < 32) bins[k]++; });
@@ -74,7 +74,7 @@
   /* 4.6 Kepadatan melebar, luasnya tetap 1, arus menggeser puncak */
   W.panasArus = function (h) {
     var f = frame(h, "Kepadatan partikel yang mulai di 0: melebar karena difusi D, bergeser karena arus v", [{ id: "t", label: "waktu t", min: 0.05, max: 4, step: 0.05, v: 0.5 }, { id: "D", label: "difusi D", min: 0.1, max: 1, step: 0.05, v: 0.5 }, { id: "v", label: "arus v", min: -1, max: 1, step: 0.1, v: 0, d: 1 }]);
-    var p = Plane(f.svg, { x0: -6, x1: 6, y0: 0, y1: 1.2, h: 280, sx: 1, sy: 0.2 });
+    var p = Plane(f.svg, { tepi: true, x0: -6, x1: 6, y0: 0, y1: 1.2, h: 280, sx: 1, sy: 0.2 });
     h._draw = function () {
       var t = f.vals.t, D = f.vals.D, v = f.vals.v, va = 2 * D * t, mu = v * t; p.clear();
       var g = function (x) { return Math.exp(-(x - mu) * (x - mu) / (2 * va)) / Math.sqrt(2 * Math.PI * va); };
@@ -92,7 +92,7 @@
     var cara = "leapfrog", sudah = false;
     var bt = button(f, "ganti ke Euler", function () { cara = cara === "leapfrog" ? "Euler" : "leapfrog"; bt.textContent = "ganti ke " + (cara === "leapfrog" ? "Euler" : "leapfrog"); h._draw(); });
     tebak(f, "Di bidang posisi–momentum, lintasan pegas yang sempurna berbentuk…", ["garis lurus", "lingkaran/elips yang tertutup", "spiral ke tengah"], 1, "Energi tetap berarti q² + p² tetap, jadi titiknya berputar di lingkaran yang sama selamanya. Euler keluar dari lingkaran (energinya naik); leapfrog tetap di dekatnya.", function () { sudah = true; h._draw(); });
-    var P = Plane(f.svg, { x0: -2.2, x1: 2.2, y0: -2.2, y1: 2.2, h: 330, sx: 0.5, sy: 0.5, lx: 1, ly: 1 });
+    var P = Plane(f.svg, { tepi: true, x0: -2.2, x1: 2.2, y0: -2.2, y1: 2.2, h: 330, sx: 0.5, sy: 0.5, lx: 1, ly: 1 });
     h._draw = function () {
       var dt = f.vals.dt, q = 1, p = 0, d = "M" + P.X(q) + " " + P.Y(p), n = Math.round(6 * Math.PI / dt); P.clear();
       if (sudah) { var c = ""; for (var a = 0; a <= 64; a++) c += (a ? "L" : "M") + P.X(Math.cos(a / 64 * 2 * Math.PI)).toFixed(1) + " " + P.Y(Math.sin(a / 64 * 2 * Math.PI)).toFixed(1); el("path", { d: c, "class": "faint line" }, f.svg); }
@@ -111,7 +111,7 @@
   /* 5.1 Regresi: total luas persegi galat */
   W.regresiPersegi = function (h) {
     var X = [1, 2, 3, 4, 5], Y = [1.5, 1.8, 3.6, 3.8, 5.2];
-    var f = frame(h, "Seret dua titik putih untuk memindah garis. Setiap galat digambar sebagai persegi", []);
+    var f = frame(h, "Seret dua titik hitam besar untuk memindah garis. Setiap galat digambar sebagai persegi", []);
     var A = [0.5, 1], B = [5.5, 4];
     var p = Plane(f.svg, { x0: 0, x1: 6, y0: 0, y1: 6.5, h: 330, sx: 1, sy: 1 });
     button(f, "garis terbaik (kuadrat terkecil)", function () { var mx = 3, my = Y.reduce(function (a, b) { return a + b; }, 0) / 5, sxy = 0, sxx = 0; X.forEach(function (x, i) { sxy += (x - mx) * (Y[i] - my); sxx += (x - mx) * (x - mx); }); var m = sxy / sxx, b = my - m * mx; A = [0.5, m * 0.5 + b]; B = [5.5, m * 5.5 + b]; h._draw(); });
@@ -129,7 +129,7 @@
   /* 5.2 Belahan yang paling memurnikan (Gini) */
   W.giniBelah = function (h) {
     var pts = [[0.5, 0], [1.2, 0], [1.8, 0], [2.6, 0], [3.1, 1], [3.4, 0], [3.7, 0], [4.2, 1], [4.8, 1], [5.5, 1], [6.1, 1]];
-    var f = frame(h, "Titik ungu = kelas 0, biru = kelas 1. Geser garis belah; makin kecil Gini, makin murni", [{ id: "c", label: "belah di x =", min: 0, max: 6.5, step: 0.1, v: 1.5 }]);
+    var f = frame(h, "Titik ungu = kelas 0, biru = kelas 1. Geser garis belah; makin kecil Gini, makin murni", [{ id: "c", label: "belah di x", min: 0, max: 6.5, step: 0.1, v: 1.5 }]);
     var sudah = false;
     tebak(f, "Garis belah terbaik ada di sekitar…", ["x = 1,5", "x = 2,9", "x = 4"], 2, "Di x = 4 (antara 3,7 dan 4,2) kiri berisi 6 ungu + 1 biru, kanan 4 biru murni: Gini 0,156. Di x = 2,9 kiri murni tapi kanan masih tercampur 2 ungu + 5 biru (Gini 0,260). Di x = 1,5 Gini 0,404.", function () { sudah = true; h._draw(); });
     function gini(c) { var L = [0, 0], R = [0, 0]; pts.forEach(function (q) { (q[0] < c ? L : R)[q[1]]++; }); function g(a) { var n = a[0] + a[1]; return n ? 1 - (a[0] / n) * (a[0] / n) - (a[1] / n) * (a[1] / n) : 0; } var nl = L[0] + L[1], nr = R[0] + R[1]; return { g: (nl * g(L) + nr * g(R)) / pts.length, L: L, R: R }; }
@@ -187,10 +187,12 @@
     var sudah = false, lstm = false;
     tebak(f, "Dengan w = 0,9, setelah 30 langkah sinyalnya tinggal…", ["sekitar 0,9", "sekitar 0,04", "sekitar 27"], 1, "0,9³⁰ = 0,042. Sedikit di bawah 1 sudah cukup membuat sinyal hampir lenyap. Dengan w = 1,1, sinyalnya jadi 1,1³⁰ = 17,4.", function () { sudah = true; h._draw(); });
     var bl = button(f, "tampilkan jalur LSTM", function () { lstm = !lstm; bl.textContent = lstm ? "sembunyikan jalur LSTM" : "tampilkan jalur LSTM"; h._draw(); });
-    var p = Plane(f.svg, { x0: 0, x1: 31, y0: -3, y1: 2, h: 280, sx: 5, sy: 1 });
+    var p = Plane(f.svg, { tepi: true, x0: 0, x1: 31, y0: -3, y1: 2, h: 280, sx: 5, sy: 1 });
     h._draw = function () {
       var w = f.vals.w, s = f.svg; p.clear();
-      p.text(0.3, 1.7, "10²", "tick lbl"); p.text(0.3, -2.8, "10⁻³", "tick lbl");
+      var NL = { "2": "100", "1": "10", "0": "1", "−1": "0,1", "-1": "0,1", "−2": "0,01", "-2": "0,01", "−3": "0,001", "-3": "0,001" };
+      [].forEach.call(s.querySelectorAll(".tick text[text-anchor=end]"), function (t) { if (NL[t.textContent] !== undefined) { t.textContent = NL[t.textContent]; if (t.textContent.length > 4) t.style.fontSize = "11px"; } });
+      el("line", { x1: p.X(0), x2: p.X(31), y1: p.Y(0), y2: p.Y(0), "class": "guide" }, s);
       if (sudah || w !== 0.9) p.curve(function (t) { return t * Math.log10(w); }, "s1 line", 0, 30);
       if (lstm) p.curve(function () { return Math.log10(0.98) * 0; }, "s2 line dash", 0, 30);
       f.out.innerHTML = (sudah || w !== 0.9) ? "w = " + fmt(w, 2) + ": setelah 30 langkah sinyalnya " + fmt(Math.pow(w, 30), 4) + " kali semula. " + (lstm ? "Garis biru: jalur sel LSTM. Gerbang lupa yang dekat 1 dan penjumlahan (bukan perkalian berulang) membuat sinyalnya bertahan. " : "") + "Ini nilai eigen |λ| dari 2.7: di bawah 1 lenyap, di atas 1 meledak." : "Tebak dulu.";
@@ -200,7 +202,7 @@
   /* 5.8 SSM: satu kartu ingatan yang diperbarui, Mamba memilih apa yang dicatat */
   W.ssmKartu = function (h) {
     var x = [0, 0, 5, 0, 0, 0, 1, 0, 0, 0, 0, 0, 4, 0, 0, 1, 0, 0];
-    var f = frame(h, "h baru = a·h lama + (1 − a)·x. Pita atas = input, garis = isi kartu ingatan h", [{ id: "a", label: "a (dekat 1 = susah lupa)", min: 0, max: 0.99, step: 0.01, v: 0.8 }]);
+    var f = frame(h, "h baru = a·h lama + (1 − a)·x. Batang biru = input, garis ungu = isi kartu ingatan h", [{ id: "a", label: "a (dekat 1 = susah lupa)", min: 0, max: 0.99, step: 0.01, v: 0.8 }]);
     var pilih = false;
     var bp = button(f, "mode Mamba: hanya catat input penting (≥ 4)", function () { pilih = !pilih; bp.textContent = pilih ? "mode SSM biasa" : "mode Mamba: hanya catat input penting (≥ 4)"; h._draw(); });
     var p = Plane(f.svg, { x0: -0.5, x1: 17.5, y0: 0, y1: 6, h: 280, sx: 1, sy: 1, lx: 2 });
@@ -252,7 +254,7 @@
       fase = 1 - fase; h._draw();
     });
     button(f, "ulang", function () { mu = -1; fase = 0; log = []; Dmu = null; h._draw(); });
-    var p = Plane(f.svg, { x0: -3, x1: 6, y0: 0, y1: 1.1, h: 280, sx: 1, sy: 0.2 });
+    var p = Plane(f.svg, { tepi: true, x0: -3, x1: 6, y0: 0, y1: 1.1, h: 280, sx: 1, sy: 0.2 });
     h._draw = function () {
       p.clear();
       p.curve(function (x) { return pd(x, 3) * 0.9; }, "s1 line"); p.curve(function (x) { return pd(x, mu) * 0.9; }, "s2 line dash");
