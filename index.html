@@ -170,17 +170,17 @@ details.coba summary b{color:var(--accent)}
 .lg span{white-space:normal}
 .lg i{font-style:normal;font-weight:700;color:var(--accent);margin-right:.25em}
 .rule .lg{margin:.7em 0 0}
-.story{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:36px;margin:1.6em 0 2em}
+.story{max-width:none;width:100%;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:36px;margin:1.6em 0 2em}
 .st-fig{position:sticky;top:76px;align-self:start}
 .st-fig svg{width:100%;height:auto;display:block;overflow:visible}
 .st-step{min-height:72vh;display:flex;align-items:center}
-.st-step:first-child{min-height:40vh;align-items:flex-start}
+.st-step:first-child{min-height:40vh;align-items:flex-start}@media (min-width:761px){.st-step:first-child{padding-top:calc(55vh - 150px)}}
 .st-card{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--paper);opacity:.35;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
 .st-step.on .st-card{opacity:1;transform:none}
 .st-tebak,.st-mat{display:flex;flex-wrap:wrap;gap:6px;margin:.6em 0;align-items:center}.st-card button{font:inherit;font-size:.9rem;padding:4px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:inherit;cursor:pointer}.st-card button[aria-pressed=true]{border-color:var(--warn);color:var(--warn);font-weight:600}.st-mat input{width:3em;font:inherit;text-align:center;padding:2px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:inherit}.st-hasil,.st-info,.st-cek,.st-pesan{display:block;margin-top:.4em;font-size:.9rem;color:var(--muted)}
 .st-card select{font:inherit;font-size:.9rem;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:inherit;max-width:100%}.st-contoh{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:.6em 0;font-size:.9rem;color:var(--muted)}
 .st-no{display:block;font-size:.75rem;color:var(--muted);margin-bottom:.3em}
-@media (max-width:760px){.story{grid-template-columns:minmax(0,1fr);gap:8px}.st-fig{top:0;z-index:3;background:var(--bg);padding:6px 0}.st-step{min-height:62vh}}
+@media (max-width:760px){.story{grid-template-columns:minmax(0,1fr);gap:8px}.st-fig{top:0;transition:top .3s ease;z-index:3;background:var(--bg);padding:6px 0}.st-step{min-height:62vh}}
 #view p.adegan{border-left:3px solid var(--s2,#7cc);padding:.1em 0 .1em .9em;font-style:italic}
 .viz .lg-viz{margin:.3em 0 .8em;padding-top:.5em}
 .tabs .tg,.tabs .tgb{display:contents}
@@ -485,43 +485,43 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{o
 </div>
 <div class="shell"><main id="main"></main></div>
 
-<script src="kurikulum.js?v=20261102d"></script>
-<script src="lapis0.js?v=20261102d"></script>
-<script src="lapis1.js?v=20261102d"></script>
-<script src="dalam.js?v=20261102d"></script>
-<script src="lapis2.js?v=20261102d"></script>
-<script src="dalam2.js?v=20261102d"></script>
-<script src="lapis3.js?v=20261102d"></script>
-<script src="dalam3.js?v=20261102d"></script>
-<script src="lapis4.js?v=20261102d"></script>
-<script src="dalam4.js?v=20261102d"></script>
-<script src="lapis5.js?v=20261102d"></script>
-<script src="lapis5b.js?v=20261102d"></script>
-<script src="lapis6.js?v=20261102d"></script>
-<script src="lapis6b.js?v=20261102d"></script>
-<script src="ingat.js?v=20261102d"></script>
-<script src="gagal.js?v=20261102d"></script>
-<script src="coba.js?v=20261102d"></script>
-<script src="legenda.js?v=20261102d"></script>
-<script src="legenda-l01.js?v=20261102d"></script>
-<script src="legenda-l2.js?v=20261102d"></script>
-<script src="legenda-l3.js?v=20261102d"></script>
-<script src="legenda-l4.js?v=20261102d"></script>
-<script src="legenda-l5.js?v=20261102d"></script>
-<script src="legenda-l6.js?v=20261102d"></script>
-<script src="dalam5.js?v=20261102d"></script>
-<script src="viz.js?v=20261102d"></script>
-<script src="viz2.js?v=20261102d"></script>
-<script src="viz3.js?v=20261102d"></script>
-<script src="viz4.js?v=20261102d"></script>
-<script src="viz5.js?v=20261102d"></script>
-<script src="story.js?v=20261102d"></script>
-<script src="peta.js?v=20261102d"></script>
-<script src="cabang.js?v=20261102d"></script>
-<script src="rumus.js?v=20261102d"></script>
-<script src="journey.js?v=20261102d"></script>
-<script src="glosarium.js?v=20261102d"></script>
-<script src="cari.js?v=20261102d"></script>
+<script src="kurikulum.js?v=20261102l"></script>
+<script src="lapis0.js?v=20261102l"></script>
+<script src="lapis1.js?v=20261102l"></script>
+<script src="dalam.js?v=20261102l"></script>
+<script src="lapis2.js?v=20261102l"></script>
+<script src="dalam2.js?v=20261102l"></script>
+<script src="lapis3.js?v=20261102l"></script>
+<script src="dalam3.js?v=20261102l"></script>
+<script src="lapis4.js?v=20261102l"></script>
+<script src="dalam4.js?v=20261102l"></script>
+<script src="lapis5.js?v=20261102l"></script>
+<script src="lapis5b.js?v=20261102l"></script>
+<script src="lapis6.js?v=20261102l"></script>
+<script src="lapis6b.js?v=20261102l"></script>
+<script src="ingat.js?v=20261102l"></script>
+<script src="gagal.js?v=20261102l"></script>
+<script src="coba.js?v=20261102l"></script>
+<script src="legenda.js?v=20261102l"></script>
+<script src="legenda-l01.js?v=20261102l"></script>
+<script src="legenda-l2.js?v=20261102l"></script>
+<script src="legenda-l3.js?v=20261102l"></script>
+<script src="legenda-l4.js?v=20261102l"></script>
+<script src="legenda-l5.js?v=20261102l"></script>
+<script src="legenda-l6.js?v=20261102l"></script>
+<script src="dalam5.js?v=20261102l"></script>
+<script src="viz.js?v=20261102l"></script>
+<script src="viz2.js?v=20261102l"></script>
+<script src="viz3.js?v=20261102l"></script>
+<script src="viz4.js?v=20261102l"></script>
+<script src="viz5.js?v=20261102l"></script>
+<script src="story.js?v=20261102l"></script>
+<script src="peta.js?v=20261102l"></script>
+<script src="cabang.js?v=20261102l"></script>
+<script src="rumus.js?v=20261102l"></script>
+<script src="journey.js?v=20261102l"></script>
+<script src="glosarium.js?v=20261102l"></script>
+<script src="cari.js?v=20261102l"></script>
 <script>
 (function(){
   var I = {

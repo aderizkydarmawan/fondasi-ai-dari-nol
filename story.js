@@ -29,22 +29,16 @@
       antri = false;
       if (!host.isConnected) { window.removeEventListener("scroll", tunda, true); return; }
       /* t dihitung dari posisi tengah kartu yang sebenarnya: t = i tepat saat kartu ke-i ada di garis baca (55% tinggi layar) */
-      var vh = window.innerHeight, garis = vh * 0.55, c = [].map.call(lst.children, function (d) { var q = d.querySelector(".st-card").getBoundingClientRect(); return q.top + q.height / 2; }), t = 0;
+      var vh = window.innerHeight, tumpuk = fig.offsetWidth > host.offsetWidth * 0.8, hd = document.querySelector("header"), atas = tumpuk && hd && getComputedStyle(hd).position === "fixed" && !hd.classList.contains("hide") ? hd.offsetHeight : 0; /* header HP sembunyi saat gulir ke bawah */
+      fig.style.top = tumpuk ? atas + "px" : "";
+      var bawahFig = atas + fig.offsetHeight, garis = tumpuk ? Math.max(vh * 0.55, bawahFig + (vh - bawahFig) * 0.42) : vh * 0.55, /* di HP gambar menempel di atas, jadi garis baca ada di tengah ruang di bawahnya */ c = [].map.call(lst.children, function (d) { var q = d.querySelector(".st-card").getBoundingClientRect(); return q.top + q.height / 2; }), t = 0;
       if (garis <= c[0]) t = 0; else if (garis >= c[n - 1]) t = n - 1;
       else for (var i = 0; i < n - 1; i++) if (garis < c[i + 1]) { t = i + (garis - c[i]) / (c[i + 1] - c[i]); break; }
       [].forEach.call(lst.children, function (c, i) { c.classList.toggle("on", Math.abs(t - i) < 0.5); });
       if (kurangGerak) { t = Math.round(t); if (t !== last) { last = kini = tuju = t; draw(svg, t); } return; }
       tuju = t; if (!jalan) { jalan = true; jadwal(); }
     }
-    /* lebarkan cerita ke ruang kosong di kanan halaman (desktop), supaya kartu teks tidak sempit memanjang */
-    function lebar() {
-      if (window.innerWidth <= 760) { host.style.width = host.style.maxWidth = ""; return; }
-      host.style.maxWidth = "none";
-      var kiri = host.parentElement.getBoundingClientRect().left, max = document.documentElement.clientWidth - kiri - 32;
-      host.style.width = Math.max(host.parentElement.clientWidth, Math.min(1240, max)) + "px";
-    }
     function tunda() { if (!antri) { antri = true; requestAnimationFrame(hitung); } }
-    window.addEventListener("resize", lebar); lebar();
     window.addEventListener("scroll", tunda, { passive: true, capture: true });
     window.addEventListener("resize", tunda);
     draw(svg, 0); setTimeout(hitung, 50);
@@ -95,7 +89,7 @@
       return out;
     }
     function fmt(x, n) { var p = Math.pow(10, n == null ? 2 : n), r = Math.round(x * p) / p; if (Math.abs(r) >= 1e6) return x.toExponential(1).replace("-", "−").replace(".", ","); return (r === 0 ? 0 : r).toString().replace("-", "−").replace(".", ","); }
-    function titik(v, n) { return "(" + fmt(v[0], n) + ", " + fmt(v[1], n) + ")"; }
+    function titik(v, n) { var a = fmt(v[0], n), b = fmt(v[1], n); return "(" + a + (a.indexOf(",") >= 0 || b.indexOf(",") >= 0 ? "; " : ", ") + b + ")"; }
     function ez(u) { return u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; }
     function panah(g, a, b, warna, lebar, op, garis) {
       if (op <= 0.005) return;
@@ -175,7 +169,7 @@
       var mk = el("mask", { id: "stmask" }, dfs); el("rect", { x: 0, y: 0, width: Wd, height: Hp, fill: "url(#stfade)" }, mk);
       var gTop = el("g", { "clip-path": "url(#stclip)" }, svg), g = el("g", { mask: "url(#stmask)" }, gTop), gBawah = el("g", {}, svg);
       /* tahap: 0 satu panah · 1 hitung · 2 tebak · 3 tarik · 4 kamera · 5 setia · 6 rumus · 7 giliranmu · 8 penutup. Satu perubahan per tahap. */
-      var hit = seg(t, 0.2, 1), muncul = seg(t, 1.3, 2), s = seg(t, 2.2, 3), kam = seg(t, 3.2, 4), terang = seg(t, 4.2, 5), rumus = seg(t, 5.2, 6), main = seg(t, 6.2, 6.9);
+      var hit = seg(t, 0.2, 1), muncul = seg(t, 1.3, 2), s = seg(t, 2.2, 3), kam = seg(t, 3.2, 4), terang = seg(t, 4.2, 5), rumus = seg(t, 5.2, 6), keluar = seg(t, 6.12, 6.45), main = seg(t, 6.5, 6.92); /* tahap lama pudar dulu, baru tahap baru muncul: tidak bertumpuk */
       k = 108 - 44 * kam;
       svg.style.touchAction = main > 0.5 ? "none" : "";
       svg.style.cursor = Math.abs(t - 2) < 0.5 ? "pointer" : "";
@@ -183,40 +177,40 @@
       lembar(g, Mx, s);
       var eg = eigArah(Mx), terangE = main > 0 ? 1 : terang;
       eg.forEach(function (e) { el("line", { x1: X(-6 * e.v[0]), y1: Y(-6 * e.v[1]), x2: X(6 * e.v[0]), y2: Y(6 * e.v[1]), style: "stroke:var(--s2);stroke-dasharray:5 6;opacity:" + 0.6 * terangE }, g); });
-      var fokus = 1 - 0.75 * terang * (1 - main);
+      var fokus = 1 - 0.75 * terang * (1 - keluar);
       for (var j = 1; j < 16; j++) {
         var ang = j * Math.PI / 8, v0 = [Math.cos(ang), Math.sin(ang)], w = M(Mx, s, v0), d = belok(Mx, s, ang), eig = Math.abs(belok(Mx, 1, ang)) < 1e-6;
         var op = muncul * (1 - 0.78 * main);
         if (s > 0.02 && !eig) panah(g, [0, 0], v0, "var(--muted,#888)", 1, 0.35 * fokus * op, "3 3");
         busur(gTop, ang, d, 0.55, "var(--warn)", 0.7 * fokus * op * seg(t, 2.3, 2.9));
-        if (eig) sinar(gTop, [0, 0], w, "var(--s2)", terang * (1 - main));
+        if (eig) sinar(gTop, [0, 0], w, "var(--s2)", terang * (1 - keluar));
         panah(gTop, [0, 0], w, eig && terang > 0 ? "var(--s2)" : "var(--s1)", eig ? 1.6 + 1.6 * terang : 1.6, op * (eig ? 1 : fokus));
-        if (j === tebak && main < 1) { /* cincin di ujung panah tebakan, ikut terbawa tarikan */
-          el("circle", { cx: X(w[0]), cy: Y(w[1]), r: 10, style: "fill:none;stroke:var(--text,currentColor);stroke-width:2;opacity:" + muncul * (1 - main) }, gTop);
-          var Lw = Math.hypot(w[0], w[1]) || 1; teks(gTop, w[0] * (1 - 0.3 / Lw) + 0.12, w[1] * (1 - 0.3 / Lw) - 0.05, "tebakanmu", "var(--text,currentColor)", 12, muncul * (1 - main) * (1 - terang));
+        if (j === tebak && keluar < 1) { /* cincin di ujung panah tebakan, ikut terbawa tarikan */
+          el("circle", { cx: X(w[0]), cy: Y(w[1]), r: 10, style: "fill:none;stroke:var(--text,currentColor);stroke-width:2;opacity:" + muncul * (1 - keluar) }, gTop);
+          var Lw = Math.hypot(w[0], w[1]) || 1; teks(gTop, w[0] * (1 - 0.3 / Lw) + 0.12, w[1] * (1 - 0.3 / Lw) - 0.05, "tebakanmu", "var(--text,currentColor)", 12, muncul * (1 - keluar) * (1 - terang));
         }
       }
-      if (main < 1) {
-        var p10 = M(A, hit, [1, 0]), op10 = (1 - main) * (1 - 0.6 * terang);
-        if (hit > 0.02) panah(g, [0, 0], [1, 0], "var(--warn)", 1.4, 0.5 * (1 - terang) * (1 - main), "4 4");
+      if (keluar < 1) {
+        var p10 = M(A, hit, [1, 0]), op10 = (1 - keluar) * (1 - 0.6 * terang);
+        if (hit > 0.02) panah(g, [0, 0], [1, 0], "var(--warn)", 1.4, 0.5 * (1 - terang) * (1 - keluar), "4 4");
         busur(gTop, 0, belok(A, hit, 0), 0.7, "var(--warn)", op10);
         panah(gTop, [0, 0], p10, "var(--warn)", 3, op10);
-        if (hit < 0.98) teks(gTop, p10[0] + 0.08, p10[1] + 0.16, titik(p10, 1), "var(--warn)", 16, 1 - main, p10[0] > 1.4 ? "end" : "start");
-        else teks(gTop, p10[0] + 0.05, p10[1] + 0.22, "(1, 0) → (2, 1)", "var(--warn)", 16, (1 - terang) * (1 - main), "end");
+        if (hit < 0.98) teks(gTop, p10[0] + 0.08, p10[1] + 0.16, titik(p10, 1), "var(--warn)", 16, 1 - keluar, p10[0] > 1.4 ? "end" : "start");
+        else teks(gTop, p10[0] + 0.05, p10[1] + 0.22, "(1, 0) → (2, 1)", "var(--warn)", 16, (1 - seg(t, 3.95, 4.3)) * (1 - keluar), "end");
         if (hit > 0.05) teks(gTop, 0.8, 0.2 * hit + 0.05, "↺ " + fmt(belok(A, hit, 0) * 180 / Math.PI, 1) + "°", "var(--warn)", 13, hit * (1 - muncul), "start");
         teks(gTop, Wd / 2, 26, [["A", "var(--s1)"], [" · ", "var(--muted,#888)"], ["(1, 0)", "var(--warn)"], [" = (2·1 + 1·0, 1·1 + 2·0) = ", "var(--muted,#888)"], [titik(p10, 1), "var(--warn)"]], "", 15, hit * (1 - muncul), "middle", true);
-        if (Math.abs(t - 2) < 0.6) teks(gTop, Wd / 2, 26, tebak < 0 ? "klik ujung panah yang menurutmu tetap di garisnya" : "tebakanmu: panah arah " + arahNama[tebak], "var(--text,currentColor)", 14, (1 - Math.abs(t - 2) / 0.6) * muncul, "middle", true);
+        if (Math.abs(t - 2) < 0.6) teks(gTop, Wd / 2, 26, tebak < 0 ? "klik ujung panah yang menurutmu tetap di garisnya" : "tebakanmu: panah arah " + arahNama[tebak], "var(--text,currentColor)", 14, seg(t, 1.75, 2) * (1 - seg(t, 2.25, 2.6)), "middle", true);
       }
-      if (terang > 0 && main < 1) {
-        var op5 = terang * (1 - main), r2 = Math.SQRT1_2;
-        salinan(gTop, [r2, r2], 3, 1 - main, 4.3, t);
-        salinan(gTop, [r2, -r2], 1, 1 - main, 4.3, t);
+      if (terang > 0 && keluar < 1) {
+        var op5 = terang * (1 - keluar), r2 = Math.SQRT1_2;
+        salinan(gTop, [r2, r2], 3, 1 - keluar, 4.3, t);
+        salinan(gTop, [r2, -r2], 1, 1 - keluar, 4.3, t);
         teks(gTop, 3 * r2 - 0.25, 3 * r2 + 0.1, "(1, 1) → (3, 3) = 3 salinan", "var(--s2)", 15, op5, "end");
         teks(gTop, 0.75, -1.3, "(1, −1) → (1, −1) = 1 salinan", "var(--s2)", 15, op5, "middle");
       }
-      if (rumus > 0 && main < 1) {
-        teks(gTop, Wd / 2, Hp - 30, [["A", "var(--s1)"], [" v", "var(--s2)"], ["  =  ", "var(--text,currentColor)"], ["λ", "var(--accent,var(--s1))"], [" v", "var(--s2)"]], "", 26, rumus * (1 - main), "middle", true);
-        teks(gTop, Wd / 2, Hp - 10, "A = tarikan · v = arah yang tetap di garisnya · λ = kali berapa", "var(--muted,#888)", 13, rumus * (1 - main), "middle", true);
+      if (rumus > 0 && keluar < 1) {
+        teks(gTop, Wd / 2, Hp - 30, [["A", "var(--s1)"], [" v", "var(--s2)"], ["  =  ", "var(--text,currentColor)"], ["λ", "var(--accent,var(--s1))"], [" v", "var(--s2)"]], "", 26, rumus * (1 - keluar), "middle", true);
+        teks(gTop, Wd / 2, Hp - 10, "A = tarikan · v = arah yang tetap di garisnya · λ = kali berapa", "var(--muted,#888)", 13, rumus * (1 - keluar), "middle", true);
       }
       grafik(gBawah, Mx, s, gr, main > 0 ? 1 : terang);
       if (main > 0) { /* tahap 7–8: matriks milik pembaca, iterasi pangkat, dan penguraian dua potongan */
@@ -261,7 +255,7 @@
         [[U[0][0], U[1][0], "(1, 0)"], [U[0][1], U[1][1], "(0, 1)"]].forEach(function (c, i) {
           el("line", { x1: X(0), y1: Y(0), x2: X(c[0]), y2: Y(c[1]), style: "stroke:var(--text,currentColor);stroke-width:1;opacity:" + 0.35 * main }, gTop);
           el("circle", { cx: X(c[0]), cy: Y(c[1]), r: seret === i ? 11 : 9, style: "fill:var(--bg);stroke:var(--text,currentColor);stroke-width:2;cursor:grab;opacity:" + main }, gTop);
-          teks(gTop, c[0], c[1] + 0.22, c[2] + " → " + titik([c[0], c[1]], 1), "var(--text,currentColor)", 12, main * 0.85);
+          var sama = Math.abs(U[0][0] - U[0][1]) < 0.05 && Math.abs(U[1][0] - U[1][1]) < 0.05; if (!(sama && i === 1)) teks(gTop, c[0], c[1] + 0.22, (sama ? "(1, 0) dan (0, 1)" : c[2]) + " → " + titik([c[0], c[1]], 1), "var(--text,currentColor)", 12, main * 0.85);
         });
         svg.setAttribute("aria-label", "Panah (1, 0) setelah dikali matriks " + nLangkah + " kali, dipecah menjadi dua potongan di garis eigen. Dua titik bulat bisa diseret untuk mengubah matriks.");
         return;
